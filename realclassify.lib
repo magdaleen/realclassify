@@ -1,13 +1,17 @@
 ///////////////////////////////////////////////////////////////////////////////
-version  = "$Id$";
+version=$Id$";
 category="Singularities";
 info="
-LIBRARY:  classify.lib  Arnold Classifier of Singularities
-AUTHOR:   Kai Krueger, krueger@mathematik.uni-kl.de
+LIBRARY:  realclassify.lib  Arnold Classifier of Singularities
+AUTHOR:   Magdaleen Marais, magdaleen@aims.ac.za
+          Andreas Steenpass, steenpass@mathematik.uni-kl.de
 
 OVERVIEW:
-   A library for classifying isolated hypersurface singularities w.r.t. right
+   A library for classifying isolated hypersurface singularities over the reals
+   w.r.t. right
    equivalence, based on the determinator of singularities by V.I. Arnold.
+   This library is based on classify.lib by Kai Krueger, but handles the real
+   case, while classify.lib does the complex classification.
 
 PROCEDURES:
  basicinvariants(f); computes Milnor number, determinacy-bound and corank of
