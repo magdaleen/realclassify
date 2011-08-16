@@ -1688,9 +1688,8 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
   }
 
 //--------------------------- collect results ---------------------------------
-  Rang = 0;
   B    = maxideal(1);
-  for( i=1; i<=n ; i++) { if(Abb[i] != 1) { Rang ++; B[rvar(x(i))] = 0; } }
+  for( i=1; i<=n ; i++) { if(Abb[i] != 1) { B[rvar(x(i))] = 0; } }
   Phi  = ring_top,B;
   PhiG = Phi(PhiG);
   fi   = Phi(fi);
