@@ -1589,17 +1589,12 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
 
   fi = f;
   n = nvars(basering);
-  init_debug();
 
   def ring_top=basering;
-
-  debug_log(3, "Split the polynomial below using determinacy: ", string(K));
-  debug_log(3, Show(fi));
 
   for( j=1; j<=n ; j++) { Abb[j] = 0; }
 
   RFlg = GetRf(fi, n);
-  debug_log(2, "Permutations:", RFlg );
   PhiG=ring_top,maxideal(1);
 
 //----------------- find quadratic term, if there is only one -----------------
@@ -1635,7 +1630,6 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
     fi   = Phi(fi);
     PhiG = Phi(PhiG);
   }
-  if( ShowPhi > 1) { PhiG; }
 
 //------------------------ compute spliting lemma -----------------------------
   fc = fi;
@@ -1643,26 +1637,18 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
   while( i <= n)
   {
     Phi=ring_top,maxideal(1);
-    debug_log(6, "Pruefe Variable x(" +string(RFlg[i]) + ")");
-    debug_log(6, "--------------------");
     j  = i + 1;        // setze j fuer evtle Verschiebung
     f2 = jet(fc,2);
-    debug_log(6, "Rechne 2-Jet =" , string(f2));
     if( (f2 - subst(f2, x(RFlg[i]), 0)) == 0 ) { Abb[RFlg[i]] = 1; }
     if( (f2 - subst(f2, x(RFlg[i]), 0)) != 0 )
     {
       while( (j<=n) || (i==n) )
       {
-        debug_log(6, "Pruefe 2-Jet mit Wert : " + string(jet(fc,2)));
         a = Coeff(jet(fc,2), x(RFlg[i]), x(RFlg[i])^2);
-        debug_log(6,"Koeffizient von x(" + string(RFlg[i]) + ")^2 ist:", a);
         if( (a != 0) || (i==n) )
         {
-          debug_log(6, "BREAK!!!!!!!!!!!!!!");
           break;
         }
-        debug_log(6,"Verschiebe evtl Variable x(",string(RFlg[j]),") um x(",
-                     string(RFlg[i]), ")");
         B = maxideal(1);
         for( k=1; k<=n ; k=k+1)
         {
@@ -1673,27 +1659,17 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
         j++;
       }               // Ende while( (j<=n) || (i==n) )
 
-      debug_log(6, "Moegliche Verschiebung fertig!");
       PhiG = Phi(PhiG);
-      if( ShowPhi > 1) { "NachVersch.:"; Phi; }
 
       if( (j<=n) || (i==n))
       {
         P = Coeff(fc, x(RFlg[i]), x(RFlg[i]));
-        debug_log(6, "Koeffizient von x("+string(RFlg[i])+") ist: ",
-                      string(P));
         if(P != 0)
         {
-          debug_log(6, "1 Koeffizient von x("+string(RFlg[i])+") ist: ",
-                       string(P));
-          debug_log(6, "a=" + string(a));
           P = P / number (2 * a);
-          debug_log(6, "2 Koeffizient von x("+string(RFlg[i])+") ist: ",
-                       string(P));
           B = maxideal(1);
           for( k=1; k<=n ; k=k+1) {if(k==RFlg[i]) {B[rvar(x(k))]=x(k)-P;}}
           Phi =ring_top,B;
-          debug_log(6, "Quadratische-Ergaenzung durch:", Phi);
           fi   = Phi(fc);
           PhiG = Phi(PhiG);
           fc   = jet(fi,K);
@@ -1704,26 +1680,14 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
             continue;
           }
         }     // Ende if(P != 0)
-              // Fertig mit Quadratischer-Ergaenzung
       }               // Ende if( (j<=n) || (i==n))
     }                 // Ende if( (f2 - subst(f2, x(RFlg[i]), 0)) != 0 )
 
     fi = fc;
     i++;
-    debug_log(6, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
   }
-  debug_log(6, "Ende  ---------------------------------------------------");
 
 //--------------------------- collect results ---------------------------------
-  if( ShowPhi > 0 )
-  {
-    "Abbildung innerhalb des Morse-Lemmas:";
-    PhiG;
-    "Vergleich:";
-    "PhiG(f)= " + Show(jet(PhiG(f), K));
-    "fi     = " + Show(fi);
-  }
-
   Rang = 0;
   B    = maxideal(1);
   for( i=1; i<=n ; i++) { if(Abb[i] != 1) { Rang ++; B[rvar(x(i))] = 0; } }
@@ -1731,8 +1695,6 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
   PhiG = Phi(PhiG);
   fi   = Phi(fi);
   v    = fi, PhiG;
-  debug_log(2, "rank determined with Morse rg=", Rang);
-  debug_log(1, "Residual singularity f=",Show(fi));
   return(v);
 }
 
