@@ -1597,40 +1597,6 @@ static proc Morse(poly f, int K, int corank, int ShowPhi)
   RFlg = GetRf(fi, n);
   PhiG=ring_top,maxideal(1);
 
-//----------------- find quadratic term, if there is only one -----------------
-  B = maxideal(1);
-  if(corank == (n-1))
-  {
-    Done = 0;
-    f2   = jet(fi, 2);
-    j    = 1;
-    Jfx  = f2, diff(f2, x(j));
-    while(j<=n && (diff(f2, x(j))==0))
-    {
-      j++;
-      Jfx = f2, diff(f2, x(j));
-    }
-    Mat  = matrix(syz(Jfx));
-    Beta = 2*Mat[2,1]/Mat[1,1];
-    for( j=1; j<=n ; j++)
-    {
-      f2 = Coeff(Beta, x(RFlg[j]), x(RFlg[j]));
-      if(f2!=0)
-      {
-        k = RFlg[j];
-        break;
-      }
-    }
-    for( j=1; j<=n ; j=j+1)
-    {
-      f2 = Coeff(Beta, x(j), x(j));
-      if(j == k) { B[rvar(x(j))] = (2*f2*x(j)-Beta) / number(f2); }
-    }
-    Phi  =ring_top,B;
-    fi   = Phi(fi);
-    PhiG = Phi(PhiG);
-  }
-
 //------------------------ compute spliting lemma -----------------------------
   fc = fi;
   i  = 1;              // Index fuer Variablen wird bearbeitet
