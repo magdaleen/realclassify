@@ -22,6 +22,7 @@ PROCEDURES:
  internalfunctions();display names of internal procedures of this library
  milnorcode(f[,e]);  Hilbert polynomial of [e-th] Milnor algebra coded with Hcode
  morsesplit(f);      residual part of f after applying the splitting lemma
+ realmorsesplit(f);  splitting lemma in the real case
  quickclass(f)       normal form of f determined by invariants (milnorcode)
  singularity(s,[]);  normal form of singularity given by its name s and index
  A_L(s/f);           shortcut for quickclass(f) or normalform(s)
@@ -35,6 +36,143 @@ LIB "inout.lib";
 LIB "elim.lib";
 LIB "sing.lib";
 LIB "makedbm.lib";
+
+///////////////////////////////////////////////////////////////////////////////
+proc realmorsesplit(poly f)
+"
+USAGE:    realmorsesplit(f); f poly
+RETURN:   a list consisting of the corank of f, the inertia index, the
+          residual part of f and the transformation
+COMPUTE:  apply the splitting lemma (generalized Morse lemma) to f
+NOTE:     The characteristic of the basering must be zero and f must be
+          contained in maxideal(2).
+EXAMPLE:  example morsesplit; shows an example"
+{
+  if(char(basering) != 0)
+  {
+    ERROR("The characteristic must be zero.");
+  }
+  if(jet(f, 1) != 0)
+  {
+    ERROR("The input polynomial must be contained in maxideal(2).");
+  }
+
+  list S;
+  int k, mu, cr = basicinvariants(f);
+  f = jet(f, k);
+  int n = nvars(basering);
+  def br = basering;
+  map Phi = br, maxideal(1);
+  map phi;
+  poly a, p, r;
+  int i, j;
+  for(i = 1; i <= n; i++)
+  {
+    if(jet(f, 2)/var(i) == 0)
+    {
+      S = insert(S, i);
+    }
+    else
+    {
+      f, a, p, r = rewriteformorsesplit(f, k, i);
+      if(jet(a, 0) == 0)
+      {
+        for(j = i+1; j <= n; j++)
+        {
+          if(jet(f, 2)/(var(i)*var(j)) != 0)
+          {
+            break;
+          }
+        }
+        phi = br, maxideal(1);
+        phi[j] = var(j)+var(i);
+        Phi = phi(Phi);
+        f = phi(f);
+      }
+      f, a, p, r = rewriteformorsesplit(f, k, i);
+      while(p != 0)
+      {
+        phi = br, maxideal(1);
+        phi[i] = var(i)-p/(2*jet(a, 0));
+        Phi = phi(Phi);
+        f = phi(f);
+        f, a, p, r = rewriteformorsesplit(f, k, i);
+      }
+    }
+  }
+  int c = size(S);
+  phi = br, 0:n;
+  j = 1;
+  for(i = size(S); i > 0; i--)
+  {
+    phi[S[i]] = var(j);
+    j++;
+  }
+  for(i = 1; i <= n; i++)
+  {
+    if(phi[i] == 0)
+    {
+      phi[i] = var(j);
+      j++;
+    }
+  }
+  Phi = phi(Phi);
+  f = phi(f);
+  int lambda;
+  list negCoeff, posCoeff;
+  number ai;
+  poly f2 = jet(f, 2);
+  for(i = 1; i <= n; i++)
+  {
+    ai = number(f2/var(i)^2);
+    if(ai < 0)
+    {
+      lambda++;
+      negCoeff = insert(negCoeff, i);
+    }
+    if(ai > 0)
+    {
+      posCoeff = insert(posCoeff, i);
+    }
+  }
+  phi = br, maxideal(1);
+  j = c+1;
+  for(i = size(negCoeff); i > 0; i--)
+  {
+    phi[negCoeff[i]] = var(j);
+    j++;
+  }
+  for(i = size(posCoeff); i > 0; i--)
+  {
+    phi[posCoeff[i]] = var(j);
+    j++;
+  }
+  Phi = phi(Phi);
+  f = phi(f);
+  phi = br, maxideal(1);
+  for(i = size(S)+1; i <= n; i++)
+  {
+    phi[i] = 0;
+  }
+  f = phi(f);
+  return(c, lambda, f, Phi);
+}
+example
+{  "EXAMPLE"; echo = 2;
+   ring r = 0, (x,y,z), ds;
+   poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+   morsesplit(f);
+}
+
+static proc rewriteformorsesplit(poly f, int k, int i)
+{
+  f = jet(f, k);
+  matrix C = coeffs(f, var(i));
+  poly r = C[1,1];
+  poly p = C[2,1];
+  poly a = (f-r-p*var(i))/var(i)^2;
+  return(f, a, p, r);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 proc classify_init
