@@ -3,7 +3,7 @@ version=$Id$";
 category="Singularities";
 info="
 LIBRARY:  realclassify.lib  Arnold Classifier of Singularities
-AUTHOR:   Magdaleen Marais, magdaleen@aims.ac.za
+AUTHOR:   Magdaleen Marais,  magdaleen@aims.ac.za
           Andreas Steenpass, steenpass@mathematik.uni-kl.de
 
 OVERVIEW:
