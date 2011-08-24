@@ -24,6 +24,8 @@ PROCEDURES:
  normalform(s);      normal form of singularity given by its name s
  debug_log(lev,[]);  print trace and debugging information w.r.t level>@DeBug
  swap(a,b);          swaps the arguments
+ ComplexSingType(f); the type of the singularity over the complex numbers as a
+                     string
            (parameters in square brackets [] are optional)
 ";
 
@@ -1434,6 +1436,13 @@ static proc Isomorphie_s17 (poly f, poly fk, int k, int ct, list #)
 ///////////////////////////////////////////////////////////////////////////////
 static proc printresult (int step, poly f, string typ, list cstn, int m)
 {
+  if(defined(onlyreturntype))
+  {
+    if(onlyreturntype == 1)
+    {
+      export(typ);
+    }
+  }
 //---------------------------- initialisation ---------------------------------
   int corank, Mu, K;
   list v;
@@ -2934,6 +2943,16 @@ example
 {
   "EXAMPLE"; echo=2;
   internalfunctions();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+proc ComplexSingType(poly f)
+{
+  init_debug(-1);
+  int onlyreturntype = 1;
+  export(onlyreturntype);
+  f = classify(f);
+  return(typ);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
