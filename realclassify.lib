@@ -16,11 +16,13 @@ OVERVIEW:
 PROCEDURES:
  basicinvariants(f); computes Milnor number, determinacy-bound and corank of
  classify(f);        normal form of polynomial f determined with Arnold's method
+ realclassify(f);    real classification of singularities of modality 0 and 1
  corank(f);          computes the corank of f (i.e. of the Hessian of f)
  Hcode(v);           coding of intvec v acoording to the number repetitions
  init_debug([n]);    print trace and debugging information depending on int n
  internalfunctions();display names of internal procedures of this library
- milnorcode(f[,e]);  Hilbert polynomial of [e-th] Milnor algebra coded with Hcode
+ milnorcode(f[,e]);  Hilbert polynomial of [e-th] Milnor algebra coded with
+                     Hcode
  morsesplit(f);      residual part of f after applying the splitting lemma
  realmorsesplit(f);  splitting lemma in the real case
  quickclass(f)       normal form of f determined by invariants (milnorcode)
@@ -38,14 +40,42 @@ LIB "sing.lib";
 LIB "makedbm.lib";
 
 ///////////////////////////////////////////////////////////////////////////////
+proc realclassify(poly f)
+"
+USAGE:    realclassify(f); f poly
+RETURN:   a list containing (int this order)
+          @* the type of the singularity as a string,
+          @* the normal form as a polynomial as well as
+          @* the corank, the milnor number and the determinacy as integers
+NOTE:     The classification is done over the real numbers, so in contrast to
+          classify.lib the signs of coefficients of monomials where even
+          exponents occur matter.
+          @* The input polynomial must be contained in maxideal(2) and must be a
+          singularity of modality 0 or 1.
+SEE ALSO: classify
+KEYWORDS: Classification of singularities
+EXAMPLE:  example realclassify.lib; shows an example"
+{
+  if(jet(f,1) != 0)
+  {
+    ERROR("The input polynomial must be contained in maxideal(2).");
+  }
+  if()
+  {
+    ERROR("The input polynomial must be a singularity of modality 0 or 1.");
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 proc realmorsesplit(poly f)
 "
 USAGE:    realmorsesplit(f); f poly
 RETURN:   a list consisting of the corank of f, the inertia index, the
           residual part of f and the transformation
-COMPUTE:  apply the splitting lemma (generalized Morse lemma) to f
 NOTE:     The characteristic of the basering must be zero and f must be
           contained in maxideal(2).
+SEE ALSO: morsesplit
+KEYWORDS: Morse lemma, Splitting lemma
 EXAMPLE:  example morsesplit; shows an example"
 {
   /* error check */
