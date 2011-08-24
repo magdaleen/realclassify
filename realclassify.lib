@@ -48,6 +48,7 @@ NOTE:     The characteristic of the basering must be zero and f must be
           contained in maxideal(2).
 EXAMPLE:  example morsesplit; shows an example"
 {
+  /* error check */
   if(char(basering) != 0)
   {
     ERROR("The characteristic must be zero.");
@@ -57,6 +58,7 @@ EXAMPLE:  example morsesplit; shows an example"
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
 
+  /* preliminary stuff */
   list S;
   int k, mu, cr = basicinvariants(f);
   f = jet(f, k);
@@ -66,6 +68,8 @@ EXAMPLE:  example morsesplit; shows an example"
   map phi;
   poly a, p, r;
   int i, j;
+
+  /* treat the variables one by one */
   for(i = 1; i <= n; i++)
   {
     if(jet(f, 2)/var(i) == 0)
@@ -100,6 +104,8 @@ EXAMPLE:  example morsesplit; shows an example"
       }
     }
   }
+
+  /* sort variables according to corank */
   int c = size(S);
   phi = br, 0:n;
   j = 1;
@@ -118,6 +124,8 @@ EXAMPLE:  example morsesplit; shows an example"
   }
   Phi = phi(Phi);
   f = phi(f);
+
+  /* compute the inertia index lambda */
   int lambda;
   list negCoeff, posCoeff;
   number ai;
@@ -135,6 +143,8 @@ EXAMPLE:  example morsesplit; shows an example"
       posCoeff = insert(posCoeff, i);
     }
   }
+
+  /* sort variables according to lambda */
   phi = br, maxideal(1);
   j = c+1;
   for(i = size(negCoeff); i > 0; i--)
@@ -149,12 +159,15 @@ EXAMPLE:  example morsesplit; shows an example"
   }
   Phi = phi(Phi);
   f = phi(f);
+
+  /* compute residual form */
   phi = br, maxideal(1);
   for(i = size(S)+1; i <= n; i++)
   {
     phi[i] = 0;
   }
   f = phi(f);
+
   return(c, lambda, f, Phi);
 }
 example
@@ -164,6 +177,11 @@ example
    morsesplit(f);
 }
 
+/*
+   - apply jet(f, k)
+   - rewrite f as f = a*var(i)^2+p*var(i)+r with
+     var(i)-free p and r
+*/
 static proc rewriteformorsesplit(poly f, int k, int i)
 {
   f = jet(f, k);
