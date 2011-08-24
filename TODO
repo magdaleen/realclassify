@@ -1,0 +1,6 @@
+for each case (A_k, D_k, E_{6,7,8}, E_{12,13,14}, Z, W, P_8, X_9, J_10, ...):
+- draw the diagram
+- write down the algorithm
+- write down the theory behind it
+- implement the case in realclassify.lib,
+  including subprocedures
