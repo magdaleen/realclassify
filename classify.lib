@@ -24,8 +24,9 @@ PROCEDURES:
  normalform(s);      normal form of singularity given by its name s
  debug_log(lev,[]);  print trace and debugging information w.r.t level>@DeBug
  swap(a,b);          swaps the arguments
- ComplexSingType(f); the type of the singularity over the complex numbers as a
-                     string
+ modality(f);        modality of the singularity
+ ComplexSingType(f); type of the singularity over the complex numbers as
+                     a string
            (parameters in square brackets [] are optional)
 ";
 
@@ -41,7 +42,7 @@ proc classify_init
   link l="DBM:r NFlist";
   s = read(l,"VERSION");
   if (s == "" ) {
-    if (printlevel)
+    if (printlevel > 0)
     {
       "(classify.lib): Need to create database...";
     }
@@ -1436,11 +1437,12 @@ static proc Isomorphie_s17 (poly f, poly fk, int k, int ct, list #)
 ///////////////////////////////////////////////////////////////////////////////
 static proc printresult (int step, poly f, string typ, list cstn, int m)
 {
-  if(defined(onlyreturntype))
+  if(defined(onlyreturninvariants))
   {
-    if(onlyreturntype == 1)
+    if(onlyreturninvariants == 1)
     {
-      export(typ);
+      Modality = m;
+      Type = typ;
     }
   }
 //---------------------------- initialisation ---------------------------------
@@ -2946,13 +2948,51 @@ example
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+proc modality(poly f)
+"
+USAGE:    modality(f); f poly
+RETURN:   the modality of the singularity
+EXAMPLE:  example modality; shows an example"
+{
+  exportinvariants(f);
+  return(Modality);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 proc ComplexSingType(poly f)
+"
+USAGE:    ComplexSingType(f); f poly
+RETURN:   the type of the singularity as a string
+EXAMPLE:  example modality; shows an example"
+{
+  exportinvariants(f);
+  return(Type);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/* some of the invariants will be exported during the computation of
+ * classify(f) such that they are accessable at for all procs in the library
+ */
+static proc exportinvariants(poly f)
 {
   init_debug(-1);
-  int onlyreturntype = 1;
-  export(onlyreturntype);
+  if(!defined(onlyreturninvariants))
+  {
+    int onlyreturninvariants;
+    export(onlyreturninvariants);
+  }
+  onlyreturninvariants = 1;
+  if(!defined(Modality))
+  {
+    int Modality;
+    export(Modality);
+  }
+  if(!defined(Type))
+  {
+    string Type;
+    export(Type);
+  }
   f = classify(f);
-  return(typ);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
