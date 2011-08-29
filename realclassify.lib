@@ -31,6 +31,8 @@ PROCEDURES:
  normalform(s);      normal form of singularity given by its name s
  debug_log(lev,[]);  print trace and debugging information w.r.t level>@DeBug
  swap(a,b);          swaps the arguments
+ milnornumber(f);    Milnor number
+ determinacy(f);     an upper bound for the determinacy
            (parameters in square brackets [] are optional)
 ";
 
@@ -38,6 +40,7 @@ LIB "inout.lib";
 LIB "elim.lib";
 LIB "sing.lib";
 LIB "makedbm.lib";
+LIB "classify.lib";
 
 ///////////////////////////////////////////////////////////////////////////////
 proc realclassify(poly f)
@@ -46,24 +49,88 @@ USAGE:    realclassify(f); f poly
 RETURN:   a list containing (int this order)
           @* the type of the singularity as a string,
           @* the normal form as a polynomial as well as
-          @* the corank, the milnor number and the determinacy as integers
+          @* the corank, the milnor number, the inertia index and
+             a bound for the determinacy as integers
 NOTE:     The classification is done over the real numbers, so in contrast to
-          classify.lib the signs of coefficients of monomials where even
+          classify.lib, the signs of coefficients of monomials where even
           exponents occur matter.
+          @* The monomial order must be local.
           @* The input polynomial must be contained in maxideal(2) and must be a
           singularity of modality 0 or 1.
 SEE ALSO: classify
 KEYWORDS: Classification of singularities
-EXAMPLE:  example realclassify.lib; shows an example"
+EXAMPLE:  example realclassify; shows an example"
 {
+  /* auxiliary variables */
+  int i;
+
+  /* error check */
+  if(char(basering) != 0)
+  {
+    ERROR("The characteristic must be zero.");
+  }
+  int n = nvars(basering);
+  for(i = 1; i <= n; i++)
+  {
+    if(var(i) > 1)
+    {
+      ERROR("The monomial order must be local.");
+    }
+  }
   if(jet(f,1) != 0)
   {
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
-  if()
+  if(modality(f) > 1)
   {
     ERROR("The input polynomial must be a singularity of modality 0 or 1.");
   }
+
+  /* apply splitting lemma */
+  list morse = realmorsesplit(f);
+  int cr = morse[1];
+  int lambda = morse[2];
+  poly rf = morse[3];
+
+  /* other invariants */
+  int mu = milnornumber(f);
+  int d = determinacy(f);
+
+  /* determine the type */
+  string typeofsing;
+  poly nf;
+  if(cr == 0)   // case A[1]
+  {
+    typeofsing = "A[1]";
+  }
+  if(cr == 1)   // case A[k], k > 1
+  {
+    int k = deg(lead(rf), 1:n)-1;
+    typeofsing = "A["+string(k)+"]";
+    nf = var(1)^(k+1);
+  }
+  if(cr > 2)
+  {
+    "to be continued";
+  }
+
+  /*add the non-corank variables to the normal form */
+  for(i = 1; i <= lambda; i++)
+  {
+    nf = nf-var(cr+i)^2;
+  }
+  for(i = n-cr; i > lambda ; i--)
+  {
+    nf = nf+var(cr+i)^2;
+  }
+
+  return(list(typeofsing, nf, cr, mu, lambda, d));
+}
+example
+{  "EXAMPLE"; echo = 2;
+   ring r = 0, (x,y,z), ds;
+   poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+   realclassify(f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -71,7 +138,7 @@ proc realmorsesplit(poly f)
 "
 USAGE:    realmorsesplit(f); f poly
 RETURN:   a list consisting of the corank of f, the inertia index, the
-          residual part of f and the transformation
+          residual form of f and the transformation
 NOTE:     The characteristic of the basering must be zero and f must be
           contained in maxideal(2).
 SEE ALSO: morsesplit
@@ -207,6 +274,7 @@ example
    morsesplit(f);
 }
 
+///////////////////////////////////////////////////////////////////////////////
 /*
    - apply jet(f, k)
    - rewrite f as f = a*var(i)^2+p*var(i)+r with
@@ -220,6 +288,98 @@ static proc rewriteformorsesplit(poly f, int k, int i)
   poly p = C[2,1];
   poly a = (f-r-p*var(i))/var(i)^2;
   return(f, a, p, r);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+proc milnornumber(poly f)
+"
+USAGE:    milnornumber(f); f poly
+RETURN:   Milnor number of f, or -1 if the Milnor number is not finite
+KEYWORDS: Milnor number
+NOTE:     The monomial order must be local.
+EXAMPLE:  example milnornumber; shows an example"
+{
+  /* error check */
+  int i;
+  for(i = nvars(basering); i > 0; i--)
+  {
+    if(var(i) > 1)
+    {
+      ERROR("The monomial order must be local.");
+    }
+  }
+
+  return(vdim(std(jacob(f))));
+}
+example
+{  "EXAMPLE"; echo = 2;
+   ring r = 0, (x,y), ds;
+   poly f = x3+y4;
+   milnornumber(f);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+proc determinacy(poly f)
+"
+USAGE:    determinacy(f); f poly
+RETURN:   an upper bound for the determinacy of f
+NOTE:     The characteristic of the basering must be zero, the monomial order
+          must be local, f must be contained in maxideal(1) and the Milnor
+          number of f must be finite.
+SEE ALSO: milnornumber, highcorner
+KEYWORDS: Determinacy
+EXAMPLE:  example determinacy; shows an example"
+{
+  int i;
+
+  /* error check */
+  if(char(basering) != 0)
+  {
+    ERROR("The characteristic must be zero.");
+  }
+  int n = nvars(basering);
+  for(i = 1; i <= n; i++)
+  {
+    if(var(i) > 1)
+    {
+      ERROR("The monomial order must be local.");
+    }
+  }
+  if(jet(f,0) != 0)
+  {
+    ERROR("The input polynomial must be contained in maxideal(1).");
+  }
+  if(milnornumber(f) == -1)
+  {
+    ERROR("The Milnor number of the input polynomial must be finite.");
+  }
+
+  int k;   // an upper bound for the determinacy,
+           // we use several methods:
+
+  /* milnor number */
+  k = milnornumber(f)+1;
+
+  /* highest corner */
+  int hc;
+  ideal j = jacob(f);
+  for(i = 0; i < 3; i++)
+  {
+    hc = deg(highcorner(std(maxideal(i)*j)));
+    hc = hc+2-i;
+    if(hc < k)
+    {
+      k = hc;
+    }
+  }
+
+  return(k);
+}
+example
+{  "EXAMPLE"; echo = 2;
+   ring r = 0, (x,y), ds;
+   poly f = x3+xy3;
+   determinacy(f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
