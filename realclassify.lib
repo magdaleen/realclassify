@@ -169,7 +169,8 @@ EXAMPLE:  example realclassify; shows an example"
         poly s = g1/var(2);
         if(s == 0)
         {
-          map F = br,var(2),var(1); //TODO swop variables in the nondegenerate quadratic part
+          map F = br, var(2), var(1); //TODO swop variables in the
+                                    //nondegenerate quadratic part
           f = F(f);
           g1 = F(g1);
           s = g1/var(1);
@@ -198,15 +199,17 @@ EXAMPLE:  example realclassify; shows an example"
       poly s = g/(var(1)^3);
       if (s==0)
       {
-        map F = br, var(2), var(1); //TODO swop variables of nondegenerate quadratic part
+        map F = br, var(2), var(1); //TODO swap variables of nondegenerate
+                                    //quadratic part
         rf = F(rf);
         g = F(g);
       }
-      rf = rf/(g/(var(1)^3)); //TODO change coeficients of nondegenerate quadrtic part
+      rf = rf/(g/(var(1)^3)); //TODO change coeficients of
+                              //nondegenerate quadrtic part
       g = jet(rf,3);
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
-      map G = br, var(1)-(g1/var(2))*var(2), var(2);
+      map G = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
       rf = G(rf);
       rf = jet(rf,4);
       number w = number(rf/(var(2)^4));
@@ -222,40 +225,18 @@ EXAMPLE:  example realclassify; shows an example"
      if(ComplexSingType(rf) == "W[12]") //case W[12]
      {
        typeofsing = "W[12]";
-       poly g = jet(rf,4);
-       poly s = g/(var(1)^4);
+       rf = jet(rf,4);
+       number s = number(rf/(var(1)^4));
        if(s==0)
        {
-         map F = br, var(2), var(1); //TODO swop variables of nondegenerate quadratic part
+         map F = br, var(2), var(1); //TODO swop variables of
+                                     //nondegenerate quadratic part
          rf = F(rf);
-         g = F(g);
+         s = number(rf/(var(1)^4));
        }
-       rf = rf/(g/(var(1)^4)); //TODO change coefficients of nondegenerate quadrtic part
-       g = jet(rf,4);
-       list Factors = factorize(g);
-       poly g1 = Factors[1][2];
-       map G = br, var(1)-(g1/var(2))*var(2), var(2);
-       rf = G(rf);
-       rf = jet(rf,5);       
-       number w0 = number(rf/(var(2)^5));       
-       rf = jet(rf,4);       
-       number w1 = number(rf/(var(1)^4));      
-       if(w0>0 && w1>0)
-       {
-         nf = x4+y5+x2y3; //change to NF with parameter
-       }
-       if(w0<0 && w1<0)
-       {  
-         nf = x4+y5+x2y3; //TODO change coef of nondeg quadratic & change to NF with parameter                   
-       }
-       if(w0<0 && w1>0)
-       { 
-         nf = -x4+y5+x2y3; //change to NF with parameter                  
-       } 
-       if(w0>0 && w1<0)
-       { 
-         nf = -x4+y5+x2y3; //TODO change coeff of nondeg quadratic & change to NF with parameter                   
-       } 
+                                    //TODO multiply nondegenerate
+                                    //quadratic part with 1/s
+       nf = x4+y5+x2y3;
      }        
   }
   if(cr > 2)
