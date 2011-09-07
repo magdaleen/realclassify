@@ -227,16 +227,32 @@ EXAMPLE:  example realclassify; shows an example"
        typeofsing = "W[12]";
        rf = jet(rf,4);
        number s = number(rf/(var(1)^4));
-       if(s==0)
+       if(s == 0)
        {
-         map F = br, var(2), var(1); //TODO swop variables of
+         map F = br, var(2), var(1); //TODO swap variables of
                                      //nondegenerate quadratic part
          rf = F(rf);
          s = number(rf/(var(1)^4));
        }
                                     //TODO multiply nondegenerate
                                     //quadratic part with 1/s
-       nf = x4+y5+x2y3;
+       nf = x4+y5+x2y3;             //TODO add parameter
+     }
+     if (ComplexSingType(rf) == "W[13]")//case W[13]
+     {
+       typeofsing = "W[13]";
+       rf = jet(rf,4);
+       number s = number(rf/(var(1)^4));
+       if(s == 0)
+       {
+         map F = br, var(2), var(1); //TODO swap variables of
+                                     //nondegenerate quadratic part
+         rf = F(rf);
+         s = number(rf/(var(1)^4));
+       }
+                                    //TODO multiply nondegenerate
+                                    //quadratic part with 1/s
+       nf = x4+xy4+y6;              //TODO add parameter
      }        
   }
   if(cr > 2)
