@@ -156,8 +156,8 @@ EXAMPLE:  example realclassify; shows an example"
       else
       {
         typeofsing = "D[4]";
-        f = jet(f,3);
-        list Factors = factorize(f);
+        rf = jet(rf, 3);
+        list Factors = factorize(rf);
         if(deg(Factors[1][2]) == 1)
         {
           poly g1 = Factors[1][2];
@@ -169,19 +169,19 @@ EXAMPLE:  example realclassify; shows an example"
         poly s = g1/var(2);
         if(s == 0)
         {
-          map F = br, var(2), var(1); //TODO swop variables in the
-                                    //nondegenerate quadratic part
-          f = F(f);
+          map F = br, var(2), var(1);   // TODO swap variables in the
+                                        // nondegenerate quadratic part
+          rf = F(rf);
           g1 = F(g1);
           s = g1/var(1);
         }
         map G = br,var(1),(var(2)-(g1/var(1))*var(1))/s;
-        f = G(f);
-        poly v = f/(var(1)*(var(2))^2);
-        poly u = f/(var(2)*(var(1))^2);
+        rf = G(rf);
+        poly v = rf/(var(1)*(var(2))^2);
+        poly u = rf/(var(2)*(var(1))^2);
         map H = br, var(1)-v/(2*u^2)*var(2),(1/u)*var(2);
-        f = H(f);
-        number w = number(f/(var(2)^3));
+        rf = H(rf);
+        number w = number(rf/(var(2)^3));
         if(w > 0)
         {
           nf = var(1)^2*var(2)+var(2)^3;
