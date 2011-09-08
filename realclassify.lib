@@ -2,7 +2,7 @@
 version=$Id$";
 category="Singularities";
 info="
-LIBRARY:  realclassify.lib  Arnold Classifier of Singularities
+LIBRARY:  realclassify.lib   Arnold Classifier of Singularities
 AUTHOR:   Magdaleen Marais,  magdaleen@aims.ac.za
           Andreas Steenpass, steenpass@mathematik.uni-kl.de
 
@@ -14,32 +14,12 @@ OVERVIEW:
    case, while classify.lib does the complex classification.
 
 PROCEDURES:
- basicinvariants(f); computes Milnor number, determinacy-bound and corank of
- classify(f);        normal form of polynomial f determined with Arnold's method
  realclassify(f);    real classification of singularities of modality 0 and 1
- corank(f);          computes the corank of f (i.e. of the Hessian of f)
- Hcode(v);           coding of intvec v acoording to the number repetitions
- init_debug([n]);    print trace and debugging information depending on int n
- internalfunctions();display names of internal procedures of this library
- milnorcode(f[,e]);  Hilbert polynomial of [e-th] Milnor algebra coded with
-                     Hcode
- morsesplit(f);      residual part of f after applying the splitting lemma
  realmorsesplit(f);  splitting lemma in the real case
- quickclass(f)       normal form of f determined by invariants (milnorcode)
- singularity(s,[]);  normal form of singularity given by its name s and index
- A_L(s/f);           shortcut for quickclass(f) or normalform(s)
- normalform(s);      normal form of singularity given by its name s
- debug_log(lev,[]);  print trace and debugging information w.r.t level>@DeBug
- swap(a,b);          swaps the arguments
  milnornumber(f);    Milnor number
  determinacy(f);     an upper bound for the determinacy
-           (parameters in square brackets [] are optional)
 ";
 
-LIB "inout.lib";
-LIB "elim.lib";
-LIB "sing.lib";
-LIB "makedbm.lib";
 LIB "classify.lib";
 LIB "rootsur.lib";
 
@@ -47,7 +27,7 @@ LIB "rootsur.lib";
 proc realclassify(poly f)
 "
 USAGE:    realclassify(f); f poly
-RETURN:   a list containing (int this order)
+RETURN:   a list containing (in this order)
           @* the type of the singularity as a string,
           @* the normal form as a polynomial as well as
           @* the corank, the milnor number, the inertia index and
@@ -56,8 +36,8 @@ NOTE:     The classification is done over the real numbers, so in contrast to
           classify.lib, the signs of coefficients of monomials where even
           exponents occur matter.
           @* The monomial order must be local.
-          @* The input polynomial must be contained in maxideal(2) and must be a
-          singularity of modality 0 or 1.
+          @* The input polynomial must be contained in maxideal(2) and must be
+             a singularity of modality 0 or 1.
 SEE ALSO: classify
 KEYWORDS: Classification of singularities
 EXAMPLE:  example realclassify; shows an example"
