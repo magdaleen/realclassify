@@ -516,7 +516,12 @@ EXAMPLE:  example determinacy; shows an example"
   {
     ERROR("The input polynomial must be contained in maxideal(1).");
   }
-  if(milnornumber(f) == -1)
+
+  /* compute Milnor number before continuing error check */
+  int mu = milnornumber(f);
+
+  /* continue error check */
+  if(mu == -1)
   {
     ERROR("The Milnor number of the input polynomial must be finite.");
   }
@@ -525,14 +530,15 @@ EXAMPLE:  example determinacy; shows an example"
            // we use several methods:
 
   /* milnor number */
-  k = milnornumber(f)+1;
+  k = mu+1;
+  f = jet(f, k);
 
   /* highest corner */
   int hc;
-  ideal j = jacob(f);
   for(i = 0; i < 3; i++)
   {
-    hc = deg(highcorner(std(maxideal(i)*j)));
+    f = jet(f, k);
+    hc = deg(highcorner(std(maxideal(i)*jacob(f))));
     hc = hc+2-i;
     if(hc < k)
     {
@@ -543,8 +549,9 @@ EXAMPLE:  example determinacy; shows an example"
   return(k);
 }
 example
-{  "EXAMPLE"; echo = 2;
-   ring r = 0, (x,y), ds;
-   poly f = x3+xy3;
-   determinacy(f);
+{
+  "EXAMPLE"; echo = 2;
+  ring r = 0, (x,y), ds;
+  poly f = x3+xy3;
+  determinacy(f);
 }
