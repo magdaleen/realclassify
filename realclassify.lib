@@ -222,6 +222,37 @@ EXAMPLE:  example realclassify; shows an example"
         nf = var(1)^3-var(2)^4;
       }
      }
+     if(ComplexSingType(rf) == "E[14]") //case E[14]
+     {
+       typeofsing = "E[14]";
+       poly g = jet(rf,3);
+       number s = number(g/(var(1)^3));
+       if(s == 0)
+       {
+         map F = br, var(2), var(1); //TODO swap variables of
+                                     //nondegenerate quadratic part
+         rf = F(rf);
+         g = jet(rf,3);
+         s = number(g/(var(1)^3));
+       }
+       rf = rf/s; //TODO multiply nondegenerate quadratic part with 1/s
+       list Factors = factorize(g);
+       poly g1 = Factors[1][2];
+       map H = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+       rf = H(rf);
+       map G = br, var(1)-(jet(rf,4)-x3)/(3x2), var(2);
+       rf = G(rf);
+       rf = jet(rf,8);
+       number w = number(rf/y^8);
+       if(w>0)
+       {
+         nf = x3+y8+xy6;
+       }
+       if(w<0)
+       {
+         nf = x3-y8+xy6;
+       }
+     }
      if(ComplexSingType(rf) == "W[12]") //case W[12]
      {
        typeofsing = "W[12]";
@@ -235,7 +266,7 @@ EXAMPLE:  example realclassify; shows an example"
          s = number(rf/(var(1)^4));
        }
                                     //TODO multiply nondegenerate
-                                    //quadratic part with 1/s
+                                   //quadratic part with 1/s
        nf = x4+y5+x2y3;             //TODO add parameter
      }
      if (ComplexSingType(rf) == "W[13]")//case W[13]
@@ -253,7 +284,7 @@ EXAMPLE:  example realclassify; shows an example"
                                     //TODO multiply nondegenerate
                                     //quadratic part with 1/s
        nf = x4+xy4+y6;              //TODO add parameter
-     }        
+     }
   }
   if(cr > 2)
   {
