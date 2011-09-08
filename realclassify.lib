@@ -65,7 +65,14 @@ EXAMPLE:  example realclassify; shows an example"
   {
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
-  if(modality(f) > 1)
+
+  /* call classify before continuing the error check */
+  list dataFromClassify = prepRealclassify(f);
+  int m = dataFromClassify[1];                // the modality of f
+  string complextype = dataFromClassify[2];   // the complex type of f
+
+  /* continue error check */
+  if(m > 1)
   {
     ERROR("The input polynomial must be a singularity of modality 0 or 1.");
   }
@@ -81,7 +88,6 @@ EXAMPLE:  example realclassify; shows an example"
   int d = determinacy(f);
 
   /* determine the type */
-  string complextype = ComplexSingType(f);
   string typeofsing;
   poly nf;
   if(cr == 0)   // case A[1]
@@ -97,7 +103,7 @@ EXAMPLE:  example realclassify; shows an example"
   }
   if(cr == 2)
   {
-    if(ComplexSingType(f) == "D[4]")  // case D[4]
+    if(complextype == "D[4]")  // case D[4]
     {
       typeofsing = "D[4]";
       rf = jet(rf,3);
@@ -176,7 +182,7 @@ EXAMPLE:  example realclassify; shows an example"
         }
       }
     }
-    if(ComplexSingType(rf) == "E[6]")  // case E[6] ;
+    if(complextype == "E[6]")  // case E[6] ;
     {
       typeofsing = "E[6]";
       g = jet(rf,3);
@@ -206,7 +212,7 @@ EXAMPLE:  example realclassify; shows an example"
         nf = var(1)^3-var(2)^4;
       }
     }
-    if(ComplexSingType(rf) == "E[14]") //case E[14]
+    if(complextype == "E[14]") //case E[14]
     {
       typeofsing = "E[14]";
       poly g = jet(rf,3);
@@ -237,7 +243,7 @@ EXAMPLE:  example realclassify; shows an example"
         nf = x3-y8+xy6;
       }
     }
-    if(ComplexSingType(rf) == "W[12]") //case W[12]
+    if(complextype == "W[12]") //case W[12]
     {
       typeofsing = "W[12]";
       rf = jet(rf,4);
@@ -253,7 +259,7 @@ EXAMPLE:  example realclassify; shows an example"
                                    //quadratic part with 1/s
       nf = x4+y5+x2y3;             //TODO add parameter
     }
-    if(ComplexSingType(rf) == "W[13]")   //case W[13]
+    if(complextype == "W[13]")   //case W[13]
     {
       typeofsing = "W[13]";
       rf = jet(rf,4);

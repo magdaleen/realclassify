@@ -9,6 +9,8 @@ OVERVIEW:
    A library for classifying isolated hypersurface singularities w.r.t. right
    equivalence, based on the determinator of singularities by V.I. Arnold.
 
+SEE ALSO:  realclassify_lib
+
 PROCEDURES:
  basicinvariants(f); computes Milnor number, determinacy-bound and corank of
  classify(f);        normal form of polynomial f determined with Arnold's method
@@ -25,8 +27,10 @@ PROCEDURES:
  debug_log(lev,[]);  print trace and debugging information w.r.t level>@DeBug
  swap(a,b);          swaps the arguments
  modality(f);        modality of the singularity
- ComplexSingType(f); type of the singularity over the complex numbers as
-                     a string
+ complexSingType(f); complex type of the singularity as a string
+ prepRealclassify(f);
+                     the modality and the complex type of the singularity at
+                     once
            (parameters in square brackets [] are optional)
 ";
 
@@ -2948,6 +2952,27 @@ example
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+proc prepRealclassify(poly f)
+"
+USAGE:    prepRealclassify(f); f poly
+RETURN:   a list, containing the modality of the singularity and the type of
+          the singularity as a string
+          @* This procedure is needed in realclassify.lib in order to avoid
+          classify() being called more than once.
+EXAMPLE:  example prepRealclassify; shows an example"
+{
+  exportinvariants(f);
+  return(list(Modality, Type));
+}
+example
+{
+  "EXAMPLE"; echo = 2;
+  ring r = 0, (x,y,z), ds;
+  poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+  prepRealclassify(f);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 proc modality(poly f)
 "
 USAGE:    modality(f); f poly
@@ -2957,16 +2982,30 @@ EXAMPLE:  example modality; shows an example"
   exportinvariants(f);
   return(Modality);
 }
+example
+{
+  "EXAMPLE"; echo = 2;
+  ring r = 0, (x,y,z), ds;
+  poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+  modality(f);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
-proc ComplexSingType(poly f)
+proc complexSingType(poly f)
 "
-USAGE:    ComplexSingType(f); f poly
+USAGE:    complexSingType(f); f poly
 RETURN:   the type of the singularity as a string
-EXAMPLE:  example modality; shows an example"
+EXAMPLE:  example complexSingType; shows an example"
 {
   exportinvariants(f);
   return(Type);
+}
+example
+{
+  "EXAMPLE"; echo = 2;
+  ring r = 0, (x,y,z), ds;
+  poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+  complexSingType(f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
