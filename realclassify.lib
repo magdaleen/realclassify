@@ -85,7 +85,7 @@ EXAMPLE:  example realclassify; shows an example"
 
   /* other invariants */
   int mu = milnornumber(f);
-  int d = determinacy(f);
+  int d = determinacy(f, mu);
 
   /* determine the type */
   string typeofsing;
@@ -516,17 +516,20 @@ example
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-proc determinacy(poly f)
+proc determinacy(poly f, list #)
 "
-USAGE:    determinacy(f); f poly
+USAGE:    determinacy(f[, mu]); f poly, mu int
 RETURN:   an upper bound for the determinacy of f
 NOTE:     The characteristic of the basering must be zero, the monomial order
           must be local, f must be contained in maxideal(1) and the Milnor
           number of f must be finite.
+          @* The Milnor number of f can be provided as an optional parameter in
+             order to avoid that it is computed again.
 SEE ALSO: milnornumber, highcorner
 KEYWORDS: Determinacy
 EXAMPLE:  example determinacy; shows an example"
 {
+  /* auxiliary variables */
   int i;
 
   /* error check */
@@ -547,13 +550,29 @@ EXAMPLE:  example determinacy; shows an example"
     ERROR("The input polynomial must be contained in maxideal(1).");
   }
 
-  /* compute Milnor number before continuing error check */
-  int mu = milnornumber(f);
+  /* get Milnor number before continuing error check */
+  int mu;
+  if(size(#) > 0)   // read optional parameter
+  {
+    if(size(#) > 1 || typeof(#[1]) != "int")
+    {
+      ERROR("Wrong optional parameter.");
+    }
+    else
+    {
+      mu = #[1];
+    }
+  }
+  else              // compute milnor number
+  {
+    mu = milnornumber(f);
+  }
 
   /* continue error check */
-  if(mu == -1)
+  if(mu < 0)
   {
-    ERROR("The Milnor number of the input polynomial must be finite.");
+    ERROR("The Milnor number of the input polynomial must be non-negative "+
+         +"and finite.");
   }
 
   int k;   // an upper bound for the determinacy,
