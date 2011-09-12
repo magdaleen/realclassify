@@ -129,9 +129,23 @@ EXAMPLE:  example realclassify; shows an example"
   if(cr == 1)   // case A[k], k > 1
   {
     int k = deg(lead(rf), 1:n)-1;
-    typeofsing = "A["+string(k)+"]"; // TODO change coefficients of the
-                                     // nondegenerate quadratic part
+    if(leadcoef(rf) < 0 && k%2 == 1)
+    {
+      lambda = n-cr-lambda;
+      changesign = -changesign;
+    }
+    typeofsing = "A["+string(k)+"]+";
     nf = var(1)^(k+1);
+    if(k%2 == 0)
+    {
+      typeofsing_alternative = "A["+string(k)+"]+";
+      nf_alternative = var(1)^(k+1);
+    }
+    else
+    {
+      typeofsing_alternative = "A["+string(k)+"]-";
+      nf_alternative = -var(1)^(k+1);
+    }
   }
   if(cr == 2)
   {
