@@ -105,11 +105,26 @@ EXAMPLE:  example realclassify; shows an example"
   int d = determinacy(f, mu);
 
   /* determine the type */
-  string typeofsing;
-  poly nf;
+  string typeofsing, typeofsing_alternative;
+  poly nf, nf_alternative;
+  int changesign = 1;   // has value -1 iff f was changed to -f
+  string morecomments = newline;
   if(cr == 0)   // case A[1]
   {
-    typeofsing = "A[1]";
+    if(lambda == n)
+    {
+      lambda = 0;
+      changesign = -changesign;
+    }
+    typeofsing = "A[1]+";
+    if(lambda == 0)
+    {
+      typeofsing_alternative = "A[1]-";
+    }
+    else
+    {
+      typeofsing_alternative = "A[1]+";
+    }
   }
   if(cr == 1)   // case A[k], k > 1
   {
@@ -452,26 +467,46 @@ EXAMPLE:  example realclassify; shows an example"
     "to be continued";
   }
 
-  /*add the non-corank variables to the normal form */
-  for(i = 1; i <= lambda; i++)
-  {
-    nf = nf-var(cr+i)^2;
-  }
-  for(i = n-cr; i > lambda ; i--)
-  {
-    nf = nf+var(cr+i)^2;
-  }
+  /*add the non-corank variables to the normal forms */
+  nf = addnondegeneratevariables(nf, lambda, cr);
+  nf_alternative = addnondegeneratevariables(nf_alternative, n-cr-lambda, cr);
 
   /* write comments */
   if(printcomments)
   {
     string comments = newline;
-    comments = comments+"Type of singularity: "+typeofsing+newline;
-    comments = comments+"Normal form:         "+string(nf)+newline;
-    comments = comments+"Corank:              "+string(cr)+newline;
-    comments = comments+"Milnor number:       "+string(mu)+newline;
-    comments = comments+"Inertia index:       "+string(lambda)+newline;
-    comments = comments+"Determinacy:         <= "+string(d)+newline;
+    comments = comments+"Type of singularity: "   +typeofsing    +newline
+                       +"Normal form:         "   +string(nf)    +newline
+                       +"Corank:              "   +string(cr)    +newline
+                       +"Milnor number:       "   +string(mu)    +newline
+                       +"Inertia index:       "   +string(lambda)+newline
+                       +"Determinacy:         <= "+string(d)     +newline;
+    if(typeofsing != typeofsing_alternative || nf != nf_alternative
+       || lambda != n-cr-lambda)
+    {
+      comments = comments+newline;
+      if(changesign == -1)
+      {
+        comments = comments
+          +"Note: The input polynomial was multiplied with -1 during"+newline
+          +"      the computation. Without this transformation,"+newline
+          +"      the the result is:"+newline;
+      }
+      else
+      {
+        comments = comments
+          +"Note: By multiplying the input polynomial with -1,"+newline
+          +"      it can also be regarded as of the following case:"+newline;
+      }
+      comments = comments
+        +"Type of singularity: "+typeofsing_alternative+newline
+        +"Normal form:         "+string(nf_alternative)+newline
+        +"Inertia index:       "+string(n-cr-lambda)   +newline;
+    }
+    if(morecomments != newline)
+    {
+      comments = comments+morecomments;
+    }
   }
 
   /* return results */
@@ -489,6 +524,27 @@ example
    ring r = 0, (x,y,z), ds;
    poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
    realclassify(f);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/*
+  add squares of the non-degenerate variables (i.e. var(cr+1), ...,
+  var(nvars(basering)) for corank cr) to the normalform nf,
+  with signs according to the inertia index lambda
+*/
+static proc addnondegeneratevariables(poly nf, int lambda, int cr)
+{
+  int n = nvars(basering);
+  int i;
+  for(i = cr+1; i <= n-lambda; i++)
+  {
+    nf = nf+var(i)^2;
+  }
+  for(i = n-lambda+1; i <= n ; i++)
+  {
+    nf = nf-var(i)^2;
+  }
+  return(nf);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
