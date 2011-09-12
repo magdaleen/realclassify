@@ -25,14 +25,19 @@ LIB "rootsur.lib";
 LIB "atkins.lib";
 LIB "solve.lib";
 ///////////////////////////////////////////////////////////////////////////////
-proc realclassify(poly f)
+proc realclassify(poly f, list #)
 "
-USAGE:    realclassify(f); f poly
+USAGE:    realclassify(f[, printcomments]); f poly, printcomments int
 RETURN:   a list containing (in this order)
-          @* the type of the singularity as a string,
-          @* the normal form as a polynomial as well as
-          @* the corank, the milnor number, the inertia index and
-             a bound for the determinacy as integers
+          @* - the type of the singularity as a string,
+          @* - the normal form as a polynomial as well as
+          @* - the corank, the milnor number, the inertia index and
+               a bound for the determinacy as integers.
+          @* An optional integer printcomments can be provided. If its value
+             is non-zero, a string will be added at the end of the returned
+             list, containing the result in more readable form and in some
+             cases also more comments on how to interpret the result. The
+             default is zero.
 NOTE:     The classification is done over the real numbers, so in contrast to
           classify.lib, the signs of coefficients of monomials where even
           exponents occur matter.
@@ -48,6 +53,17 @@ EXAMPLE:  example realclassify; shows an example"
 
   /* name for the basering */
   def br = basering;
+
+  /* read optional parameters */
+  int printcomments;
+  if(size(#) > 0)
+  {
+    if(size(#) > 1 || typeof(#[1]) != "int")
+    {
+      ERROR("Wrong optional parameters.");
+    }
+    printcomments = #[1];
+  }
 
   /* error check */
   if(char(br) != 0)
@@ -446,7 +462,27 @@ EXAMPLE:  example realclassify; shows an example"
     nf = nf+var(cr+i)^2;
   }
 
-  return(list(typeofsing, nf, cr, mu, lambda, d));
+  /* write comments */
+  if(printcomments)
+  {
+    string comments = newline;
+    comments = comments+"Type of singularity: "+typeofsing+newline;
+    comments = comments+"Normal form:         "+string(nf)+newline;
+    comments = comments+"Corank:              "+string(cr)+newline;
+    comments = comments+"Milnor number:       "+string(mu)+newline;
+    comments = comments+"Inertia index:       "+string(lambda)+newline;
+    comments = comments+"Determinacy:         <= "+string(d)+newline;
+  }
+
+  /* return results */
+  if(printcomments)
+  {
+    return(list(typeofsing, nf, cr, mu, lambda, d, comments));
+  }
+  else
+  {
+    return(list(typeofsing, nf, cr, mu, lambda, d));
+  }
 }
 example
 {  "EXAMPLE"; echo = 2;
