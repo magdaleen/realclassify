@@ -504,7 +504,7 @@ EXAMPLE:  example realclassify; shows an example"
         comments = comments
           +"Note: The input polynomial was multiplied with -1 during"+newline
           +"      the computation. Without this transformation,"+newline
-          +"      the the result is:"+newline;
+          +"      the result is:"+newline;
       }
       else
       {
