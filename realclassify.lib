@@ -298,11 +298,15 @@ EXAMPLE:  example realclassify; shows an example"
     {
       typeofsing = "E[7]";
       nf = var(1)^3+var(1)*var(2)^3;
+      typeofsing_alternative = typeofsing;
+      nf_alternative = nf;
     }
     if(complextype == "E[8]")   // case E[8]
     {
       typeofsing = "E[8]";
       nf = var(1)^3+var(2)^5;
+      typeofsing_alternative = typeofsing;
+      nf_alternative = nf;
     }
     if(complextype == "J[2,0]")  // case J[2,0]
     {
