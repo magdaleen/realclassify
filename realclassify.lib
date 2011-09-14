@@ -228,11 +228,31 @@ EXAMPLE:  example realclassify; shows an example"
         {
           typeofsing = "D["+string(mu)+"]+";
           nf = var(1)^2*var(2)+var(2)^(mu-1);
+          if(mu%2 == 0)
+          {
+            nf_alternative = nf;
+            typeofsing_alternative = typeofsing;
+          }
+          else
+          {
+            nf_alternative = var(1)^2*var(2)-var(2)^(mu-1);
+            typeofsing_alternative = "D["+string(mu)+"]-";
+          }
         }
         else
         {
           typeofsing = "D["+string(mu)+"]-";
           nf = var(1)^2*var(2)-var(2)^(mu-1);
+          if(mu%2 == 0)
+          {
+            nf_alternative = nf;
+            typeofsing_alternative = typeofsing;
+          }
+          else
+          {
+            nf_alternative = var(1)^2*var(2)+var(2)^(mu-1);
+            typeofsing_alternative = "D["+string(mu)+"]+";
+          }
         }
       }
     }
