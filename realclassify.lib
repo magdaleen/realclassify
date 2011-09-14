@@ -338,6 +338,7 @@ EXAMPLE:  example realclassify; shows an example"
           poly c1 = H(c1);
           poly b1 = H(b1);
           list L = laguerre_solve(c1,30);
+          list L';
           for(int i = 1; i <= size(L); i=1+i)
           {
             if(impart(L[i]) == 0)
