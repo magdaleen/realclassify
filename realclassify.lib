@@ -339,7 +339,7 @@ EXAMPLE:  example realclassify; shows an example"
       if( r == 0 || r == 1)
       {
         setring(br);
-        nf = x3+x2y2+xy4;
+        nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(2)^4;
       }
       else
       {
@@ -363,11 +363,11 @@ EXAMPLE:  example realclassify; shows an example"
           number b = number(F(b1));
           if(b>0)
           {
-            nf = x3+x2y2+xy4;
+            nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(2)^4;
           }
           else
           {
-            nf = x3+x2y2-xy4;
+            nf = var(1)^3+var(1)^2*var(2)^2-var(1)*var(2)^4;
           }
         }
         else
@@ -422,11 +422,11 @@ EXAMPLE:  example realclassify; shows an example"
           setring(br);
           if (c == -1 && b == 1)
           {
-            nf = x3+x2y2+xy4;
+            nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(1)^4;
           }
           if (c == -1 && b == -1)
           {
-            nf = x3+x2y2-xy4;
+            nf = var(1)^3+var(1)^2*var(2)^2-var(1)*var(2)^4;
           }
           if (c == 1 || b == 0)
           {
@@ -462,17 +462,19 @@ EXAMPLE:  example realclassify; shows an example"
       poly g1 = Factors[1][2];
       map H = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
       rf = H(rf);
-      map G = br, var(1)-(jet(rf,4)-x3)/(3x2), var(2);
+      map G = br, var(1)-((jet(rf,4)-var(1)^3)/(3*var(1)^2)), var(2);
       rf = G(rf);
+      map F = br, var(1)-((jet(rf,5)-var(1)^3)/(3*var(1)^2)), var(2);
+      rf = F(rf);
       rf = jet(rf,8);
-      number w = number(rf/y^8);
+      number w = number(rf/(var(2)^8));
       if(w > 0)
       {
-        nf = x3+y8+xy6;
+        nf = var(1)^3+var(2)^8+var(1)*var(2)^6;
       }
       if(w < 0)
       {
-        nf = x3-y8+xy6;
+        nf = var(1)^3-var(2)^8+var(1)*var(2)^6;
       }
     }
     if(complextype == "Z[11]")   // case Z[11]
@@ -498,7 +500,7 @@ EXAMPLE:  example realclassify; shows an example"
       }
                                    //TODO multiply nondegenerate
                                    //quadratic part with 1/s
-      nf = x4+y5+x2y3;             //TODO add parameter
+      nf = var(1)^4+var(2)^5+var(1)^2*var(2)^3;//TODO add parameter
     }
     if(complextype == "W[13]")   //case W[13]
     {
@@ -513,7 +515,7 @@ EXAMPLE:  example realclassify; shows an example"
       }
                                    //TODO multiply nondegenerate
                                    //quadratic part with 1/s
-      nf = x4+xy4+y6;              //TODO add parameter
+      nf = var(1)^4+var(1)*var(2)^4+var(2)^6;              //TODO add parameter
     }
   }
   if(cr > 2)
