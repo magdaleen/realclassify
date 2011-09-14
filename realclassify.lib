@@ -258,8 +258,7 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype == "E[6]")  // case E[6] ;
     {
-      typeofsing = "E[6]";
-      g = jet(rf,3);
+      poly g = jet(rf,3);
       poly s = g/(var(1)^3);
       if(s == 0)
       {
@@ -267,8 +266,12 @@ EXAMPLE:  example realclassify; shows an example"
         rf = F(rf);
         g = F(g);
       }
-      rf = rf/(g/(var(1)^3)); //TODO change coeficients of
-                              //nondegenerate quadrtic part
+      rf = rf/(g/(var(1)^3));
+      if(number(g/(var(1)^3)) < 0)
+      {
+        changesign = -changesign;
+        lambda = n-cr-lambda;
+      }
       g = jet(rf,3);
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
@@ -278,11 +281,17 @@ EXAMPLE:  example realclassify; shows an example"
       number w = number(rf/(var(2)^4));
       if(w > 0)
       {
+        typeofsing = "E[6]+";
         nf = var(1)^3+var(2)^4;
+        typeofsing_alternative = "E[6]-";
+        nf_alternative = var(1)^3-var(2)^4;
       }
       else
       {
+        typeofsing = "E[6]-";
         nf = var(1)^3-var(2)^4;
+        typeofsing_alternative = "E[6]+";
+        nf_alternative = var(1)^3+var(2)^4;
       }
     }
     if(complextype == "E[7]")   // case E[7]
