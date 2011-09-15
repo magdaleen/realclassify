@@ -568,18 +568,28 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype == "W[12]") //case W[12]
     {
-      typeofsing = "W[12]";
-      rf = jet(rf,4);
-      number s = number(rf/(var(1)^4));
+      poly g = jet(rf, 4);
+      number s = number(g/(var(1)^4));
       if(s == 0)
       {
-        map F = br, var(2), var(1);
-        rf = F(rf);
-        s = number(rf/(var(1)^4));
+        s = number(g/(var(2)^4));
+        map F = br, var(2), var(1);   // maybe we'll need this transformation
+        rf = F(rf);                   // later
       }
-                                   //TODO multiply nondegenerate
-                                   //quadratic part with 1/s
-      nf = var(1)^4+var(2)^5+var(1)^2*var(2)^3;//TODO add parameter
+      if(s > 0)
+      {
+        typeofsing = "W[12]+";
+        nf = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+        typeofsing_alternative = "W[12]-";
+        nf_alternative = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+      }
+      else
+      {
+        typeofsing = "W[12]-";
+        nf = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+        typeofsing_alternative = "W[12]+";
+        nf_alternative = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+      }
     }
     if(complextype == "W[13]")   //case W[13]
     {
