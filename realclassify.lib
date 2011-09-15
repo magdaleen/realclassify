@@ -316,7 +316,7 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype == "J[2,0]")  // case J[2,0]
     {
-      typeofsing = "J[2,0]";
+      int signforJ10;
       poly g = jet(rf,3);
       number s = number(g/(var(1)^3));
       if (s == 0)
@@ -326,8 +326,12 @@ EXAMPLE:  example realclassify; shows an example"
         g = jet(rf,3);
         s = number(g/(var(1)^3));
       }
-      rf = rf/s;  //TODO change coeffociets of
-                  //nondegenerate quadratic part
+      rf = rf/s;
+      if(s < 0)
+      {
+        changesign = -changesign;
+        lambda = n-cr-lambda;
+      }
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
       map H = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)),
@@ -345,7 +349,7 @@ EXAMPLE:  example realclassify; shows an example"
       if( r == 0 || r == 1)
       {
         setring(br);
-        nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(2)^4;
+        signforJ10 = 1;
       }
       else
       {
@@ -367,13 +371,13 @@ EXAMPLE:  example realclassify; shows an example"
           map F = br, ((g1/var(1))*var(1)-g1)/(g1/var(1)),
                   var(2);
           number b = number(F(b1));
-          if(b>0)
+          if(b > 0)
           {
-            nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(2)^4;
+            signforJ10 = 1;
           }
           else
           {
-            nf = var(1)^3+var(1)^2*var(2)^2-var(1)*var(2)^4;
+            signforJ10 = -1;
           }
         }
         else
@@ -428,11 +432,11 @@ EXAMPLE:  example realclassify; shows an example"
           setring(br);
           if (c == -1 && b == 1)
           {
-            nf = var(1)^3+var(1)^2*var(2)^2+var(1)*var(1)^4;
+            signforJ10 = 1;
           }
           if (c == -1 && b == -1)
           {
-            nf = var(1)^3+var(1)^2*var(2)^2-var(1)*var(2)^4;
+            signforJ10 = -1;
           }
           if (c == 1 || b == 0)
           {
@@ -440,6 +444,17 @@ EXAMPLE:  example realclassify; shows an example"
           }
         }
       }
+      if(signforJ10 == 1)
+      {
+        typeofsing = "J[10]+";
+      }
+      else
+      {
+        typeofsing = "J[10]-";
+      }
+      nf = var(1)^3+var(1)^2*var(2)^2+signforJ10*var(1)*var(2)^4;
+      typeofsing_alternative = typeofsing;
+      nf_alternative = nf;
     }
     if(complextype == "E[12]")   // case E[12]
     {
