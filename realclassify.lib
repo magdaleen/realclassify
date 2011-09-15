@@ -512,7 +512,6 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype == "E[14]") //case E[14]
     {
-      typeofsing = "E[14]";
       poly g = jet(rf,3);
       number s = number(g/(var(1)^3));
       if(s == 0)
@@ -522,7 +521,12 @@ EXAMPLE:  example realclassify; shows an example"
         g = jet(rf,3);
         s = number(g/(var(1)^3));
       }
-      rf = rf/s; //TODO multiply nondegenerate quadratic part with 1/s
+      rf = rf/s;
+      if(s < 0)
+      {
+        changesign = -changesign;
+        lambda = n-cr-lambda;
+      }
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
       map H = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
@@ -535,11 +539,17 @@ EXAMPLE:  example realclassify; shows an example"
       number w = number(rf/(var(2)^8));
       if(w > 0)
       {
+        typeofsing = "E[14]+";
         nf = var(1)^3+var(2)^8+var(1)*var(2)^6;
+        typeofsing_alternative = "E[14]-";
+        nf_alternative = var(1)^3-var(2)^8+var(1)*var(2)^6;
       }
       if(w < 0)
       {
+        typeofsing = "E[14]-";
         nf = var(1)^3-var(2)^8+var(1)*var(2)^6;
+        typeofsing_alternative = "E[14]+";
+        nf_alternative = var(1)^3+var(2)^8+var(1)*var(2)^6;
       }
     }
     if(complextype == "Z[11]")   // case Z[11]
