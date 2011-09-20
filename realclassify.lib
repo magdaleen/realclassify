@@ -113,45 +113,45 @@ EXAMPLE:  example realclassify; shows an example"
   /* determine the type */
   string typeofsing, typeofsing_alternative;
   poly nf, nf_alternative;
-  int changesign = 1;   // has value -1 iff f was changed to -f
   string morecomments = newline;
   map phi;
   if(cr == 0)   // case A[1]
   {
-    if(lambda == n)
+    if(lambda < n)
     {
-      lambda = 0;
-      changesign = -changesign;
-    }
-    typeofsing = "A[1]+";
-    if(lambda == 0)
-    {
+      typeofsing = "A[1]+";
       typeofsing_alternative = "A[1]-";
     }
     else
     {
+      typeofsing = "A[1]-";
       typeofsing_alternative = "A[1]+";
     }
   }
   if(cr == 1)   // case A[k], k > 1
   {
     int k = deg(lead(rf), 1:n)-1;
-    if(leadcoef(rf) < 0 && k%2 == 1)
-    {
-      lambda = n-cr-lambda;
-      changesign = -changesign;
-    }
-    nf = var(1)^(k+1);
     if(k%2 == 0)
     {
+      nf = var(1)^(k+1);
+      nf_alternative = nf;
       typeofsing = "A["+string(k)+"]";
       typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
     }
     else
     {
-      typeofsing = "A["+string(k)+"]+";
-      typeofsing_alternative = "A["+string(k)+"]-";
+      if(leadcoef(rf) > 0)
+      {
+        nf = var(1)^(k+1);
+        typeofsing = "A["+string(k)+"]+";
+        typeofsing_alternative = "A["+string(k)+"]-";
+      }
+      else
+      {
+        nf = -var(1)^(k+1);
+        typeofsing = "A["+string(k)+"]-";
+        typeofsing_alternative = "A["+string(k)+"]+";
+      }
       nf_alternative = -nf;
     }
   }
@@ -266,19 +266,22 @@ EXAMPLE:  example realclassify; shows an example"
     if(complextype == "E[6]")  // case E[6] ;
     {
       poly g = jet(rf,3);
-      poly s = g/(var(1)^3);
+      number s = number(g/(var(1)^3));
       if(s == 0)
       {
         phi = br, var(2), var(1);
         rf = phi(rf);
-        g = phi(g);
+        g = jet(rf, 3);
+        s = number(g/(var(1)^3));
       }
-      rf = rf/(g/(var(1)^3));
-      if(number(g/(var(1)^3)) < 0)
+      if(s < 0)
       {
-        changesign = -changesign;
-        lambda = n-cr-lambda;
+        phi = br, -var(1), var(2);
+        rf = phi(rf);
+        g = jet(rf, 3);
+        s = number(g/(var(1)^3));
       }
+      rf = rf/s;
       g = jet(rf,3);
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
@@ -315,7 +318,7 @@ EXAMPLE:  example realclassify; shows an example"
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
     }
-    if(complextype == "J[2,0]")  // case J[2,0]
+    if(complextype == "J[2,0]")  // case J[10]
     {
       int signforJ10;
       poly g = jet(rf,3);
@@ -327,12 +330,14 @@ EXAMPLE:  example realclassify; shows an example"
         g = jet(rf,3);
         s = number(g/(var(1)^3));
       }
-      rf = rf/s;
       if(s < 0)
       {
-        changesign = -changesign;
-        lambda = n-cr-lambda;
+        phi = br, -var(1), var(2);
+        rf = phi(rf);
+        g = jet(rf, 3);
+        s = number(g/(var(1)^3));
       }
+      rf = rf/s;
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
       phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
@@ -481,12 +486,14 @@ EXAMPLE:  example realclassify; shows an example"
         g = jet(rf,3);
         s = number(g/(var(1)^3));
       }
-      rf = rf/s;
       if(s < 0)
       {
-        changesign = -changesign;
-        lambda = n-cr-lambda;
+        phi = br, -var(1), var(2);
+        rf = phi(rf);
+        g = jet(rf, 3);
+        s = number(g/(var(1)^3));
       }
+      rf = rf/s;
       list Factors = factorize(g);
       poly g1 = Factors[1][2];
       phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
@@ -637,21 +644,9 @@ EXAMPLE:  example realclassify; shows an example"
     if(typeofsing != typeofsing_alternative || nf != nf_alternative
        || lambda != n-cr-lambda)
     {
-      comments = comments+newline;
-      if(changesign == -1)
-      {
-        comments = comments
-          +"Note: The input polynomial was multiplied with -1 during"+newline
-          +"      the computation. Without this transformation,"+newline
-          +"      the result is:"+newline;
-      }
-      else
-      {
-        comments = comments
-          +"Note: By multiplying the input polynomial with -1,"+newline
-          +"      it can also be regarded as of the following case:"+newline;
-      }
-      comments = comments
+      comments = comments+newline
+        +"Note: By multiplying the input polynomial with -1,"+newline
+        +"      it can also be regarded as of the following case:"+newline
         +"Type of singularity: "+typeofsing_alternative+newline
         +"Normal form:         "+string(nf_alternative)+newline
         +"Inertia index:       "+string(n-cr-lambda)   +newline;
