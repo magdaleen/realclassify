@@ -553,6 +553,7 @@ EXAMPLE:  example realclassify; shows an example"
             nf_alternative = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
           }
         }
+        monparam = var(2)^(4+(mu-9));
       }
     }
     if(complextype == "E[12]")   // case E[12]
