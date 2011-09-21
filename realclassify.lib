@@ -50,7 +50,8 @@ NOTE:     The classification is done over the real numbers, so in contrast to
              extensions of any kind nor floating point numbers are allowed.
           @* The monomial order must be local.
           @* The input polynomial must be contained in maxideal(2) and must be
-             an isolated singularity of modality 0 or 1.
+             an isolated singularity of modality 0 or 1. The Milnor number is
+             checked for being finite.
 SEE ALSO: classify
 KEYWORDS: Classification of singularities
 EXAMPLE:  example realclassify; shows an example"
@@ -89,6 +90,16 @@ EXAMPLE:  example realclassify; shows an example"
   {
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
+
+  /* compute Milnor number before continuing the error check */
+  int mu = milnornumber(f);
+
+  /* continue error check */
+  if(mu < 1)
+  {
+    ERROR("The Milnor number of the input polynomial must be positive and"
+      +"finite.");
+  }
   if(vdim(std(jacob(f)+ideal(f))) < 1)
   {
     ERROR("The input polynomial must have an isolated singularity.");
@@ -112,7 +123,6 @@ EXAMPLE:  example realclassify; shows an example"
   poly rf = morse[3];
 
   /* other invariants */
-  int mu = milnornumber(f);
   int d = determinacy(f, mu);
 
   /* determine the type */
