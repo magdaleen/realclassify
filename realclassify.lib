@@ -398,15 +398,15 @@ EXAMPLE:  example realclassify; shows an example"
           poly c1 = phi(c1);
           poly b1 = phi(b1);
           list L = laguerre_solve(c1,30);
-          list L';
+          list LL;
           for(int i = 1; i <= size(L); i=i+1)
           {
             if(impart(L[i]) == 0)
             {
-              L' = insert(L',L[i]);
+              LL = insert(LL,L[i]);
             }
           }
-          number r1 = L'[1];
+          number r1 = LL[1];
           for(int j = 1; j <= size(L'); j=j+1)
           {
             r1 = round(r1*10000000000)/10000000000;
@@ -436,7 +436,7 @@ EXAMPLE:  example realclassify; shows an example"
             }
             if( c < 0 && b != 0)
             {
-              r1 = L'[j];
+              r1 = LL[j];
               break;
             }
           }
@@ -504,13 +504,12 @@ EXAMPLE:  example realclassify; shows an example"
         }
         ring R = 0, x, dp;
         map phi = br, var(1), 1;
-        poly rf' = phi(rf);
-        int k = nrroots(rf');
+        int k = nrroots(phi(rf));
         setring(br);
         if(k == 1)
         {
           number w = number(rf/(var(1)^4));
-          if(w>0)
+          if(w > 0)
           {
             typeofsing = "X["+string(mu)+"]++";
             nf = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
@@ -539,7 +538,7 @@ EXAMPLE:  example realclassify; shows an example"
           map phi = br, (var(1)-(g1/(var(2))*var(2)))/(g1/var(1)), var(2);
           rf = phi(rf);
           number w = number(rf/(var(1)^2*var(2)^2));
-          if(w>0)
+          if(w > 0)
           {
             typeofsing = "X["+string(mu)+"]-+";
             nf = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
