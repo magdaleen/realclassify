@@ -86,7 +86,7 @@ EXAMPLE:  example realclassify; shows an example"
       ERROR("The monomial order must be local.");
     }
   }
-  if(jet(f,1) != 0)
+  if(jet(f, 1) != 0)
   {
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
@@ -97,12 +97,8 @@ EXAMPLE:  example realclassify; shows an example"
   /* continue error check */
   if(mu < 1)
   {
-    ERROR("The Milnor number of the input polynomial must be positive and"
+    ERROR("The Milnor number of the input polynomial must be positive and "
       +"finite.");
-  }
-  if(vdim(std(jacob(f)+ideal(f))) < 1)
-  {
-    ERROR("The input polynomial must have an isolated singularity.");
   }
 
   /* call classify before continuing the error check */
@@ -117,13 +113,11 @@ EXAMPLE:  example realclassify; shows an example"
   }
 
   /* apply splitting lemma */
-  list morse = realmorsesplit(f);
+  list morse = realmorsesplit(f, mu);
   int cr = morse[1];
   int lambda = morse[2];
-  poly rf = morse[3];
-
-  /* other invariants */
-  int d = determinacy(f, mu);
+  int d = morse[3];
+  poly rf = morse[4];
 
   /* determine the type */
   string typeofsing, typeofsing_alternative;
@@ -829,30 +823,70 @@ static proc addnondegeneratevariables(poly nf, int lambda, int cr)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-proc realmorsesplit(poly f)
+proc realmorsesplit(poly f, list #)
 "
-USAGE:    realmorsesplit(f); f poly
-RETURN:   a list consisting of the corank of f, the inertia index, the
-          residual form of f and the transformation
-NOTE:     The characteristic of the basering must be zero and f must be
-          contained in maxideal(2).
+USAGE:    realmorsesplit(f[, mu]); f poly, mu int
+RETURN:   a list consisting of the corank of f, the inertia index, an upper
+          bound for the determinacy, the residual form of f and
+          the transformation
+NOTE:     The characteristic of the basering must be zero, the monomial order
+          must be local, f must be contained in maxideal(2) and the Milnor
+          number of f must be finite.
+          @* The Milnor number of f can be provided as an optional parameter in
+             order to avoid that it is computed again.
 SEE ALSO: morsesplit
 KEYWORDS: Morse lemma, Splitting lemma
 EXAMPLE:  example morsesplit; shows an example"
 {
+  /* auxiliary variables */
+  int i;
+
   /* error check */
   if(char(basering) != 0)
   {
     ERROR("The characteristic must be zero.");
+  }
+  int n = nvars(basering);
+  for(i = 1; i <= n; i++)
+  {
+    if(var(i) > 1)
+    {
+      ERROR("The monomial order must be local.");
+    }
   }
   if(jet(f, 1) != 0)
   {
     ERROR("The input polynomial must be contained in maxideal(2).");
   }
 
+  /* get Milnor number before continuing error check */
+  int mu;
+  if(size(#) > 0)   // read optional parameter
+  {
+    if(size(#) > 1 || typeof(#[1]) != "int")
+    {
+      ERROR("Wrong optional parameters.");
+    }
+    else
+    {
+      mu = #[1];
+    }
+  }
+  else              // compute milnor number
+  {
+    mu = milnornumber(f);
+  }
+
+  /* continue error check */
+  if(mu < 0)
+  {
+    ERROR("The Milnor number of the input polynomial must be non-negative "
+         +"and finite.");
+  }
+
   /* preliminary stuff */
   list S;
-  int k, mu, cr = basicinvariants(f);
+  int k = determinacy(f, mu);
   f = jet(f, k);
   int n = nvars(basering);
   def br = basering;
@@ -898,7 +932,7 @@ EXAMPLE:  example morsesplit; shows an example"
   }
 
   /* sort variables according to corank */
-  int c = size(S);
+  int cr = size(S);
   phi = br, 0:n;
   j = 1;
   for(i = size(S); i > 0; i--)
@@ -938,7 +972,7 @@ EXAMPLE:  example morsesplit; shows an example"
 
   /* sort variables according to lambda */
   phi = br, maxideal(1);
-  j = c+1;
+  j = cr+1;
   for(i = size(negCoeff); i > 0; i--)
   {
     phi[negCoeff[i]] = var(j);
@@ -960,7 +994,7 @@ EXAMPLE:  example morsesplit; shows an example"
   }
   f = phi(f);
 
-  return(c, lambda, f, Phi);
+  return(list(cr, lambda, k, f, Phi));
 }
 example
 {  "EXAMPLE"; echo = 2;
@@ -1019,8 +1053,8 @@ proc determinacy(poly f, list #)
 USAGE:    determinacy(f[, mu]); f poly, mu int
 RETURN:   an upper bound for the determinacy of f
 NOTE:     The characteristic of the basering must be zero, the monomial order
-          must be local, f must be contained in maxideal(1), the Milnor number
-          of f must be finite and f must have an isolated singularity.
+          must be local, f must be contained in maxideal(1) and the Milnor
+          number of f must be finite.
           @* The Milnor number of f can be provided as an optional parameter in
              order to avoid that it is computed again.
 SEE ALSO: milnornumber, highcorner
@@ -1043,7 +1077,7 @@ EXAMPLE:  example determinacy; shows an example"
       ERROR("The monomial order must be local.");
     }
   }
-  if(jet(f,0) != 0)
+  if(jet(f, 0) != 0)
   {
     ERROR("The input polynomial must be contained in maxideal(1).");
   }
@@ -1071,10 +1105,6 @@ EXAMPLE:  example determinacy; shows an example"
   {
     ERROR("The Milnor number of the input polynomial must be non-negative "
          +"and finite.");
-  }
-  if(vdim(std(jacob(f)+ideal(f))) < 1)
-  {
-    ERROR("The input polynomial must have an isolated singularity.");
   }
 
   int k;   // an upper bound for the determinacy,
