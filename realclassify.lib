@@ -97,8 +97,8 @@ EXAMPLE:  example realclassify; shows an example"
   /* continue error check */
   if(mu < 1)
   {
-    ERROR("The Milnor number of the input polynomial must be positive and "
-      +"finite.");
+    ERROR("The Milnor number of the input polynomial must be"+newline
+      +"positive and finite.");
   }
 
   /* call classify before continuing the error check */
@@ -445,7 +445,7 @@ EXAMPLE:  example realclassify; shows an example"
           }
           if (c == 1 || b == 0)
           {
-            "Ask Arnold the normal form";
+            ERROR("Ask Arnold the normal form.)");
           }
         }
       }
@@ -714,10 +714,14 @@ EXAMPLE:  example realclassify; shows an example"
       }
       monparam = var(2)^6;
     }
+    if(typeofsing == "")
+    {
+      ERROR("This case is not yet implemented.");
+    }
   }
   if(cr > 2)
   {
-    "to be continued";
+    ERROR("This case is not yet implemented.");
   }
 
   /*add the non-corank variables to the normal forms */
@@ -880,8 +884,8 @@ EXAMPLE:  example morsesplit; shows an example"
   /* continue error check */
   if(mu < 0)
   {
-    ERROR("The Milnor number of the input polynomial must be non-negative "
-         +"and finite.");
+    ERROR("The Milnor number of the input polynomial must be"+newline
+      +"non-negative and finite.");
   }
 
   /* preliminary stuff */
@@ -1103,8 +1107,8 @@ EXAMPLE:  example determinacy; shows an example"
   /* continue error check */
   if(mu < 0)
   {
-    ERROR("The Milnor number of the input polynomial must be non-negative "
-         +"and finite.");
+    ERROR("The Milnor number of the input polynomial must be"+newline
+      +"non-negative and finite.");
   }
 
   int k;   // an upper bound for the determinacy,
