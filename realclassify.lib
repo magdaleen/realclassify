@@ -31,7 +31,7 @@ USAGE:    realclassify(f[, printcomments]); f poly, printcomments int
 RETURN:   a list containing (in this order)
           @* - the type of the singularity as a string,
           @* - the normal form as well as
-          @* - the corank, the milnor number, the inertia index and
+          @* - the corank, the Milnor number, the inertia index and
                a bound for the determinacy as integers.
           @* The normal form involves parameters for singularities of modality
              greater than 0. The actual value of the parameters is not computed
@@ -210,7 +210,7 @@ EXAMPLE:  example realclassify; shows an example"
         typeofsing_alternative = typeofsing;
         nf_alternative = nf;
       }
-      else
+      else   // case D[k], k > 4
       {
         rf = jet(rf, d);
         list factorization = factorize(jet(rf, 3));
@@ -724,7 +724,7 @@ EXAMPLE:  example realclassify; shows an example"
     ERROR("This case is not yet implemented.");
   }
 
-  /*add the non-corank variables to the normal forms */
+  /* add the non-corank variables to the normal forms */
   nf = addnondegeneratevariables(nf, lambda, cr);
   nf_alternative = addnondegeneratevariables(nf_alternative, n-cr-lambda, cr);
 
@@ -876,7 +876,7 @@ EXAMPLE:  example morsesplit; shows an example"
       mu = #[1];
     }
   }
-  else              // compute milnor number
+  else              // compute Milnor number
   {
     mu = milnornumber(f);
   }
@@ -1099,7 +1099,7 @@ EXAMPLE:  example determinacy; shows an example"
       mu = #[1];
     }
   }
-  else              // compute milnor number
+  else              // compute Milnor number
   {
     mu = milnornumber(f);
   }
@@ -1114,7 +1114,7 @@ EXAMPLE:  example determinacy; shows an example"
   int k;   // an upper bound for the determinacy,
            // we use several methods:
 
-  /* milnor number */
+  /* Milnor number */
   k = mu+1;
   f = jet(f, k);
 
