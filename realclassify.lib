@@ -57,7 +57,7 @@ KEYWORDS: Classification of singularities
 EXAMPLE:  example realclassify; shows an example"
 {
   /* auxiliary variables */
-  int i;
+  int i, j;
 
   /* name for the basering */
   def br = basering;
@@ -193,7 +193,7 @@ EXAMPLE:  example realclassify; shows an example"
           rf = phi(rf);
         }
         ring R = 0, y, dp;
-        phi = br, 1, y;
+        map phi = br, 1, y;
         poly rf = phi(rf);
         int k = nrroots(rf);
         setring(br);
@@ -393,7 +393,7 @@ EXAMPLE:  example realclassify; shows an example"
           poly b1 = phi(b1);
           list L = laguerre_solve(c1,30);
           list LL;
-          for(int i = 1; i <= size(L); i=i+1)
+          for(i = 1; i <= size(L); i++)
           {
             if(impart(L[i]) == 0)
             {
@@ -401,7 +401,7 @@ EXAMPLE:  example realclassify; shows an example"
             }
           }
           number r1 = LL[1];
-          for(int j = 1; j <= size(L'); j=j+1)
+          for(j = 1; j <= size(LL); j++)
           {
             r1 = round(r1*10000000000)/10000000000;
             number c1min = number(subst(c1,x,r1-0.0000000001));
@@ -521,7 +521,7 @@ EXAMPLE:  example realclassify; shows an example"
         if(k == 3)
         {
           list Factors = factorize(rf);
-          for(int i = 2; i <= size(Factors[1]); i++)
+          for(i = 2; i <= size(Factors[1]); i++)
           {
             if(Factors[2][i] == 2)
             {
@@ -774,10 +774,13 @@ EXAMPLE:  example realclassify; shows an example"
   }
 }
 example
-{  "EXAMPLE"; echo = 2;
-   ring r = 0, (x,y,z), ds;
-   poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
-   realclassify(f);
+{
+  "EXAMPLE:";
+  echo = 2;
+  LIB "realclassify.lib";
+  ring r = 0, (x,y,z), ds;
+  poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+  realclassify(f, 1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -843,7 +846,7 @@ KEYWORDS: Morse lemma, Splitting lemma
 EXAMPLE:  example morsesplit; shows an example"
 {
   /* auxiliary variables */
-  int i;
+  int i, j;
 
   /* error check */
   if(char(basering) != 0)
@@ -892,12 +895,10 @@ EXAMPLE:  example morsesplit; shows an example"
   list S;
   int k = determinacy(f, mu);
   f = jet(f, k);
-  int n = nvars(basering);
   def br = basering;
   map Phi = br, maxideal(1);
   map phi;
   poly a, p, r;
-  int i, j;
 
   /* treat the variables one by one */
   for(i = 1; i <= n; i++)
@@ -1001,10 +1002,13 @@ EXAMPLE:  example morsesplit; shows an example"
   return(list(cr, lambda, k, f, Phi));
 }
 example
-{  "EXAMPLE"; echo = 2;
-   ring r = 0, (x,y,z), ds;
-   poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
-   morsesplit(f);
+{
+  "EXAMPLE:";
+  echo = 2;
+  LIB "realclassify.lib";
+  ring r = 0, (x,y,z), ds;
+  poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
+  realmorsesplit(f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1045,10 +1049,13 @@ EXAMPLE:  example milnornumber; shows an example"
   return(vdim(std(jacob(f))));
 }
 example
-{  "EXAMPLE"; echo = 2;
-   ring r = 0, (x,y), ds;
-   poly f = x3+y4;
-   milnornumber(f);
+{
+  "EXAMPLE:";
+  echo = 2;
+  LIB "realclassify.lib";
+  ring r = 0, (x,y), ds;
+  poly f = x3+y4;
+  milnornumber(f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1135,7 +1142,9 @@ EXAMPLE:  example determinacy; shows an example"
 }
 example
 {
-  "EXAMPLE"; echo = 2;
+  "EXAMPLE:";
+  echo = 2;
+  LIB "realclassify.lib";
   ring r = 0, (x,y), ds;
   poly f = x3+xy3;
   determinacy(f);
