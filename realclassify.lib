@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-version=$Id$";
+version="$Id$";
 category="Singularities";
 info="
-LIBRARY:  realclassify.lib   Arnold Classifier of Singularities
+LIBRARY:  realclassify.lib   Classification of real singularities
 AUTHOR:   Magdaleen Marais,  magdaleen@aims.ac.za
           Andreas Steenpass, steenpass@mathematik.uni-kl.de
 
@@ -36,8 +36,8 @@ RETURN:   a list containing (in this order)
           @* The normal form involves parameters for singularities of modality
              greater than 0. The actual value of the parameters is not computed
              in most of the cases. If the value of the parameter is unknown,
-             the normal form is given as a string with an \"a\"
-             as the parameter. Otherwise, it is given as a polynomial.
+             the normal form is given as a string with an \"a\" as the
+             parameter. Otherwise, it is given as a polynomial.
           @* An optional integer printcomments can be provided. If its value
              is non-zero, a string will be added at the end of the returned
              list, containing the result in more readable form and in some
@@ -842,7 +842,7 @@ NOTE:     The characteristic of the basering must be zero, the monomial order
           @* The Milnor number of f can be provided as an optional parameter in
              order to avoid that it is computed again.
 SEE ALSO: morsesplit
-KEYWORDS: Morse lemma, Splitting lemma
+KEYWORDS: Morse lemma; Splitting lemma
 EXAMPLE:  example morsesplit; shows an example"
 {
   /* auxiliary variables */
