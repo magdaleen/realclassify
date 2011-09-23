@@ -28,7 +28,7 @@ LIB "solve.lib";
 proc realclassify(poly f, list #)
 "
 USAGE:    realclassify(f[, printcomments]); f poly, printcomments int
-RETURN:   a list containing (in this order)
+RETURN:   A list containing (in this order)
           @* - the type of the singularity as a string,
           @* - the normal form as well as
           @* - the corank, the Milnor number, the inertia index and
