@@ -623,7 +623,7 @@ EXAMPLE:  example realclassify; shows an example"
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
     }
-    if(complextype == "Z[13]")
+    if(complextype == "Z[13]")   // case Z[13]
     {
       poly g = jet(rf,4);
       number s = number(g/var(1)^3*var(2));
