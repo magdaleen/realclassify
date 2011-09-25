@@ -1,0 +1,26 @@
+LIB "classify.lib";
+
+ring r2 = 0, (x,y), ds;
+classify(x4+x2y2+y4);     // X[9]: gives wrong normal form
+classify(x3+x2y2+y7);     // J[k], k > 10: takes to long
+classify(x2y2+x5+y8);     // Y[r, s]: crashes
+classify((x2+y2)^2+x5);   // Y[r]: crashes
+
+ring r3 = 0, (x,y,z), ds;
+map phi = r3, 9x+5y-7z, -9x+y-3z, -7x-2z;
+classify(x3+x2z+xz2+y2z);      // P[8]: gives wrong normal form
+classify(x3+x2z+y2z+z4);       // P[k], k > 8: gives wrong normal form
+classify(x*(x2+yz)+y5+z5);     // R[l, m]: crashes
+classify(x*(x2+y2+z2)+y5);     // R[m]: crashes
+classify(xyz+x3+y4+z5);        // T[p, q, r]: crashes
+classify(x*(y2+z2)+x4+y4);     // T[p, m, m]: crashes
+poly q10 = x3+y2z+z4+xz3;
+classify(phi(q10));            // Q[10]: doesn't give any type
+poly q11 = x3+y2z+xz3+z5;
+classify(phi(q11));            // Q[11]: doesn't give any type
+poly q12 = x3+y2z+z5+z4x;
+classify(phi(q12));            // Q[12]: doesn't give any type
+classify(z*(x2+yz)+y4+y3z);    // S[11]: doesn't give any type
+classify(z*(x2+yz)+xy3+y5);    // S[12]: doesn't give any type
+classify(x*(x2+y2)+z4+xyz2);   // U[12]: claims that this
+                               // "is not in Arnolds list" (sic!)
