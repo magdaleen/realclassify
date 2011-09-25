@@ -3010,7 +3010,7 @@ example
 
 ///////////////////////////////////////////////////////////////////////////////
 /* some of the invariants will be exported during the computation of
- * classify(f) such that they are accessable at for all procs in the library
+ * classify(f) such that they are accessible at for all procs in the library
  */
 static proc exportinvariants(poly f)
 {
