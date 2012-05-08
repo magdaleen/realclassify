@@ -1,0 +1,428 @@
+\documentclass{amsproc}
+\linespread{1.25}
+\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
+\title{The classification of real singularities using the Singular computer algebra system}
+\author{Andreas Steenpass and Magdaleen S. Marais}
+\email{magdaleen@aims.ac.za}
+\address{African Institute for Mathematical Sciences, 6 Melrose Rd, Muizenberg, 7945, Cape Town, South Africa }
+\thanks{ }
+\subjclass[2000]{}
+\keywords{}
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+\section{Prelimanary definitions and results}
+Consider the space $\mathbb R^n$ with fixed coordinate system $x_1,\ldots,x_n$. We denote the ring of power series over $\mathbb R$ by $\mathbb R[[x_1,\ldots,x_n]]$.
+\newtheorem{Monomial}{Definition}[section]
+\begin{Monomial}\label{Monomial}
+A monomial in $n$ variables (or indeterminates) $x_1,\ldots,x_n$ is a power product
+$x^{\alpha}=x_1^{\alpha_1}\cdots x_n^{\alpha_n},\quad\alpha=(\alpha_1,\ldots,\alpha_n)\in\mathbb N^n.$ We call $|\alpha|=\alpha_1+\cdots+\alpha_n$ the degree of $x$ and $\alpha_i$ the degree of $x_i$. Given a polynomial $f$ the degree of $f$, written as $\deg(f)$, is the maximum degree of its monomials. The degree of $x_i$ in $f$ is defined similerly. The order of $f$, written as $\textnormal{order}(f)$, is the minimum degree of its monomials. 
+\end{Monomial}
+\newtheorem{Support}[Monomial]{Definition}
+\begin{Support}
+The Support of a power series $f:=\sum f_\alpha  x^{\alpha}$ is the set of all monomials that appear in this series with nonzero coefficients. We denote the support of a power series $f$ by $\textnormal{supp}(f)$.
+\end{Support}
+\newtheorem{r-equiv}[Monomial]{Definition}
+\begin{r-equiv}\label{r-equiv}
+Let $f,g\in R[[x_1,\ldots,x_n]]$. Then $f$ is called right-equivalent to $g$, $f \sim^rg$, if there exist an automorphism  $\phi$ of $R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$.
+\end{r-equiv}
+\newtheorem{jet}[Monomial]{Definition}
+\begin{jet}\label{jet}
+The $k$-jet, $k\in\mathbb N$ of a power series $f:=\sum f_\alpha  x^{\alpha}$ is defined by $\displaystyle\textnormal{jet}(f,k):=\sum_{|\alpha|\le k}f_{\alpha}x^{\alpha}$, the sum of terms of total degree $\le k$. We say that $f$ is finitely determined if there exist a $k>0$ such that every $g\in R[[x_1,\ldots,x_n]]$ with the same $k$-jet than $f$ is $r$-equivalent to $f$.  We say that $f$ is $k$-determined in this situation and the minimal such $k$ is called the $k$-determinancy of $f$.
+\end{jet}
+\newtheorem{LocalAlgebra}{Definition}
+\begin{LocalAlgebra}\label{LocalAlgebra}
+The local algebra $Q_f$ of the singularity of $f$ is defined to be the quotient of the algebra of function-germs by the gradient ideal $I_{\Delta f}$ of $f$:
+\[Q_f:=\frac{\mathbb R[[x_1,\ldots,x_n]]}{I_{\Delta f}}.\]
+\end{LocalAlgebra}
+\newtheorem{UpperDiagonalMonomial}{Definition}
+\begin{UpperDiagonalMonomial}\label{UpperDiagonalMonomial}
+A monomial is called an upper monomial (reps. lower monomial, a diagonal monomial) or is said to lie above (reps. below, on) the diagonal if its degree is larger than $d$ (reps. smaller than $d$, equal to $d$) for the given exponents of homogeneity.
+\end{UpperDiagonalMonomial}
+\newtheorem{SemiQuasiHomogeneousFunction}{Theorem}
+\begin{SemiQuasiHomogeneousFunction}\label{SemiQuasiHomogeneousFunction}
+Let $f$ be a semi-quasihomogeneous function with quasi homogeneous part $f_0$ and let $e_1,\ldots, e_s$ be the set of all upper monomials in the fixed basis of the local algebra of the function $f_0$. Then $f$ is equivalent to a function of the form $f_0+\sum c_ke_k$, where the $c_k$ are constants.
+\end{SemiQuasiHomogeneousFunction}
+\section{The Splitting Lemma}
+We denote the ideal of function-germs vanishing at the origin by $m$ and the corank of a singularity we denote by $c$.
+The following well-known theorem, called the Splitting Lemma, allows us to reduce the classification to germs of corank $n$ or, equivalently, to germs in $m^3$.
+\newtheorem{SplittingLemma}{Theorem}[section]
+\newtheorem{AlgorithmSplittingLemma}[SplittingLemma]{Algorithm}
+\begin{SplittingLemma}\label{SplittingLemma}
+If $f\in m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
+\[ f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
+with $g\in m^3$. $g$ is called the residual part of $f$ and $\lambda$ is called the inertia index of the quadratic form of $f$. $g$ and $\lambda$ is uniquely determined up to right equivalence.
+\end{SplittingLemma}
+We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb Q[x_1,\ldots,x_n]\subset\mathbb R[x_1,\ldots,x_n]$, in SINGULAR, using the following algorithm.
+\begin{AlgorithmSplittingLemma} \label{AlgorithmSplittingLemma} \end{AlgorithmSplittingLemma}
+\noindent\textnormal{\bf Input:} $f\in m^2\subset\mathbb R[x_1,x_2,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is $k$-determined.\newline
+\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb N$ and $g\in m^3\subset\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
+\begin{itemize}
+\item $S:=\emptyset;\  f:=\textnormal{jet}(f,k);$
+\item for($i=1;\ i\le n;\  i++$)\newline
+\phantom{}\quad if($\textnormal{jet}(f,2)\in \mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$);\newline
+\phantom{}\quad\quad $S:=S\cup\{x_i\}$;\newline
+\phantom{}\quad else\newline
+\phantom{}\quad\quad $f:=\textnormal{jet}(f,k);$\newline
+\phantom{}\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
+\phantom{}\quad\quad if($a(0)=0$)\newline
+\phantom{}\quad\quad\quad choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\textnormal{supp}(f)$;\newline
+\phantom{}\quad\quad\quad apply $x_j\mapsto x_j+x_i$;\newline
+\phantom{}\quad\quad\quad $f:=\textnormal{jet}(f,k);$\newline
+\phantom{}\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
+\phantom{}\quad\quad\quad\quad while($p\neq 0$)\newline
+\phantom{}\quad\quad\quad\quad\quad apply $x_i\mapsto x_i-\frac{p}{2a(0)}$;\newline
+\phantom{}\quad\quad\quad\quad\quad $f:=\textnormal{jet}(f,k);$\newline
+\phantom{}\quad\quad\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
+\item $c =\# S$; 
+\item change the order of variables such that $\displaystyle f=g+\sum_{i=c+1}^na_ix_i^2$;
+\item $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$;
+\item change the order of variables such that \[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\  a_i>0;\]
+\item apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$;
+\item $g:=f$;
+\item return $c,g$;
+\end{itemize}
+
+\begin{proof}
+If we can prove that we can write $f$ as \begin{equation}\label{eq4}
+f=a+\sum_{j=1}^i a_jx_j^2+r
+\end{equation}
+where
+$r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in m^3$ and the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
+after $i$ applications of the for-loop, then we have the desired result after $n$ applications of the for-loop. We will prove this by induction. After $0$ applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$. Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in S$ then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose  $x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in \textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can be written as
+\[f=ax_i^2+px_i+r\]
+with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$. If $a(0)\neq 0$ then $x_i^2\in\textnormal{supp}(f)$. If $a(0)=0$ then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appear in some term of the $2$-jet of $f$ and since it follows from the induction that $x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows that there exists a $j\in\{i+1,\ldots,n\}$ such that $x_ix_j\in\textnormal{supp}(f)$. If we choose such a $j$ and make the transformation
+\begin{equation}\label{eq2}
+x_j\mapsto x_j+x_i,\quad x_ix_j\mapsto x_ix_j+x_i^2,
+\end{equation}
+then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$ we now have that $a(0)\neq0$.
+
+Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree of $x_i$ is one. Then the while-loop applies and the following transformation is made 
+\begin{equation}\label{eq3}
+x_i\mapsto x_i-\frac{p}{2a(0)}\qquad \textnormal{(since }a(0)\neq 0\textnormal{ this is allowed.)}
+\end{equation}
+Then
+\begin{eqnarray*}
+f&=&a(x_i-\frac{p}{2a(0)})^2+p(x_i-\frac{p}{2a(0)})+r\\
+&=&ax_i^2-\frac{apx_i}{a(0)}+\frac{ap^2}{4a^2(0)}+px_i-\frac{p^2}{2a(0)}+r\\
+&=&ax_i^2+(1-\frac{a}{a(0)})px_i+\frac{ap^2}{4a^2(0)}-\frac{p^2}{2a(0)}+r\\
+&=&ax_i^2+bpx_i+\frac{a'p^2}{4a^2(0)}+r',
+\end{eqnarray*}
+where 
+\begin{equation*}
+b=1-\frac{a}{a(0)}\in m,\quad a'=a-a(0)\in m,\quad r'=\frac{p^2}{4a(0)}-\frac{p^2}{2a(0)}+r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n].
+\end{equation*}
+Since 
+\begin{equation*}
+b=b_2x_i^2+b_1x_i+b_0,
+\end{equation*}
+where
+\begin{equation*}
+b_2\in\mathbb R[x_1,\ldots,x_n] \quad\textnormal{and}\quad b_1,b_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n],
+\end{equation*}
+we have that 
+\begin{eqnarray*}
+bpx_i&=&b_2px_i^3+b_1x_i^2+b_0px_i\\
+&=&(b_2px_i+b_1p)x_i^2+b_0px_i\\
+&=&b'x_i^2+b_0px_i,
+\end{eqnarray*}
+where
+\begin{equation*}
+b'\in m\in\mathbb R[x_1,\ldots,x_n]\quad\textnormal{and}\quad b_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]. 
+\end{equation*}
+Also
+\begin{equation*}
+\frac{a'p^2}{4a^2(0)}=c_2x_i^2+c_1x_i+c_0
+\end{equation*}
+where
+\begin{equation*}
+c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad c_2\in\mathbb R[x_1,\ldots,x_n].
+\end{equation*}
+Since $a'\in m$ and $p^2\in m^2$ it follows that $\frac{a'p^2}{4a(0)}\in m^3$ and hence $c_2\in m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$ it follows that $(a+b'+c_2)(0)\neq 0$. Furthermore, since $b\in m$ it follows that $b_0\in m$ and hence $\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since $\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore $\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
+\begin{eqnarray}
+f&=&(a+b'+c_2)x_i^2+(b_0p+c_1)x_i+r'+c_0\nonumber\\
+&=&a''x_i^2+p''x_i+r''\label{eq1}
+\end{eqnarray}
+where
+\begin{eqnarray*}
+&&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\ &&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')>\textnormal{order}(p).
+\end{eqnarray*}
+If $\textnormal{jet}(k,p''x_i)\neq 0$ then the while-loop will be applied again and we will get as output a polynomial of the form (\ref{eq1}). Since the degree of $p''$ will strictly increase after each application of the while-loop, $\textnormal{jet}(k,p''x_i)$ will be equal to zero after finitely many applications and the while-loop will terminate. Considering the transformations  (\ref{eq2}) and (\ref{eq3}) it follows that after each application of the while-loop $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
+
+Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after $i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of $f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
+\end{proof}
+
+\section{The real classification of the residual part of $f$}
+Arnold divided the real singularities of modality $0$ and $1$ into main types which "splits up" into more sub types by changing the sign in front of certain terms. It can be easily seen that the sub types is complex equivalent to a complex singularity type of the same name as its corresponding real main singularity type. In fact there is a bijection between the complex singularity types of modality $0$ and $1$ and the main real singularity types. Thus, if we can determine the complex singularity type of a function germ in $\mathbb R[[x_1,\ldots,x_n]]$, we only need to consider the sub types of the corresponding main real singularity type to determine the real type of the function germ. After applying the Splitting Lemma we only need to consider function germs in $m^3$. 
+
+\subsection{Results regarding the factorization of homogeneous polynomials over $\mathbb R$ and $\mathbb Q$}
+\paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that $f\sim^r g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. By using the next result, given $f$ and $g$, we can determine the 1-jet of $\phi$. 
+\newtheorem{kjet}{Lemma}[section]
+\begin{kjet}\label{kjet}
+Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\sim^r g$ and $k$ is the lowest degree of $f$. If jet$(f,k)$ factorize as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\textnormal{jet}(\phi(x_1),1),\ldots,\textnormal{jet}(\phi(x_n),1))\cdots f_t^{s_t}(\textnormal{jet}(\phi(x_1),1),\ldots,\textnormal{jet}(\phi(x_n),1))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
+\end{kjet}
+\begin{proof}
+Since $f\sim^rg$ there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
+Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\textnormal{jet}(\phi,1)(x_j)+\textnormal{terms of degree higher than $1$}$. Since $\phi$ is a homomorphism it follows that
+\begin{eqnarray*}\phi(f)&=&f\circ\phi\\&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\&=&f_1^{s_1}\big(\textnormal{jet}(\phi,1)(x_1),\ldots,\textnormal{jet}(\phi,1)(x_n)\big)\cdots f_t^{s_t}\big(\textnormal{jet}(\phi,1)(x_1),\ldots,\textnormal{jet}(\phi,1)(x_n)\big)\\&&+\big(\phi-\textnormal{jet}(\phi,1)\big)(f)+\phi(f').\\\end{eqnarray*}
+Since the $\deg\big(\textnormal{jet}(\phi,1)(x_j))=1$ it follows that \[\deg\big(f_1^{s_1}\big(\textnormal{jet}(\phi,1)(x_1),\ldots,\textnormal{jet}(\phi,1)(x_n)\big)\cdots f_t^{s_t}\big(\textnormal{jet}(\phi,1)(x_1),\ldots,\textnormal{jet}(\phi,1)(x_n)\big)\big)=k.\] Because 
+\[\textnormal{order}\big(\big(\phi-\textnormal{jet}(\phi,1)\big)(f)\big)>k\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k\]
+it follows that
+\begin{eqnarray*}
+&&\textnormal{jet}(\phi(f),k)=\textnormal{jet}(g,k)\\&&=f_1^{s_1}\big(\textnormal{jet}(\phi(x_1),1),\ldots,\textnormal{jet}(\phi(x_n),1)\big)\cdots f_t^{s_t}\big(\textnormal{jet}(\phi(x_1),1),\ldots,\textnormal{jet}(\phi(x_n),1)\big).
+\end{eqnarray*}
+\end{proof}
+
+Since SINGULAR use real floating point numbers, which do not represent the real numbers, instead of real numbers, rounding errors in computations can occur. Therefore the above result would not have been of much help without the following two results. 
+\newtheorem{x^3}[kjet]{Lemma}
+\begin{x^3}\label{x^3}
+If $f\in\mathbb Q[x,y]$ is homogeneous and can factorize as (i) $g_1^d$, (ii) $g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as $a{g'}_1^d$, $a{g'}_1\cdot {g'}_2^{d-1}$, where ${g'}_1,{g'}_2$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+\end{x^3}
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+\begin{proof}
+If $f=0$ then the answer is trivial.
+
+(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality, suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1})^d$. Since $f= a_1^dx^d+a_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q$ it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+
+(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$. Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$. Thus $a:=a_1a_3^d\in\mathbb Q$, $g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, $g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$ such that $f=ag'_1g'_2$. For the cases $a_1,a_4\neq 0$, $a_2a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
+
+(iii) If $f$ factorize as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$ it follows similar as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+\end{proof}
+%\newtheorem{x^3}[kjet]{Lemma}
+%\begin{x^3}\label{x^3}
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+%\end{x^3}
+%\begin{proof}
+%If $f=0$ then the answer is trivial. Suppose $f=(a_1x_1+\cdots+a_nx_n)^d$, $a_1,\ldots,a_n\in\mathbb Q$. Without loss of generality, suppose $a_1\neq 0$. Then $f=a_1^d(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=a_1^dx_1^d+f_{d-1}\cdot x_1^{d-1}+\cdots+f_1\cdot x_1$, where $f_{d-1},\ldots,f_1\in\mathbb Q[x_2,\ldots,x_n]$. Hence $a_1^d\in\mathbb Q$ and $(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=(\frac{a_2}{a_1}x_2+\frac{a_3}{a_1}x_3+\cdots+\frac{a_n}{a_1}x_n)x_1^{d-1}+f'_2\cdot x_1^{d-2}+\cdots+f'_d\cdot x_1\in\mathbb Q[x_1,\ldots,x_n]$, where $f'_2,\ldots,f'_n\in\mathbb Q[x_2,\ldots,x_n].$ Therefore $\frac{a_2}{a_1},\ldots,\frac{a_n}{a_1}\in\mathbb Q$. Thus by putting $a:=a_1^d$ and $g':=x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n$ the result follows. 
+%\end{proof}
+%\newtheorem{x^ny}[kjet]{Lemma}
+%\begin{x^ny}\label{x^ny}
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $g_1^{d-1}\cdot g_2$ over $\mathbb R$, where $g_1$ and $g_2$ are polynomials of degree $1$, then $f$ will factorize as $a{g'}_1^{d-1}\cdot g_2$, where $g'_1,g'_2$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+%\end{x^ny}
+%\begin{proof}
+%\end{proof}
+\subsection{Real singularities of $0$-modality}
+
+If the corank of a singularity is $c$ then the output polynomial $g$ in Algorithm \ref{AlgorithmSplittingLemma} will be a polynomial in $c$ variables. If the output is $0$ then it follows  that the singularity is either of type $A[1]^+$ or type $A[1]^-$. If $c=1$ then the singularity is either of type $A[k]^+$ or of type $A[k]^-$ for some $k>1$. Note that if $k$ is even then $A[k]^+\sim^rA[k]^-$. We used the following algorithm, after applying the Splitting Lemma, Theorem \ref{SplittingLemma}, in case $c=0$ or $c=1$ .
+
+\newtheorem{A[k]}[kjet]{Algorithm}
+\begin{A[k]}(Algorithm for the case $A[k]$)
+\end{A[k]}
+\noindent\textnormal{\bf Input:} $f\in \mathbb R[x_1,\ldots,x_n]$ of complex singularity type $A[k]$, the output polynomial $g\in m^3$ after applying Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia index $\lambda$ of $f$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$A[k]^-$ or $A[k]^+$, $k\in\mathbb N$.
+\begin{itemize}
+\item if($c=0$)\newline
+\phantom{}\quad if($\lambda<n$)\newline
+\phantom{}\quad\quad typeofsing$:="A[1]^+"$;\newline
+\phantom{}\quad else\newline
+\phantom{}\quad\quad typeofsing$:="A[1]^-"$;
+\item if($c=1$)\newline
+\phantom{}\quad int $k:= $deg(leadmon($g$))$ -1$;\newline
+\phantom{}\quad if($k$ is even)\newline
+\phantom{}\quad\quad nf:=$x^{k+1}$;\newline
+\phantom{}\quad\quad typeofsing$:= A[k]$;\newline
+\phantom{}\quad else\newline
+\phantom{}\quad\quad nf:= $-x^{k+1}$;\newline
+\phantom{}\quad\quad typeofsing$:= A[k]^-;$
+\item return typeofsing;
+\end{itemize}
+
+\newtheorem{D[4]}[kjet]{Algorithm}
+\begin{D[4]}(Algorithm for the case $D[4]$)
+\end{D[4]}
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $D[4]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[4]^-$ or $D[4]^+$.
+\begin{itemize}
+\item $f := \textnormal{jet}(f,3)$;
+\item $s_1:= \frac{f}{x^3}$;
+\item $s_2 := \frac{f}{y^3}$;
+\item if$(s_2=0$ and $s_1\neq0)$\newline
+\phantom{}\quad Swap the variables $x$ and $y$;
+\item   if$(s_2=0$ and $s_1=0)$\newline
+\phantom{}\quad $t_1:=\frac{f}{x^2y}$;\newline
+\phantom{}\quad $t_2:=\frac{f}{x^2y}$;\newline
+\phantom{}\quad if$(t_1+t_2=0)$\newline
+\phantom{}\quad\quad Apply $x\mapsto x$, $y\mapsto 2y$;\newline
+\phantom{}\quad\quad Write $f$ as $f=t'_1x^2y+t'_2xy^2$, $t'_1, t'_2\in\mathbb R, t'_1\neq t'_2$;\newline
+\phantom{}\quad Apply $x\mapsto x+y$, $y\mapsto y$;\newline
+\phantom{}\quad Write $f$ as $f=ay^3+bx^2y+cxy^2+dx^3$, $a,b,c,d\in\mathbb R$, $a\neq 0$;\newline
+\phantom{}\quad Apply $x\mapsto 1$, $y\mapsto y$;\newline
+\phantom{}\quad Write $f$ as $f=ay^3+by^2+cy+d$;\newline
+\phantom{}\quad $n:= \#$ real roots of $f$;\newline
+\phantom{}\quad if$(n=3)$\newline
+\phantom{}\quad\quad typeofsing:="$D[4]^-$";\newline
+\phantom{}\quad if$(n\neq 3)$\newline
+\phantom{}\quad\quad typeofsing:="$D[4]^+$";
+\item return typeofsing;
+\end{itemize}
+\begin{proof}
+Since our input polynomial is of complex singularity type $D[4]$, we only need to consider the real singularity types $D[4]^-$ and $D[4]^+$ to determine the real singularity type of $f$. Because $f\in m^3$, $\textnormal{order}(f)\ge3$, and therefore $\textnormal{jet}(f,3)$ is homogeneous. We now consider $f$ as $\textnormal{jet}(f,3)$. 
+
+If $s_1\neq 0$ and $s_2=0$ we can ensure that the coefficient of $y^3$ is nonzero by swapping the variables. If $s_1=0$ and $s_2=0$, the coefficient of $y^3$ is nonzero after applying $x\mapsto x$, $y\mapsto 2y$ and $x\mapsto x+y$, $y\mapsto y$ if $t_1=t_2$, and applying only $x\mapsto x+y$, $y\mapsto y$ if $t_1\neq -t_2$. We now can write $f$ in the form
+\begin{equation*}
+f=ay^3+bx^2y+cxy^2+dx^3,\quad a,b,c,d\in\mathbb R, a\neq 0.
+\end{equation*}
+Using Lemma \ref{kjet}, $f$ will factorize in $3$ linear factors over $\mathbb R$ if $f$ is of type $D[4]^-$ and will not factorize in $3$ linear factors over $\mathbb R$ if $f$ is not of type $D[4]^+$. Furthermore, since $x\not | f$ and $y\not | f$, $f$ will factorize in $3$ linear factors if and only if $f(x,1)$ factorize in $3$  factors of degree $1$. Since $f(x,1)$ is of degree $3$, it follows that $f(x,1)$ factorize in $3$ factors of degree $1$ if and only if $f$ has $3$ real roots.
+
+%We will now show that we can determine whether $f$ is of type $D[4]^-$ or $D[4]^+$ by counting the number $n$ of real roots of $f':=ay^3+by^2+cy+d$.
+%Now suppose $f$ factorize in $3$ linear factors, i.e.
+%\[f=(ey+fx)(gy+hx)(iy+jx),\quad e,f,g,h,i,j\in\mathbb R\]
+%where
+%\begin{eqnarray*}
+%egi&=&a\neq0,\quad \textnormal{i.e.}e,g,i\neq0\\
+%ehj+gfj+ifh&=&b\\
+%fgi+hei+jeg&=&c\\
+%fhj&=&d.
+%\end{eqnarray*}
+%Then
+%\begin{equation*}
+%f'=ay^3+by^2+cy+d
+%\end{equation*}
+%will factorize as
+%\begin{equation*}
+%f'=(ey+f)(gy+h)(iy+j).
+%\end{equation*}
+%Conversely, suppose
+%\begin{equation*}
+%f'=ay^3+by^2+cy+d,\quad a,b,c,d\in\mathbb R, a\neq0
+%\end{equation*}
+%factorize in $3$ liner factors, i.e.
+%\begin{equation*}
+%f'=(ey+f)(gy+h)(iy+j)
+%\end{equation*}
+%where
+%\begin{eqnarray*}
+%egi&=&a\neq0,\quad \textnormal{i.e.}e,g,i\neq0\\
+%ehj+gfj+ifh&=&b\\
+%fgi+hei+jeg&=&c\\
+%fhj&=&d.
+%\end{eqnarray*}
+%Then
+%\begin{equation*}
+%(ey+fx)(gy+hx)(iy+jx)=ay^3+bx^2y+cxy^2+dx^3=f
+%\end{equation*}
+%and hence $f$ will factorize in $3$ linear factors over $\mathbb R$. Therefore $f$ is of type $D[4]^-$ if and only if $f'=ay^3+by^2+cy+d$ has $3$ real roots.
+\end{proof}
+\newtheorem{kDeterminacyD[k]k>4}[kjet]{Lemma}
+\begin{kDeterminacyD[k]k>4}\label{kDeterminacyD[k]k>4}
+A singularity of type $D[k]^+$ or $D[k]^-$ is $k$-determined.
+\end{kDeterminacyD[k]k>4}
+\newtheorem{transformationD[k]}[kjet]{Lemma}
+\begin{transformationD[k]}\label{transformationD[k]}
+Let $i\ge 4$ then
+\[x^2y+a_0x^i+a_1x^{i-1}y+\cdots+a_iy^i\sim^rx^2y+a_ix^i\]
+using the $\mathbb R$-algebra automorphisms:
+\begin{eqnarray*}
+x&\mapsto&x+p_1,\textnormal{ where } p_1=-\frac{1}{2}(a_1x^{i-2}+\cdots+a_{i-1}y^{i-2})\\
+y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{i-2}
+\end{eqnarray*}
+\end{transformationD[k]}
+\newtheorem{D[k]k>4}[kjet]{Algorithm}
+\begin{D[k]k>4}(Algorithm for the case $D[k]$, $k>4$)
+\end{D[k]k>4}
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $D[k]$, $k\in\mathbb N$, $k>4$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[k]^-$ or $D[k]^+$.
+\begin{itemize}
+\item $k:= \textnormal{milnornumber}(f)$;
+\item $d:=k-1;$
+\item $f:=\textnormal{jet}(f,d);$
+\item Factorize $\textnormal{jet}(f,3)$ as $g_1^2g_2$, $g_1$ and $g_2$ linear;
+\item Apply $g_1\mapsto x$, $g_2\mapsto y$;
+\item $\textnormal{for}(i=4;i<k;i++)$\newline
+\phantom{}\quad $f:=\textnormal{jet}(f,d)$;\newline
+\phantom{}\quad $\textnormal{if}(\textnormal{jet}(f,i)-x^2y\neq0)$\newline
+\phantom{}\quad\quad Write $\textnormal{jet}(f,i)-x^2y$ as $a_0x^i+a_1x^{i-1}y+\cdots +a_iy^i$;\newline
+\phantom{}\quad\quad Apply $x\mapsto x-\frac{1}{2}(a_1x^{i-2}+\cdots +a_{i-1}y^{i-2})$, $y\mapsto y-a_0x^{i-2}$;\newline
+\phantom{}\quad $f:=\textnormal{jet}(f,d)$;\newline
+\phantom{}\quad Write $f$ as $f=x^2y+ay^{k-1}$, $a\neq 0$;
+\item $\textnormal{if}(a>0)$\newline
+\phantom{}\quad typeofsing:=$D[k]^+$;\newline
+else\newline
+\phantom{}\quad typeofsing:=$D[k]^-$;
+\item return typeofsing;
+\end{itemize}
+\begin{proof}
+By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of type $D[k]^-$ or $D[k]^+$ is $k-1$. Therefore we only need to consider the $k-1$-jet of the input polynomial $f$. Using Lemma \ref{kjet} and Lemma \ref{x^3} we transform $f$ to a polynomial of the form
+\[x^2y+\textnormal{terms of degree higher than $3$}\]
+by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of degree $1$, and then applying the automorphisms $g_1\mapsto x$, $g_2\mapsto y$ to $f$. We now systematically consider the terms of each degree $3<i<k$. By applying the transformations in Lemma \ref{transformationD[k]}, for each $i$, only possibly the term $a_iy^i$ will not vanish. If $i<k-1$, $a_i=0$, otherwise it follows from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. If $i=k-1$, $a_i\neq 0$, otherwise, it follows again from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. Thus we can write $f$ as $x^2y+ay^{k-1}, a\neq0$. Clearly if $a>0$ then $x^2y+ay^{k-1}\sim^rx^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\sim^rx^2y-y^{k-1}$.
+\end{proof}
+\newtheorem{E[6]}[kjet]{Algorithm}
+\begin{E[6]}(Algorithm for the case $E[6]$)
+\end{E[6]}
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $E[6]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$E[6]^-$ or $E[6]^+$.
+\begin{itemize}
+\item $g:= \textnormal{jet}(f,3);$
+\item $s:= \frac{g}{x^3};$
+\item $\textnormal{if}(s=0)$\newline
+\phantom{}\quad Swap the variables $x$ and $y$;\\
+\phantom{}\quad $s:=\frac{g}{x^3}$;
+\item Factorize $g$ in linear factors over $\mathbb Q[x,y]$, with a factor $g_1=ax+by$;
+\item Apply (to $f$) $x\mapsto \frac{x-by}{a}$, $y\mapsto y$;
+\item Write $f$ as $f=cx^3+\sigma y^4+\textnormal{terms of degree $4$ and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$}$;
+\item \textnormal{if}$(\sigma>0)$\newline
+\phantom{}\quad typeofsing:= "$E[6]^+$";\newline
+\phantom{} else\newline
+\phantom{}\quad typeofsing:="$E[6]^-$";
+\end{itemize}
+\begin{proof}
+Since $f\sim^r x^3+y^4$ or $f\sim^rx^3-y^4$, there exists an $\mathbb R$-algebra automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=f\circ\phi=(\phi(x))^3+(\phi(y))^4$ or such that $\phi(f)=f\circ\phi=(\phi(x))^3-(\phi(y)^4$ . We ensure that the coefficient of $x^3$ is nonzero by swapping the variables if necessary. Now, using Lemma \ref{kjet} and Lemma~\ref{x^3}, $g:=\textnormal{jet}(f,3)$ will factorize as $c(g_1)^3$, $c\in\mathbb Q$ and $g_1=ax+by\in\mathbb Q[x_1,\ldots,x_n]$. Again, using Lemma \ref{kjet}, it follows that by applying $x\mapsto\frac{x-by}{a},\ y\mapsto y$ the $1$-jet of $\phi(x)$ is transformed to $\textnormal{jet}(\phi(x),1)=c'x$, $c'\in\mathbb R$. Since $\phi$ is an automorphism, the $1$-jet of $\phi(y)$ is transformed to $\textnormal{jet}(\phi(y),1)=dx+ey$, $d,e\in\mathbb R$, with $e\neq 0$. Hence
+\begin{equation*}
+(\phi(y))^4=e^4y^4+\textnormal{terms of degree 4 and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$}
+\end{equation*}
+If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $f$ is of type $E[6]^-$ or $E[6]^+$ by looking at the sign of $y^4$. Now 
+\begin{eqnarray*}
+\textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)&=&3(\textnormal{jet}(\phi(x),1)^2)(\textnormal{jet}(\phi(x),2)-\textnormal{jet}(\phi(x),1))\\&=&3(c'x)^2(\textnormal{jet}(\phi(x),2)-\textnormal{jet}(\phi(x),1))
+\end{eqnarray*}
+ which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$, $\alpha\in\mathbb R$ .   
+\end{proof}
+\newtheorem{X[9+k]}[kjet]{Algorithm}
+\begin{X[9+k]}(Algorithm for the case $X[9+k]$)
+\end{X[9+k]}
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb Q[x,y]$ of complex singularity type $X[9+k]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$X[9+k]^-$ or $X[9+k]^+$.
+\begin{itemize}
+\item $f:=\textnormal{jet}(f,4)$;
+\item $s_1:=\frac{f}{x^4}$;
+\item $s_2:=\frac{f}{y^4}$;
+\item if$(s_2\neq0$ and $s_1=0)$\newline
+\phantom{}\quad Swap the variables $x$ and $y$;\newline
+\item if$(s_2\neq0$ and $s_1=0)$\newline
+\phantom{}\quad $t_1:=\frac{f}{x^3y}$;\newline
+\phantom{}\quad $t_2:=\frac{f}{x^2y^2}$;\newline
+\phantom{}\quad $t_3:=\frac{f}{xy^3}$;\newline
+\phantom{}\quad if$(t_1+t_2+t_3=0)$\newline
+\phantom{}\quad\quad if$(2t_1+4t_2+8t_3\neq0)$\newline
+\phantom{}\quad\quad\quad Apply $x\mapsto x$, $y\mapsto 2y$;\newline
+\phantom{}\quad\quad else\newline
+\phantom{}\quad\quad\quad Apply $x\mapsto x$, $y\mapsto 3y$;\newline
+\phantom{}\quad Apply $x\mapsto x$, $y\mapsto x+y$;
+\item Write $f$ as $f=ax^3+bx^3y+cx^2y^2+dxy^3+ey^4$;
+\item Apply $y\mapsto 1$, $x\mapsto x$;
+\item Write $f$ as $f'=ax^4+bx^3+cx^2+dx+e;$
+\item $n:=\#$ real roots of $f'$; 
+\item if$(n=1)$\newline
+\phantom{}\quad if$(a>0)$\newline
+\phantom{}\quad\quad typeofsing$:=X[9+k]^{++}$;\newline
+\phantom{}\quad else\newline
+\phantom{}\quad\quad typeofsing$:=X[9+k]^{--}$;
+\item if$(n=3)$\newline
+\phantom{}\quad Factorize $f$ in linear factors over $\mathbb Q[x,y]$, with $g_1:=ax+by$ the factor\newline
+\phantom{}\quad with multiplicity $2$;\newline
+\phantom{}\quad Apply $x\mapsto\frac{x+by}{a}$, $y\mapsto y$;\newline
+\phantom{}\quad Write $f$ as $f=ax^4+bx^3y+cx^2y^2$;\newline
+\phantom{}\quad Apply $x\mapsto 1$, $y\mapsto y$;\newline
+\phantom{}\quad Write $f$ as $f=a+by+cy^2$;\newline
+\phantom{}\quad if$(c>0)$\newline
+\phantom{}\quad\quad typeofsing$:= X[9+k]^{-+}$;\newline
+\phantom{}\quad else\newline
+\phantom{}\quad\quad typeofsing$:=X[9+k]^{+-}$;
+\end{itemize}
+\begin{proof}
+
+\end{proof}
+\end{document}
