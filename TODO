@@ -1,24 +1,36 @@
+mathematical issues:
 - finish the proof that \nf_\R(f) = +- \nf_\C(f) in modality 1, including
   restrictions
+- use Ignacio's theorem to solve the problem with factorization over the reals
+
+for writing the paper:
+- write down theorems and algorithms in latex
+
+next cases to tackle:
+- J[10]
+- J[10+k]
+- X[9]
+- remaining cases with modality 1
+
+computational issues:
+- get rid of scalings, if possible
+- check assumptions
+- check constant factors when using factorize
 - check computing time for \mu (see trac ticket #375)
-- get rid of classify.lib (use Milnorcode?)
-- treat the remaining cases
-- give transformations
-- read through the code
-- write paper
+- collect feedback (Gerhard, GM, Wolfram)
+
+technical stuff for classify.lib, to be done before release:
 - check if LIBs are needed
 - add references to library
-- check assumptions
-- test realclassify.lib (by randomly generated examples)
-- collect feedback (Gerhard, GM, Wolfram)
-- get rid of scalings, if possible
-- check constant factors when using factorize
+- read through the code
 - update the Singular test file
+- test realclassify.lib (by randomly generated examples)
 
-- use Ignacio's theorem to solve the problem with factorization over the reals
-- write down theorems and algorithms in latex
-- set up git repositories
+future work:
+- get rid of classify.lib (use Milnorcode?)
+- give transformations
 
+originally, we planned to,
 for each case (A_k, D_k, E_{6,7,8}, E_{12,13,14}, Z, W, P_8, X_9, J_10, ...):
 - draw the diagram
 - write down the algorithm
