@@ -1,6 +1,26 @@
+- finish the proof that \nf_\R(f) = +- \nf_\C(f) in modality 1, including
+  restrictions
+- check computing time for \mu (see trac ticket #375)
+- get rid of classify.lib (use Milnorcode?)
+- treat the remaining cases
+- give transformations
+- read through the code
+- write paper
+- check if LIBs are needed
+- add references to library
+- check assumptions
+- test realclassify.lib (by randomly generated examples)
+- collect feedback (Gerhard, GM, Wolfram)
+- get rid of scalings, if possible
+- check constant factors when using factorize
+- update the Singular test file
+
+- use Ignacio's theorem to solve the problem with factorization over the reals
+- write down theorems and algorithms in latex
+- set up git repositories
+
 for each case (A_k, D_k, E_{6,7,8}, E_{12,13,14}, Z, W, P_8, X_9, J_10, ...):
 - draw the diagram
 - write down the algorithm
 - write down the theory behind it
-- implement the case in realclassify.lib,
-  including subprocedures
+- implement the case in realclassify.lib, including subprocedures
