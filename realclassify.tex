@@ -207,17 +207,45 @@ Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop if an
 \end{proof}
 
 \section{The real classification of the residual part of $f$}
-Arnold divided the real singularities of modality $0$ and $1$ into main types which "splits up" into more sub types by changing the sign in front of certain terms. It can be easily seen that the sub types is complex equivalent to a complex singularity type of the same name as its corresponding real main singularity type. In fact there is a bijection between the complex singularity types of modality $0$ and $1$ and the main real singularity types. Thus, if we can determine the complex singularity type of a function germ in $\mathbb R[[x_1,\ldots,x_n]]$, we only need to consider the sub types of the corresponding main real singularity type to determine the real type of the function germ. After applying the Splitting Lemma we only need to consider function germs in $m^3$. 
+TODO: explain modality
+
+TODO: define normal form (cf. Arnold p. 242)
+
+TODO: add a table of the singularities
+
+TODO: add the proof that complex types correspond to real types
+
+TODO: add a comment that this is not known to be true in higher modality
+
+Arnold divided the real singularities of modality $0$ and $1$ into main types
+which "split up" into more subtypes by changing the sign in front of certain
+terms. It can be easily seen that the subtypes are complex equivalent to a
+complex singularity type of the same name as its corresponding real main
+singularity type. In fact there is a bijection between the complex singularity
+types of modality $0$ and $1$ and the main real singularity types. Thus, if we
+can determine the complex singularity type of a function germ in $\mathbb
+R[[x_1,\ldots,x_n]]$, we only need to consider the subtypes of the corresponding
+main real singularity type to determine the real type of the function germ.
+After applying the Splitting Lemma, we only need to consider function germs in $m^3$. 
 
 \subsection{Results regarding the factorization of homogeneous polynomials over $\mathbb R$ and $\mathbb Q$}
-\paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that $f\sim^r g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of $f$ by $\phi_i$. By using the next result, given $f$ and $g$, we can determine $\phi_1$. 
+\paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
+$f\requiv g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
+automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of $\phi$ by $\phi_i$. By using the next result, given $f$ and $g$, we can determine $\phi_1$.
+
+TODO: explain jet of a map
+
+TODO: In the following lemma and it's proof, rewrite $f(\phi)$ as $\phi(f)$
+
 \newtheorem{kjet}{Lemma}[section]
 \begin{kjet}\label{kjet}
-Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\sim^r g$ and $k$ is the lowest degree of $f$. If jet$(f,k)$ factorize as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
+Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$ and $k$
+is the lowest degree of $f$. If jet$(f,k)$ factorizes as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
 \end{kjet}
 \begin{proof}
-Since $f\sim^rg$ there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
-Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\phi_1(x_j)+\textnormal{terms of degree higher than $1$}$. Since $\phi$ is a homomorphism it follows that
+Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
+Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\phi_1(x_j)+\textnormal{terms of
+degree higher than $1$}$. Since $\phi$ is a homomorphism, it follows that
 \begin{eqnarray*}\phi(f)&=&f\circ\phi\\&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\&&+\big(\phi-\phi_1\big)(f)+\phi(f').\\\end{eqnarray*}
 Since the $\deg\big(\phi_1(x_j))=1$ it follows that \[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because 
 \[\textnormal{order}\big(\big(\phi-\phi_1\big)(f)\big)>k\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k\]
@@ -227,20 +255,33 @@ it follows that
 \end{eqnarray*}
 \end{proof}
 
-Since SINGULAR use real floating point numbers, which do not represent the real numbers, instead of real numbers, rounding errors in computations can occur. Therefore the above result would not have been of much help without the following two results. 
+Since \textsc{Singular} use real floating point numbers, which do not represent
+the real numbers, instead of real numbers, rounding errors in computations can
+occur. Therefore the above result would not be of much help without the
+following result. 
 \newtheorem{x^3}[kjet]{Lemma}
 \begin{x^3}\label{x^3}
-If $f\in\mathbb Q[x,y]$ is homogeneous and can factorize as (i) $g_1^d$, (ii) $g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as $a{g'}_1^d$, $a{g'}_1\cdot {g'}_2^{d-1}$, where ${g'}_1,{g'}_2$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
+$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb
+R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as
+$ag_1'^d$, $ag_1'\cdot g_2'^d$, $ag_1'^2(g_1'-g_2')(g_1'+g_2')$ respectively, where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 \end{x^3}
 %If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 \begin{proof}
-If $f=0$ then the answer is trivial.
 
-(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality, suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1})^d$. Since $f= a_1^dx^d+a_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$ it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
+suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1}y)^d$. Since $f=
+a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
 
-(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$. Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$. Thus $a:=a_1a_3^d\in\mathbb Q$, $g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, $g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$ such that $f=ag'_1g'_2$. For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
+(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$.
+For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
+Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
+Thus $f=ag'_1g'_2$ with $a:=a_1a_3^d\in\mathbb Q$,
+$g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, and
+$g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$.
 
-(iii) If $f$ factorize as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$ it follows similar as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+(iii) If $f$ factorizes as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$, it
+follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
 \end{proof}
 %\newtheorem{x^3}[kjet]{Lemma}
 %\begin{x^3}\label{x^3}
@@ -257,7 +298,13 @@ If $f=0$ then the answer is trivial.
 %\end{proof}
 \subsection{Real singularities of $0$-modality}
 
-If the corank of a singularity is $c$ then the output polynomial $g$ in Algorithm \ref{AlgorithmSplittingLemma} will be a polynomial in $c$ variables. If the output is $0$ then it follows  that the singularity is either of type $A[1]^+$ or type $A[1]^-$. If $c=1$ then the singularity is either of type $A[k]^+$ or of type $A[k]^-$ for some $k>1$. Note that if $k$ is even then $A[k]^+\sim^rA[k]^-$. We used the following algorithm, after applying the Splitting Lemma, Theorem \ref{SplittingLemma}, in case $c=0$ or $c=1$ .
+If the corank of a singularity is $c$ then the output polynomial $g$ in
+Algorithm \ref{AlgorithmSplittingLemma} will be a polynomial in $c$ variables.
+If the output is $0$ then it follows  that the singularity is either of type
+$A[1]^+$ or type $A[1]^-$. If $c=1$, then the singularity is either of type
+$A[k]^+$ or of type $A[k]^-$ for some $k>1$. Note that if $k$ is even then
+$A[k]^+\requiv A[k]^-$. We use the following algorithm, after applying the
+Splitting Lemma in case $c=0$ or $c=1$.
 
 \newtheorem{A[k]}[kjet]{Algorithm}
 \begin{A[k]}(Algorithm for the case $A[k]$)
@@ -281,7 +328,9 @@ If the corank of a singularity is $c$ then the output polynomial $g$ in Algorith
 \item return typeofsing;
 \end{itemize}
 
-In the following algorithm we use the fact that the normal form of type $D[4]^+$ factorize into $2$ factors and the normal form of type $D[4]^-$ factorize into $3$ factors. 
+In the following algorithm we use the fact that the normal form of the type
+$D[4]^+$ factorizes into two factors and the normal form of the type $D[4]^-$
+factorizes into three factors. 
 
 \newtheorem{D[4]}[kjet]{Algorithm}
 \begin{D[4]}(Algorithm for the case $D[4]$)
