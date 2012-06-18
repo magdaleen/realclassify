@@ -1,7 +1,12 @@
 \documentclass{amsproc}
 \linespread{1.25}
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
-\title{The classification of real singularities using the Singular computer algebra system}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\requiv}{\overset{r}{\sim}}
+\DeclareMathOperator{\m}{\mathfrak{m}}
+
+\title{The classification of real singularities using \textsc{Singular}}
 \author{Andreas Steenpass and Magdaleen S. Marais}
 \email{magdaleen@aims.ac.za}
 \address{African Institute for Mathematical Sciences, 6 Melrose Rd, Muizenberg, 7945, Cape Town, South Africa }
@@ -17,7 +22,12 @@ Consider the space $\mathbb R^n$ with fixed coordinate system $x_1,\ldots,x_n$. 
 \newtheorem{Monomial}{Definition}[section]
 \begin{Monomial}\label{Monomial}
 A monomial in $n$ variables (or indeterminates) $x_1,\ldots,x_n$ is a power product
-$x^{\alpha}=x_1^{\alpha_1}\cdots x_n^{\alpha_n},\quad\alpha=(\alpha_1,\ldots,\alpha_n)\in\mathbb N^n.$ We call $|\alpha|=\alpha_1+\cdots+\alpha_n$ the degree of $x$ and $\alpha_i$ the degree of $x_i$. Given a polynomial $f$ the degree of $f$, written as $\deg(f)$, is the maximum degree of its monomials. The degree of $x_i$ in $f$ is defined similerly. The order of $f$, written as $\textnormal{order}(f)$, is the minimum degree of its monomials. 
+$x^{\alpha}=x_1^{\alpha_1}\cdots
+x_n^{\alpha_n},\quad\alpha=(\alpha_1,\ldots,\alpha_n)\in\mathbb N^n.$ We call
+$|\alpha|=\alpha_1+\cdots+\alpha_n$ the total degree of $x$ and $\alpha_i$ the
+degree of $x_i$. Given a polynomial $f$ the degree of $f$, written as $\deg(f)$,
+is the maximum degree of its monomials. The degree of $x_i$ in $f$ is defined
+similarly. The order of $f$, written as $\ord(f)$, is the minimum degree of its monomials. 
 \end{Monomial}
 \newtheorem{Support}[Monomial]{Definition}
 \begin{Support}
@@ -25,41 +35,64 @@ The Support of a power series $f:=\sum f_\alpha  x^{\alpha}$ is the set of all m
 \end{Support}
 \newtheorem{r-equiv}[Monomial]{Definition}
 \begin{r-equiv}\label{r-equiv}
-Let $f,g\in R[[x_1,\ldots,x_n]]$. Then $f$ is called right-equivalent to $g$, $f \sim^rg$, if there exist an automorphism  $\phi$ of $R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$.
+Let $f,g\in R[[x_1,\ldots,x_n]]$. Then $f$ is called right-equivalent to $g$, $f
+\requiv g$, if there exists an automorphism  $\phi$ of $R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$.
 \end{r-equiv}
 \newtheorem{jet}[Monomial]{Definition}
 \begin{jet}\label{jet}
-The $k$-jet, $k\in\mathbb N$ of a power series $f:=\sum f_\alpha  x^{\alpha}$ is defined by $\displaystyle\textnormal{jet}(f,k):=\sum_{|\alpha|\le k}f_{\alpha}x^{\alpha}$, the sum of terms of total degree $\le k$. We say that $f$ is finitely determined if there exist a $k>0$ such that every $g\in R[[x_1,\ldots,x_n]]$ with the same $k$-jet than $f$ is $r$-equivalent to $f$.  We say that $f$ is $k$-determined in this situation and the minimal such $k$ is called the $k$-determinancy of $f$.
+The $k$-jet, $k\in\mathbb N$ of a power series $f:=\sum f_\alpha  x^{\alpha}$ is
+defined by $\displaystyle\textnormal{jet}(f,k):=\sum_{|\alpha|\le
+k}f_{\alpha}x^{\alpha}$, the sum of terms of total degree less or equal to $k$.
+We say that $f$ is finitely determined if there exists $k>0$ such that every
+$g\in R[[x_1,\ldots,x_n]]$ with the same $k$-jet as $f$ is $r$-equivalent to $f$.  We say that $f$ is $k$-determined in this situation and the minimal such $k$ is called the $k$-determinancy of $f$.
 \end{jet}
 \newtheorem{LocalAlgebra}{Definition}
 \begin{LocalAlgebra}\label{LocalAlgebra}
-The local algebra $Q_f$ of the singularity of $f$ is defined to be the quotient of the algebra of function-germs by the gradient ideal $I_{\Delta f}$ of $f$:
+Let $f \in R[[x_1, \ldots, x_n]]$ be a power series. Then
+the local algebra $Q_f$ of $f$ is defined to be the quotient of the algebra of function-germs by the gradient ideal $I_{\Delta f}$ of $f$:
 \[Q_f:=\frac{\mathbb R[[x_1,\ldots,x_n]]}{I_{\Delta f}}.\]
 \end{LocalAlgebra}
+
+TODO: add definition of quasihomogeneous functions.
+
 \newtheorem{UpperDiagonalMonomial}{Definition}
 \begin{UpperDiagonalMonomial}\label{UpperDiagonalMonomial}
-A monomial is called an upper monomial (reps. lower monomial, a diagonal monomial) or is said to lie above (reps. below, on) the diagonal if its degree is larger than $d$ (reps. smaller than $d$, equal to $d$) for the given exponents of homogeneity.
+Let $f$ be a quasihomogeneous function of weighted degree $d$.
+A monomial is called an upper monomial (reps. lower monomial, a diagonal
+monomial) or is said to lie above (reps. below, on) the diagonal if its weighted degree is larger than $d$ (reps. smaller than $d$, equal to $d$).
 \end{UpperDiagonalMonomial}
 \newtheorem{SemiQuasiHomogeneousFunction}{Theorem}
 \begin{SemiQuasiHomogeneousFunction}\label{SemiQuasiHomogeneousFunction}
-Let $f$ be a semi-quasihomogeneous function with quasi homogeneous part $f_0$ and let $e_1,\ldots, e_s$ be the set of all upper monomials in the fixed basis of the local algebra of the function $f_0$. Then $f$ is equivalent to a function of the form $f_0+\sum c_ke_k$, where the $c_k$ are constants.
+Let $f$ be a semi-quasihomogeneous function with quasihomogeneous part $f_0$.
+Fix a monomial basis of local algebra of $f_0$ and
+let $e_1,\ldots, e_s$ be the set of all upper monomials therein.
+Then $f$ is equivalent to a function of the form $f_0+\sum c_ke_k$, where the $c_k$ are constants.
 \end{SemiQuasiHomogeneousFunction}
 \section{The Splitting Lemma}
-We denote the ideal of function-germs vanishing at the origin by $m$ and the corank of a singularity we denote by $c$.
+We denote the ideal of function-germs vanishing at the origin by $\m$.
+
+TODO: define corank
+
 The following well-known theorem, called the Splitting Lemma, allows us to reduce the classification to germs of corank $n$ or, equivalently, to germs in $m^3$.
 \newtheorem{SplittingLemma}{Theorem}[section]
 \newtheorem{AlgorithmSplittingLemma}[SplittingLemma]{Algorithm}
 \begin{SplittingLemma}\label{SplittingLemma}
 If $f\in m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
 \[ f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
-with $g\in m^3$. $g$ is called the residual part of $f$ and $\lambda$ is called the inertia index of the quadratic form of $f$. $g$ and $\lambda$ is uniquely determined up to right equivalence.
+with $g\in m^3$. $g$ is called the residual part of $f$ and $\lambda$ is called
+the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are uniquely determined up to right equivalence.
 \end{SplittingLemma}
-We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb Q[x_1,\ldots,x_n]\subset\mathbb R[x_1,\ldots,x_n]$, in SINGULAR, using the following algorithm.
+We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb
+Q[x_1,\ldots,x_n]\subset\mathbb R[x_1,\ldots,x_n]$, in \textsc{Singular}, using the following algorithm.
+
+TODO: add a reference for this algorithm
+
 \begin{AlgorithmSplittingLemma} \label{AlgorithmSplittingLemma} \end{AlgorithmSplittingLemma}
 \noindent\textnormal{\bf Input:} $f\in m^2\subset\mathbb R[x_1,x_2,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is $k$-determined.\newline
-\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb N$ and $g\in m^3\subset\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
+\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb N$ and
+$g\in m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
 \begin{itemize}
-\item $S:=\emptyset;\  f:=\textnormal{jet}(f,k);$
+\item $S:=\emptyset;$
 \item for($i=1;\ i\le n;\  i++$)\newline
 \phantom{}\quad if($\textnormal{jet}(f,2)\in \mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$);\newline
 \phantom{}\quad\quad $S:=S\cup\{x_i\}$;\newline
@@ -70,7 +103,6 @@ We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb Q[x_1,\l
 \phantom{}\quad\quad if($a(0)=0$)\newline
 \phantom{}\quad\quad\quad choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\textnormal{supp}(f)$;\newline
 \phantom{}\quad\quad\quad apply $x_j\mapsto x_j+x_i$;\newline
-\phantom{}\quad\quad\quad $f:=\textnormal{jet}(f,k);$\newline
 \phantom{}\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
 \phantom{}\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
 \phantom{}\quad\quad\quad\quad while($p\neq 0$)\newline
@@ -84,7 +116,7 @@ We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb Q[x_1,\l
 \item change the order of variables such that \[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\  a_i>0;\]
 \item apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$;
 \item $g:=f$;
-\item return $c,g$;
+\item return $c, \lambda, g$;
 \end{itemize}
 
 \begin{proof}
@@ -93,17 +125,27 @@ f=a+\sum_{j=1}^i a_jx_j^2+r
 \end{equation}
 where
 $r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in m^3$ and the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
-after $i$ applications of the for-loop, then we have the desired result after $n$ applications of the for-loop. We will prove this by induction. After $0$ applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$. Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in S$ then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose  $x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in \textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can be written as
+after $i$ applications of the for-loop, then we have the desired result after
+$n$ applications of the for-loop. We will prove this by induction. After $0$
+applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$.
+Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in S$, then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose  $x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in \textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can be written as
 \[f=ax_i^2+px_i+r\]
-with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$. If $a(0)\neq 0$ then $x_i^2\in\textnormal{supp}(f)$. If $a(0)=0$ then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appear in some term of the $2$-jet of $f$ and since it follows from the induction that $x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows that there exists a $j\in\{i+1,\ldots,n\}$ such that $x_ix_j\in\textnormal{supp}(f)$. If we choose such a $j$ and make the transformation
+with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb
+R[x_1,\ldots,x_n]$. If $a(0)\neq 0$,, then $x_i^2\in\textnormal{supp}(f)$. If
+$a(0)=0$, then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appear in some
+term of the $2$-jet of $f$ and since it follows from the induction that
+$x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows that
+there exists a $j\in\{i+1,\ldots,n\}$ such that $x_ix_j\in\textnormal{supp}(f)$.
+If we choose such an index $j$ and apply the transformation
 \begin{equation}\label{eq2}
 x_j\mapsto x_j+x_i,\quad x_ix_j\mapsto x_ix_j+x_i^2,
 \end{equation}
-then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$ we now have that $a(0)\neq0$.
+then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$, we now have that $a(0)\neq0$.
 
 Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree of $x_i$ is one. Then the while-loop applies and the following transformation is made 
 \begin{equation}\label{eq3}
-x_i\mapsto x_i-\frac{p}{2a(0)}\qquad \textnormal{(since }a(0)\neq 0\textnormal{ this is allowed.)}
+x_i\mapsto x_i-\frac{p}{2a(0)}\qquad
+(\textnormal{this is allowed since }a(0)\neq 0)
 \end{equation}
 Then
 \begin{eqnarray*}
@@ -142,7 +184,9 @@ where
 \begin{equation*}
 c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad c_2\in\mathbb R[x_1,\ldots,x_n].
 \end{equation*}
-Since $a'\in m$ and $p^2\in m^2$ it follows that $\frac{a'p^2}{4a(0)}\in m^3$ and hence $c_2\in m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$ it follows that $(a+b'+c_2)(0)\neq 0$. Furthermore, since $b\in m$ it follows that $b_0\in m$ and hence $\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since $\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore $\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
+Since $a'\in m$ and $p^2\in m^2$ it follows that $\frac{a'p^2}{4a(0)}\in m^3$
+and hence $c_2\in m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$, it
+follows that $(a+b'+c_2)(0)\neq 0$. Furthermore, since $b\in m$, it follows that $b_0\in m$ and hence $\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since $\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore $\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
 \begin{eqnarray}
 f&=&(a+b'+c_2)x_i^2+(b_0p+c_1)x_i+r'+c_0\nonumber\\
 &=&a''x_i^2+p''x_i+r''\label{eq1}
@@ -151,23 +195,57 @@ where
 \begin{eqnarray*}
 &&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\ &&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')>\textnormal{order}(p).
 \end{eqnarray*}
-If $\textnormal{jet}(k,p''x_i)\neq 0$ then the while-loop will be applied again and we will get as output a polynomial of the form (\ref{eq1}). Since the degree of $p''$ will strictly increase after each application of the while-loop, $\textnormal{jet}(k,p''x_i)$ will be equal to zero after finitely many applications and the while-loop will terminate. Considering the transformations  (\ref{eq2}) and (\ref{eq3}) it follows that after each application of the while-loop $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
+If $\textnormal{jet}(k,p''x_i)\neq 0$, then the while-loop will be applied again
+and we will get as output a polynomial of the form (\ref{eq1}). Since the degree
+of $p''$ strictly increases after each application of the while-loop,
+$\textnormal{jet}(k,p''x_i)$ is equal to zero after finitely many applications
+and the while-loop terminates. Considering the transformations  (\ref{eq2}) and
+(\ref{eq3}), it follows that after each application of the while-loop, it holds
+that $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
 
 Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after $i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of $f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
 \end{proof}
 
 \section{The real classification of the residual part of $f$}
-Arnold divided the real singularities of modality $0$ and $1$ into main types which "splits up" into more sub types by changing the sign in front of certain terms. It can be easily seen that the sub types is complex equivalent to a complex singularity type of the same name as its corresponding real main singularity type. In fact there is a bijection between the complex singularity types of modality $0$ and $1$ and the main real singularity types. Thus, if we can determine the complex singularity type of a function germ in $\mathbb R[[x_1,\ldots,x_n]]$, we only need to consider the sub types of the corresponding main real singularity type to determine the real type of the function germ. After applying the Splitting Lemma we only need to consider function germs in $m^3$. 
+TODO: explain modality
+
+TODO: define normal form (cf. Arnold p. 242)
+
+TODO: add a table of the singularities
+
+TODO: add the proof that complex types correspond to real types
+
+TODO: add a comment that this is not known to be true in higher modality
+
+Arnold divided the real singularities of modality $0$ and $1$ into main types
+which "split up" into more subtypes by changing the sign in front of certain
+terms. It can be easily seen that the subtypes are complex equivalent to a
+complex singularity type of the same name as its corresponding real main
+singularity type. In fact there is a bijection between the complex singularity
+types of modality $0$ and $1$ and the main real singularity types. Thus, if we
+can determine the complex singularity type of a function germ in $\mathbb
+R[[x_1,\ldots,x_n]]$, we only need to consider the subtypes of the corresponding
+main real singularity type to determine the real type of the function germ.
+After applying the Splitting Lemma, we only need to consider function germs in $m^3$. 
 
 \subsection{Results regarding the factorization of homogeneous polynomials over $\mathbb R$ and $\mathbb Q$}
-\paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that $f\sim^r g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of $f$ by $\phi_i$. By using the next result, given $f$ and $g$, we can determine $\phi_1$. 
+\paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
+$f\requiv g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
+automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of $\phi$ by $\phi_i$. By using the next result, given $f$ and $g$, we can determine $\phi_1$.
+
+TODO: explain jet of a map
+
+TODO: In the following lemma and it's proof, rewrite $f(\phi)$ as $\phi(f)$
+
 \newtheorem{kjet}{Lemma}[section]
 \begin{kjet}\label{kjet}
-Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\sim^r g$ and $k$ is the lowest degree of $f$. If jet$(f,k)$ factorize as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
+Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$ and $k$
+is the lowest degree of $f$. If jet$(f,k)$ factorizes as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
 \end{kjet}
 \begin{proof}
-Since $f\sim^rg$ there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
-Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\phi_1(x_j)+\textnormal{terms of degree higher than $1$}$. Since $\phi$ is a homomorphism it follows that
+Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
+Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\phi_1(x_j)+\textnormal{terms of
+degree higher than $1$}$. Since $\phi$ is a homomorphism, it follows that
 \begin{eqnarray*}\phi(f)&=&f\circ\phi\\&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\&&+\big(\phi-\phi_1\big)(f)+\phi(f').\\\end{eqnarray*}
 Since the $\deg\big(\phi_1(x_j))=1$ it follows that \[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because 
 \[\textnormal{order}\big(\big(\phi-\phi_1\big)(f)\big)>k\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k\]
@@ -177,20 +255,33 @@ it follows that
 \end{eqnarray*}
 \end{proof}
 
-Since SINGULAR use real floating point numbers, which do not represent the real numbers, instead of real numbers, rounding errors in computations can occur. Therefore the above result would not have been of much help without the following two results. 
+Since \textsc{Singular} use real floating point numbers, which do not represent
+the real numbers, instead of real numbers, rounding errors in computations can
+occur. Therefore the above result would not be of much help without the
+following result. 
 \newtheorem{x^3}[kjet]{Lemma}
 \begin{x^3}\label{x^3}
-If $f\in\mathbb Q[x,y]$ is homogeneous and can factorize as (i) $g_1^d$, (ii) $g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as $a{g'}_1^d$, $a{g'}_1\cdot {g'}_2^{d-1}$, where ${g'}_1,{g'}_2$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
+$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb
+R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as
+$ag_1'^d$, $ag_1'\cdot g_2'^d$, $ag_1'^2(g_1'-g_2')(g_1'+g_2')$ respectively, where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 \end{x^3}
 %If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 \begin{proof}
-If $f=0$ then the answer is trivial.
 
-(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality, suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1})^d$. Since $f= a_1^dx^d+a_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$ it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
+suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1}y)^d$. Since $f=
+a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
 
-(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$. Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$. Thus $a:=a_1a_3^d\in\mathbb Q$, $g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, $g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$ such that $f=ag'_1g'_2$. For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
+(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$.
+For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
+Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
+Thus $f=ag'_1g'_2$ with $a:=a_1a_3^d\in\mathbb Q$,
+$g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, and
+$g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$.
 
-(iii) If $f$ factorize as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$ it follows similar as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+(iii) If $f$ factorizes as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$, it
+follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
 \end{proof}
 %\newtheorem{x^3}[kjet]{Lemma}
 %\begin{x^3}\label{x^3}
@@ -207,7 +298,13 @@ If $f=0$ then the answer is trivial.
 %\end{proof}
 \subsection{Real singularities of $0$-modality}
 
-If the corank of a singularity is $c$ then the output polynomial $g$ in Algorithm \ref{AlgorithmSplittingLemma} will be a polynomial in $c$ variables. If the output is $0$ then it follows  that the singularity is either of type $A[1]^+$ or type $A[1]^-$. If $c=1$ then the singularity is either of type $A[k]^+$ or of type $A[k]^-$ for some $k>1$. Note that if $k$ is even then $A[k]^+\sim^rA[k]^-$. We used the following algorithm, after applying the Splitting Lemma, Theorem \ref{SplittingLemma}, in case $c=0$ or $c=1$ .
+If the corank of a singularity is $c$ then the output polynomial $g$ in
+Algorithm \ref{AlgorithmSplittingLemma} will be a polynomial in $c$ variables.
+If the output is $0$ then it follows  that the singularity is either of type
+$A[1]^+$ or type $A[1]^-$. If $c=1$, then the singularity is either of type
+$A[k]^+$ or of type $A[k]^-$ for some $k>1$. Note that if $k$ is even then
+$A[k]^+\requiv A[k]^-$. We use the following algorithm, after applying the
+Splitting Lemma in case $c=0$ or $c=1$.
 
 \newtheorem{A[k]}[kjet]{Algorithm}
 \begin{A[k]}(Algorithm for the case $A[k]$)
@@ -231,7 +328,9 @@ If the corank of a singularity is $c$ then the output polynomial $g$ in Algorith
 \item return typeofsing;
 \end{itemize}
 
-In the following algorithm we use the fact that the normal form of type $D[4]^+$ factorize into $2$ factors and the normal form of type $D[4]^-$ factorize into $3$ factors. 
+In the following algorithm we use the fact that the normal form of the type
+$D[4]^+$ factorizes into two factors and the normal form of the type $D[4]^-$
+factorizes into three factors. 
 
 \newtheorem{D[4]}[kjet]{Algorithm}
 \begin{D[4]}(Algorithm for the case $D[4]$)
