@@ -7,9 +7,24 @@
 \DeclareMathOperator{\m}{\mathfrak{m}}
 
 \title{The classification of real singularities using \textsc{Singular}}
-\author{Andreas Steenpass and Magdaleen S. Marais}
+
+\author{Magdaleen S. Marais}
+\address{Magdaleen S. Marais\\
+African Institute for Mathematical Sciences\\
+6 Melrose Rd\\
+Muizenberg 7945, Cape Town\\
+South Africa}
 \email{magdaleen@aims.ac.za}
-\address{African Institute for Mathematical Sciences, 6 Melrose Rd, Muizenberg, 7945, Cape Town, South Africa }
+
+\author{Andreas Steenpa\ss}
+\address{Andreas Steenpa\ss\\
+Department of Mathematics\\
+University of Kaiserslautern\\
+Erwin-Schr\"odinger-Str.\\
+67663 Kaiserslautern\\
+Germany}
+\email{steenpass@mathematik.uni-kl.de}
+
 \thanks{ }
 \subjclass[2000]{}
 \keywords{}
@@ -361,13 +376,23 @@ factorizes into three factors.
 \item return typeofsing;
 \end{itemize}
 \begin{proof}
-Since our input polynomial is of complex singularity type $D[4]$, we only need to consider the real singularity types $D[4]^-$ and $D[4]^+$ to determine the real singularity type of $f$. Because $f\in m^3$, $\textnormal{order}(f)\ge3$, and therefore $\textnormal{jet}(f,3)$ is homogeneous. We now consider $f$ as $\textnormal{jet}(f,3)$. 
+Since the input polynomial is of complex singularity type $D[4]$, we only need
+to consider the real singularity types $D[4]^-$ and $D[4]^+$ to determine the
+real singularity type of $f$. Because $f\in m^3$, $\textnormal{order}(f)\ge3$,
+and therefore $\textnormal{jet}(f,3)$ is homogeneous. We now consider
+$\textnormal{jet}(f,3)$ and the way how it factorizes.
 
-If $s_1\neq 0$ and $s_2=0$ we can ensure that the coefficient of $y^3$ is nonzero by swapping the variables. If $s_1=0$ and $s_2=0$, the coefficient of $y^3$ is nonzero after applying $x\mapsto x$, $y\mapsto 2y$ and $x\mapsto x+y$, $y\mapsto y$ if $t_1=t_2$, and applying only $x\mapsto x+y$, $y\mapsto y$ if $t_1\neq -t_2$. We now can write $f$ in the form
+If $s_1\neq 0$ and $s_2=0$, we can ensure that the coefficient of $y^3$ is nonzero by swapping the variables. If $s_1=0$ and $s_2=0$, the coefficient of $y^3$ is nonzero after applying $x\mapsto x$, $y\mapsto 2y$ and $x\mapsto x+y$, $y\mapsto y$ if $t_1=t_2$, and applying only $x\mapsto x+y$, $y\mapsto y$ if $t_1\neq -t_2$. We now can write $f$ in the form
 \begin{equation*}
 f=ay^3+bx^2y+cxy^2+dx^3,\quad a,b,c,d\in\mathbb R, a\neq 0.
 \end{equation*}
-Using Lemma \ref{kjet}, $f$ will factorize into $3$ linear factors over $\mathbb R$ if $f$ is of type $D[4]^-$ and will not factorize into $3$ linear factors over $\mathbb R$ if $f$ is of type $D[4]^+$. Furthermore, since $x\not | f$ and $y\not | f$, $f$ will factorize into $3$ linear factors if and only if $f(x,1)$ factorize in $3$  factors of degree $1$. Since $f(x,1)$ is of degree $3$, it follows that $f(x,1)$ factorize in $3$ factors of degree $1$ if and only if $f$ has $3$ real roots.
+Using Lemma \ref{kjet}, $f$ factorizes into three linear factors over
+$\mathbb R$ if $f$ is of type $D[4]^-$ and does not factorize into three linear
+factors over $\mathbb R$ if $f$ is of type $D[4]^+$. Furthermore, since $x\nmid
+f$ and $y\nmid f$, $f$ factorizes into three linear factors if and only if
+$f(x,1)$ factorizes into three factors of degree $1$. Since $f(x,1)$ is of
+degree $3$, it follows that $f(x,1)$ factorizes into three factors of degree $1$
+if and only if $f$ has three real roots.
 
 %We will now show that we can determine whether $f$ is of type $D[4]^-$ or $D[4]^+$ by counting the number $n$ of real roots of $f':=ay^3+by^2+cy+d$.
 %Now suppose $f$ factorize in $3$ linear factors, i.e.
@@ -414,12 +439,12 @@ A singularity of type $D[k]^+$ or $D[k]^-$ is $k$-determined.
 \end{kDeterminacyD[k]k>4}
 \newtheorem{transformationD[k]}[kjet]{Lemma}
 \begin{transformationD[k]}\label{transformationD[k]}
-Let $i\ge 4$ then
+Let $i\ge 4$. Then
 \[x^2y+a_0x^i+a_1x^{i-1}y+\cdots+a_iy^i\sim^rx^2y+a_ix^i\]
-using the $\mathbb R$-algebra automorphisms:
+using the $\mathbb R$-algebra automorphisms
 \begin{eqnarray*}
 x&\mapsto&x+p_1,\textnormal{ where } p_1=-\frac{1}{2}(a_1x^{i-2}+\cdots+a_{i-1}y^{i-2})\\
-y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{i-2}
+y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{i-2} \,.
 \end{eqnarray*}
 \end{transformationD[k]}
 \newtheorem{D[k]k>4}[kjet]{Algorithm}
@@ -447,9 +472,21 @@ else\newline
 \item return typeofsing;
 \end{itemize}
 \begin{proof}
-By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of type $D[k]^-$ or $D[k]^+$ is $k-1$. Therefore we only need to consider the $k-1$-jet of the input polynomial $f$. Using Lemma \ref{kjet} and Lemma \ref{x^3} we transform $f$ to a polynomial of the form
+By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of type
+$D[k]^-$ or $D[k]^+$ is $k-1$. Therefore we only need to consider the
+$(k-1)$-jet of the input polynomial~$f$. Using Lemma \ref{kjet} and Lemma
+\ref{x^3} we transform $f$ into a polynomial of the form
 \[x^2y+\textnormal{terms of degree higher than $3$}\]
-by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of degree $1$, and then applying the automorphisms $g_1\mapsto x$, $g_2\mapsto y$ to $f$. We now systematically consider the terms of each degree $3<i<k$. By applying the transformations in Lemma \ref{transformationD[k]}, for each $i$, only possibly the term $a_iy^i$ will not vanish. If $i<k-1$, $a_i=0$, otherwise it follows from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. If $i=k-1$, $a_i\neq 0$, otherwise, it follows again from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. Thus we can write $f$ as $x^2y+ay^{k-1}, a\neq0$. Clearly if $a>0$ then $x^2y+ay^{k-1}\sim^rx^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\sim^rx^2y-y^{k-1}$.
+by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of degree $1$,
+and then applying the automorphisms $g_1\mapsto x$, $g_2\mapsto y$ to $f$. We
+now systematically consider the terms of each degree $3<i<k$. By applying the
+transformations in Lemma \ref{transformationD[k]}, for each $i$, only the term
+$a_iy^i$ will possibly not vanish. If $i<k-1$, $a_i=0$, otherwise it follows
+from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type
+$D[k]$. If $i=k-1$, $a_i\neq 0$, otherwise, it follows again from Theorem
+\ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. Thus
+we can write $f$ as $x^2y+ay^{k-1}, a\neq0$. Clearly if $a>0$ then
+$x^2y+ay^{k-1}\requiv x^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\requiv x^2y-y^{k-1}$.
 \end{proof}
 \newtheorem{E[6]}[kjet]{Algorithm}
 \begin{E[6]}(Algorithm for the case $E[6]$)
@@ -471,7 +508,15 @@ by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of degree $1$, 
 \phantom{}\quad typeofsing:="$E[6]^-$";
 \end{itemize}
 \begin{proof}
-Since $f\sim^r x^3+y^4$ or $f\sim^rx^3-y^4$, there exists an $\mathbb R$-algebra automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=f\circ\phi=(\phi(x))^3+(\phi(y))^4$ or such that $\phi(f)=f\circ\phi=(\phi(x))^3-(\phi(y))^4$ . We ensure that the coefficient of $x^3$ is nonzero by swapping the variables if necessary. Now, using Lemma \ref{kjet} and Lemma~\ref{x^3}, $g:=\textnormal{jet}(f,3)$ will factorize as $c(g_1)^3$, $c\in\mathbb Q$ and $g_1=ax+by\in\mathbb Q[x_1,\ldots,x_n]$. Again, using Lemma \ref{kjet}, it follows that by applying $x\mapsto\frac{x-by}{a},\ y\mapsto y$ $\phi$ is transformed such that $\phi_1(x)=c'x$, $c'\in\mathbb R$. Since $\phi$ is an automorphism, $\phi_1(y)=dx+ey$, $d,e\in\mathbb R$, with $e\neq 0$. Hence
+Since $f\requiv x^3+y^4$ or $f\requiv x^3-y^4$, there exists an $\mathbb
+R$-algebra automorphism $\psi$ of $\mathbb R[[x_1,\ldots,x_n]]$ such that
+$\psi(f)=f\circ\psi=(\psi(x))^3+(\psi(y))^4$ or such that
+$\psi(f)=f\circ\psi=(\psi(x))^3-(\psi(y))^4$ . We ensure that the coefficient of
+$x^3$ is nonzero by swapping the variables if necessary. Now, using Lemma
+\ref{kjet} and Lemma~\ref{x^3}, $g:=\textnormal{jet}(f,3)$ factorizes as
+$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=ax+by\in\mathbb Q[x_1,\ldots,x_n]$. Again,
+using Lemma \ref{kjet}, it follows that by applying $x\mapsto\frac{x-by}{a},\
+y\mapsto y$, there exists a $\phi$ such that $\phi_1(x)=c'x$, $c'\in\mathbb R$. Since $\phi$ is an automorphism, $\phi_1(y)=dx+ey$, $d,e\in\mathbb R$, with $e\neq 0$. Hence
 \begin{equation*}
 (\phi(y))^4=e^4y^4+\textnormal{terms of degree 4 and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$.}
 \end{equation*}
@@ -503,8 +548,7 @@ If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^
 \phantom{}\quad\quad\quad Apply $x\mapsto x$, $y\mapsto 3y$;\newline
 \phantom{}\quad Apply $x\mapsto x$, $y\mapsto x+y$;
 \item Write $f$ as $f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4$;
-\item Apply $y\mapsto 1$, $x\mapsto x$;
-\item Write $f$ as $f'=ax^4+bx^3+cx^2+dx+e;$
+\item Apply $y\mapsto 1$, $x\mapsto x$, get $f'=ax^4+bx^3+cx^2+dx+e;$
 \item $n:=\#$ real roots of $f'$; 
 \item if$(n=1)$\newline
 \phantom{}\quad if$(a>0)$\newline
@@ -524,13 +568,37 @@ If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^
 \phantom{}\quad\quad typeofsing$:=X[9+k]^{+-}$;
 \end{itemize}
 \begin{proof}
-Since our input polynomial is of complex type $X_{9+k}$, we know that it is of the form \[f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4+\textnormal{ terms of higher degree.}\]
-If $a= 0$ we first transform $f$ to a polynomial where $a\neq 0$. If $e\neq 0$ we can achieve this by the transformation $x\mapsto y$, $y\mapsto x$. 
+Since input polynomial is of complex type $X_{9+k}$, we know that it is of the form \[f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4+\textnormal{ terms of higher degree.}\]
+If $a= 0$, we first transform $f$ to a polynomial where $a\neq 0$. If $e\neq 0$ we can achieve this by the transformation $x\mapsto y$, $y\mapsto x$. 
 
-If $y=0$, then at least one of $b$, $c$ or $d$ is not $0$, otherwise the singularity  is not of complex type $X_{9+k}$.  If we apply $x\mapsto x+y$ and $y\mapsto y$ in this situation, we will transform $f$ so that the new coefficient of $x^4$ is $b+c+d$. Thus if we can ensure that $a+b+c\neq 0$, we can use this map and have the desired result. Now, since $v_1=b+c+d$, $v_2=2b+4c+8d$ and $v_3=3b+6c+9d$ is linear independent in the vector space $\mathbb R [b,c,d]$, it follows that all three vectors is zero if and only if $b,c$ and $d$ is zero. Knowing $b$, $c$ and $d$ cannot all be zero at least one of $v_1$, $v_2$ or $v_3$ is not zero. If $v_1=0$ and $v_2\neq 0$, then the map $x\mapsto x$ and $y\mapsto 2y$ will transform $f$ to \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\] where $b'+c'+d'=2b+4c+8d\neq 0$. If $v_1=0$ and $v_3\neq 0$, then the map $x\mapsto x$ and $y\mapsto 3y$ will transform $f$ to  \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\]where $b'+c'+d'=3b+6c+9d\neq0$.
+If $e=0$, then at least one of $b$, $c$ or $d$ is not $0$, otherwise the
+singularity  is not of complex type $X_{9+k}$.  If we apply $x\mapsto x+y$ and
+$y\mapsto y$ in this situation, we will transform $f$ so that the new
+coefficient of $x^4$ is $b+c+d$. Thus if we can ensure that $a+b+c\neq 0$, we
+can use this map and have the desired result. Now, since $v_1=b+c+d$,
+$v_2=2b+4c+8d$ and $v_3=3b+6c+9d$ is linear independent in the threedimensional
+$\mathbb R$-vector space with formal basis $(b, c, d)$, it follows that all
+three vectors are zero if and only if $b,c$ and $d$ is zero. Knowing $b$, $c$
+and $d$ cannot all be zero, at least one of $v_1$, $v_2$ or $v_3$ is not zero. If $v_1=0$ and $v_2\neq 0$, then the map $x\mapsto x$ and $y\mapsto 2y$ will transform $f$ to \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\] where $b'+c'+d'=2b+4c+8d\neq 0$. If $v_1=0$ and $v_3\neq 0$, then the map $x\mapsto x$ and $y\mapsto 3y$ will transform $f$ to  \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\]where $b'+c'+d'=3b+6c+9d\neq0$.
 
-Now, $f\sim^rg$, where $g=x^4+x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{++}$, $g=-x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{--}$, $g=-x^4+x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{-+}$ and $g=x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{+-}$.  It follows from Lemma \ref{kjet} that $\textnormal{jet(f,4)}$ will factor as $\pm\phi_1(x)^2(\phi_1(x)^2+\phi_1(y)^2)$ in the first two cases and as $\pm\phi_1(x)^2(\phi_1(x)-\phi_1(y))(\phi_1(x)+\phi_1(y))$ in the second two cases, where $\phi$ is the $\mathbb R$-algebra automorphism such that $\phi(f)=g$. Since $a\neq 0$,  $f(x,1)$ will have $1$ root in the first two cases and $3$ roots in the last two cases. 
+Now, $f\requiv g$, where $g=x^4+x^2y^2+ay^{4+k}$ if $f$ is of type
+$X[9+k]^{++}$, $g=-x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{--}$,
+$g=-x^4+x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{-+}$ and
+$g=x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{+-}$.  It follows from Lemma
+\ref{kjet} that $\textnormal{jet}(f,4)$ will factor as
+$\pm\phi_1(x)^2(\phi_1(x)^2+\phi_1(y)^2)$ in the first two cases and as
+$\pm\phi_1(x)^2(\phi_1(x)-\phi_1(y))(\phi_1(x)+\phi_1(y))$ in the second two
+cases, where $\phi$ is the $\mathbb R$-algebra automorphism such that
+$\phi(f)=g$. Since $a\neq 0$,  $f(x,1)$ has one root in the first two cases and
+three roots in the last two cases. 
+
 %Since the coefficient of $x^4$ in $f$ is nonzero, it follows that $\phi_1(x)=\alpha x+\beta y$ and $\phi(y)=\gamma x+\delta y$, where $\alpha,\delta\neq 0$. 
-Now, since the sign of the terms in the $4$-jet of $g$ in the first two cases do not differ and the power of both $x$ and $y$ in all the terms are even, we only need to look at the sign of the $x^4$-term to distinguish between the $X[9+k]^{++}$ and $X[9+k]^{--}$ cases. If $f$ has three roots we can transform $f$, by using Lemma \ref{kjet} and Lemma \ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. Hence we can now write $f$ in the form $f=ax^4+bx^3y+cx^2y^2=\pm(\alpha x)^2((\alpha x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$. Since $\phi$ is an automorphism, $\phi_1(y)=\alpha x+\beta y$, where $\beta \neq 0$ and since the sign of $\beta$ does not influence the sign of $(\alpha x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$ and $(\alpha x)^2\phi_1(y)^2$ differ, we can decide between the cases $X[9+k]^{+-}$ and $X[9+k]^{-+}$ by looking at the sign of the term $x^2y^2$.
+Now, since the sign of the terms in the $4$-jet of $g$ in the first two cases do not differ and the power of both $x$ and $y$ in all the terms are even, we only need to look at the sign of the $x^4$-term to distinguish between the $X[9+k]^{++}$ and $X[9+k]^{--}$ cases.
+
+If $f$ has three roots, we can transform $f$ by using Lemma \ref{kjet} and Lemma
+\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. Hence we can now
+write $f$ in the form $f=ax^4+bx^3y+cx^2y^2=\pm(\alpha x)^2((\alpha
+x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$. Since $\phi$ is
+an automorphism, $\phi_1(y)=\alpha x+\beta y$ with $\beta \neq 0$, and since the sign of $\beta$ does not influence the sign of $(\alpha x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$ and $(\alpha x)^2\phi_1(y)^2$ differ, we can decide between the cases $X[9+k]^{+-}$ and $X[9+k]^{-+}$ by looking at the sign of the term $x^2y^2$.
 \end{proof}
 \end{document}
