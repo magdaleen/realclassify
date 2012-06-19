@@ -33,38 +33,52 @@ Germany}
 \end{abstract}
 \maketitle
 \section{Prelimanary definitions and results}
-Consider the space $\mathbb R^n$ with fixed coordinate system $x_1,\ldots,x_n$. We denote the ring of power series over $\mathbb R$ by $\mathbb R[[x_1,\ldots,x_n]]$.
+Consider the space $\mathbb R^n$ with fixed coordinate system
+$x_1,\ldots,x_n$. We denote the ring of power series over $\mathbb R$
+by $\mathbb R[[x_1,\ldots,x_n]]$.
 \newtheorem{Monomial}{Definition}[section]
 \begin{Monomial}\label{Monomial}
-A monomial in $n$ variables (or indeterminates) $x_1,\ldots,x_n$ is a power product
+A monomial in $n$ variables (or indeterminates) $x_1,\ldots,x_n$ is a
+power product
 $x^{\alpha}=x_1^{\alpha_1}\cdots
 x_n^{\alpha_n},\quad\alpha=(\alpha_1,\ldots,\alpha_n)\in\mathbb N^n.$ We call
 $|\alpha|=\alpha_1+\cdots+\alpha_n$ the total degree of $x$ and $\alpha_i$ the
-degree of $x_i$. Given a polynomial $f$ the degree of $f$, written as $\deg(f)$,
+degree of $x_i$. Given a polynomial $f$ the degree of $f$, written as
+$\deg(f)$,
 is the maximum degree of its monomials. The degree of $x_i$ in $f$ is defined
-similarly. The order of $f$, written as $\ord(f)$, is the minimum degree of its monomials. 
+similarly. The order of $f$, written as $\ord(f)$, is the minimum degree
+of its monomials.
 \end{Monomial}
 \newtheorem{Support}[Monomial]{Definition}
 \begin{Support}
-The Support of a power series $f:=\sum f_\alpha  x^{\alpha}$ is the set of all monomials that appear in this series with nonzero coefficients. We denote the support of a power series $f$ by $\textnormal{supp}(f)$.
+The Support of a power series $f:=\sum f_\alpha  x^{\alpha}$ is the set
+of all monomials that appear in this series with nonzero coefficients. We
+denote the support of a power series $f$ by $\textnormal{supp}(f)$.
 \end{Support}
 \newtheorem{r-equiv}[Monomial]{Definition}
 \begin{r-equiv}\label{r-equiv}
-Let $f,g\in R[[x_1,\ldots,x_n]]$. Then $f$ is called right-equivalent to $g$, $f
-\requiv g$, if there exists an automorphism  $\phi$ of $R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$.
+Let $f,g\in R[[x_1,\ldots,x_n]]$. Then $f$ is called right-equivalent to
+$g$, $f
+\requiv g$, if there exists an automorphism  $\phi$ of $R[[x_1,\ldots,x_n]]$
+such that $\phi(f)=g$.
 \end{r-equiv}
 \newtheorem{jet}[Monomial]{Definition}
 \begin{jet}\label{jet}
-The $k$-jet, $k\in\mathbb N$ of a power series $f:=\sum f_\alpha  x^{\alpha}$ is
+The $k$-jet, $k\in\mathbb N$ of a power series $f:=\sum f_\alpha  x^{\alpha}$
+is
 defined by $\displaystyle\textnormal{jet}(f,k):=\sum_{|\alpha|\le
-k}f_{\alpha}x^{\alpha}$, the sum of terms of total degree less or equal to $k$.
+k}f_{\alpha}x^{\alpha}$, the sum of terms of total degree less or equal
+to $k$.
 We say that $f$ is finitely determined if there exists $k>0$ such that every
-$g\in R[[x_1,\ldots,x_n]]$ with the same $k$-jet as $f$ is $r$-equivalent to $f$.  We say that $f$ is $k$-determined in this situation and the minimal such $k$ is called the $k$-determinancy of $f$.
+$g\in R[[x_1,\ldots,x_n]]$ with the same $k$-jet as $f$ is $r$-equivalent
+to $f$.  We say that $f$ is $k$-determined in this situation and the minimal
+such $k$ is called the $k$-determinancy of $f$.
 \end{jet}
 \newtheorem{LocalAlgebra}{Definition}
 \begin{LocalAlgebra}\label{LocalAlgebra}
 Let $f \in R[[x_1, \ldots, x_n]]$ be a power series. Then
-the local algebra $Q_f$ of $f$ is defined to be the quotient of the algebra of function-germs by the gradient ideal $I_{\Delta f}$ of $f$:
+the local algebra $Q_f$ of $f$ is defined to be the quotient of the algebra
+of function-germs by the gradient ideal $I_{\Delta f}$ of $f$:
 \[Q_f:=\frac{\mathbb R[[x_1,\ldots,x_n]]}{I_{\Delta f}}.\]
 \end{LocalAlgebra}
 
@@ -74,61 +88,83 @@ TODO: add definition of quasihomogeneous functions.
 \begin{UpperDiagonalMonomial}\label{UpperDiagonalMonomial}
 Let $f$ be a quasihomogeneous function of weighted degree $d$.
 A monomial is called an upper monomial (reps. lower monomial, a diagonal
-monomial) or is said to lie above (reps. below, on) the diagonal if its weighted degree is larger than $d$ (reps. smaller than $d$, equal to $d$).
+monomial) or is said to lie above (reps. below, on) the diagonal if its
+weighted degree is larger than $d$ (reps. smaller than $d$, equal to $d$).
 \end{UpperDiagonalMonomial}
 \newtheorem{SemiQuasiHomogeneousFunction}{Theorem}
 \begin{SemiQuasiHomogeneousFunction}\label{SemiQuasiHomogeneousFunction}
 Let $f$ be a semi-quasihomogeneous function with quasihomogeneous part $f_0$.
 Fix a monomial basis of local algebra of $f_0$ and
 let $e_1,\ldots, e_s$ be the set of all upper monomials therein.
-Then $f$ is equivalent to a function of the form $f_0+\sum c_ke_k$, where the $c_k$ are constants.
+Then $f$ is equivalent to a function of the form $f_0+\sum c_ke_k$, where
+the $c_k$ are constants.
 \end{SemiQuasiHomogeneousFunction}
 \section{The Splitting Lemma}
 We denote the ideal of function-germs vanishing at the origin by $\m$.
 
 TODO: define corank
 
-The following well-known theorem, called the Splitting Lemma, allows us to reduce the classification to germs of corank $n$ or, equivalently, to germs in $m^3$.
+The following well-known theorem, called the Splitting Lemma, allows us to
+reduce the classification to germs of corank $n$ or, equivalently, to germs
+in $m^3$.
 \newtheorem{SplittingLemma}{Theorem}[section]
 \newtheorem{AlgorithmSplittingLemma}[SplittingLemma]{Algorithm}
 \begin{SplittingLemma}\label{SplittingLemma}
 If $f\in m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
 \[ f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
-with $g\in m^3$. $g$ is called the residual part of $f$ and $\lambda$ is called
-the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are uniquely determined up to right equivalence.
+with $g\in m^3$. $g$ is called the residual part of $f$ and $\lambda$
+is called
+the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are
+uniquely determined up to right equivalence.
 \end{SplittingLemma}
 We implemented Theorem \ref{SplittingLemma} for polynomials in $\mathbb
-Q[x_1,\ldots,x_n]\subset\mathbb R[x_1,\ldots,x_n]$, in \textsc{Singular}, using the following algorithm.
+Q[x_1,\ldots,x_n]\subset\mathbb R[x_1,\ldots,x_n]$, in \textsc{Singular},
+using the following algorithm.
 
 TODO: add a reference for this algorithm
 
-\begin{AlgorithmSplittingLemma} \label{AlgorithmSplittingLemma} \end{AlgorithmSplittingLemma}
-\noindent\textnormal{\bf Input:} $f\in m^2\subset\mathbb R[x_1,x_2,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is $k$-determined.\newline
-\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb N$ and
-$g\in m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
+\begin{AlgorithmSplittingLemma} \label{AlgorithmSplittingLemma}
+\end{AlgorithmSplittingLemma}
+\noindent\textnormal{\bf Input:} $f\in m^2\subset\mathbb
+R[x_1,x_2,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is
+$k$-determined.\newline
+\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb
+N$ and
+$g\in m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle
+f\sim^rg-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
 \begin{itemize}
 \item $S:=\emptyset;$
 \item for($i=1;\ i\le n;\  i++$)\newline
-\phantom{}\quad if($\textnormal{jet}(f,2)\in \mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$);\newline
+\phantom{}\quad if($\textnormal{jet}(f,2)\in \mathbb R[x_1,\ldots,\hat
+x_i,\ldots,x_n]$);\newline
 \phantom{}\quad\quad $S:=S\cup\{x_i\}$;\newline
 \phantom{}\quad else\newline
 \phantom{}\quad\quad $f:=\textnormal{jet}(f,k);$\newline
-\phantom{}\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
 \phantom{}\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
 \phantom{}\quad\quad if($a(0)=0$)\newline
-\phantom{}\quad\quad\quad choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\textnormal{supp}(f)$;\newline
+\phantom{}\quad\quad\quad choose $j\in\{i+1,\ldots,n\}$ with
+$x_ix_j\in\textnormal{supp}(f)$;\newline
 \phantom{}\quad\quad\quad apply $x_j\mapsto x_j+x_i$;\newline
-\phantom{}\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
 \phantom{}\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
 \phantom{}\quad\quad\quad\quad while($p\neq 0$)\newline
-\phantom{}\quad\quad\quad\quad\quad apply $x_i\mapsto x_i-\frac{p}{2a(0)}$;\newline
+\phantom{}\quad\quad\quad\quad\quad apply $x_i\mapsto
+x_i-\frac{p}{2a(0)}$;\newline
 \phantom{}\quad\quad\quad\quad\quad $f:=\textnormal{jet}(f,k);$\newline
-\phantom{}\quad\quad\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
-\phantom{}\quad\quad\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
-\item $c =\# S$; 
-\item change the order of variables such that $\displaystyle f=g+\sum_{i=c+1}^na_ix_i^2$;
+\phantom{}\quad\quad\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with
+$p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
+\phantom{}\quad\quad\quad\quad\quad and $a\in\mathbb
+R[x_1,\ldots,x_n];$\newline
+\item $c =\# S$;
+\item change the order of variables such that $\displaystyle
+f=g+\sum_{i=c+1}^na_ix_i^2$;
 \item $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$;
-\item change the order of variables such that \[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\  a_i>0;\]
+\item change the order of variables such that
+\[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\
+a_i>0;\]
 \item apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$;
 \item $g:=f$;
 \item return $c, \lambda, g$;
@@ -139,25 +175,36 @@ If we can prove that we can write $f$ as \begin{equation}\label{eq4}
 f=a+\sum_{j=1}^i a_jx_j^2+r
 \end{equation}
 where
-$r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in m^3$ and the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
+$r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in m^3$ and
+the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
 after $i$ applications of the for-loop, then we have the desired result after
 $n$ applications of the for-loop. We will prove this by induction. After $0$
 applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$.
-Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in S$, then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose  $x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in \textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can be written as
+Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in
+S$, then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose
+$x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in
+\textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat
+x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can
+be written as
 \[f=ax_i^2+px_i+r\]
 with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb
 R[x_1,\ldots,x_n]$. If $a(0)\neq 0$,, then $x_i^2\in\textnormal{supp}(f)$. If
 $a(0)=0$, then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appear in some
 term of the $2$-jet of $f$ and since it follows from the induction that
-$x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows that
-there exists a $j\in\{i+1,\ldots,n\}$ such that $x_ix_j\in\textnormal{supp}(f)$.
+$x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows
+that
+there exists a $j\in\{i+1,\ldots,n\}$ such that
+$x_ix_j\in\textnormal{supp}(f)$.
 If we choose such an index $j$ and apply the transformation
 \begin{equation}\label{eq2}
 x_j\mapsto x_j+x_i,\quad x_ix_j\mapsto x_ix_j+x_i^2,
 \end{equation}
-then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$, we now have that $a(0)\neq0$.
+then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$,
+we now have that $a(0)\neq0$.
 
-Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree of $x_i$ is one. Then the while-loop applies and the following transformation is made 
+Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree
+of $x_i$ is one. Then the while-loop applies and the following transformation
+is made
 \begin{equation}\label{eq3}
 x_i\mapsto x_i-\frac{p}{2a(0)}\qquad
 (\textnormal{this is allowed since }a(0)\neq 0)
@@ -169,19 +216,22 @@ f&=&a(x_i-\frac{p}{2a(0)})^2+p(x_i-\frac{p}{2a(0)})+r\\
 &=&ax_i^2+(1-\frac{a}{a(0)})px_i+\frac{ap^2}{4a^2(0)}-\frac{p^2}{2a(0)}+r\\
 &=&ax_i^2+bpx_i+\frac{a'p^2}{4a^2(0)}+r',
 \end{eqnarray*}
-where 
+where
 \begin{equation*}
-b=1-\frac{a}{a(0)}\in m,\quad a'=a-a(0)\in m,\quad r'=\frac{p^2}{4a(0)}-\frac{p^2}{2a(0)}+r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n].
+b=1-\frac{a}{a(0)}\in m,\quad a'=a-a(0)\in m,\quad
+r'=\frac{p^2}{4a(0)}-\frac{p^2}{2a(0)}+r\in\mathbb R[x_1,\ldots,\hat
+x_i,\ldots,x_n].
 \end{equation*}
-Since 
+Since
 \begin{equation*}
 b=b_2x_i^2+b_1x_i+b_0,
 \end{equation*}
 where
 \begin{equation*}
-b_2\in\mathbb R[x_1,\ldots,x_n] \quad\textnormal{and}\quad b_1,b_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n],
+b_2\in\mathbb R[x_1,\ldots,x_n] \quad\textnormal{and}\quad b_1,b_0\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n],
 \end{equation*}
-we have that 
+we have that
 \begin{eqnarray*}
 bpx_i&=&b_2px_i^3+b_1x_i^2+b_0px_i\\
 &=&(b_2px_i+b_1p)x_i^2+b_0px_i\\
@@ -189,7 +239,8 @@ bpx_i&=&b_2px_i^3+b_1x_i^2+b_0px_i\\
 \end{eqnarray*}
 where
 \begin{equation*}
-b'\in m\in\mathbb R[x_1,\ldots,x_n]\quad\textnormal{and}\quad b_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]. 
+b'\in m\in\mathbb R[x_1,\ldots,x_n]\quad\textnormal{and}\quad b_0\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n].
 \end{equation*}
 Also
 \begin{equation*}
@@ -197,28 +248,44 @@ Also
 \end{equation*}
 where
 \begin{equation*}
-c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad c_2\in\mathbb R[x_1,\ldots,x_n].
+c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad
+c_2\in\mathbb R[x_1,\ldots,x_n].
 \end{equation*}
 Since $a'\in m$ and $p^2\in m^2$ it follows that $\frac{a'p^2}{4a(0)}\in m^3$
 and hence $c_2\in m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$, it
-follows that $(a+b'+c_2)(0)\neq 0$. Furthermore, since $b\in m$, it follows that $b_0\in m$ and hence $\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since $\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore $\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
+follows that $(a+b'+c_2)(0)\neq 0$. Furthermore,
+since $b\in m$, it follows that $b_0\in m$ and hence
+$\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since
+$\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it
+follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore
+$\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
 \begin{eqnarray}
 f&=&(a+b'+c_2)x_i^2+(b_0p+c_1)x_i+r'+c_0\nonumber\\
 &=&a''x_i^2+p''x_i+r''\label{eq1}
 \end{eqnarray}
 where
 \begin{eqnarray*}
-&&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\ &&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')>\textnormal{order}(p).
+&&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad
+p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\
+&&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')>\textnormal{order}(p).
 \end{eqnarray*}
-If $\textnormal{jet}(k,p''x_i)\neq 0$, then the while-loop will be applied again
-and we will get as output a polynomial of the form (\ref{eq1}). Since the degree
+If $\textnormal{jet}(k,p''x_i)\neq 0$, then the while-loop will be applied
+again
+and we will get as output a polynomial of the form (\ref{eq1}). Since
+the degree
 of $p''$ strictly increases after each application of the while-loop,
 $\textnormal{jet}(k,p''x_i)$ is equal to zero after finitely many applications
-and the while-loop terminates. Considering the transformations  (\ref{eq2}) and
-(\ref{eq3}), it follows that after each application of the while-loop, it holds
-that $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
+and the while-loop terminates. Considering the transformations  (\ref{eq2})
+and
+(\ref{eq3}), it follows that after each application of the while-loop,
+it holds
+that $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence
+after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
 
-Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after $i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of $f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
+Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop
+if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after
+$i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of
+$f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
 \end{proof}
 
 \section{The real classification of the residual part of $f$}
@@ -239,14 +306,19 @@ complex singularity type of the same name as its corresponding real main
 singularity type. In fact there is a bijection between the complex singularity
 types of modality $0$ and $1$ and the main real singularity types. Thus, if we
 can determine the complex singularity type of a function germ in $\mathbb
-R[[x_1,\ldots,x_n]]$, we only need to consider the subtypes of the corresponding
+R[[x_1,\ldots,x_n]]$, we only need to consider the subtypes of the
+corresponding
 main real singularity type to determine the real type of the function germ.
-After applying the Splitting Lemma, we only need to consider function germs in $m^3$. 
+After applying the Splitting Lemma, we only need to consider function germs
+in $m^3$.
 
-\subsection{Results regarding the factorization of homogeneous polynomials over $\mathbb R$ and $\mathbb Q$}
+\subsection{Results regarding the factorization of homogeneous polynomials
+over $\mathbb R$ and $\mathbb Q$}
 \paragraph{}Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
 $f\requiv g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
-automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of $\phi$ by $\phi_i$. By using the next result, given $f$ and $g$, we can determine $\phi_1$.
+automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. We denote the $i$-jet of
+$\phi$ by $\phi_i$. By using the next result, given $f$ and $g$, we can
+determine $\phi_1$.
 
 TODO: explain jet of a map
 
@@ -254,60 +326,118 @@ TODO: In the following lemma and it's proof, rewrite $f(\phi)$ as $\phi(f)$
 
 \newtheorem{kjet}{Lemma}[section]
 \begin{kjet}\label{kjet}
-Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$ and $k$
-is the lowest degree of $f$. If jet$(f,k)$ factorizes as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over $\mathbb R$, then jet$(g,k)$ will factorize as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$ is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$. 
+Let $f,g\in m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$
+and $k$
+is the lowest degree of $f$. If jet$(f,k)$ factorizes as
+\[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\]
+over $\mathbb R$, then jet$(g,k)$ will factorize
+as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots
+f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$
+is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$
+such that $\phi(f)=g$.
 \end{kjet}
 \begin{proof}
-Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now assume that the monomials of lowest degree $k$ of $f$ factorize as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over $\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$. 
+Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb
+R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=f\circ\phi=g$. Now
+assume that the monomials of lowest degree $k$ of $f$ factorize
+as $f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)$ over
+$\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_n^{s_t}+f'$, where the order of
+$f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$.
 Now, for all $j\in\{1,\ldots,n\}$, $\phi(x_j)=\phi_1(x_j)+\textnormal{terms of
 degree higher than $1$}$. Since $\phi$ is a homomorphism, it follows that
-\begin{eqnarray*}\phi(f)&=&f\circ\phi\\&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\&&+\big(\phi-\phi_1\big)(f)+\phi(f').\\\end{eqnarray*}
-Since the $\deg\big(\phi_1(x_j))=1$ it follows that \[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because 
+\begin{eqnarray*}\phi(f)&=&f\circ\phi\\&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots
+f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\&&+\big(\phi-\phi_1\big)(f)+\phi(f').\\\end{eqnarray*}
+Since the $\deg\big(\phi_1(x_j))=1$ it follows that
+\[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because
 \[\textnormal{order}\big(\big(\phi-\phi_1\big)(f)\big)>k\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k\]
 it follows that
 \begin{eqnarray*}
-&&\textnormal{jet}(\phi(f),k)=\textnormal{jet}(g,k)\\&&=f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big).
+&&\textnormal{jet}(\phi(f),k)=\textnormal{jet}(g,k)\\&&=f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big).
 \end{eqnarray*}
 \end{proof}
 
-Since \textsc{Singular} use real floating point numbers, which do not represent
+Since \textsc{Singular} use real floating point numbers, which do not
+represent
 the real numbers, instead of real numbers, rounding errors in computations can
 occur. Therefore the above result would not be of much help without the
-following result. 
+following result.
 \newtheorem{x^3}[kjet]{Lemma}
 \begin{x^3}\label{x^3}
 If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
-$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over $\mathbb
+$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over
+$\mathbb
 R$, where $g_1,g_2$ are polynomial of degree $1$, then $f$ will factorize as
-$ag_1'^d$, $ag_1'\cdot g_2'^d$, $ag_1'^2(g_1'-g_2')(g_1'+g_2')$ respectively, where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+$ag_1'^d$, $ag_1'\cdot g_2'^d$, $ag_1'^2(g_1'-g_2')(g_1'+g_2')$ respectively,
+where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and
+$a\in\mathbb Q$.
 \end{x^3}
-%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can
+factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree
+$1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of
+degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 \begin{proof}
 
 (i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
 suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1}y)^d$. Since $f=
-a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and $g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows
+that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$
+from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since
+$\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb
+Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and
+$g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
 
-(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb R$. Suppose $a_1,a_3\neq 0$.
-For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the proofs are similar.
-Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that $(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
+(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,a_2,a_3,a_4\in\mathbb
+R$. Suppose $a_1,a_3\neq 0$.
+For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the
+proofs are similar.
+Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence
+$(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which
+it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb
+Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that
+$(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and
+hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore
+also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that
+$(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
 Thus $f=ag'_1g'_2$ with $a:=a_1a_3^d\in\mathbb Q$,
 $g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, and
 $g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$.
 
 (iii) If $f$ factorizes as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$, it
-follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore $(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore
+$(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb
+Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
 \end{proof}
 %\newtheorem{x^3}[kjet]{Lemma}
 %\begin{x^3}\label{x^3}
-%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree $1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can
+factorize as $(g)^d$ over $\mathbb R$, where $g$ is a polynomial of degree
+$1$, then $f$ will factorize as $a(g')^d$, where $g'$ is a polynomial of
+degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
 %\end{x^3}
 %\begin{proof}
-%If $f=0$ then the answer is trivial. Suppose $f=(a_1x_1+\cdots+a_nx_n)^d$, $a_1,\ldots,a_n\in\mathbb Q$. Without loss of generality, suppose $a_1\neq 0$. Then $f=a_1^d(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=a_1^dx_1^d+f_{d-1}\cdot x_1^{d-1}+\cdots+f_1\cdot x_1$, where $f_{d-1},\ldots,f_1\in\mathbb Q[x_2,\ldots,x_n]$. Hence $a_1^d\in\mathbb Q$ and $(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=(\frac{a_2}{a_1}x_2+\frac{a_3}{a_1}x_3+\cdots+\frac{a_n}{a_1}x_n)x_1^{d-1}+f'_2\cdot x_1^{d-2}+\cdots+f'_d\cdot x_1\in\mathbb Q[x_1,\ldots,x_n]$, where $f'_2,\ldots,f'_n\in\mathbb Q[x_2,\ldots,x_n].$ Therefore $\frac{a_2}{a_1},\ldots,\frac{a_n}{a_1}\in\mathbb Q$. Thus by putting $a:=a_1^d$ and $g':=x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n$ the result follows. 
+%If $f=0$ then the answer is trivial. Suppose
+$f=(a_1x_1+\cdots+a_nx_n)^d$, $a_1,\ldots,a_n\in\mathbb
+Q$. Without loss of generality, suppose $a_1\neq 0$. Then
+$f=a_1^d(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=a_1^dx_1^d+f_{d-1}\cdot
+x_1^{d-1}+\cdots+f_1\cdot x_1$, where $f_{d-1},\ldots,f_1\in\mathbb
+Q[x_2,\ldots,x_n]$. Hence $a_1^d\in\mathbb Q$ and
+$(x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n)^d=(\frac{a_2}{a_1}x_2+\frac{a_3}{a_1}x_3+\cdots+\frac{a_n}{a_1}x_n)x_1^{d-1}+f'_2\cdot
+x_1^{d-2}+\cdots+f'_d\cdot x_1\in\mathbb Q[x_1,\ldots,x_n]$,
+where $f'_2,\ldots,f'_n\in\mathbb Q[x_2,\ldots,x_n].$ Therefore
+$\frac{a_2}{a_1},\ldots,\frac{a_n}{a_1}\in\mathbb Q$. Thus by putting
+$a:=a_1^d$ and $g':=x_1+\frac{a_2}{a_1}x_2+\cdots+\frac{a_n}{a_1}x_n$
+the result follows.
 %\end{proof}
 %\newtheorem{x^ny}[kjet]{Lemma}
 %\begin{x^ny}\label{x^ny}
-%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can factorize as $g_1^{d-1}\cdot g_2$ over $\mathbb R$, where $g_1$ and $g_2$ are polynomials of degree $1$, then $f$ will factorize as $a{g'}_1^{d-1}\cdot g_2$, where $g'_1,g'_2$ are polynomials of degree $1$ over $\mathbb Q$ and $a\in\mathbb Q$.
+%If $f\in\mathbb Q[x_1,\ldots,x_n]$ is homogeneous of degree $d$ and can
+factorize as $g_1^{d-1}\cdot g_2$ over $\mathbb R$, where $g_1$ and $g_2$ are
+polynomials of degree $1$, then $f$ will factorize as $a{g'}_1^{d-1}\cdot
+g_2$, where $g'_1,g'_2$ are polynomials of degree $1$ over $\mathbb Q$
+and $a\in\mathbb Q$.
 %\end{x^ny}
 %\begin{proof}
 %\end{proof}
@@ -324,8 +454,12 @@ Splitting Lemma in case $c=0$ or $c=1$.
 \newtheorem{A[k]}[kjet]{Algorithm}
 \begin{A[k]}(Algorithm for the case $A[k]$)
 \end{A[k]}
-\noindent\textnormal{\bf Input:} $f\in \mathbb R[x_1,\ldots,x_n]$ of complex singularity type $A[k]$, the output polynomial $g\in m^3$ after applying Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia index $\lambda$ of $f$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$A[k]^-$ or $A[k]^+$, $k\in\mathbb N$.
+\noindent\textnormal{\bf Input:} $f\in \mathbb R[x_1,\ldots,x_n]$ of
+complex singularity type $A[k]$, the output polynomial $g\in m^3$ after
+applying Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$
+and the inertia index $\lambda$ of $f$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$A[k]^-$
+or $A[k]^+$, $k\in\mathbb N$.
 \begin{itemize}
 \item if($c=0$)\newline
 \phantom{}\quad if($\lambda<n$)\newline
@@ -345,13 +479,15 @@ Splitting Lemma in case $c=0$ or $c=1$.
 
 In the following algorithm we use the fact that the normal form of the type
 $D[4]^+$ factorizes into two factors and the normal form of the type $D[4]^-$
-factorizes into three factors. 
+factorizes into three factors.
 
 \newtheorem{D[4]}[kjet]{Algorithm}
 \begin{D[4]}(Algorithm for the case $D[4]$)
 \end{D[4]}
-\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $D[4]$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[4]^-$ or $D[4]^+$.
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex
+singularity type $D[4]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[4]^-$
+or $D[4]^+$.
 \begin{itemize}
 \item $f := \textnormal{jet}(f,3)$;
 \item $s_1:= \frac{f}{x^3}$;
@@ -363,9 +499,11 @@ factorizes into three factors.
 \phantom{}\quad $t_2:=\frac{f}{x^2y}$;\newline
 \phantom{}\quad if$(t_1+t_2=0)$\newline
 \phantom{}\quad\quad Apply $x\mapsto x$, $y\mapsto 2y$;\newline
-\phantom{}\quad\quad Write $f$ as $f=t'_1x^2y+t'_2xy^2$, $t'_1, t'_2\in\mathbb R, t'_1\neq t'_2$;\newline
+\phantom{}\quad\quad Write $f$ as $f=t'_1x^2y+t'_2xy^2$, $t'_1, t'_2\in\mathbb
+R, t'_1\neq t'_2$;\newline
 \phantom{}\quad Apply $x\mapsto x+y$, $y\mapsto y$;\newline
-\phantom{}\quad Write $f$ as $f=ay^3+bx^2y+cxy^2+dx^3$, $a,b,c,d\in\mathbb R$, $a\neq 0$;\newline
+\phantom{}\quad Write $f$ as $f=ay^3+bx^2y+cxy^2+dx^3$, $a,b,c,d\in\mathbb
+R$, $a\neq 0$;\newline
 \phantom{}\quad Apply $x\mapsto 1$, $y\mapsto y$;\newline
 \phantom{}\quad Write $f$ as $f=ay^3+by^2+cy+d$;\newline
 \phantom{}\quad $n:= \#$ real roots of $f$;\newline
@@ -382,19 +520,27 @@ real singularity type of $f$. Because $f\in m^3$, $\textnormal{order}(f)\ge3$,
 and therefore $\textnormal{jet}(f,3)$ is homogeneous. We now consider
 $\textnormal{jet}(f,3)$ and the way how it factorizes.
 
-If $s_1\neq 0$ and $s_2=0$, we can ensure that the coefficient of $y^3$ is nonzero by swapping the variables. If $s_1=0$ and $s_2=0$, the coefficient of $y^3$ is nonzero after applying $x\mapsto x$, $y\mapsto 2y$ and $x\mapsto x+y$, $y\mapsto y$ if $t_1=t_2$, and applying only $x\mapsto x+y$, $y\mapsto y$ if $t_1\neq -t_2$. We now can write $f$ in the form
+If $s_1\neq 0$ and $s_2=0$, we can ensure that the coefficient of $y^3$ is
+nonzero by swapping the variables. If $s_1=0$ and $s_2=0$, the coefficient
+of $y^3$ is nonzero after applying $x\mapsto x$, $y\mapsto 2y$ and $x\mapsto
+x+y$, $y\mapsto y$ if $t_1=t_2$, and applying only $x\mapsto x+y$, $y\mapsto
+y$ if $t_1\neq -t_2$. We now can write $f$ in the form
 \begin{equation*}
 f=ay^3+bx^2y+cxy^2+dx^3,\quad a,b,c,d\in\mathbb R, a\neq 0.
 \end{equation*}
 Using Lemma \ref{kjet}, $f$ factorizes into three linear factors over
-$\mathbb R$ if $f$ is of type $D[4]^-$ and does not factorize into three linear
-factors over $\mathbb R$ if $f$ is of type $D[4]^+$. Furthermore, since $x\nmid
+$\mathbb R$ if $f$ is of type $D[4]^-$ and does not factorize into three
+linear
+factors over $\mathbb R$ if $f$ is of type $D[4]^+$. Furthermore, since
+$x\nmid
 f$ and $y\nmid f$, $f$ factorizes into three linear factors if and only if
 $f(x,1)$ factorizes into three factors of degree $1$. Since $f(x,1)$ is of
-degree $3$, it follows that $f(x,1)$ factorizes into three factors of degree $1$
+degree $3$, it follows that $f(x,1)$ factorizes into three factors of
+degree $1$
 if and only if $f$ has three real roots.
 
-%We will now show that we can determine whether $f$ is of type $D[4]^-$ or $D[4]^+$ by counting the number $n$ of real roots of $f':=ay^3+by^2+cy+d$.
+%We will now show that we can determine whether $f$ is of type $D[4]^-$
+or $D[4]^+$ by counting the number $n$ of real roots of $f':=ay^3+by^2+cy+d$.
 %Now suppose $f$ factorize in $3$ linear factors, i.e.
 %\[f=(ey+fx)(gy+hx)(iy+jx),\quad e,f,g,h,i,j\in\mathbb R\]
 %where
@@ -431,7 +577,9 @@ if and only if $f$ has three real roots.
 %\begin{equation*}
 %(ey+fx)(gy+hx)(iy+jx)=ay^3+bx^2y+cxy^2+dx^3=f
 %\end{equation*}
-%and hence $f$ will factorize in $3$ linear factors over $\mathbb R$. Therefore $f$ is of type $D[4]^-$ if and only if $f'=ay^3+by^2+cy+d$ has $3$ real roots.
+%and hence $f$ will factorize in $3$ linear factors over $\mathbb R$.
+Therefore $f$ is of type $D[4]^-$ if and only if $f'=ay^3+by^2+cy+d$
+has $3$ real roots.
 \end{proof}
 \newtheorem{kDeterminacyD[k]k>4}[kjet]{Lemma}
 \begin{kDeterminacyD[k]k>4}\label{kDeterminacyD[k]k>4}
@@ -443,15 +591,18 @@ Let $i\ge 4$. Then
 \[x^2y+a_0x^i+a_1x^{i-1}y+\cdots+a_iy^i\sim^rx^2y+a_ix^i\]
 using the $\mathbb R$-algebra automorphisms
 \begin{eqnarray*}
-x&\mapsto&x+p_1,\textnormal{ where } p_1=-\frac{1}{2}(a_1x^{i-2}+\cdots+a_{i-1}y^{i-2})\\
+x&\mapsto&x+p_1,\textnormal{ where }
+p_1=-\frac{1}{2}(a_1x^{i-2}+\cdots+a_{i-1}y^{i-2})\\
 y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{i-2} \,.
 \end{eqnarray*}
 \end{transformationD[k]}
 \newtheorem{D[k]k>4}[kjet]{Algorithm}
 \begin{D[k]k>4}(Algorithm for the case $D[k]$, $k>4$)
 \end{D[k]k>4}
-\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $D[k]$, $k\in\mathbb N$, $k>4$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[k]^-$ or $D[k]^+$.
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex
+singularity type $D[k]$, $k\in\mathbb N$, $k>4$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$D[k]^-$
+or $D[k]^+$.
 \begin{itemize}
 \item $k:= \textnormal{milnornumber}(f)$;
 \item $d:=k-1;$
@@ -461,8 +612,10 @@ y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{i-2} \,.
 \item $\textnormal{for}(i=4;i<k;i++)$\newline
 \phantom{}\quad $f:=\textnormal{jet}(f,d)$;\newline
 \phantom{}\quad $\textnormal{if}(\textnormal{jet}(f,i)-x^2y\neq0)$\newline
-\phantom{}\quad\quad Write $\textnormal{jet}(f,i)-x^2y$ as $a_0x^i+a_1x^{i-1}y+\cdots +a_iy^i$;\newline
-\phantom{}\quad\quad Apply $x\mapsto x-\frac{1}{2}(a_1x^{i-2}+\cdots +a_{i-1}y^{i-2})$, $y\mapsto y-a_0x^{i-2}$;\newline
+\phantom{}\quad\quad Write $\textnormal{jet}(f,i)-x^2y$ as
+$a_0x^i+a_1x^{i-1}y+\cdots +a_iy^i$;\newline
+\phantom{}\quad\quad Apply $x\mapsto x-\frac{1}{2}(a_1x^{i-2}+\cdots
++a_{i-1}y^{i-2})$, $y\mapsto y-a_0x^{i-2}$;\newline
 \phantom{}\quad $f:=\textnormal{jet}(f,d)$;\newline
 \phantom{}\quad Write $f$ as $f=x^2y+ay^{k-1}$, $a\neq 0$;
 \item $\textnormal{if}(a>0)$\newline
@@ -477,31 +630,39 @@ $D[k]^-$ or $D[k]^+$ is $k-1$. Therefore we only need to consider the
 $(k-1)$-jet of the input polynomial~$f$. Using Lemma \ref{kjet} and Lemma
 \ref{x^3} we transform $f$ into a polynomial of the form
 \[x^2y+\textnormal{terms of degree higher than $3$}\]
-by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of degree $1$,
+by factorizing the $3$-jet of $f$ as $g_1^2g_2$, $g_1$ and $g_2$ of
+degree $1$,
 and then applying the automorphisms $g_1\mapsto x$, $g_2\mapsto y$ to $f$. We
 now systematically consider the terms of each degree $3<i<k$. By applying the
 transformations in Lemma \ref{transformationD[k]}, for each $i$, only the term
 $a_iy^i$ will possibly not vanish. If $i<k-1$, $a_i=0$, otherwise it follows
-from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type
+from Theorem \ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex
+type
 $D[k]$. If $i=k-1$, $a_i\neq 0$, otherwise, it follows again from Theorem
-\ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type $D[k]$. Thus
+\ref{SemiQuasiHomogeneousFunction} that $f$ is not of complex type
+$D[k]$. Thus
 we can write $f$ as $x^2y+ay^{k-1}, a\neq0$. Clearly if $a>0$ then
-$x^2y+ay^{k-1}\requiv x^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\requiv x^2y-y^{k-1}$.
+$x^2y+ay^{k-1}\requiv x^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\requiv
+x^2y-y^{k-1}$.
 \end{proof}
 \newtheorem{E[6]}[kjet]{Algorithm}
 \begin{E[6]}(Algorithm for the case $E[6]$)
 \end{E[6]}
-\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex singularity type $E[6]$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$E[6]^-$ or $E[6]^+$.
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb R[x,y]$ of complex
+singularity type $E[6]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$E[6]^-$
+or $E[6]^+$.
 \begin{itemize}
 \item $g:= \textnormal{jet}(f,3);$
 \item $s:= \frac{g}{x^3};$
 \item $\textnormal{if}(s=0)$\newline
 \phantom{}\quad Swap the variables $x$ and $y$;\\
 \phantom{}\quad $s:=\frac{g}{x^3}$;
-\item Factorize $g$ in linear factors over $\mathbb Q[x,y]$, with a factor $g_1=ax+by$;
+\item Factorize $g$ in linear factors over $\mathbb Q[x,y]$, with a factor
+$g_1=ax+by$;
 \item Apply (to $f$) $x\mapsto \frac{x-by}{a}$, $y\mapsto y$;
-\item Write $f$ as $f=cx^3+\sigma y^4+\textnormal{terms of degree $4$ and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$}$;
+\item Write $f$ as $f=cx^3+\sigma y^4+\textnormal{terms of degree $4$
+and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$}$;
 \item \textnormal{if}$(\sigma>0)$\newline
 \phantom{}\quad typeofsing:= "$E[6]^+$";\newline
 \phantom{} else\newline
@@ -511,26 +672,36 @@ $x^2y+ay^{k-1}\requiv x^2y+y^{k-1}$ and if $a<0$ then $x^2y+ay^{k-1}\requiv x^2y
 Since $f\requiv x^3+y^4$ or $f\requiv x^3-y^4$, there exists an $\mathbb
 R$-algebra automorphism $\psi$ of $\mathbb R[[x_1,\ldots,x_n]]$ such that
 $\psi(f)=f\circ\psi=(\psi(x))^3+(\psi(y))^4$ or such that
-$\psi(f)=f\circ\psi=(\psi(x))^3-(\psi(y))^4$ . We ensure that the coefficient of
+$\psi(f)=f\circ\psi=(\psi(x))^3-(\psi(y))^4$ . We ensure that the
+coefficient of
 $x^3$ is nonzero by swapping the variables if necessary. Now, using Lemma
 \ref{kjet} and Lemma~\ref{x^3}, $g:=\textnormal{jet}(f,3)$ factorizes as
-$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=ax+by\in\mathbb Q[x_1,\ldots,x_n]$. Again,
+$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=ax+by\in\mathbb
+Q[x_1,\ldots,x_n]$. Again,
 using Lemma \ref{kjet}, it follows that by applying $x\mapsto\frac{x-by}{a},\
-y\mapsto y$, there exists a $\phi$ such that $\phi_1(x)=c'x$, $c'\in\mathbb R$. Since $\phi$ is an automorphism, $\phi_1(y)=dx+ey$, $d,e\in\mathbb R$, with $e\neq 0$. Hence
+y\mapsto y$, there exists a $\phi$ such that $\phi_1(x)=c'x$, $c'\in\mathbb
+R$. Since $\phi$ is an automorphism, $\phi_1(y)=dx+ey$, $d,e\in\mathbb R$,
+with $e\neq 0$. Hence
 \begin{equation*}
-(\phi(y))^4=e^4y^4+\textnormal{terms of degree 4 and higher, not of the form $\alpha y^4$, $\alpha\in\mathbb R$.}
+(\phi(y))^4=e^4y^4+\textnormal{terms of degree 4 and higher, not of the
+form $\alpha y^4$, $\alpha\in\mathbb R$.}
 \end{equation*}
-If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $f$ is of type $E[6]^-$ or $E[6]^+$ by looking at the sign of $y^4$. Now 
+If we can show that $(\phi(x))^3$ does not contain a term of the form
+$\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $f$
+is of type $E[6]^-$ or $E[6]^+$ by looking at the sign of $y^4$. Now
 \begin{eqnarray*}
 \textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)&=&3(\phi_1(x)^2)(\phi_2(x)-\phi_1(x))\\&=&3(c'x)^2(\phi_2(x)-\phi_1(x))
 \end{eqnarray*}
- which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$, $\alpha\in\mathbb R$ .   
+ which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
+ $\alpha\in\mathbb R$ .
 \end{proof}
 \newtheorem{X[9+k]}[kjet]{Algorithm}
 \begin{X[9+k]}(Algorithm for the case $X[9+k]$)
 \end{X[9+k]}
-\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb Q[x,y]$ of complex singularity type $X[9+k]$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$X[9+k]^-$ or $X[9+k]^+$.
+\noindent\textnormal{\bf Input:} $f\in m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $X[9+k]$.\newline
+\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$X[9+k]^-$
+or $X[9+k]^+$.
 \begin{itemize}
 \item $f:=\textnormal{jet}(f,4)$;
 \item $s_1:=\frac{f}{x^4}$;
@@ -549,14 +720,15 @@ If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^
 \phantom{}\quad Apply $x\mapsto x$, $y\mapsto x+y$;
 \item Write $f$ as $f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4$;
 \item Apply $y\mapsto 1$, $x\mapsto x$, get $f'=ax^4+bx^3+cx^2+dx+e;$
-\item $n:=\#$ real roots of $f'$; 
+\item $n:=\#$ real roots of $f'$;
 \item if$(n=1)$\newline
 \phantom{}\quad if$(a>0)$\newline
 \phantom{}\quad\quad typeofsing$:=X[9+k]^{++}$;\newline
 \phantom{}\quad else\newline
 \phantom{}\quad\quad typeofsing$:=X[9+k]^{--}$;
 \item if$(n=3)$\newline
-\phantom{}\quad Factorize $f$ in linear factors over $\mathbb Q[x,y]$, with $g_1:=ax+by$ the factor\newline
+\phantom{}\quad Factorize $f$ in linear factors over $\mathbb Q[x,y]$,
+with $g_1:=ax+by$ the factor\newline
 \phantom{}\quad with multiplicity $2$;\newline
 \phantom{}\quad Apply $x\mapsto\frac{x+by}{a}$, $y\mapsto y$;\newline
 \phantom{}\quad Write $f$ as $f=ax^4+bx^3y+cx^2y^2$;\newline
@@ -568,37 +740,60 @@ If we can show that $(\phi(x))^3$ does not contain a term of the form $\alpha y^
 \phantom{}\quad\quad typeofsing$:=X[9+k]^{+-}$;
 \end{itemize}
 \begin{proof}
-Since input polynomial is of complex type $X_{9+k}$, we know that it is of the form \[f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4+\textnormal{ terms of higher degree.}\]
-If $a= 0$, we first transform $f$ to a polynomial where $a\neq 0$. If $e\neq 0$ we can achieve this by the transformation $x\mapsto y$, $y\mapsto x$. 
+Since input polynomial is of complex type $X_{9+k}$, we know that it is of the
+form \[f=ax^4+bx^3y+cx^2y^2+dxy^3+ey^4+\textnormal{ terms of higher degree.}\]
+If $a= 0$, we first transform $f$ to a polynomial where $a\neq 0$. If $e\neq
+0$ we can achieve this by the transformation $x\mapsto y$, $y\mapsto x$.
 
 If $e=0$, then at least one of $b$, $c$ or $d$ is not $0$, otherwise the
 singularity  is not of complex type $X_{9+k}$.  If we apply $x\mapsto x+y$ and
 $y\mapsto y$ in this situation, we will transform $f$ so that the new
 coefficient of $x^4$ is $b+c+d$. Thus if we can ensure that $a+b+c\neq 0$, we
 can use this map and have the desired result. Now, since $v_1=b+c+d$,
-$v_2=2b+4c+8d$ and $v_3=3b+6c+9d$ is linear independent in the threedimensional
+$v_2=2b+4c+8d$ and $v_3=3b+6c+9d$ is linear independent in the
+threedimensional
 $\mathbb R$-vector space with formal basis $(b, c, d)$, it follows that all
 three vectors are zero if and only if $b,c$ and $d$ is zero. Knowing $b$, $c$
-and $d$ cannot all be zero, at least one of $v_1$, $v_2$ or $v_3$ is not zero. If $v_1=0$ and $v_2\neq 0$, then the map $x\mapsto x$ and $y\mapsto 2y$ will transform $f$ to \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\] where $b'+c'+d'=2b+4c+8d\neq 0$. If $v_1=0$ and $v_3\neq 0$, then the map $x\mapsto x$ and $y\mapsto 3y$ will transform $f$ to  \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher degree,}\]where $b'+c'+d'=3b+6c+9d\neq0$.
+and $d$ cannot all be zero, at least one of $v_1$, $v_2$ or $v_3$ is not
+zero. If $v_1=0$ and $v_2\neq 0$, then the map $x\mapsto x$ and $y\mapsto 2y$
+will transform $f$ to \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{
+terms of higher degree,}\] where $b'+c'+d'=2b+4c+8d\neq 0$. If $v_1=0$ and
+$v_3\neq 0$, then the map $x\mapsto x$ and $y\mapsto 3y$ will transform $f$
+to  \[f=a'x^4+b'x^3y+c'x^2y^2+d'xy^3+e'y^4+\textnormal{ terms of higher
+degree,}\]where $b'+c'+d'=3b+6c+9d\neq0$.
 
 Now, $f\requiv g$, where $g=x^4+x^2y^2+ay^{4+k}$ if $f$ is of type
 $X[9+k]^{++}$, $g=-x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{--}$,
 $g=-x^4+x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{-+}$ and
-$g=x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{+-}$.  It follows from Lemma
+$g=x^4-x^2y^2+ay^{4+k}$ if $f$ is of type $X[9+k]^{+-}$.  It follows
+from Lemma
 \ref{kjet} that $\textnormal{jet}(f,4)$ will factor as
 $\pm\phi_1(x)^2(\phi_1(x)^2+\phi_1(y)^2)$ in the first two cases and as
 $\pm\phi_1(x)^2(\phi_1(x)-\phi_1(y))(\phi_1(x)+\phi_1(y))$ in the second two
 cases, where $\phi$ is the $\mathbb R$-algebra automorphism such that
-$\phi(f)=g$. Since $a\neq 0$,  $f(x,1)$ has one root in the first two cases and
-three roots in the last two cases. 
+$\phi(f)=g$. Since $a\neq 0$,  $f(x,1)$ has one root in the first two
+cases and
+three roots in the last two cases.
 
-%Since the coefficient of $x^4$ in $f$ is nonzero, it follows that $\phi_1(x)=\alpha x+\beta y$ and $\phi(y)=\gamma x+\delta y$, where $\alpha,\delta\neq 0$. 
-Now, since the sign of the terms in the $4$-jet of $g$ in the first two cases do not differ and the power of both $x$ and $y$ in all the terms are even, we only need to look at the sign of the $x^4$-term to distinguish between the $X[9+k]^{++}$ and $X[9+k]^{--}$ cases.
+%Since the coefficient of $x^4$ in $f$ is nonzero, it follows that
+$\phi_1(x)=\alpha x+\beta y$ and $\phi(y)=\gamma x+\delta y$, where
+$\alpha,\delta\neq 0$.
+Now, since the sign of the terms in the $4$-jet of $g$ in the first two cases
+do not differ and the power of both $x$ and $y$ in all the terms are even,
+we only need to look at the sign of the $x^4$-term to distinguish between
+the $X[9+k]^{++}$ and $X[9+k]^{--}$ cases.
 
-If $f$ has three roots, we can transform $f$ by using Lemma \ref{kjet} and Lemma
-\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. Hence we can now
+If $f$ has three roots, we can transform $f$ by using Lemma \ref{kjet}
+and Lemma
+\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. Hence we
+can now
 write $f$ in the form $f=ax^4+bx^3y+cx^2y^2=\pm(\alpha x)^2((\alpha
-x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$. Since $\phi$ is
-an automorphism, $\phi_1(y)=\alpha x+\beta y$ with $\beta \neq 0$, and since the sign of $\beta$ does not influence the sign of $(\alpha x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$ and $(\alpha x)^2\phi_1(y)^2$ differ, we can decide between the cases $X[9+k]^{+-}$ and $X[9+k]^{-+}$ by looking at the sign of the term $x^2y^2$.
+x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$. Since
+$\phi$ is
+an automorphism, $\phi_1(y)=\alpha x+\beta y$ with $\beta \neq 0$,
+and since the sign of $\beta$ does not influence the sign of $(\alpha
+x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$
+and $(\alpha x)^2\phi_1(y)^2$ differ, we can decide between the cases
+$X[9+k]^{+-}$ and $X[9+k]^{-+}$ by looking at the sign of the term $x^2y^2$.
 \end{proof}
 \end{document}
