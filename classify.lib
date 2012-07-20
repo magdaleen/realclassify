@@ -421,7 +421,7 @@ static proc Funktion13 (poly f, list cstn)
         Jf = Jf, jacob(Jf);
         Jf = std(Jf);
         Dim = dim(Jf);
-        if(Dim==0){return(printresult(16,f,"Y[1,p,q] = T[2,4+p,4+q]",cstn,1));}
+        if(Dim==0){return(printresult(16,f,"Y[1",cstn,1));}
         if( Dim == 1 ) { return(Funktion17(f, cstn)); }
       }
       if( Mult == 3 ) { return(Funktion25(f, cstn)); }

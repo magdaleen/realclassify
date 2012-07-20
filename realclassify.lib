@@ -27,6 +27,7 @@ PROCEDURES:
  determinacy(f);     an upper bound for the determinacy
 ";
 
+LIB "primdec.lib";
 LIB "classify.lib";
 LIB "rootsur.lib";
 LIB "atkins.lib";
@@ -419,7 +420,7 @@ EXAMPLE:  example realclassify; shows an example"
           rf = phi(rf);
         }
         ring R = 0, x, dp;
-        map phi = br, var(1), 1;
+        map phi = br, x, 1;
         int k = nrroots(phi(rf));
         setring(br);
         if(k == 1)
@@ -470,6 +471,243 @@ EXAMPLE:  example realclassify; shows an example"
           }
         }
         monparam = var(2)^(4+(mu-9));
+      }
+    }
+    if(complextype[1,3] == "Y[1")  // Case Y[1,r,s]
+    {
+      poly g = jet(rf,4);
+      poly s1 = g/(var(1)^4);
+      poly s2 = g/(var(2)^4);
+      if(s1 == 0 && s2 != 0)
+      {
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+      }
+      if(s1 == 0 && s2 == 0)
+      {
+        poly t1 = g/(var(1)^3*var(2));
+        poly t2 = g/(var(1)^2*var(2)^2);
+        poly t3 = g/(var(1)*var(2)^3);
+        if(t1+t2+t3 == 0)
+        {
+          if(2t1+4t2+8t3 != 0)
+          {
+            phi = br, var(1), 2*var(2);
+            rf = phi(rf);
+            g = jet(rf,4);
+          }
+          else
+          {
+            phi = br, var(1), 3*var(2);
+            rf = phi(rf);
+            g = jet(rf,4);
+          }
+        }
+        phi = br, var(1), var(1)+var(2);
+        rf = phi(rf);
+        g = jet(rf,4);
+      }
+      number sign = number(g/(var(1)^4));
+      ring R = 0, x, dp;
+      map phi = br, x, 1;
+      poly g = phi(g);
+      int r = nrroots(g);
+      setring(br);
+      if(r == 0)   //case Y'[1,r,r]
+      {
+        int r' = (mu-9)/2+4;
+        if( sign > 0)
+        {
+          sign = 1;
+        }
+        else
+        {
+          sign = -1;
+        }
+        if (sign == 1)
+        {
+          typeofsing = "Y'[1,"+string(r')+","+string(r')+"]+";
+          typeofsing_alternative = "Y'[1,"+string(r')+","+string(r')+"]-";
+        }
+        else
+        {
+          typeofsing = "Y'[1,"+string(r')+","+string(r')+"]-";
+          typeofsing_alternative = "Y'[1,"+string(r')+","+string(r')+"]-";
+        }
+        nf = sign*(var(1)^2+var(2)^2)^2+var(1)^r';
+        nf_alternative = -1*sign*(var(1)^2+var(2)^2)^2+var(1)^r';
+        monparam = var(1)^r';
+      }
+      else    //Case Y[1,r,s]
+      {
+        ring T = 0,(x,y),ds;
+        poly rf' = fetch(br,rf);
+        list L = BlowUpO(rf');
+        int l = size(L);
+        for(i = 1; i<=l;i++)
+        {
+          poly rf(i) = L[i];
+        }
+        setring br;
+        list L;
+        for(i=1;i<=l;i++)
+        {
+          L[i] = fetch(T,rf(i));
+          for(j=cr+1;j<=n;j++)
+          {
+            L[i] = L[i]+var(j)^2;
+          }
+        }
+        for(i=1;i<=size(L);i++)
+        {
+          if(L[i] == var(1))
+          {
+            int mu(i) = 4;mu(i);
+          }
+          else
+          {
+            int mu(i) = milnornumber(L[i])+4;
+          }
+          for(j=i+1;j<=size(L);j++)
+          {
+            if(L[j] == var(1))
+            {
+              int mu(j) = 4;
+            }
+            else
+            {
+              int mu(j) = milnornumber(L[j])+4;
+            }
+            if(mu(i) == mu(j))
+            {
+              L = delete(L,i);
+              i = i-1;
+              break;
+            }
+            if(mu(i)>mu(j))
+            {
+              poly k = L[i];
+              L[i] = L[j];
+              L[j] = k;
+              i = i-1;
+              break;
+            }
+          }
+        }
+        if((mu(1)+1) mod 2)
+        {
+          if(sign == 1)
+          {
+            typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+            nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            monparam = var(2)^(mu(2)+1);
+            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
+            nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          }
+          if(sign == 0)
+          {
+            typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+            nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            monparam = var(2)^(mu(2)+1);
+            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
+            nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          }
+        }
+        else
+        {
+          list morse(1) = realmorsesplit(L[1]);
+          poly rf(1) = morse(1)[4];
+          int lambda(1) = morse(1)[2];
+          if(mu(1) == 5)
+          {
+            int m;
+            if(sign == -1)
+            {
+              m = lambda(1)-1;
+            }
+            else
+            {
+              m = lambda(1);
+            }
+            if(m > 0 && sign > 0 )
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
+              nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+" ;
+              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if(m > 0 && sign < 0)
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
+              nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++" ;
+              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if(m == 0 && sign > 0)
+            {
+               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+               nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+               monparam = var(2)^(mu(2)+1);
+               typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--" ;
+               nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if(m == 0 && sign < 0)
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+              nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
+              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+          }
+          else
+          {
+            poly rf'(1)=jet(rf(1),mu(1)-3);
+            poly s1 = rf'(1)/var(1)^(mu(1)-3);
+            poly s2 = rf'(1)/var(2)^(mu(1)-3);
+            if(s2 != 0 && s1 == 0)
+            {
+              phi = br, var(2), var(1);
+              rf'(1) = phi(rf'(1));
+            }
+            number sign' = number(rf'(1)/(var(1)^(mu(1)-3)));
+            if( sign > 0 && sign' > 0)
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+              nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
+              nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if( sign > 0 && sign' < 0)
+            {
+              setring(br);
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
+              nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]-+" ;
+              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if( sign < 0 && sign' > 0)
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+              nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
+              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+            if( sign < 0 && sign' < 0)
+            {
+              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
+              nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              monparam = var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]++" ;
+              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            }
+          }
+        }
       }
     }
     if(complextype == "E[12]")   // case E[12]
@@ -1066,4 +1304,88 @@ example
   ring r = 0, (x,y), ds;
   poly f = x3+xy3;
   determinacy(f);
+}
+//////////////////////////////////////////////////////////////////////////
+
+proc BlowUpO(poly f)
+"
+USAGE:    BlowUpO(f); f an isolated singularity with corank 2 at zero in a basering with two variables.
+RETURN:   var(1) or poly with isolated singularity at zero.
+NOTE:     The characteristic of the basering must be zero, f must be contained in maxideal(1)
+          and the Milnor number of f must be finite.
+KEYWORDS: Blow up at zero.
+EXAMPLE:  example BlowUpO; shows an example"
+{
+   def R=basering;
+   list L;
+   def S=changeord("ds");
+   setring S;
+   int n=nvars(basering);
+   int i;
+   poly f=imap(R,f);
+   if(deg(lead(f))<=1)
+   {
+     setring R;
+     return(var(1));
+   }
+   def T=changeord("lp");
+   setring T;
+   map phi;
+   ideal mphi, sing;
+   poly p,q;
+   //===========  blow up =======================================================
+   for(i=1;i<=n;i++)
+   {
+      mphi=var(i)*maxideal(1);
+      mphi[i]=var(i);
+      phi=R,mphi;
+      p=phi(f);
+      q=p/var(i);
+      while(size(p)==size(q))
+      {
+         p=q;
+         q=q/var(i);
+      }
+      //===============  p is the strict transform var(i) exceptional divisor ====
+      //=============== analysis of singularities ================================
+      sing=jacob(p),p, var(i);
+      sing=radical(sing);
+      option(redSB);
+      sing=std(sing);
+      sing=simplify(sing,1);
+      list Excep=primdecGTZ(sing);
+      int l = size(Excep);
+      for(int j=1;j<=l;j++)
+      {
+        if(Excep[j][2][1]==1)
+        {
+          setring R;
+          L[size(L)+1]=var(1);
+          setring T;
+        }
+        if(size(Excep[j][2])>1)
+        {
+          Excep[j][2] = std(Excep[j][2]);
+          if(size(Excep[j][2])!=n){ERROR("blow up does not give a nondegenerate form");}
+          ideal mpsi=std(maxideal(1));
+          for(int k=1;k<=n;k++){mpsi[k]=var(k)-(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];}
+          map psi=T,mpsi;
+          poly g=psi(p);
+          setring R;
+          poly g=imap(T,g);
+          L[size(L)+1]=g;
+          setring T;
+         }
+       }
+     }
+     setring R;
+     return(L);
+}
+example
+{
+  "EXAMPLE:";
+  echo = 2;
+  ring r = 0, (x,y), ds;
+  poly f = x2y2+6x6+7y7;
+  BlowUpO(f);
 }
