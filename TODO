@@ -16,6 +16,7 @@ computational issues:
 - get rid of scalings, if possible
 - check assumptions
 - check constant factors when using factorize
+- check if highest corner method needs ds
 - check computing time for \mu (see trac ticket #375)
 - collect feedback (Gerhard, GM, Wolfram)
 
