@@ -2,12 +2,17 @@
 \linespread{1.25}
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 
+\newcommand{\Singular}{\textsc{Singular}}
+\newcommand{\realclassify}{\texttt{realclassify.lib}}
+
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jt}{jet}
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
 
 \title{The classification of real singularities using \textsc{Singular}}
 
@@ -626,7 +631,146 @@ and higher, not of the form $\alpha y^4$, $c,d\in\mathbb Q, \alpha\in\mathbb R$;
 \subsection{Real parabolic $1$-modal singularities of corank $2$}
 Given a vector $w=(w_1,w_2)$ of integers we define the weighted degree of $x^\alpha y^\beta$ by \[w-\deg(x^\alpha y^\beta):=w_1\alpha+w_2\beta.\] 
 
+\subsubsection{$X_9$}
+For the case $X_9$, the normal form given by Arnold in \cite{AVG1985} is
+\[
+\pm x^4 +a x^2 y^2 \pm y^4 \,, a \in \R \,,
+\]
+with $a^2 \neq 4$ if the signs of $x^4$ and $y^4$ are equal.
 
+The structure of the real equivalence classes of this main type is rather
+involved in comparison to most other cases, e.g.~we have that
+$x^4 +3 x^2 y^2 +y^4$ can be transformed into $x^4+\frac{6}{5} x^2 y^2 +y^4$
+via $x \mapsto \sqrt[4]{\frac{1}{5}}(x+y)$,
+$y \mapsto \sqrt[4]{\frac{1}{5}}(x-y)$ and that $-x^4 +4x^2 y^2 -y^4$ can be
+transformed into $x^4 -10 x^2 y^2 +y^4$ via
+$x \mapsto \sqrt[4]{\frac{1}{2}}(x+y)$ and
+$y \mapsto \sqrt[4]{\frac{1}{2}}(x-y)$. We will first examine this structure in
+detail and then give an algorithm to determine the equivalence class of a given
+singularity of real main type $X_9$.
+
+If we were in the complex case, the normal form would be
+\begin{equation}\label{eqn:X9_cnf}
+x^4 +ax^2y^2 +y^4
+\end{equation}
+with $a \in \C$ and $a^2 \neq 4$. In order to investigate for which values
+$a' \in \C$ this can be transformed, for a given $a$, into
+$x^4 +a'x^2y^2 +y^4$, we may proceed as follows, e.g. using \Singular:
+We first apply a generic coordinate transformation
+\[
+\varphi: \; x \mapsto rx+sy, \; y \mapsto tx+uy, \; r,s,t,u \in \C
+\]
+to (\ref{eqn:X9_cnf}). Note that it suffices to consider the 1-jet of $\varphi$
+because $X_9$ is 4-determined as can be shown using the highest corner method
+(cf. TODO). We can then set up the ideal of transformations which take $a$ to
+$a'$. By eliminating $r$, $s$, $t$ and $u$ from this ideal, we get a polynomial
+of degree 6 in both $a$ and $a'$ which does not involve any other variables.
+Factorizing this polynomial gives the following solutions:
+\begin{align*}
+a'_1 &= a  & a'_3 &= \frac{2a+12}{a-2} & a'_5 &= \frac{-2a+12}{a+2} \\
+a'_2 &= -a & a'_4 &= \frac{2a-12}{a+2} & a'_6 &= \frac{2a+12}{-a+2}
+\end{align*}
+Hence the equivalence class of a generic complex singularity of main type $X_9$
+can be represented by $x^4 +a'x^2y^2 +y^4$ for six different values of
+$a' \in \C$. The non-generic cases are precisely those with
+$a' \in \{-6, 0, 6\}$ where some of the above solutions coincide.
+
+TODO: Draw a picture here?
+
+If, as the next step, we restrict ourselves to singularities of main type $X_9$
+given by polynomials with real coefficients, but still allow complex
+transformations, the picture changes. In this case we have to distinguish
+between the subtypes $X_9^{++}$, $X_9^{--}$, $X_9^{+-}$, and $X_9^{-+}$,
+referring to the signs of $x^4$ and $y^4$ in the normal form, respectively. By
+simply interchanging the variables $x$ and $y$, the last two subtypes can be
+considered as one.
+The question now is for which $i \in \{1, \ldots, 6\}$ there is a (possibly
+complex) transformation that takes
+$\pm x^4 +ax^2y^2 \pm y^4$ to $\pm x^4 +a'_i x^2y^2 \pm y^4$, and we may
+ask this for each combination of signs.
+It turns out that for transformations from $X_9^{++}$ to itself, from
+$X_9^{--}$ to itself or from $X_9^{++}$ to $X_9^{--}$ and vice-versa, all the
+solutions $a'_1, \ldots, a'_6$ hold valid. For those from $X_9^{+-}$ to
+itself (and thus also from $X_9^{-+}$ to itself, from $X_9^{+-}$ to
+$X_9^{-+}$
+and vice-versa), only $a'_1$ and $a'_2$ remain. For any of the cases from
+$X_9^{++}$ or $X_9^{++}$ to $X_9^{+-}$ or $X_9^{+-}$, there is a valid
+transformation if and only if the parameter $a$ is in $\{-6, 0, 6\}$, and it
+then becomes~$0$.
+
+TODO: Draw a picture here?
+
+If we allow only for real transformations, i.e. automophisms of $\R[[x,y]]$,
+we get even more equivalence classes. Then, besides the identity map taking $a$
+to $a'_1=a$ and identifying $X_9^{+-}$ with $X_9^{-+}$,
+only the following equivalences hold:
+\begin{align}
+X_9^{++,a} \; &\requiv \; X_9^{++,a'_5} \; \text{ for } a > -2 \\
+X_9^{--,a} \; &\requiv \; X_9^{--,a'_3} \; \text{ for } a < 2 \\
+X_9^{++,a} \; &\requiv \; X_9^{--,a'_4} \; \text{ for } a < -2 \\
+X_9^{--,a} \; &\requiv \; X_9^{++,a'_6} \; \text{ for } a > 2
+\end{align}
+
+TODO: Explain how this can be computed?
+TODO: Draw a picture here.
+
+The main tool for determining the subtype of a given real singularity of main
+type $X_9$ is blowing-up. Again, it suffices to consider the 4-jet of the
+polynomial $f = kx^4 + lx^3y + mx^2y^2 + nxy^3 + oy^4 \in \R[x, y]$ defining
+the given singularity. Before the blowing-up, we have to make sure that the
+coefficient of $x^4$ is non-zero. If this is not
+the case, this can be easily achieved by switching the variables if
+$o \neq 0$, or otherwise by applying either $y \mapsto x+y$, $y \mapsto 2x+y$,
+or $y \mapsto 3x+y$. These transformations yield $l+m+n$, $2l+4m+8n$, and
+$3l+9m+27n$, respectively, as coefficients of $x^4$, which cannot all at once
+be zero.
+
+TODO: Say what WE take as normal forms.
+
+Applying the blowing-up map $x \mapsto x \,, y \mapsto 1$ results in a
+polynomial $f_{\text{blowup}} \in \R[x]$ of degree 4 which has either four, two
+or no real roots. This number is invariant with respect to any transformation
+applied to $f$ before the blowing-up. Blowing-up the normal forms shows the
+following picture:
+
+\begin{tabular}{l|c}
+Subtype & Number of real roots after the blowing-up \\ \hline
+$X_9^{++,a} \,, a < -2$ & 4 \\
+$X_9^{+-}$ & 2 \\
+$X_9^{++,a} \,, a > -2$ & 0 \\
+$X_9^{--,a} \,, a < 2$ & 0
+\end{tabular}
+
+To distinguish the two cases where the number of real roots is zero, it suffices
+to look at the sign of the (now for sure non-zero) coefficient of $x^4$: It
+stays invariant under any real transformation whatsoever.
+
+\realclassify{} also tries to determine the parameter $a$ as far as possible,
+but in some cases it is not determined uniquely, and several possibilities are
+given. The method we use proceeds as follows: Very similar to the complex case,
+eliminating the coefficients of a generic coordinate transformation from the
+ideal of transformations which take the given polynomial $f$ to its normal form
+yields an univariate polynomial $p_f(a)$ of degree 6 in the parameter $a$. The
+possible values of $a$ are among the real roots of this polynomial.
+
+In order to
+test these roots separately, we try to factorize $p_f$, but there is no
+guaranty that it splits into linear factors and there are indeed cases where it
+does not. We then employ different means to exclude as many
+factors as possible. One method is to verify, for each factor, that it has at
+least one real root in the interval which contains $a$ according to the
+subtype. Finally, another check can be done by switching over to the
+quotient ring defined by each factor. If the value of $a$ is indeed one of the
+real roots of a certain factor of $p_f$, then the ideal of generic
+transformations which take the given polynomial to its normal form has at least
+one real root in this ring, which can in many cases be checked by using the
+command \texttt{nrRootsDeterm()} from \Singular{}'s \texttt{rootsmr.lib}.
+
+The complete algorithm to determine the subtype and the parameter of a given
+real singularity of main type $X_9$ now reads as follows:
+
+
+\subsubsection{$J_{10}$}
 For the main real singularity type $J_{10}$ we use the complex normal form $x^3+axy^4+ y^6$, which splits up into $x^3+axy^4\pm y^6$ in the real case (see Table \ref{normal forms}),  instead of the complex normal form $x^3+ax^2y^2+xy^4$, which splits up into $x^3+ax^2y^2\pm xy^4$, used by Arnold in \cite{AVG1985}. Using this different normal form makes calculations in \textsc{Singular}, determining the real singularity type easier. Furthermore, note that, in mapping $x\mapsto -x$, in the real normal forms we used, does not change the sign of $y^6$, while in Arnold's normal forms it changes the sign of the term $xy^4$, which makes the normal forms we used in general more suitable for computations in  the real case.
 
 Now, having a polynomial $g$ over $\mathbb Q$ of complex type $J_{10}$, using Lemma \ref{kjet} and Lemma \ref{x^3}, we transform $g$ to a polynomial of the form \[b''x^3+\textnormal{ terms of higher degree,}\] where $b''\in\mathbb Q$.  Since $g$ is right-equivalent to one of the germs $x^3+axy^4\pm y^6$, for some $a\in\mathbb R$, there exists an $\mathbb R$-algebra automorphism $\phi$ such that $\phi(x^3+axy^4+y^6)=g$ or such that $\phi( x^3+axy^4-y^6)=g$. Clearly, $\jt(\phi(x),1)=\sqrt[3]{b''}x$. Hence \[g=b'' x^3+c''x^2y^2+d''xy^4+e''y^6+\textnormal{ terms of higher $w$-degree,}\] where $b'',c'',d'',e''\in\mathbb{Q}$ and $w=(\frac{1}{3},\frac{1}{6})$. Applying the map defined by $x\mapsto \frac{1}{\sqrt[3]{b''}}x$ and $y\mapsto\frac{1}{\sqrt[6]{b''}}y$ transforms $g$ to\[g=x^3+c'x^2y^2+d'xy^4+e'y^6+\textnormal{ terms of higher $w$-degree,}\] where $c'=\frac{c''}{b''}\in\mathbb{Q}$, $d'=\frac{d''}{b''}\in\mathbb{Q}$ and $e'=\frac{e''}{b''}\in\mathbb{Q}$. (Since it is only necessary to consider the weighted 1-jet of $g$ from here onwards, as is clear from the rest of the arguments, we may instead of the above transformation, transform $g$ by multiplication with the scalar $\frac{1}{b''}$). We get rid of the term $c'x^2y^2$ by applying te map defined by $x\mapsto x-\frac{c'}{3}y^2$ and $y\mapsto y$, i.e.
