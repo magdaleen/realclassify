@@ -615,18 +615,17 @@ or $A_k^+$, $k\in\mathbb N$.
 \item return type of singularity;
 \end{itemize}
 
-\subsection{Real $0$-modal singularities of corank $2$}
-
+\subsection{Real $\mathbf 0$-modal singularities of corank $\mathbf 2$}
 The goal of the rest of the paper is to classify singularities of corank $2$.
 In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
-$g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library ``classify.lib'' we
+$g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib} we
 determine the complex singularity type and thus the main real singularity type
 of $g$, or equivalently $f$. The purpose of the remaining algorithms in the
 paper is to classify the correct real subtype of $g$, or equivalently $f$. We
 now consider each complex type, or equivalently every real main type,
 seperately.
 
-If $g$ is of complex singularity type $D_4$, we only need
+\subsubsection{$ D_4$:}In this case we only need
 to consider the real singularity types $D_4^-$ and $D_4^+$ to determine the
 real singularity type of $g$. Because $g\in \m^3$, $\ord(g)\ge3$,
 and therefore $\jt(g,3)$ is homogeneous. We now consider
@@ -690,7 +689,7 @@ Q$, $a_0\neq 0$;\newline
 \end{itemize}
 
 Implementing  the Algorithms in this paper in \textsc{Singular}, we used the
-library ``rootsur.lib" \cite{roots} to count the number of real roots of a
+library {\tt rootsur.lib} \cite{roots} to count the number of real roots of a
 univariate polynomial.
 
 The following two results are proved in \cite{Siersma}.
@@ -729,8 +728,8 @@ transformations in Lemma~\ref{transformationD[k]}, for each $j$, only the term
 $a_jy^j$ will each time possibly not vanish. If $j<k-1$, $a_j=0$, and if
 $j=k-1$, $a_j\neq 0$, otherwise $g$ is not of complex type
 $D_k$. Thus, after applying these transformations,
-we can write $g$ as $g=x^2y+\alpha y^{k-1}, a\neq0$. Clearly if $\alpha>0$ then
-$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$ then
+we can write $g$ as $g=x^2y+\alpha y^{k-1}, a\neq0$. Clearly if $\alpha>0$, then
+$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$, then
 $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
 \newtheorem{D[k]k>4}[kjet]{Algorithm}
@@ -761,7 +760,7 @@ else\newline
 \item return type of singularity;
 \end{itemize}
 
-If $g$ is of complex type $E_6$ then $g\requiv x^3+y^4$ or $g\requiv x^3-y^4$.
+\subsubsection{$E_6$:}In this case $g\requiv x^3+y^4$ or $g\requiv x^3-y^4$.
 Therefore there exists an $\mathbb
 R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
 $\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
@@ -789,7 +788,7 @@ the monomial $y^4$. Now
 \begin{eqnarray*}
 \textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)
 &=&3(\phi_1(x)^2)(\phi_2(x)-\phi_1(x))\\
-&=&3(c'x)^2(\phi_2(x)-\phi_1(x))
+&=&3(c'x)^2(\phi_2(x)-\phi_1(x)),
 \end{eqnarray*}
  which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
  $\alpha\in\mathbb R$ .
@@ -819,11 +818,11 @@ $c,d\in\mathbb Q, \alpha\in\mathbb R$;
 \item return type of singularity;
 \end{itemize}
 
-\subsection{Real parabolic $1$-modal singularities of corank $2$}
+\subsection{Real parabolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 Given a vector $w=(w_1,w_2)$ of integers we define the weighted degree of
 $x^\alpha y^\beta$ by \[w-\deg(x^\alpha y^\beta):=w_1\alpha+w_2\beta.\]
 
-\subsubsection{$X_9$}
+\subsubsection{$X_9:$}\label{X_9}
 For the case $X_9$, the normal form given by Arnold in \cite{AVG1985} is
 \[
 \pm x^4 +a x^2 y^2 \pm y^4 \,, a \in \R \,,
@@ -860,7 +859,7 @@ of degree 6 in both $a$ and $a'$ which does not involve any other variables.
 Factorizing this polynomial gives the following solutions:
 \begin{align*}
 a'_1 &= a  & a'_3 &= \frac{2a+12}{a-2} & a'_5 &= \frac{-2a+12}{a+2} \\
-a'_2 &= -a & a'_4 &= \frac{2a-12}{a+2} & a'_6 &= \frac{2a+12}{-a+2}
+a'_2 &= -a & a'_4 &= \frac{2a-12}{a+2} & a'_6 &= \frac{2a+12}{-a+2}.
 \end{align*}
 Hence the equivalence class of a generic complex singularity of main type $X_9$
 can be represented by $x^4 +a'x^2y^2 +y^4$ for six different values of
@@ -900,7 +899,7 @@ only the following equivalences hold:
 X_9^{++,a} \; &\requiv \; X_9^{++,a'_5} \; \text{ for } a > -2 \\
 X_9^{--,a} \; &\requiv \; X_9^{--,a'_3} \; \text{ for } a < 2 \\
 X_9^{++,a} \; &\requiv \; X_9^{--,a'_4} \; \text{ for } a < -2 \\
-X_9^{--,a} \; &\requiv \; X_9^{++,a'_6} \; \text{ for } a > 2
+X_9^{--,a} \; &\requiv \; X_9^{++,a'_6} \; \text{ for } a > 2.
 \end{align}
 
 TODO: Explain how this can be computed?
@@ -962,7 +961,7 @@ The complete algorithm to determine the subtype and the parameter of a given
 real singularity of main type $X_9$ now reads as follows:
 
 
-\subsubsection{$J_{10}$}
+\subsubsection{$J_{10}$:}
 For the main real singularity type $J_{10}$ we use the complex normal form
 $x^3+axy^4+ y^6$, which splits up into $x^3+axy^4\pm y^6$ in the real case (see
 Table \ref{normal forms}),  instead of the complex normal form
@@ -970,7 +969,7 @@ $x^3+ax^2y^2+xy^4$, which splits up into $x^3+ax^2y^2\pm xy^4$, used by Arnold
 in \cite{AVG1985}. Using this different normal form makes calculations in
 \textsc{Singular}, determining the real singularity type easier. Furthermore,
 note that, in mapping $x\mapsto -x$, in the real normal forms we used, does not
-change the sign of $y^6$, while in Arnold's normal forms it changes the sign of
+change the sign of $y^6$, i.e. the term with the parameter $a$ as coefficient, while in Arnold's normal forms it changes the sign of
 the term $xy^4$, which makes the normal forms we used in general more suitable
 for computations in  the real case.
 
@@ -1030,8 +1029,8 @@ $c,e\in\mathbb Q$.
 \item return type of singularity;
 \end{itemize}
 
-\subsection{Real hyperbolic $1$-modal singularities of corank $2$}
-In the $J_{10+k}$ $k>0$ cases, similar to the $J_{10}$ case, we have used
+\subsection{Real hyperbolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
+\subsubsection{$J_{10+k}$:}In the $J_{10+k}$ $k>0$ cases, similar to the $J_{10}$ case, we have used
 different normal forms than Arnold in \cite{AVG1985}.
 Here we have used the complex normal form $x^3+xy^4+a y^{6+k}$, instead of the
 normal form $x^3+x^2y^2+ay^{6+k}$. Since the normal form $x^3+xy^4+a y^{6+k}$
@@ -1040,74 +1039,37 @@ form $x^3+x^2y^2+ay^{6+k}$ that splits up in $x^3\pm x^2y^2+ay^{6+k}$ in the
 real case. Using this normal form we thus only need the complex classification
 in this case.
 
-Considering the case when $g$ is of complex type $X_{9+k}$, we know that $g$ is
+\subsubsection{$X_{9+k}$:}Considering the case when $g$ is of complex type $X_{9+k}$, we know that $g$ is
 of the
 form
 \[
 g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4+\textnormal{ terms of higher degree,}
 \]
 $a_0,\ldots,a_4\in\mathbb Q$.
-If $a_0= 0$, we first transform $g$ to a polynomial where the coefficient of
-$x^4$ is nonzero. If $a_4\neq
-0$ we can achieve this by the transformation defined by $x\mapsto y$,
-$y\mapsto x$.
-
-If $a_4=0$, then at least one of $a_1$, $a_2$ or $a_3$ is not $0$, otherwise
-the singularity  is not of complex type $X_{9+k}$.  If we apply the
-transformation defined by $x\mapsto x+y$ and
-$y\mapsto y$ in this situation, we will transform $g$ so that the new
-coefficient of $x^4$ is $a_1+a_2+a_3$. Thus if we can ensure that
-$a_1+a_2+a_3\neq 0$, we
-can use this map and have the desired result. Now, since $v_1=a_1+a_2+a_3$,
-$v_2=2a_1+4a_2+8a_3$ and $v_3=3a_1+6a_2+9a_3$ is linear independent in the
-three dimensional
-$\mathbb R$-vector space with formal basis $(a_1, a_2, a_3)$, it follows that
-all
-three vectors are zero if and only if $a_1,a_2$ and $a_3$ is zero. Knowing
-$a_1$, $a_2$
-and $a_3$ cannot all be zero, at least one of $v_1$, $v_2$ or $v_3$ is not
-zero. If $v_1=0$ and $v_2\neq 0$, then the map defined by $x\mapsto x$ and
-$y\mapsto 2y$
-will transform $g$ to
-\[
-g=a_0'x^4+a_1'x^3y+a_2'x^2y^2+a_3'xy^3+a_4'y^4+\textnormal{
-terms of higher degree,}
-\]
-where $a_1'+a_2'+a_3'=2a_1+4a_2+8a_3\neq 0$ and $a_0',\ldots,a_4'\in\mathbb Q$.
-If $v_1=0$ and
-$v_3\neq 0$, then the map defined by $x\mapsto x$ and $y\mapsto 3y$ will
-transform $g$
-to
-\[
-g=a_0'x^4+a_1'x^3y+a_2'x^2y^2+a_3'xy^3+a_4'y^4+\textnormal{ terms of higher
-degree,}
-\]
-where $a_1'+a_2'+a_3'=3a_1+6a_2+9a_3\neq0$.
+Similar to the $X_9$-case , Section \ref{X_9}, it is possible to transform $g$ such that the coefficient of $x_4$ is non-zero. Hence we may assume that $a_0\neq 0$.
 
 Now, $g\requiv h$, where $h=x^4+x^2y^2+ay^{4+k}$ if $g$ is of type
 $X_{9+k}^{++}$, $h=-x^4-x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{--}$,
 $h=-x^4+x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{-+}$ and
 $h=x^4-x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{+-}$, for some
 $0\neq a\in\mathbb R$.  It follows
-from Lemma~\ref{kjet} that $\textnormal{jet}(g,4)$ will factor as
+from Lemma~\ref{kjet} that $\textnormal{jet}(g,4)$ factor as
 $\pm\phi_1(x)^2(\phi_1(x)^2+\phi_1(y)^2)$ in the first two cases and as
 $\pm\phi_1(x)^2(\phi_1(x)-\phi_1(y))(\phi_1(x)+\phi_1(y))$ in the second two
 cases, where $\phi$ is the $\mathbb R$-algebra automorphism such that
-$\phi(g)=h$. Since $a'_0\neq 0$,  the dehomogenization $\jt(g,1)(x,1)$ has one
+$\phi(g)=h$. Since $a_0\neq 0$,  the dehomogenization $\jt(g,1)(x,1)$ has one
 root in the first two
 cases and
 three roots in the last two cases.
 
-Now, since the sign of the terms in the $4$-jet of $h$ in the first two cases
+Since the sign of the terms in the $4$-jet of $h$ in the first two cases
 does not differ and the power of both $x$ and $y$ in all the terms is even,
 we only need to consider the sign of the $x^4$-term to distinguish between
 the $X_{9+k}^{++}$ and $X_{9+k}^{--}$ cases.
 
 If $\jt(g,1)$ has three roots, we transform $g$ by using Lemma \ref{kjet}
-and Lemma~\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. Hence
-we
-can now
-write $\jt(g,1)$ in the form
+and Lemma~\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. We therefore may assume that
+$\jt(g,1)$ is of the form
 $\jt(g,1)=a_0x^4+a_1x^3y+a_2x^2y^2=\pm(\alpha x)^2((\alpha
 x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$,
 $a_0,a_1,a_2\in\mathbb Q$. Since
@@ -1165,12 +1127,12 @@ a_0,a_1,a_2\in\mathbb Q$;\newline
 \item return type of singularity;
 \end{itemize}
 
-Next we consider the case when $g$ is of one of the following complex cases:
+\subsubsection{$Y_{r,s}$ and $\widetilde Y_{r,s}$} Next we consider the case when $g$ is of one of the following complex cases:
 $Y_{r,s}$ and $\widetilde Y_r$, $r,s>4$. Note that in the complex case, normal
 forms of type $\widetilde Y_r$ are right-equivalent to normal forms of type
 $Y_{r,s}$. This is unfortunately not true in the real case and we hence have to
 treat these cases separately.  Similar to the $D_4$ case, we distinguish
-between the two cases, using Lemma \ref{kjet} and the library ``rootsur.lib",
+between the two cases, using Lemma \ref{kjet} and the library {\tt rootsur.lib},
 noticing that the $4$-jet of polynomials of type $Y_{r,s}$ factorize into four
 linear factors, while the $4$-jet of polynomials of type $\widetilde Y_r$ do
 not have any linear factors.
@@ -1179,10 +1141,7 @@ For the case when $g$ is of type $\widetilde Y_r$, for some $r$ we have to
 distinguish between the following normal forms in the real case
 $\pm(x^2+y^2)^2+ax^r$ and determine the value of $r$. Using the fact that the
 $4$-jet $(x^2+y^2)^2$ is always positive, substituting any real numbers for $x$
-and $y$,  we distinguish between the two cases by considering the sign of
-$a_0$, after transforming the input polynomial to a polynomial which $4$-jet is
-of the form $a_0x^4+a_1x^3y+a_2x^2y^2+a_3x^3y+a_4y^4$. Such a transformation is
-used in the calculations of the classification of the $X_{9+k}$ case. It is
+and $y$,  we distinguish between the two cases by considering the sign of the coefficient of $x^4$, after transforming the input polynomial to a polynomial of which the relating coefficient is nonzero. Such a transformation is explained in Section \ref{X_9}. It is
 already known (see~\cite{AVG1985}) that $r=\frac{\mu-9}{2}+4$.
 
 Considering the cases when $g$ is of type $Y_{r,s}$, for some $r$ and $s$,
@@ -1210,9 +1169,8 @@ $f_1$, after applying the Splitting Lemma, is greater than zero, if the sign of
 $y^2$ in $f_1$ is positive, and is greater than one if the sign of $y^2$ in
 $f_1$ is negative. Otherwise the sign of $x^r$ in the normal form of $g$ is
 positive. If $r$ is even and $r\neq 6$ we determine the sign in front of the
-monomial $x^r$, similar to previous calculations, considering the sign of $a_0$
-after transforming the residual part to a germ of which the $r-4$-jet is of the
-form $a_0x^{r-4}+a_1x^{r-5}y+\cdots+a_{r-5}x^{r-4}y^{r-5}+a_{r-4}y^{r-4}$.
+monomial $x^r$, similar to previous calculations, considering the sign of $x^{r-4}$
+after transforming the residual part to a germ of which the coefficient of $x^{r-4}$ is non-zero.
 
 We implemented Algorithm \ref{BlowingUp} that blows an input polynomial $g$ in
 $\mathbb Q[x_1,x_2]$ of complex type $Y_{r,s}$ up at the origin and gives as
@@ -1231,11 +1189,11 @@ In Algorithm \ref{BlowingUp}, we consider the different blowing up charts
 seperately. Without loss of generality, let us consider the chart where $x_i$
 is the local equation for the exceptional divisor. After determining the strict
 transform $p$, we determine whether $p$ has singularities on the exceptional
-divisor, and if that is the case, where on the exceptional divisor do the
+divisor, and if this is the case, where on the exceptional divisor do the
 singularities occur. We do this by determining a minimal prime decomposition
 $P_1\cap\cdots\cap P_s$, of the radical of the ideal $P=\langle
-\textnormal{jacob}(p),p,x_i\rangle$ over $\mathbb Q$, using the singular
-library ``primdec.lib" \cite{primdec.lib} (If $p$ has zero or one singularity
+\textnormal{jacob}(p),p,x_i\rangle$ over $\mathbb Q$, using the \textsc{Singular}
+library {\tt primdec.lib} \cite{primdec.lib} (If $p$ has zero or one singularity
 on the exceptional divisor, $s=1$, otherwise, if $p$ has two singularities on
 the exceptional divisor, $s=1$ or $s=2$, depending whether all the $P_j$'s are
 prime over $\mathbb R$).  If $P_j$ is not prime over $\mathbb R$ for any $j$,
@@ -1245,15 +1203,14 @@ using lexicographical ordering, for every $P_j$. If the degree of any basis
 element of $P_j$, for some $j$, is of degree $2$ then $P_j$ is not prime over
 $\mathbb R$.
 
-As we will see later, if $p$ intersect the exceptional divisor smoothly or the
+As we will see later, if $p$ has no singularities on the exceptional divisor or the
 singularities of $p$ occur at rational points on the exceptional divisor in one
-chart, this will be the case in both charts. Let us first consider this case.
+chart, this is the case in both charts. Let us first consider this case.
 In this case we firstly determine a list $L_1$ which contains the resulting
-singularities at $0$, or $x_1$ in case $p$ intersects the exceptional divisor
-smoothly, in both charts, after $g$ is blown up. Considering the chart with
-exceptional divisor $x_i$, if $P=\langle 1\rangle$, then $p$ intersect the
-exceptional divisor smoothly and $x_1$ is added to the list $L_1$. When $p$
-does not intersect the exceptional divisor smoothly, we can determine the
+singularities at $0$, or $x_1$ in case $p$ has no singularities on the exceptional divisor, 
+in both charts, after $g$ is blown up. Considering the chart with
+exceptional divisor $x_i$, if $P=\langle 1\rangle$, then $p$ has no singularities on the
+exceptional divisor and $x_1$ is added to the list $L_1$. Otherwise, we determine the
 rational points on the exceptional divisor where singularities occur by
 determining the zero set of $P$. We do this by determining the zero point
 $(s_{1j},s_{2j})$ of each $P_j$, using a reduced basis determined by using
@@ -1262,13 +1219,13 @@ $x_1\mapsto x_1-s_{1j}$, $x_2\mapsto x_2-s_{2j}$ we map the singularity that
 occur at  $(s_{1j},s_{2j})$ to $0$. We add these resulting singularities to
 $L_1$. Repeating the process for both charts, $L_1$ contains all the resulting
 singularities, possibly repeated, after blowing up $g$ at the origin, and $x_1$
-for each resulting germ that intersects the exceptional divisor smoothly. We
+for each resulting germ that does not have singularities on the exceptional divisor. We
 simplify $L_1$ by deleting repeating singularities and ordering the entries
 according to the milnor number of the entries. Having the list $L_1$, the
 methods discussed above are used to determine the values of the list $L$.
 
 If there occur a singularity of $p$ at an irrational point in some chart on the
-exceptional divisor both charts will contain two singularities of the strict
+exceptional divisor both charts contain two singularities of the strict
 transform at irrational points on the exceptional divisor. Thus it is only
 necessary to consider one chart. This can be seen as follows. Since $g$ is of
 type $Y_{r,s}$, $g$ is of the form
@@ -1315,16 +1272,16 @@ Determining $p$, again, we have
  $t$ can represent either $e$ or $-e$, the resulting polynomial represent both
  singularities working over $\mathbb Q(t)$. The milnor numbers for the
  resulting singularities, and thus L[1] and L[2], can be detemined working over
- the ring $\mathbb Q(t)$. Since both resulting singularities are represented by
+ the ring $\mathbb Q(t)$. Because both resulting singularities are represented by
  one polynomial over $\mathbb Q(t)$, the milnor number will be the same in both
  cases. Since $t$ represents $e$ or $-e$, $t$ does not have a sign. Therefore
  it is not enough working over $\mathbb Q(t)$ when determining the inertia
  index of the resulting singularities or the sign of the monomial $x_1^r$ or
  the monomial $x_2^r$ in  any one of the resulting normal forms. The resulting
- singularities over $\mathbb R$ can be determined by replacing $t$ with $e$ and
+ singularities over $\mathbb R$ is determined by replacing $t$ with $e$ and
  $-e$, respectively. Since it is only possible to work with floating real
  numbers in \textsc{Singular} approximation errors may occur. We determine the
- approximated values of $e$ and $-e$ using the library ``solve.lib"
+ approximated values of $e$ and $-e$ using the library {\tt solve.lib}
  \cite{solve.lib} in \textsc{Singular}. Using the previously discussed methods
  the approximated values of $L[3]$ and $L[4]$ can now be determined.
 
@@ -1339,8 +1296,7 @@ of $r$ and $s$, $r\le s$, respectively; $L[3]$: the inertia index of the
 resulting germ, after blowing up $g$, with lowest milnor number if $L[1]\neq
 5$, and $0$ otherwise; $L[4]$: the sign of the monomial $x_1^r$ or $x_2^r$ in
 the normal form of the resulting singularity with lowest milnor number; $L[5]$
-the value $1$ if the resulting germs do not intersect the exceptional divisor
-smoothly, i.e.~$L[1]\neq 5$, and occur at irrational points on the exceptional
+the value $1$ if the resulting germs have singularities on the exceptional divisor, i.e.~$L[1]\neq 5$, and occur at irrational points on the exceptional
 divisor and $0$ otherwise. If the value of $L[5]$ is $1$, the values of $L[3]$
 and $L[4]$ are determined using floating real numbers and thus may be wrong.
 \begin{itemize}
@@ -1482,8 +1438,7 @@ $a_0,\ldots,a_4\in\mathbb Q, a_0\neq 0$;
 \phantom{}\quad Blowing up the origin of $g$ and let $L$ be a list with entries
 $L[1]$ and $L[2]$: the values of $r$ and $s$, $r\le s$, respectively; $L[3]$:
 the inertia index of the resulting singularity, after blowing up $g$, with
-lowest milnor number if the resulting germs do not cut the exceptional divisor
-smoothly, i.e~$L[1]\neq 5$, and $0$ otherwise; $L[4]$: the sign of the monomial
+lowest milnor number if the resulting germs have singularities on the exceptional divisor, i.e~$L[1]\neq 5$, and $0$ otherwise; $L[4]$: the sign of the monomial
 $x_1^r$ or $x_2^r$ in the normal form of the resulting singularity with lowest
 milnor number; $L[5]$ the value $1$ if the resulting germs intersects the
 exceptional divisor smoothly and occur at irrational points on the exceptional
@@ -1537,9 +1492,9 @@ $:= Y_{\mu_1+1,\mu_2+1}^{-+}$;\newline
 \item return type of singularity;
 \end{itemize}
 
-\subsection{Real exceptional $1$-modal singularities of corank $2$}%
+\subsection{Real exceptional $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 \label{ExceptionalSingularities}
-Lastly we treat the exceptional singularities. The cases $E_{12}$, $E_{13}$,
+\subsubsection{Exceptional cases:}Lastly we treat the exceptional singularities. The cases $E_{12}$, $E_{13}$,
 $Z_{11}$ and $Z_{12}$ are solved only using the complex classification of $g$.
 Singularities of complextype $Z_{13}$ are solved, similar to case $D_{4}$,
 using Lemma \ref{kjet} and Lemma \ref{x^3} to transform the $4$-jet of $g$, to
