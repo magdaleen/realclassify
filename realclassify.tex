@@ -1,5 +1,5 @@
 \documentclass[noend]{amsproc}
-\linespread{1.25}
+\linespread{1}
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -153,16 +153,17 @@ specific cases, unfortunately using approximations.
 The following well-known theorem, called the Splitting Lemma, allows us to
 reduce the classification to germs of corank $c$ or, equivalently, to germs
 in $\m^3$ contained in $\mathbb R[[x_1,\ldots,x_c]]$.
-\newtheorem{SplittingLemma}{Theorem}[section]
-\newtheorem{AlgorithmSplittingLemma}[SplittingLemma]{Algorithm}
-\begin{SplittingLemma}\label{SplittingLemma}
+
+
+\begin{theorem}\label{SplittingLemma}
 If $f\in \m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
 \[ f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
 with $g\in \m^3$. $g$ is called the residual part of $f$ and $\lambda$
 is called
 the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are
 uniquely determined up to right equivalence.
-\end{SplittingLemma}
+\end{theorem}
+
 We implemented Theorem \ref{SplittingLemma} in \textsc{Singular},
 using the following algorithm. Since $\textsc{Singular}$ use real floating
 numbers, which do not represent the real numbers, instead of real numbers,
@@ -174,52 +175,51 @@ $g$ will also be rational and calculations will be exact.
 We denote the set of all monomials with nonzero coefficients that appear in a
 power series $f$, called the support of $f$, by $\supp(f)$.
 
-\begin{AlgorithmSplittingLemma}(Splitting Lemma)\label{AlgorithmSplittingLemma}
-\end{AlgorithmSplittingLemma}
-\noindent\textnormal{\bf Input:} $f\in \m^2\subset\mathbb
+\begin{algorithm}[h]
+\caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
+\begin{algorithmic}[1]
+\REQUIRE{$f\in \m^2\subset\mathbb
 R[x_1,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is
-$k$-determined.\newline
-\textnormal{\bf Output:} $c:=\textnormal{corank}(f)$, $\lambda\in\mathbb
+$k$-determined.}
+
+\ENSURE{$c:=\textnormal{corank}(f)$, $\lambda\in\mathbb
 N$ and
 $g\in \m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle
-f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]
-\begin{itemize}
-\item $S:=\emptyset;$
-\item for($i=1;\ i\le n;\  i++$)\newline
-\phantom{}\quad if($\textnormal{jet}(f,2)\in \mathbb R[x_1,\ldots,\hat
-x_i,\ldots,x_n]$);\newline
-\phantom{}\quad\quad $S:=S\cup\{x_i\}$;\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad $f:=\textnormal{jet}(f,k);$\newline
-\phantom{}\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
-\phantom{}\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
-\phantom{}\quad\quad if($a(0)=0$)\newline
-\phantom{}\quad\quad\quad choose $j\in\{i+1,\ldots,n\}$ with
-$x_ix_j\in\textnormal{supp}(f)$;\newline
-\phantom{}\quad\quad\quad apply $x_j\mapsto x_j+x_i$;\newline
-\phantom{}\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
-\phantom{}\quad\quad\quad and $a\in\mathbb R[x_1,\ldots,x_n];$\newline
-\phantom{}\quad\quad\quad\quad while($p\neq 0$)\newline
-\phantom{}\quad\quad\quad\quad\quad apply $x_i\mapsto
-x_i-\frac{p}{2a(0)}$;\newline
-\phantom{}\quad\quad\quad\quad\quad $f:=\textnormal{jet}(f,k);$\newline
-\phantom{}\quad\quad\quad\quad\quad write $f$ as $f=ax_i^2+px_i+r$ with
-$p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$\newline
-\phantom{}\quad\quad\quad\quad\quad and $a\in\mathbb
-R[x_1,\ldots,x_n];$\newline
-\item $c =\# S$;
-\item change the order of variables such that $\displaystyle
-f=g+\sum_{i=c+1}^na_ix_i^2$;
-\item $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$;
-\item change the order of variables such that
+f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]}
+
+\STATE $S:=\emptyset$
+\FOR{$i=1;\ i\le n;\  i++$}
+\IF{$\jt(f,2)\in \mathbb R[x_1,\ldots,\hat
+x_i,\ldots,x_n]$}
+\STATE $S:=S\cup\{x_i\}$
+\ELSE
+\STATE $f:=\jt(f,k)$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\IF{$a(0)=0$}
+\STATE choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\supp(f)$
+\STATE apply $x_j\mapsto x_j+x_i$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\WHILE{$p\neq 0$}
+\STATE apply $x_i\mapsto x_i-\frac{p}{2a(0)}$
+\STATE $f:=\jt(f,k)$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\ENDWHILE
+\ENDIF
+\ENDIF
+\ENDFOR
+\STATE $c =\# S$
+\STATE change the order of variables such that $f=g+\sum_{i=c+1}^na_ix_i^2$
+\STATE $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$
+\STATE change the order of variables such that
 \[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\
-a_i>0;\]
-\item apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$;
-\item $g:=f$;
-\item return $c, \lambda, g$;
-\end{itemize}
+a_i>0\]
+\STATE apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$
+\STATE $g:=f$
+\RETURN{$c, \lambda, g$}
+\end{algorithmic}
+\end{algorithm}
 
 \begin{proof}
 If we can prove that we can write $f$ as \begin{equation}\label{eq4}
@@ -472,8 +472,7 @@ $\phi_j(x_1):=\jt(\phi(x_1),j),\ldots,\phi_j(x_n):=\jt(\phi(x_n),j)$. By using
 the next result, given $f$ and $g$, we can
 determine $\phi_1$.
 
-\newtheorem{kjet}{Lemma}[section]
-\begin{kjet}\label{kjet}
+\begin{theorem}\label{kjet}
 Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$
 and $k$
 is the lowest degree of $f$. If jet$(f,k)$ factorizes as
@@ -483,7 +482,7 @@ as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots
 f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$
 is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$
 such that $\phi(f)=g$.
-\end{kjet}
+\end{theorem}
 \begin{proof}
 Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb
 R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=g$. Now
@@ -522,8 +521,8 @@ numbers, rounding errors in computations in this setting can
 occur. Therefore, in this paper, the above result would not be of much help
 without the
 following result.
-\newtheorem{x^3}[kjet]{Lemma}
-\begin{x^3}\label{x^3}
+
+\begin{lemma}\label{x^3}
 If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
 $g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over
 $\mathbb
@@ -532,7 +531,7 @@ R$, where $g_1,g_2$ are polynomials of degree $1$, then $f$ will factorize as
 respectively,
 where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and
 $a\in\mathbb Q$.
-\end{x^3}
+\end{lemma}
 \begin{proof}
 
 (i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
@@ -770,8 +769,6 @@ $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{E_6}
-
 \subsubsection{$E_6$:}In this case $g\requiv x^3+y^4$ or $g\requiv x^3-y^4$.
 Therefore there exists an $\mathbb
 R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
@@ -804,31 +801,37 @@ the monomial $y^4$. Now
 \end{eqnarray*}
  which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
  $\alpha\in\mathbb R$ .
-\newtheorem{E[6]}[kjet]{Algorithm}
-\begin{E[6]}(Algorithm for the case $E_6$)\label{E[6]}
-\end{E[6]}
-\noindent\textnormal{\bf Input:} $g\in \m^3\subset\mathbb Q[x,y]$ of complex
-singularity type $E[6]$.\newline
-\textnormal{\bf Output:} the real singularity type of $g$, i.e.~$E_6^-$
-or $E_6^+$.
-\begin{itemize}
-\item $h:= \jt(g,3);$
-\item $s:=$ coefficient of ${x^3};$
-\item $\textnormal{if}(s=0)$\newline
-\phantom{}\quad Swap the variables $x$ and $y$;\\
-\phantom{}\quad $s:=$ coefficient of ${x^3}$;
-\item Factorize $h$ in linear factors over $\mathbb Q[x,y]$, with a factor
-$g_1=b_0x+b_1y$;
-\item Apply (to $g$) $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$;
-\item Write $g$ as $g=cx^3+d y^4+$ terms of degree $4$
+
+\begin{algorithm}[h]
+\caption{\label{E_6} Algorithm for the case $E_6$}
+\begin{algorithmic}[1]
+
+\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $E[6]$.}
+
+\ENSURE{ the real singularity type of $g$, i.e.~$E_6^-$
+or $E_6^+$.}
+
+\STATE $h:= \jt(g,3)$
+\STATE $s:=$ coefficient of ${x^3}$
+\IF{$s=0$}
+\STATE swap the variables $x$ and $y$
+\STATE $s:=$ coefficient of ${x^3}$
+\ENDIF
+\STATE Factorize $h$ in linear factors over $\mathbb Q[x,y]$, with a factor
+$g_1=b_0x+b_1y$
+\STATE Apply (to $g$) $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$
+\STATE Write $g$ as $g=cx^3+d y^4+$ terms of degree $4$
 and higher, not of the form $\alpha y^4$,
-$c,d\in\mathbb Q, \alpha\in\mathbb R$;
-\item \textnormal{if}$(d>0)$\newline
-\phantom{}\quad type of singularity := $E_6^+$;\newline
-\phantom{} else\newline
-\phantom{}\quad type of singularity := $E_6^-$;
-\item return type of singularity;
-\end{itemize}
+$c,d\in\mathbb Q, \alpha\in\mathbb R$
+\IF{$(d>0)$}
+\RETURN $E_6^+$
+\ELSE
+\RETURN $E_6^-$
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Real parabolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 Given a vector $w=(w_1,w_2)$ of integers we define the weighted degree of
@@ -1009,9 +1012,8 @@ after the above transformations $\phi_1(x)=x$. Hence it follows that
 $w-\deg(\phi(g_1))>1$. Therefore the singularity type of $g$ is determined by
 the sign of $e$.
 
-\newtheorem{J[10]}[kjet]{Algorithm}
-\begin{J[10]}(Algorithm for the case $J_{10}$)
-\end{J[10]}
+\begin{theorem}(Algorithm for the case $J_{10}$)
+\end{theorem}
 \noindent\textnormal{\bf Input:} $g\in \m^3\subset\mathbb Q[x,y]$ of complex
 singularity type $J_{10}$.\newline
 \textnormal{\bf Output:} the real singularity type of $g$, i.e.~$J_{10}^-$ or
@@ -1092,52 +1094,59 @@ x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$
 and $(\alpha x)^2\phi_1(y)^2$ differ, we decide between the cases
 $X_{9+k}^{+-}$ and $X_{9+k}^{-+}$ by considering the sign of the term $x^2y^2$.
 
-\newtheorem{X[9+k]}[kjet]{Algorithm}
-\begin{X[9+k]}(Algorithm for the case $X_{9+k}$)\label{X[9+k]}
-\end{X[9+k]}
-\noindent\textnormal{\bf Input:} $g\in \m^3\subset\mathbb Q[x,y]$ of complex
-singularity type $X_{9+k}$.\newline
-\textnormal{\bf Output:} the real singularity type of $g$, i.e.~$X_{9+k}^-$
-or $X_{9+k}^+$.
-\begin{itemize}
-\item $g:=\jt(g,4)$;
-\item $s_1:=$ coefficient of ${x^4}$;
-\item $s_2:=$ coefficient of ${y^4}$;
-\item if$(s_2\neq0$ and $s_1=0)$\newline
-\phantom{}\quad Swap the variables $x$ and $y$;\newline
-\item if$(s_2\neq0$ and $s_1=0)$\newline
-\phantom{}\quad $t_1:=$ coefficient of ${x^3y}$;\newline
-\phantom{}\quad $t_2:=$ coefficient of ${x^2y^2}$;\newline
-\phantom{}\quad $t_3:=$ coefficient of ${xy^3}$;\newline
-\phantom{}\quad if$(t_1+t_2+t_3=0)$\newline
-\phantom{}\quad\quad if$(2t_1+4t_2+8t_3\neq0)$\newline
-\phantom{}\quad\quad\quad Apply $x\mapsto x$, $y\mapsto 2y$ (to $g$);\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad Apply $x\mapsto x$, $y\mapsto 3y$ (to $g$);\newline
-\phantom{}\quad Apply $x\mapsto x$, $y\mapsto x+y$ (to $g$);
-\item Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4,\quad
-a_0,\ldots,a_4\in\mathbb Q$;
-\item $g':=g(x,1)=a_0x^4+a_1x^3+a_2x^2+a_3x+a_4;$
-\item $n:=\#$ real roots of $g'$;
-\item if$(n=1)$\newline
-\phantom{}\quad if$(a_0>0)$\newline
-\phantom{}\quad\quad type of singularity$ :=X_{9+k}^{++}$;\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad type of singularity$ := X_{9+k}^{--}$;
-\item if$(n=3)$\newline
-\phantom{}\quad Factorize $g$ in linear factors over $\mathbb Q[x,y]$,
-with $g_1:=t_1x+t_2y$ the factor\newline
-\phantom{}\quad with multiplicity $2$;\newline
-\phantom{}\quad Apply $x\mapsto\frac{x+t_2y}{t_1}$, $y\mapsto y$ (to $g$);
-\newline
-\phantom{}\quad Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2,\quad
-a_0,a_1,a_2\in\mathbb Q$;\newline
-\phantom{}\quad if$(a_2>0)$\newline
-\phantom{}\quad\quad type of singularity$ := X_{9+k}^{-+}$;\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad type of singularity$ := X_{9+k}^{+-}$;
-\item return type of singularity;
-\end{itemize}
+\begin{algorithm}[h]
+\caption{Algorithm for the case $X_{9+k}$\label{X[9+k]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $X_{9+k}$}
+\ENSURE{the real singularity type of $g$, i.e.~$X_{9+k}^-$
+or $X_{9+k}^+$.}
+\STATE $g:=\jt(g,4)$
+\STATE $s_1:=$ coefficient of ${x^4}$
+\STATE $s_2:=$ coefficient of ${y^4}$
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE Swap the variables $x$ and $y$
+\ENDIF
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE $t_1:=$ coefficient of ${x^3y}$
+\STATE $t_2:=$ coefficient of ${x^2y^2}$
+\STATE $t_3:=$ coefficient of ${xy^3}$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq0$}
+\STATE Apply $x\mapsto x$, $y\mapsto 2y$ (to $g$)
+\ELSE 
+\STATE Apply $x\mapsto x$, $y\mapsto 3y$ (to $g$)
+\ENDIF
+\ENDIF
+\STATE Apply $x\mapsto x$, $y\mapsto x+y$ (to $g$)
+\ENDIF
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4,\quad
+a_0,\ldots,a_4\in\mathbb Q$
+\STATE $g':=g(x,1)=a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $n:=\#$ real roots of $g'$
+\IF{$n=1$}
+\IF{$a_0>0$}
+\RETURN $X_{9+k}^{++}$
+\ELSE
+\RETURN $X_{9+k}^{--}$
+\ENDIF
+\ENDIF
+\IF{$n=3$}
+\STATE Factorize $g$ in linear factors over $\mathbb Q[x,y]$,
+with $g_1:=t_1x+t_2y$ the factor with multiplicity $2$
+\STATE Apply $x\mapsto\frac{x+t_2y}{t_1}$, $y\mapsto y$ (to $g$)
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2,\quad
+a_0,a_1,a_2\in\mathbb Q$
+\IF{$a_2>0$}
+\RETURN $X_{9+k}^{-+}$
+\ELSE
+\RETURN $X_{9+k}^{+-}$
+\ENDIF
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
 
 \subsubsection{$Y_{r,s}$ and $\widetilde Y_{r,s}$} Next we consider the case when $g$ is of one of the following complex cases:
 $Y_{r,s}$ and $\widetilde Y_r$, $r,s>4$. Note that in the complex case, normal
@@ -1297,212 +1306,233 @@ Determining $p$, again, we have
  \cite{solve.lib} in \textsc{Singular}. Using the previously discussed methods
  the approximated values of $L[3]$ and $L[4]$ can now be determined.
 
-\newtheorem{BlowUpO}[kjet]{Algorithm}
-\begin{BlowUpO}(Algorithm for blowing up singularities of main type $Y_{r,s}$)%
-\label{BlowingUp}
-\end{BlowUpO}
-\noindent\textnormal{\bf Input:} $g\in\m^3\subset\mathbb Q[x_1,x_2]$ of complex
-singularity type $Y_{r,s}$.\newline
-\textnormal{\bf Output:} a List $L$ with entries $L[1]$ and $L[2]$: the values
+\begin{algorithm}[h]
+\caption{Algorithm for blowing up singularities of main type $Y_{r,s}$\label{BlowingUp}}
+\begin{algorithmic}[1]
+
+\REQUIRE{ $g\in\m^3\subset\mathbb Q[x_1,x_2]$ of complex
+singularity type $Y_{r,s}$.}
+\ENSURE{ a List $L$ with entries $L[1]$ and $L[2]$: the values
 of $r$ and $s$, $r\le s$, respectively; $L[3]$: the inertia index of the
 resulting germ, after blowing up $g$, with lowest milnor number if $L[1]\neq
 5$, and $0$ otherwise; $L[4]$: the sign of the monomial $x_1^r$ or $x_2^r$ in
 the normal form of the resulting singularity with lowest milnor number; $L[5]$
 the value $1$ if the resulting germs have singularities on the exceptional divisor, i.e.~$L[1]\neq 5$, and occur at irrational points on the exceptional
 divisor and $0$ otherwise. If the value of $L[5]$ is $1$, the values of $L[3]$
-and $L[4]$ are determined using floating real numbers and thus may be wrong.
-\begin{itemize}
-\item $L_1:=\emptyset$;
-\item $L:=\emptyset$;
-\item for ($i=1,2$)\newline
-\phantom{}\quad $\phi_1:$ $x_i\mapsto x_i$, $x_j\mapsto x_ix_j$,
-$j\neq i$;\newline
-\phantom{}\quad $p:=\phi_1(g)$;\newline
-\phantom{}\quad while($p$ is divisible by $x_i$)\newline
-\phantom{}\quad\quad $p=p/x_i$;\newline
-\phantom{}\quad Let $P_1,\ldots,P_s$ be the prime ideals in the prime
-decomposition\newline
-\phantom{}\quad of the radical of the ideal
-$\langle\textnormal{jacob}(p),p,x_1\rangle$ over $\mathbb Q$ and let\newline
-\phantom{}\quad $f_{1j}, f_{2j}$ be a reduced standard basis for $P_j$, using
-lexicographical \newline
-\phantom{}\quad ordering;\newline
-\phantom{}\quad\quad if($\deg(f_{1j})=1$, i.e.~$P_j$ is prime, for all $j$)
-\newline
-\phantom{}\quad\quad\quad $m=0$;\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad $m=1$;\newline
-\phantom{}\quad\quad If($m=0$)\newline
-\phantom{}\quad\quad\quad for$(j=1; j\le s;j++)$\newline
-\phantom{}\quad\quad\quad\quad if$(P_j=\langle 1\rangle$)\newline
-\phantom{}\quad\quad\quad\quad\quad add $x_1$ to $L_1$;\newline
-\phantom{}\quad\quad\quad\quad if$(P_j\neq\langle 1\rangle$)\newline
-\phantom{}\quad\quad\quad\quad\quad for$(i=1,2)$\newline
-\phantom{}\quad\quad\quad\quad\quad\quad $\phi_2$: $x_1\mapsto x_1-s_1$,
-$x_2\mapsto x_2-s_2$, where $s_1$ is the solution of  \newline
-\phantom{}\quad\quad\quad\quad\quad\quad $x_1$ in $f_{2j}$ and $s_2$ is the
-solution of $x_2$ in $f_{1j}$;\newline
-\phantom{}\quad\quad\quad\quad\quad\quad Add $\phi_2(p)$ to $L_1$;\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad $\phi_3$: $x_1\mapsto x_1$,
-$x_2\mapsto x_2 -\frac{a_0b_1+a_1b_0}{a_1b_1}x_1$, where\newline
-\phantom{}\quad\quad\quad $g=(a_0x_1+a_1x_2)^2(b_0x_1+b_1x_2)^2+$ higher terms
-in $x_1$ and $x_2$,\newline
-\phantom{}\quad\quad\quad $a_0,a_1,b_0,b_1\in\mathbb R$;\newline
-\phantom{}\quad\quad\quad $g :=\phi_3(g)=c(x_1-ex_2)(x_1+ex_2)+$ higher terms
-in $x_1$ and $x_2$,\newline
-\phantom{}\quad\quad\quad $c,e\in\mathbb R$;\newline
-\phantom{}\quad\quad\quad $p:=\phi_1(g)$;\newline
-\phantom{}\quad\quad\quad while($p$ is divisible by $x_i$)\newline
-\phantom{}\quad\quad\quad\quad $p=p/x_i$;\newline
-\phantom{}\quad\quad\quad $\phi_4: x_1\mapsto x_1, x_2\mapsto x_2-t$;\newline
-\phantom{}\quad\quad\quad $h_1=\phi_4(p)\in\mathbb Q(t)[x_1,x_2];$\newline
-\phantom{}\quad\quad\quad $\mu_1 = $ milnor number of $h_1$;\newline
-\phantom{}\quad\quad\quad Determine the real value $e$ and replace $t$ by $e$
-in $h_1$,\newline
-\phantom{}\quad\quad\quad i.e~now, $h_1\in\mathbb R[x_1,x_2]$  ;\newline
-\phantom{}\quad\quad\quad Apply the Splitting Lemma to $h_1$;\newline
-\phantom{}\quad\quad\quad $f_1:= $ the residual part of $h_1$;\newline
-\phantom{}\quad\quad\quad $\lambda:= $ the inertia index of $h_1$;\newline
-\phantom{}\quad\quad\quad $f'_1:=\jt(f_1,\mu_1-3)$;\newline
-\phantom{}\quad\quad\quad $s_1:=$ coefficient of $x_1^{\mu_1-3}$;\newline
-\phantom{}\quad\quad\quad $s_2:=$ coefficient of $x_2^{\mu_1-3}$;\newline
-\phantom{}\quad\quad\quad if$(s_1=0$ and $s_2\neq 0)$\newline
-\phantom{}\quad\quad\quad\quad Apply $x_1\mapsto x_2, x_2\mapsto x_1$;\newline
-\phantom{}\quad\quad\quad sign = coefficient of $x_1^{\mu_1-3}$;\newline
-\item if$( m = 0 )$\newline
-\phantom{}\quad $l:=$ the size of $L_1$;\newline
-\phantom{}\quad for($i = 1, i\le l, i++$)\newline
-\phantom{}\quad \quad if($L_1[i]=x_1$);\newline
-\phantom{}\quad\quad\quad $\mu_i=4;$\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad $\mu_i=$ milnor number of $L_1[i]+4$;\newline
-\phantom{}\quad Delete repeating entries of $L_1$ and order the entries of
-$L_1$ from small to\newline
-\phantom{}\quad big with regard to its milnor number; \newline
-\phantom{}\quad if$(L_1[1]\neq x_1)$\newline
-\phantom{}\quad\quad Apply the Splitting Lemma to $L_1[1]$;\newline
-\phantom{}\quad\quad $f_1:=$ the residual part of $L_1[1]$;\newline
-\phantom{}\quad\quad $\lambda:=$ inertia index of $L_1[1]$\newline
-\phantom{}\quad\quad $f_1':=\jt(f_1,\mu_1-3)$;\newline
-\phantom{}\quad\quad $s_1:=$ coefficient of $x_1^{\mu_1-3}$;\newline
-\phantom{}\quad\quad $s_2:=$ coefficient of $x_2^{\mu_1-3}$;\newline
-\phantom{}\quad\quad if($s_1=0$ and $s_2\neq 0$)\newline
-\phantom{}\quad\quad\quad Apply $x_1\mapsto x_2$, $x_2\mapsto x_1$;\newline
-\phantom{}\quad\quad sign $=$ coefficient of $x_1^{\mu_1-3}$;\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad $\lambda = 0$;\newline
-\phantom{}\quad\quad sign $=0$;\newline
-\phantom{}\quad $L[1]=\mu_1$;\newline
-\phantom{}\quad $L[2]=\mu_2$;\newline
-\phantom{}\quad $L[3]=\lambda$;\newline
-\phantom{}\quad $L[4]=$ sign;\newline
-\phantom{}\quad $L[5]=m$;\newline
-\item return $L$;
-\end{itemize}
+and $L[4]$ are determined using floating real numbers and thus may be wrong.}
+\STATE $L_1:=\emptyset$
+\STATE $L:=\emptyset$
+\FOR{$i=1,2$}
+\STATE $\phi_1:$ $x_i\mapsto x_i$, $x_j\mapsto x_ix_j$,
+$j\neq i$
+\STATE $p:=\phi_1(g)$
+\WHILE{$p$ is divisible by $x_i$}
+\STATE $p=p/x_i$
+\ENDWHILE
+\STATE Let $P_1,\ldots,P_s$ be the prime ideals in the prime
+decomposition
+of the radical of the ideal
+$\langle\textnormal{jacob}(p),p,x_1\rangle$ over $\mathbb Q$ and let
+$f_{1j}, f_{2j}$ be a reduced standard basis for $P_j$, using
+lexicographical
+ordering;
+\IF{$\deg(f_{1j})=1$, i.e.~$P_j$ is prime, for all $j$}
+\STATE $m=0$
+\ELSE
+\STATE $m=1$
+\ENDIF
+\IF{$m=0$}
+\FOR{$(j=1; j\le s; j++)$}
+\IF{$P_j=\langle 1\rangle$}
+\STATE add $x_1$ to $L_1$
+\ENDIF
+\IF{$P_j\neq\langle 1\rangle$}
+\FOR{$i=1,2$}
+\STATE $\phi_2$: $x_1\mapsto x_1-s_1$,
+$x_2\mapsto x_2-s_2$, where $s_1$ is the solution of
+$x_1$ in $f_{2j}$ and $s_2$ is the
+solution of $x_2$ in $f_{1j}$
+\STATE Add $\phi_2(p)$ to $L_1$
+\ENDFOR
+\ENDIF
+\ENDFOR
+\ELSE
+\STATE $\phi_3$: $x_1\mapsto x_1$,
+$x_2\mapsto x_2 -\frac{a_0b_1+a_1b_0}{a_1b_1}x_1$, where $g=(a_0x_1+a_1x_2)^2(b_0x_1+b_1x_2)^2+$ higher terms
+in $x_1$ and $x_2$,
+$a_0,a_1,b_0,b_1\in\mathbb R$
+\STATE $g :=\phi_3(g)=c(x_1-ex_2)(x_1+ex_2)+$ higher terms
+in $x_1$ and $x_2$ $c,e\in\mathbb R$
+\STATE $p:=\phi_1(g)$
+\WHILE{$p$ is divisible by $x_i$}
+\STATE $p=p/x_i$
+\ENDWHILE
+\STATE $\phi_4: x_1\mapsto x_1, x_2\mapsto x_2-t$
+\STATE $h_1=\phi_4(p)\in\mathbb Q(t)[x_1,x_2]$
+\STATE $\mu_1 = $ milnor number of $h_1$
+\STATE Determine the real value $e$ and replace $t$ by $e$
+in $h_1$,
+i.e~now, $h_1\in\mathbb R[x_1,x_2]$
+\STATE Apply the Splitting Lemma to $h_1$
+\STATE $f_1:= $ the residual part of $h_1$
+\STATE $\lambda:= $ the inertia index of $h_1$
+\STATE $f'_1:=\jt(f_1,\mu_1-3)$
+\STATE $s_1:=$ coefficient of $x_1^{\mu_1-3}$
+\STATE $s_2:=$ coefficient of $x_2^{\mu_1-3}$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Apply $x_1\mapsto x_2, x_2\mapsto x_1$
+\ENDIF
+\STATE sign = coefficient of $x_1^{\mu_1-3}$
+\ENDIF
+\ENDFOR
+\IF{$m = 0$}
+\STATE $l:=$ the size of $L_1$
+\FOR{$i = 1, i\le l, i++$}
+\IF{$L_1[i]=x_1$}
+\STATE $\mu_i=4;$
+\ELSE
+\STATE $\mu_i=$ milnor number of $L_1[i]+4$;\newline
+\ENDIF
+\ENDFOR
+\STATE Delete repeating entries of $L_1$ and order the entries of
+$L_1$ from small to
+big with regard to its milnor number; \newline
+\IF{$(L_1[1]\neq x_1)$}
+\STATE Apply the Splitting Lemma to $L_1[1]$
+\STATE $f_1:=$ the residual part of $L_1[1]$
+\STATE $\lambda:=$ inertia index of $L_1[1]$
+\STATE $f_1':=\jt(f_1,\mu_1-3)$
+\STATE $s_1:=$ coefficient of $x_1^{\mu_1-3}$
+\STATE $s_2:=$ coefficient of $x_2^{\mu_1-3}$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Apply $x_1\mapsto x_2$, $x_2\mapsto x_1$
+\ENDIF
+\STATE sign $=$ coefficient of $x_1^{\mu_1-3}$;\newline
+\ELSE
+\STATE $\lambda = 0$
+\STATE sign $=0$
+\STATE $L[1]=\mu_1$
+\STATE $L[2]=\mu_2$
+\STATE $L[3]=\lambda$
+\STATE $L[4]=$ sign
+\STATE $L[5]=m$
+\ENDIF
+\ENDIF
+\RETURN $L$
+
+\end{algorithmic}[1]
+\end{algorithm}[h]
 
 Here follows the algorithm we implemented to classify the singularities, using
 the output list $L$ in Algorithm \ref{BlowingUp}, of type $\widetilde Y_r$ and
 $Y_{r,s}$.
 
-\newtheorem{Y[1}[kjet]{Algorithm}
-\begin{Y[1}(Algorithm for the cases $\widetilde Y_r$ and $Y_{r,s}$)%
-\label{Y[r,s]}
-\end{Y[1}
-\noindent\textnormal{\bf Input:} $f\in \m^3\subset\mathbb Q[x,y]$ of complex
-singularity type $\widetilde Y_r$ or $Y_{r,s}$.\newline
-\textnormal{\bf Output:} the real singularity type of $g$,
+\begin{algorithm}[h]
+\caption{Algorithm for the cases $\widetilde Y_r$ and $Y_{r,s}$
+\label{Y[r,s]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $f\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $\widetilde Y_r$ or $Y_{r,s}$.}
+ENSURE{ the real singularity type of $g$,
 i.e.~$\widetilde Y_r^+$, $\widetilde Y_r^-$, $Y_{r,s}^{++}$, $Y_{r,s}^{+-}$,
-$Y_{r,s}^{--}$, $Y_{r,s}^{-+}$.
-\begin{itemize}
-\item $\mu :=$ milnor number of $f$;
-\item $h :=  \jt(g,4);$
-\item $s_1 := \textnormal{coefficient of }x^4$;
-\item $s_2 := \textnormal{coefficient of }y^4$;
-\item if($s_1=0$ and $s_2\neq 0$)\newline
-\phantom{}\quad Swap the variables $x$ and $y$ in $h$;
-\item if($s_1=0$ and $s_2=0$)\newline
-\phantom{}\quad $t_1=\textnormal{coefficient of }x^3y\ (\textnormal{in } h);$
-\newline
-\phantom{}\quad $t_2=\textnormal{coefficient of }x^2y^2\ (\textnormal{in } h);$
-\newline
-\phantom{}\quad $t_3=\textnormal{coefficient of }xy^3\ (\textnormal{in } h);$
-\newline
-\phantom{}\quad if($t_1+t_2+t_3=0$)\newline
-\phantom{}\quad\quad if($2t_1+4t_2+8t_3\neq 0$)\newline
-\phantom{}\quad\quad\quad Apply (to $h$) $x\mapsto x$, $y\mapsto y$;\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad Apply (to $h$) $x\mapsto x$, $y\mapsto 3y$;\newline
-\phantom{}\quad\quad Apply (to $h$) $x\mapsto x$, $y\mapsto x+y$;
-\item Write $h$ as $a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4$,
-$a_0,\ldots,a_4\in\mathbb Q, a_0\neq 0$;
-\item sign = coefficient of $x^4$ (in $h$);
-\item Apply $x\mapsto x$, $y\mapsto 1$;
-\item Write $h$ as $a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$;
-\item $r := \#$ real roots of $h$;
-\item if($r=0$)\newline
-\phantom{}$r'=\frac{\mu-9}{2}+4$;\newline
-\phantom\quad sign$>0$;\newline
-\phantom{}\quad\quad type of singularity := $\widetilde Y_{r'}^+$;\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad type of singularity := $\widetilde Y_{r'}^-$;
-\item if($r\neq 0$)\newline
-\phantom{}\quad Blowing up the origin of $g$ and let $L$ be a list with entries
+$Y_{r,s}^{--}$, $Y_{r,s}^{-+}$.}
+\STATE $\mu :=$ milnor number of $f$
+\STATE $h :=  \jt(g,4)$
+\STATE $s_1 := \textnormal{coefficient of }x^4$
+\STATE $s_2 := \textnormal{coefficient of }y^4$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Swap the variables $x$ and $y$ in $h$
+\ENDIF
+\IF{$s_1=0$ and $s_2=0$}
+\STATE $t_1:=\textnormal{coefficient of }x^3y\ (\textnormal{in } h)$
+\STATE $t_2:=\textnormal{coefficient of }x^2y^2\ (\textnormal{in } h)$
+\STATE $t_3:=\textnormal{coefficient of }xy^3\ (\textnormal{in } h)$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq 0$}
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto y$
+\ELSE
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto 3y$
+\ENDIF
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto x+y$
+\ENDIF
+\ENDIF
+\STATE Write $h$ as $a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4$,
+$a_0,\ldots,a_4\in\mathbb Q, a_0\neq 0$
+\STATE sign = coefficient of $x^4$ (in $h$)
+\STATE Apply $x\mapsto x$, $y\mapsto 1$
+\STATE Write $h$ as $a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $r := \#$ real roots of $h$
+\IF{$r=0$}
+\STATE $r'=\frac{\mu-9}{2}+4$
+\IF{sign$>0$}
+\RETURN $\widetilde Y_{r'}^+$
+\ELSE
+\RETURN $\widetilde Y_{r'}^-$
+\ENDIF
+\ENDIF
+\IF{$r\neq 0$}
+
+\STATE Blowing up the origin of $g$ and let $L$ be a list with entries
 $L[1]$ and $L[2]$: the values of $r$ and $s$, $r\le s$, respectively; $L[3]$:
 the inertia index of the resulting singularity, after blowing up $g$, with
 lowest milnor number if the resulting germs have singularities on the exceptional divisor, i.e~$L[1]\neq 5$, and $0$ otherwise; $L[4]$: the sign of the monomial
 $x_1^r$ or $x_2^r$ in the normal form of the resulting singularity with lowest
 milnor number; $L[5]$ the value $1$ if the resulting germs intersects the
 exceptional divisor smoothly and occur at irrational points on the exceptional
-divisor and $0$ otherwise.\newline
-\phantom{}\quad $\mu_1:=L[1]$;\newline
-\phantom{}\quad $\mu_2:=L[2]$;\newline
-\phantom{}\quad $\lambda:=L[3]$;\newline
-\phantom{}\quad $\sign_1:= L[4]$;\newline
-\phantom{}\quad $m:=L[5]$;\newline
-\phantom{}\quad if(($\mu_1+1$) mod $2=1$)\newline
-\phantom{}\quad\quad if(sign$>0$)\newline
-\phantom{}\quad\quad\quad type of singularity $:= Y_{\mu_1+1,\mu_2+1}^{++}$;
-\newline
-\phantom{}\quad\quad else\newline
-\phantom{}\quad\quad\quad type of singularity $:=Y_{\mu_1+1,\mu_2+1}^{+-}$;
-\newline
-\phantom{}\quad else\newline
-\phantom{}\quad\quad if($\mu_1=5$ )\newline
-\phantom{}\quad\quad\quad\quad if(sign$<0$)\newline
-\phantom{}\quad\quad\quad\quad\quad redefine $\sign_1$ as $\sign_1:=\lambda-1$;
-\newline
-\phantom{}\quad\quad\quad\quad else\newline
-\phantom{}\quad\quad\quad\quad\quad  redefine $\sign_1$ as $\sign_1:=\lambda$;
-\newline
-\phantom{}\quad\quad\quad\quad if($\sign_1>0$ and sign$>0$)\newline
-\phantom{}\quad\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{+-}$;\newline
-\phantom{}\quad\quad\quad\quad if($\sign_1>0$ and sign$<0$)\newline
-\phantom{}\quad\quad\quad \quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{--}$;\newline
-\phantom{}\quad\quad\quad\quad if($\sign_1=0$ and sign$>0$)\newline
-\phantom{}\quad\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{++}$;\newline
-\phantom{}\quad\quad\quad\quad if($\sign_1=0$ and sign$<0$)\newline
-\phantom{}\quad\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{-+}$;\newline
-\phantom{}\quad\quad\quad else\newline
-\phantom{}\quad\quad\quad\quad $\sign_1=$ coefficient of $x^{\mu_1-3}$\newline
-\phantom{}\quad\quad\quad \quad if(sign$>0$ and $\sign_1>0$)\newline
-\phantom{}\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{++}$;\newline
-\phantom{}\quad\quad\quad \quad if(sign$>0$ and $\sign_1<0$)\newline
-\phantom{}\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{+-}$;\newline
-\phantom{}\quad\quad\quad \quad if(sign$<0$ and $\sign_1>0$)\newline
-\phantom{}\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{--}$;\newline
-\phantom{}\quad\quad\quad \quad if(sign$<0$ and $\sign_1<0$)\newline
-\phantom{}\quad\quad\quad\quad type of singularity
-$:= Y_{\mu_1+1,\mu_2+1}^{-+}$;\newline
-\item return type of singularity;
-\end{itemize}
+divisor and $0$ otherwise.
+\STATE $\mu_1:=L[1]$
+\STATE $\mu_2:=L[2]$
+\STATE $\lambda:=L[3]$
+\STATE $\sign_1:= L[4]$
+\STATE $m:=L[5]$
+
+\IF{($\mu_1+1$) mod $2=1$}
+\IF{sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\ELSE
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\ELSE
+\IF{$\mu_1=5$}
+\IF{sign$<0$}
+\STATE redefine $\sign_1$ as $\sign_1:=\lambda-1$
+\ELSE
+\STATE redefine $\sign_1$ as $\sign_1:=\lambda$
+\ENDIF
+\IF{$\sign_1>0$ and sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\IF{$\sign_1>0$ and sign$<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{--}$
+\ENDIF
+\IF{$\sign_1=0$ and sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\ENDIF
+\IF{$\sign_1=0$ and sign$<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{-+}$
+\ENDIF
+
+\ELSE
+\STATE $\sign_1=$ coefficient of $x^{\mu_1-3}$
+\ENDIF
+\IF{sign$>0$ and $\sign_1>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\IF{sign$>0$ and $\sign_1<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\IF{sign$<0$ and $\sign_1>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{--}$
+\ENDIF
+\IF{sign$<0$ and $\sign_1<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{-+}$
+\ENDIF
+\ENDIF
+\ENDIF
+
+\ENDIF
+\end{algorithmic}[1]
+\end{algorithm}[h]
+
 
 \subsection{Real exceptional $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 \label{ExceptionalSingularities}
@@ -1526,37 +1556,92 @@ $s$ again, consider the sign of the $y^8$-term to determine the real
 singularity type. We only include the algorithm for the case $E_{14}$, since
 the algorithms for the other exceptional cases are trivial.
 
-\newtheorem{E[14]}[kjet]{Algorithm}
-\begin{E[14]}(Algorithm for the case $E_{14}$)\label{E[14]}
-\end{E[14]}
-\noindent\textnormal{\bf Input:} $f\in \m^3$, $f\in\mathbb Q[x,y]$ of complex
-singularity type $E_{14}$.\newline
-\textnormal{\bf Output:} the real singularity type of $f$, i.e.~$E_{14}^+$ or
-$E_{14}^-$.
-\begin{itemize}
-\item $h_1 :=\jt(g,3);$
-\item $s :=$ coefficient of $h_1$;
-\item if($s=0$)\newline
-\phantom{}\quad swap variables $x$ and $y$ in $g$;
-\item $g := \frac{g}{s}$;
-\item $h_2 :=\jt(g,3)$;
-\item Factors $:=$ the list of factors of $h_1$ over $\mathbb Q$;
-\item write $g_1$ as $t_1x+t_2y$, $t_1,t_2\in\mathbb Q$, $t_1 := \pm-1$, where
-$g_1$ is the first entry in the list $F$;
-\item Apply (to $g$): $x\mapsto \frac{x-t_2y}{t_1}$, $y\mapsto y$;
-\item Write $g$ as $a_0x^3+ $terms of higher degree,\quad$a_0\in\mathbb Q$;
-\item $g_3:=\frac{\jt(f,4)-a_0x^3}{3x^2}$;
-\item Apply (to $g$): $x\mapsto g_3$, $y\mapsto y$;
-\item $g_4:=\frac{\jt(f,5)-a_0x^3}{3x^2}$;
-\item Apply (to $g$): $x\mapsto x-g_4$, $y\mapsto y$;
-\item $g := g*s$;
-\item $w:=$ the coefficient of $y^8$ in $g$;
-\item if($w>0$)\newline
-\phantom{}\quad type of singularity $:= E_{14}^+$;\newline
- else\newline
-\phantom{}\quad type of singularity $:= E_{14}^-$;
-\item return type of singularity;
-\end{itemize}
+\begin{algorithm}[h]
+\caption{Algorithm for the case $X_{9+k}$\label{X[9+k]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $X_{9+k}$}
+\ENSURE{the real singularity type of $g$, i.e.~$X_{9+k}^-$
+or $X_{9+k}^+$.}
+\STATE $g:=\jt(g,4)$
+\STATE $s_1:=$ coefficient of ${x^4}$
+\STATE $s_2:=$ coefficient of ${y^4}$
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE Swap the variables $x$ and $y$
+\ENDIF
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE $t_1:=$ coefficient of ${x^3y}$
+\STATE $t_2:=$ coefficient of ${x^2y^2}$
+\STATE $t_3:=$ coefficient of ${xy^3}$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq0$}
+\STATE Apply $x\mapsto x$, $y\mapsto 2y$ (to $g$)
+\ELSE 
+\STATE Apply $x\mapsto x$, $y\mapsto 3y$ (to $g$)
+\ENDIF
+\ENDIF
+\STATE Apply $x\mapsto x$, $y\mapsto x+y$ (to $g$)
+\ENDIF
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4,\quad
+a_0,\ldots,a_4\in\mathbb Q$
+\STATE $g':=g(x,1)=a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $n:=\#$ real roots of $g'$
+\IF{$n=1$}
+\IF{$a_0>0$}
+\RETURN $X_{9+k}^{++}$
+\ELSE
+\RETURN $X_{9+k}^{--}$
+\ENDIF
+\ENDIF
+\IF{$n=3$}
+\STATE Factorize $g$ in linear factors over $\mathbb Q[x,y]$,
+with $g_1:=t_1x+t_2y$ the factor with multiplicity $2$
+\STATE Apply $x\mapsto\frac{x+t_2y}{t_1}$, $y\mapsto y$ (to $g$)
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2,\quad
+a_0,a_1,a_2\in\mathbb Q$
+\IF{$a_2>0$}
+\RETURN $X_{9+k}^{-+}$
+\ELSE
+\RETURN $X_{9+k}^{+-}$
+\ENDIF
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Algorithm for the case $E_{14}$}\label{E[14]}
+\begin{algorithmic}[1]
+\REQUIRE{$f\in \m^3$, $f\in\mathbb Q[x,y]$ of complex
+singularity type $E_{14}$.}
+\ENSURE{the real singularity type of $f$, i.e.~$E_{14}^+$ or
+$E_{14}^-$.}
+\STATE $h_1 :=\jt(g,3)$
+\STATE $s :=$ coefficient of $h_1$
+\IF{$s=0$}
+\STATE swap variables $x$ and $y$ in $g$
+\ENDIF
+\STATE $g := \frac{g}{s}$
+\STATE $h_2 :=\jt(g,3)$
+\STATE Factors $:=$ the list of factors of $h_1$ over $\mathbb Q$
+\STATE Write $g_1$ as $t_1x+t_2y$, $t_1,t_2\in\mathbb Q$, $t_1 := \pm-1$, where
+$g_1$ is the first entry in the list $F$
+\STATE Apply (to $g$): $x\mapsto \frac{x-t_2y}{t_1}$, $y\mapsto y$
+\STATE Write $g$ as $a_0x^3+ $terms of higher degree,\quad$a_0\in\mathbb Q$
+\STATE $g_3:=\frac{\jt(f,4)-a_0x^3}{3x^2}$
+\STATE Apply (to $g$): $x\mapsto g_3$, $y\mapsto y$
+\STATE $g_4:=\frac{\jt(f,5)-a_0x^3}{3x^2}$
+\STATE Apply (to $g$): $x\mapsto x-g_4$, $y\mapsto y$
+\STATE $g := g*s$
+\STATE $w:=$ the coefficient of $y^8$ in $g$
+\IF{$w>0$}
+\RETURN $E_{14}^+$
+\ELSE
+\RETURN $E_{14}^-$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
  \begin{thebibliography}{99}
 \bibitem{AVG1985} Arnold, V.I.; Gusein-Zade, S.M.; Varchenko, A.N.:
 Singularities of Differential Maps. Vol.~I, Birkh\"auser (1985).
