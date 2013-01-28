@@ -769,13 +769,17 @@ $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{$E_6$:}In this case $g\requiv x^3+y^4$ or $g\requiv x^3-y^4$.
+\subsubsection{$E_6$}
+
+In this case, whose complex normal form is $x^3+y^4$, we have that either
+$g\requiv x^3+y^4$ ($E_6^+$) or $g\requiv x^3-y^4$ ($E_6^-$).
 Therefore there exists an $\mathbb
 R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
 $\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
-$\phi(g)=(\phi(x))^3-(\phi(y))^4$ . We ensure that the
-coefficient of
-$x^3$ is nonzero by swapping the variables if necessary. Now, using Lemma
+$\phi(g)=(\phi(x))^3-(\phi(y))^4$.
+Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
+ensure that the coefficient of
+$x^3$ is non-zero by swapping the variables if necessary. Now, using Lemma
 \ref{kjet} and Lemma~\ref{x^3}, $\jt(g,3)$ factorizes as
 $c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
 Q[x,y]$. Again,
@@ -792,7 +796,7 @@ form $\alpha y^4$, $\alpha\in\mathbb R$.}
 \end{equation*}
 If we can show that $(\phi(x))^3$ does not contain a term of the form
 $\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $g$
-is of type $E_6^-$ or $E_6^+$ by considering the the sign of the coefficient of
+is of type $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of
 the monomial $y^4$. Now
 \begin{eqnarray*}
 \textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)
@@ -803,27 +807,20 @@ the monomial $y^4$. Now
  $\alpha\in\mathbb R$ .
 
 \begin{algorithm}[h]
-\caption{\label{E_6} Algorithm for the case $E_6$}
+\caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
 \begin{algorithmic}[1]
 
-\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex
-singularity type $E[6]$.}
-
-\ENSURE{ the real singularity type of $g$, i.e.~$E_6^-$
-or $E_6^+$.}
-
+\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
+\ENSURE{the real singularity type of $g$, i.e.~$E_6^-$ or $E_6^+$}
 \STATE $h:= \jt(g,3)$
-\STATE $s:=$ coefficient of ${x^3}$
-\IF{$s=0$}
+\STATE $s:=$ coefficient of ${x^3}$ in $h$
+\IF{$(s=0)$}
 \STATE swap the variables $x$ and $y$
-\STATE $s:=$ coefficient of ${x^3}$
 \ENDIF
-\STATE Factorize $h$ in linear factors over $\mathbb Q[x,y]$, with a factor
+\STATE factorize $h$ into linear factors over $\mathbb Q[x,y]$, with a factor
 $g_1=b_0x+b_1y$
-\STATE Apply (to $g$) $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$
-\STATE Write $g$ as $g=cx^3+d y^4+$ terms of degree $4$
-and higher, not of the form $\alpha y^4$,
-$c,d\in\mathbb Q, \alpha\in\mathbb R$
+\STATE apply $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$ to $g$
+\STATE $d :=$ coefficient of $y^4$ in $g$
 \IF{$(d>0)$}
 \RETURN $E_6^+$
 \ELSE
@@ -832,6 +829,7 @@ $c,d\in\mathbb Q, \alpha\in\mathbb R$
 
 \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{Real parabolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 Given a vector $w=(w_1,w_2)$ of integers we define the weighted degree of
