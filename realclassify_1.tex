@@ -154,196 +154,123 @@ $r,s>4$ (Algorithm \ref{Y[r,s]}) enough information can be subtracted from the
 resulting, simplified, singularity such that the case can be solved, in some
 specific cases, unfortunately using approximations.
 
-\section{The Splitting Lemma}\label{TheSplittingLemma}
-The following well-known theorem, called the Splitting Lemma, allows us to
-reduce the classification to germs of corank $c$ or, equivalently, to germs
-in $\m^3$ contained in $\mathbb R[[x_1,\ldots,x_c]]$.
 
+\section{The Splitting Lemma}\label{TheSplittingLemma}
+
+The following well-known theorem, called the Splitting Lemma, allows us to
+reduce the classification to germs of full corank or, algorithmically, to
+a polynomial contained in $\m^3 \cap \R[x_1,\ldots,x_c]$ for a given input
+polynomial of corank $c$. We present a version for singularities over the real
+numbers, taking into account the signs of the squares.
 
 \begin{theorem}\label{SplittingLemma}
-If $f\in \m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
-\[ f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
-with $g\in \m^3$. $g$ is called the residual part of $f$ and $\lambda$
-is called
-the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are
-uniquely determined up to right equivalence.
+If $f \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ has an isolated singularity and if
+its corank is $c$, then
+\[
+f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
+\]
+with $g \in \m^3 \cap \R[[x_1,\ldots,x_c]]$. $g$ is called the residual part of
+$f$ and $\lambda$ is called the inertia index of~$f$. Both $g$ and $\lambda$
+are uniquely determined up to right equivalence.
 \end{theorem}
 
-We implemented Theorem \ref{SplittingLemma} in \textsc{Singular},
-using the following algorithm. Since $\textsc{Singular}$ use real floating
-numbers, which do not represent the real numbers, instead of real numbers,
-rounding errors can occor working in this setting. On the other hand, Algorithm
-\ref{AlgorithmSplittingLemma} also function correctly working over the rational
-numbers, with a rational input polynomial. In this case the output polynomial
-$g$ will also be rational and calculations will be exact.
+The following proof is based upon the proofs of the theorems 2.46 and 2.47 in
+\cite{GLS2007}.
 
-We denote the set of all monomials with nonzero coefficients that appear in a
-power series $f$, called the support of $f$, by $\supp(f)$.
+\begin{proof}
+The corank of the Hessian matrix of $f$ at $0$ is $c$, so by the theory of
+quadratic forms over $\R$ there is a transformation matrix $T$ such that
+\[
+T^t \cdot H(f)(\mathbf{0}) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+\,.
+\]
+Therefore the linear coordinate change
+$(x_1,\ldots,x_n) \mapsto (x_1,\ldots,x_n) \cdot T^t$ transforms the 2-jet of
+$f$ into
+$\left(-\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2\right)$
+where $\lambda$ is the inertia index of $f$.
+Applied to $f$, this transformation leads to
+\begin{align*}
+f^{(3)} (x_1,\ldots,x_n)
+  :\!&= f((x_1,\ldots,x_n) \cdot T^t) \\
+  &= g_3
+  -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
+  +\sum_{i=c+1}^n x_i\cdot h_i^{(3)}
+\end{align*}
+with $g_3 \in \m^3 \cap \R[[x_1,\ldots,x_c]]$ and $h_i^{(3)} \in \m^2$. The
+coordinate change $\varphi^{(3)}$ defined by
+\[
+\varphi^{(3)}(x_i) :=
+\begin{cases}
+x_i, &i \leq c, \\
+x_i-\frac{1}{2}h_i^{(3)}, &i > c.
+\end{cases}
+\]
+yields
+\begin{align*}
+f^{(4)} (x_1,\ldots,x_n)
+  :\!&= f^{(3)}(\varphi^{(3)}(x_1,\ldots,x_n)) \\
+  &= g_3 +g_4
+  -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
+  +\sum_{i=c+1}^n x_i\cdot h_i^{(4)} \,.
+\end{align*}
+with $g_4 \in \m^4 \cap \R[[x_1,\ldots,x_c]]$ and $h_i^{(4)} \in \m^3$.
+Continuing in the same manner, the last sum will be of arbitrarily high order.
+It can be eventually left out because $f$ is finitely determined as an isolated
+singularity.
+\end{proof}
+
+Since this proof is constructive, we can immediately derive algorithm
+\ref{AlgorithmSplittingLemma} from it.
 
 \begin{algorithm}[h]
 \caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
 \begin{algorithmic}[1]
-\REQUIRE{$f\in \m^2\subset\mathbb
-R[x_1,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is
-$k$-determined.}
 
-\ENSURE{$c:=\textnormal{corank}(f)$, $\lambda\in\mathbb
-N$ and
-$g\in \m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle
-f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]}
+\REQUIRE{$f \in \m^2 \subset \Q[x_1,\ldots,x_n]$ and $k \in \N$ such that $f$
+is $k$-determined}
 
-\STATE $S:=\emptyset$
-\FOR{$i=1;\ i\le n;\  i++$}
-\IF{$\jt(f,2)\in \mathbb R[x_1,\ldots,\hat
-x_i,\ldots,x_n]$}
-\STATE $S:=S\cup\{x_i\}$
-\ELSE
-\STATE $f:=\jt(f,k)$
-\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
-\IF{$a(0)=0$}
-\STATE choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\supp(f)$
-\STATE apply $x_j\mapsto x_j+x_i$
-\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
-\WHILE{$p\neq 0$}
-\STATE apply $x_i\mapsto x_i-\frac{p}{2a(0)}$
-\STATE $f:=\jt(f,k)$
-\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
-\ENDWHILE
-\ENDIF
-\ENDIF
+\ENSURE{the corank $c$ of $f$, the inertia index $\lambda$ of $f$ and
+$g \in \m^3 \cap \Q[x_1,\ldots,x_c]$ such that
+\[
+f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
+\]
+}
+
+\STATE compute a transformation matrix $T \in \Q^{n \times n}$ such that
+\[
+T^t \cdot H(f)(\mathbf{0}) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+=:N
+\]
+\STATE $c :=$ nb. of zeroes on the diagonal of $N$
+\STATE $\lambda :=$ nb. of entries equal to $-1$ on the diagonal of $N$
+\STATE $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
+\FOR{$(l = 3, \ldots, k)$}
+\STATE write $f^{(l)}$ as
+\[
+f^{(l)} = \sum_{j=3}^l g_j
+  -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
+  +\sum_{i=c+1}^n x_i\cdot h_i^{(l)}
+\]
+with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
+$h_i^{(l)} \in \m^{l-1}$
+\STATE $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
+by
+\[
+\varphi^{(l)}(x_i) :=
+\begin{cases}
+x_i, &i \leq c, \\
+x_i-\frac{1}{2}h_i^{(l)}, &i > c.
+\end{cases}
+\]
 \ENDFOR
-\STATE $c =\# S$
-\STATE change the order of variables such that $f=g+\sum_{i=c+1}^na_ix_i^2$
-\STATE $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$
-\STATE change the order of variables such that
-\[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\
-a_i>0\]
-\STATE apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$
-\STATE $g:=f$
-\RETURN{$c, \lambda, g$}
+
+\STATE $g := \sum_{j=3}^k g_j$
+\RETURN $c, \lambda, g$
+
 \end{algorithmic}
 \end{algorithm}
 
-\begin{proof}
-If we can prove that we can write $f$ as \begin{equation}\label{eq4}
-f=a+\sum_{j=1}^i a_jx_j^2+r
-\end{equation}
-where
-$r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in \m^3$ and
-the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
-after $i$ applications of the for-loop, then we have the desired result after
-$n$ applications of the for-loop. We will prove this by induction. After $0$
-applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$.
-Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in
-S$, then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose
-$x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in
-\textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat
-x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can
-be written as
-\[f=ax_i^2+px_i+r\]
-with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb
-R[x_1,\ldots,x_n]$. If $a(0)\neq 0$, then $x_i^2\in\textnormal{supp}(f)$. If
-$a(0)=0$, then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appears in some
-term of the $2$-jet of $f$ and since it follows from the induction that
-$x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows
-that
-there exists a $j\in\{i+1,\ldots,n\}$ such that
-$x_ix_j\in\textnormal{supp}(f)$.
-If we choose such an index $j$ and apply the transformation
-\begin{equation}\label{eq2}
-x_j\mapsto x_j+x_i,\quad x_ix_j\mapsto x_ix_j+x_i^2,
-\end{equation}
-then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$,
-we now have that $a(0)\neq0$.
-
-Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree
-of $x_i$ is one. Then the while-loop applies and the following transformation
-is made
-\begin{equation}\label{eq3}
-x_i\mapsto x_i-\frac{p}{2a(0)}\qquad
-(\textnormal{this is allowed since }a(0)\neq 0).
-\end{equation}
-Then
-\begin{eqnarray*}
-f&=&a(x_i-\frac{p}{2a(0)})^2+p(x_i-\frac{p}{2a(0)})+r\\
-&=&ax_i^2-\frac{apx_i}{a(0)}+\frac{ap^2}{4a^2(0)}+px_i-\frac{p^2}{2a(0)}+r\\
-&=&ax_i^2+(1-\frac{a}{a(0)})px_i+\frac{ap^2}{4a^2(0)}-\frac{p^2}{2a(0)}+r\\
-&=&ax_i^2+bpx_i+\frac{a'p^2}{4a^2(0)}+r',
-\end{eqnarray*}
-where
-\begin{equation*}
-b=1-\frac{a}{a(0)}\in\m,\quad a'=a-a(0)\in\m,\quad
-r'=\frac{p^2}{4a(0)}-\frac{p^2}{2a(0)}+r\in\mathbb R[x_1,\ldots,\hat
-x_i,\ldots,x_n].
-\end{equation*}
-Since
-\begin{equation*}
-b=b_2x_i^2+b_1x_i+b_0,
-\end{equation*}
-where
-\begin{equation*}
-b_2\in\mathbb R[x_1,\ldots,x_n] \quad\textnormal{and}\quad b_1,b_0\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n],
-\end{equation*}
-we have that
-\begin{eqnarray*}
-bpx_i&=&b_2px_i^3+b_1x_i^2+b_0px_i\\
-&=&(b_2px_i+b_1p)x_i^2+b_0px_i\\
-&=&b'x_i^2+b_0px_i,
-\end{eqnarray*}
-where
-\begin{equation*}
-b'\in\m\in\mathbb R[x_1,\ldots,x_n]\quad\textnormal{and}\quad b_0\in\mathbb
-R[x_1,\ldots,\hat x_i,\ldots,x_n].
-\end{equation*}
-Also
-\begin{equation*}
-\frac{a'p^2}{4a^2(0)}=c_2x_i^2+c_1x_i+c_0
-\end{equation*}
-where
-\begin{equation*}
-c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad
-c_2\in\mathbb R[x_1,\ldots,x_n].
-\end{equation*}
-Since $a'\in\m$ and $p^2\in\m^2$ it follows that $\frac{a'p^2}{4a(0)}\in\m^3$
-and hence $c_2\in\m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$, it
-follows that $(a+b'+c_2)(0)\neq 0$. Furthermore,
-since $b\in\m$, it follows that $b_0\in\m$ and hence
-$\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since
-$\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it
-follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore
-$\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
-\begin{eqnarray}
-f&=&(a+b'+c_2)x_i^2+(b_0p+c_1)x_i+r'+c_0\nonumber\\
-&=&a''x_i^2+p''x_i+r''\label{eq1}
-\end{eqnarray}
-where
-\begin{eqnarray*}
-&&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad
-p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\
-&&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')
->\textnormal{order}(p).
-\end{eqnarray*}
-If $\textnormal{jet}(k,p''x_i)\neq 0$, then the while-loop will be applied
-again
-and we will get as output a polynomial of the form (\ref{eq1}). Since
-the degree
-of $p''$ strictly increases after each application of the while-loop,
-$\textnormal{jet}(k,p''x_i)$ is equal to zero after finitely many applications
-and the while-loop terminates. Considering the transformations  (\ref{eq2})
-and
-(\ref{eq3}), it follows that after each application of the while-loop,
-it holds
-that $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence
-after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
-
-Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop
-if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after
-$i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of
-$f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
-\end{proof}
 
 \section{The real classification of the residual part of $f$}%
 \label{TheRealClassificationOfTheResidualPart}
