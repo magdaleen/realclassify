@@ -67,57 +67,50 @@ All algorithms are implemented in the \Singular{} library \realclassify{}
 \end{abstract}
 
 \maketitle
+
+
 \section{Introduction}
-The goal of this paper is to present the algorithms that were implemented in a
-library, ``realclassify.lib'' \cite{realclassify} in \textsc{singular}, which
-classifies the $0$ and $1$ modal isolated hypersurface singularities at $0$ of
-corank $0$, $1$ and $2$ over the real numbers $\mathbb R$, using
-right-equivalence, as was computed by V.I.~Arnold in \cite{AVG1985}. Hence we
-consider smooth real functions with critical point $0$ and critical value $0$,
-i.e.~functions in $\m^2$, where $\m$ denotes the ideal of function germs
-vanishing at the origin. Two function germs $f, g\in\mathbb R[[x_1,\ldots,
-x_n]]$, $f,g\in \m^2$, where $\mathbb R[[x_1,\ldots,x_n]]$ is the power series
-ring in coordinates $x_1,\ldots,x_n$ over $\mathbb R$, are considered as
-right-equivalent, denoted by $f\requiv g$, if there exists an $\mathbb
-R$-algebra automorphism $\phi$ of $\mathbb R[[x_1,\ldots, x_n]]$ such that
-$\phi(f)=g$. Because the only possible non-approximated input power series over
-the real numbers in computer systems, and thus in particularly in
-\textsc{singular}, are polynomials with rational coefficients, some of the
-algorithms we used apply only to such input polynomials.  There already is a
-\textsc{Singular} library ``classify.lib'' \cite{classify}, which for a given
-polynomial computes its type in Arnold's classification over the complex
-numbers. We used this library as a basis to build ``realclassify.lib'' on. The
-methods used in ``classify.lib'' will not be discussed in this paper. For more
-information in this regard \cite{Kruger} can be studied.
+The goal of this paper, together with its second part, is to present efficient
+algorithms for the classification of isolated hypersurface singularities up to
+modality~1 and corank 2 over the real numbers with respect to right
+equivalence. We refer to the classification given by V.I.~Arnold in
+\cite{AVG1985}. Hence we consider smooth real functions with a critical point
+at the origin and critical value $0$, i.e.~functions in $\m^2$, where $\m$
+denotes the ideal of function germs vanishing at the origin. Two function germs
+$f, g \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ are considered as right
+equivalent, denoted by $f \requiv g$, if there exists an $\R$-algebra
+automorphism $\phi$ of $\R[[x_1,\ldots, x_n]]$ such that $\phi(f) = g$.  We
+have implemented all the algorithms presented here in the computer algebra
+system \Singular.  The implementation is freely available as a \Singular{}
+library called \realclassify{} which relies on \Singular's \classify{} to
+determine, for a given polynomial, the type in Arnold's classification over the
+complex numbers. The methods used in \classify{} will not be discussed in this
+paper. For more information in this regard, \cite{Kruger} can be studied.
 
-Using the Splitting Lemma (Lemma~\ref{SplittingLemma}) any function germ $f$
-over the real numbers with an isolated singularity at $0$, using a suitable
-coordinate system, can be written as the sum of two functions of which the
-variables do not coincide. One of the  functions, called the nondegenerate part
-of $f$, is a nondegenerate quadratic form and the other function, called the
-residual part of $f$, is an element of $\m^3$. The number of variables in the
-residual part is equal to the corank, denoted by $c$, of $f$. In this paper we
-will only consider germs with corank $0$, $1$ and $2$.
+Using the Splitting Lemma (Theorem~\ref{SplittingLemma}), any function germ $f$
+over the real numbers with an isolated singularity at the origin can be
+written, after choosing a suitable coordinate system, as the sum of two
+functions of which the variables are disjoint. One of the functions, called the
+nondegenerate part of $f$, is a nondegenerate quadratic form and the other
+function, called the residual part of $f$, is an element of $\m^3$. The number
+of variables in the residual part is equal to the corank of $f$, denoted by
+$\corank(f)$. In this paper we only consider germs with corank $0$, $1$
+and~$2$.  A version of the Splitting Lemma for singularities over $\R$ and a
+corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
 
-The algorithm that we used to implement the Splitting Lemma is discussed in
-section \ref{TheSplittingLemma}.
-
-In \cite{AVG1985} Arnold divided the real singularities of modality $0$ and $1$
-up to stable equivalence into main types
-which split up into more subtypes by changing the sign in front of certain
-terms. Two functions are stably equivalent if they are right-equivalent after
-the direct addition of nondegenerte quadratic forms. Hence, for all
-nonquadratic forms $f$, after applying the Splitting Lemma we only need to
-consider the residual part of $f$ to complete the classification of $f$.   It
-can be easily seen that the subtypes are complex equivalent to a
-complex singularity type of the same name as its corresponding real main
-singularity type (see Table \ref{normal forms}). In fact there is a bijection
-between the complex singularity
-types of modality $0$ and $1$ and the main real singularity types. Thus, if we
-can determine the complex singularity type of a function germ in these cases,
-we only need to consider the subtypes of the
-corresponding
-main real singularity type to determine the real type of the function germ.
+In \cite{AVG1985} Arnold classified the real singularities of modality $0$ and
+$1$ up to stable equivalence into main types which split up into more subtypes
+depending the sign of certain terms. Two functions are stably equivalent if
+they are right equivalent after the direct addition of nondegenerte quadratic
+forms. Hence after applying the Splitting Lemma,  we only need to consider the
+residual part in order to complete the classification.   It can be easily seen
+that the subtypes are complex equivalent to a complex singularity type of the
+same name as its corresponding real main singularity type (see Table
+\ref{normal forms}). In fact there is a bijection between the complex
+singularity types of modality $0$ and $1$ and the main real singularity types.
+Thus, if we can determine the complex singularity type of a function germ, we
+only need to determine the correct subtype of the corresponding main real
+singularity type.
 
 We denote the $k$-jet of a function germ $f$ by $\jt(f,k)$. In section
 \ref{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ} we
