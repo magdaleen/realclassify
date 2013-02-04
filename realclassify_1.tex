@@ -1,15 +1,18 @@
 \documentclass[noend]{amsproc}
+
 \linespread{1}
+\renewcommand{\arraystretch}{1.3}
+
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage[T1]{fontenc}   % for bold \Singular
+\usepackage{multirow}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 
 % ALGORITHM style
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
@@ -294,74 +297,30 @@ Lemma to consider the residual part of function germs, i.e.~germs in $\m^3$.
 
 \begin{table}[!hbp]
 \centering
-\caption{Real Normal Forms of modality $0$ and $1$.}
+\caption{Real normal forms of singularities of modality $0$.}
 \label{normal forms}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-&Complex NF & NF of real subtypes& Transformation&Restrictions\\\hline
-$A_k$&$x^{k+1}$&$x^{k+1}$&$x\mapsto x$, $y\mapsto y$&$k\ge 1$\\
-&&$-x^{k+1}$&$x\mapsto {i}^{\frac{2}{k+1}}x$, $y\mapsto y$&$k\ge 1$\\
+& Complex & Normal forms & \multirow{2}{*}{Equivalences} &
+\multirow{2}{*}{Values of $k$} \\
+& normal form & of real subtypes & & \\
 \hline
-$D_k$&$x^2y+y^{k-1}$&$x^2y+y^{k-1}$&$x\mapsto x$, $y\mapsto y$&$k\ge 4$\\
-&&$x^2y-y^{k-1}$&$x\mapsto i^{\frac{2k-3}{k-1}}x$,
-$y\mapsto {i}^{\frac{2}{k-1}}y$&$k\ge 4$\\
+\multirow{2}{*}{$A_k$} & \multirow{2}{*}{$x^{k+1}$} & $+x^{k+1}$ $(A_k^+)$ &
+$A_k^+ \requiv A_k^-$ & \multirow{2}{*}{$k \geq 1$} \\
+& & $-x^{k+1}$ $(A_k^-)$ & for~even $k$ & \\
 \hline
-$E_6$&$x^3+y^4$&$x^3+y^4$&$x\mapsto x$, $y\mapsto y$&-\\
-&&$x^3-y^4$&$x\mapsto x$, $y\mapsto\sqrt{i} y$&-\\
+\multirow{2}{*}{$D_k$} & \multirow{2}{*}{$x^2y+y^{k-1}$} &
+$x^2y+y^{k-1}$ $(D_k^+)$ & $D_k^+ \requiv D_k^-$ &
+\multirow{2}{*}{$k \geq 4$} \\
+& & $x^2y-y^{k-1}$ $(D_k^-)$ & for even $k$ & \\
 \hline
-$E_7$&$x^3+xy^3$&$x^3+xy^3$&$x\mapsto x$, $y\mapsto y$&-\\
+\multirow{2}{*}{$E_6$} & \multirow{2}{*}{$x^3+y^4$} & $x^3+y^4$ $(E_6^+)$ &
+\multirow{2}{*}{-} & \multirow{2}{*}{-} \\
+& & $x^3-y^4$ $(E_6^-)$ & & \\
 \hline
-$E_8$&$x^3+y^5$&$x^3+y^5$&$x\mapsto x$, $y\mapsto y$&-\\
+$E_7$ & $x^3+xy^3$ & $x^3+xy^3$ & - & - \\
 \hline
-$X_9$&$x^4+ax^2y^2+y^4$&$x^4+ax^2y^2+y^4$&$x\mapsto x$,
-$y\mapsto y$&$a^2\neq 4$\\
-&&$x^4+ax^2y^2-y^4$&$x\mapsto x$, $y\mapsto \sqrt{i}y$&-\\
-&&$-x^4+ax^2y^2+y^4$&$x\mapsto\sqrt{i}x$, $y\mapsto y$&-\\
-&&$-x^4+ax^2y^2-y^4$&$x\mapsto\sqrt{i}x$, $y\mapsto \sqrt{i}y$&$a^2\neq 4$\\
-\hline
-$J_{10}$&$x^3+ax^2y^2+y^6$&$x^3+ax^2y^2+y^6$&$x\mapsto x$,
-$y\mapsto y$& $4a^3+27\neq0$\\
-&&$x^3+ax^2y^2-y^6$&$x\mapsto x$, $y\mapsto \sqrt[3]{i}y$&$-4a^3+27\neq0$\\
-\hline
-$J_{10+k}$&$x^3+xy^4+ay^6$&$x^3+xy^4+ay^6$&$x\mapsto x$,
-$y\mapsto y$&$a\neq 0$, $k>0$\\
-&&$x^3-xy^4+ay^6$&$x\mapsto x$, $y\mapsto \sqrt{i}y$&$a\neq 0$, $k>0$\\
-\hline
-$X_{9+k}$&$x^4+x^2y^2+ay^{4+k}$&$x^4+x^2y^2+ay^{4+k}$&$x\mapsto x$,
-$y\mapsto y$&$a\neq 0$, $k>0$\\
-&&$x^4-x^2y^2+ay^{4+k}$&$x\mapsto x$, $y\mapsto iy$&$a\neq 0$, $k>0$\\
-&&$-x^4+x^2y^2+ay^{4+k}$&$x\mapsto \sqrt{i}x$, $y\mapsto i^{\frac{3}{2}}y$
-&$a\neq 0$, $k>0$\\
-&&$-x^4-x^2y^2+ay^{4+k}$&$x\mapsto \sqrt{i}x$, $y\mapsto \sqrt{i}y$&$a\neq 0$,
-$k>0$\\
-\hline
-$Y_{r,s}$&$x^2y^2+x^r+ay^s$&$x^2y^2+x^r+ay^s$&$x\mapsto x$, $y\mapsto y$
-&$a\neq 0$, $r,s>4$\\
-&&$x^2y^2-x^r+ay^s$&$x\mapsto i^{\frac{2}{r}}x$, $y\mapsto i^{\frac{2r-2}{r}}y$
-&$a\neq 0$, $r,s>4$\\
-&&$-x^2y^2+x^r+ay^s$&$x\mapsto x$, $y\mapsto iy$&$a\neq 0$, $r,s>4$\\
-&&$-x^2y^2-x^r+ay^s$&$x\mapsto i^{\frac{2}{r}}x$, $y\mapsto i^{\frac{r-2}{r}}y$
-&$a\neq 0$, $r,s>4$\\
-\hline
-$E_{12}$&$x^3+y^7+axy^5$&$x^3+y^7+axy^5$&$x\mapsto x$, $y\mapsto y$&-\\
-\hline
-$E_{13}$&$x^3+xy^5+ay^8$&$x^3+xy^5+ay^8$&$x\mapsto x$, $y\mapsto y$&-\\
-\hline
-$E_{14}$&$x^3+y^8+axy^6$&$x^3+y^8+axy^6$&$x\mapsto x$, $y\mapsto y$&-\\
-&&$x^3-y^8+axy^6$&$x\mapsto x$, $y\mapsto \sqrt[4]iy$&-\\
-\hline
-$Z_{11}$&$x^3y+y^5+axy^4$&$x^3+y^5+axy^4$&$x\mapsto x$, $y\mapsto y$&-\\
-\hline
-$Z_{12}$&$x^3y+xy^4+ax^2y^3$&$x^3y+xy^4+ax^2y^3$&$x\mapsto x$, $y\mapsto y$&-\\
-\hline
-$Z_{13}$&$x^3y+y^6+axy^5$&$x^3y+y^6+axy^5$&$x\mapsto x$, $y\mapsto y$& -\\
-&&$x^3y-y^6+axy^5$&$x\mapsto i^{\frac{11}{9}}x$, $y\mapsto \sqrt[3]i y$& -\\
-\hline
-$W_{12}$&$x^4+y^5+ax^2y^3$&$x^4+y^5+ax^2y^3$&$x\mapsto x$, $y\mapsto y$&-\\
-&&$-x^4+y^5+ax^2y^3$&$x\mapsto\sqrt{i} x$, $y\mapsto y$&-\\
-\hline
-$W_{13}$&$x^4+xy^4+ay^6$&$x^4+xy^4+ay^6$&$x\mapsto x$, $y\mapsto y$&-\\
-&&$-x^4+xy^4+ay^6$&$x\mapsto \sqrt{i}x$, $y\mapsto i^{\frac{7}{8}}y$&-\\
+$E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 \hline
 \end{tabular}
 \end{table}
