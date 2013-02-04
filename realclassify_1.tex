@@ -459,16 +459,13 @@ complex singularity types, and a \textsc{Singular} library ``classify.lib"
 boils down to determining to which of the corresponding subtypes the germ is
 equivalent.
 
-\subsection{Real $\mathbf{0}$-modal singularities of corank $\mathbf{0}$ and
-$\mathbf{1}$}%
-\label{RealSingularitiesOfZeroModality}
-
 Throughout the rest of the paper we write $f$ for the given input polynomial,
 $g$ for its residual part which can be obtained by applying the Splitting
 Lemma~\ref{AlgorithmSplittingLemma}, and $c$ for the corank of $f$.
 We also assume that $f$, and thus $g$, is a polynomial over $\mathbb Q$.
 With these notations, $g$ is a polynomial in $c$ variables.
 
+\subsection{$\boldsymbol{A_1}$}
 If $c = 0$, then it follows  that $f$ is of type
 $A_1^+$ or of type $A_1^-$ depending on the inertia index $\lambda$ of $f$. If
 the inertia index of $f$ is nonzero and less than the number of variables in
@@ -477,6 +474,7 @@ chooses to order the variables. If the inertia index is equal to the number of
 variables in the base ring, $f$ is of type $A_1^-$. Lastly, if the inertia
 index is $0$, then $f$ is of type $A_1^+$.
 
+\subsection{$\boldsymbol{A_k, k > 1}$}
 If $c=1$, then the singularity is of type
 $A_k^+$ or of type $A_k^-$ for some $k>1$. Furthermore $g$ is a univariate
 polynomial in this case, say $g\in\mathbb Q[x]$. Note that if $k$ is even, then
@@ -527,7 +525,6 @@ $k\in\mathbb N$}
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Real $\mathbf 0$-modal singularities of corank $\mathbf 2$}
 The goal of the rest of the paper is to classify singularities of corank $2$.
 In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
 $g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib} we
@@ -537,7 +534,7 @@ paper is to classify the correct real subtype of $g$, or equivalently $f$. We
 now consider each complex type, or equivalently every real main type,
 seperately.
 
-\subsubsection{$D_4$}
+\subsection{$\boldsymbol{D_4}$}
 
 The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
 splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
@@ -587,7 +584,7 @@ Implementing the algorithms in this paper in \textsc{Singular}, we used the
 library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
 of a univariate polynomial.
 
-\subsubsection{$D_k, k > 4$}
+\subsection{$\boldsymbol{D_k, k > 4}$}
 
 For the cases $D_k$ with $k > 4$, the complex normal form is $x^2y+y^{k-1}$. It
 splits up into $x^2y+y^{k-1}$ ($D_k^+$) and $x^2y-y^{k-1}$ ($D_k^-$) for each
@@ -663,7 +660,7 @@ $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{$E_6$}
+\subsection{$\boldsymbol{E_6}$}
 
 In this case, whose complex normal form is $x^3+y^4$, we have that either
 $g\requiv x^3+y^4$ ($E_6^+$) or $g\requiv x^3-y^4$ ($E_6^-$).
