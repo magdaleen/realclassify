@@ -3,6 +3,7 @@
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage[T1]{fontenc}   % for bold \Singular
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -14,17 +15,25 @@
 
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
+\newcommand{\classify}{\texttt{classify.lib}}
 
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jt}{jet}
+\DeclareMathOperator{\corank}{corank}
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
 
-\title{The classification of real singularities using \textsc{Singular}}
+\title[The classification of real singularities using \textsc{Singular}, %
+Part I]%
+{The classification of real singularities using \textsc{Singular}\\
+Part I: Splitting Lemma and Simple Singularities}
 
 \author{Magdaleen S. Marais}
 \address{Magdaleen S. Marais\\
