@@ -23,7 +23,7 @@
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
-\DeclareMathOperator{\jt}{jet}
+\DeclareMathOperator{\jet}{jet}
 \DeclareMathOperator{\corank}{corank}
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\sign}{sign}
@@ -78,7 +78,7 @@ algorithms for the classification of isolated hypersurface singularities up to
 modality~1 and corank 2 over the real numbers with respect to right
 equivalence. We refer to the classification given by V.I.~Arnold in
 \cite{AVG1985}. Hence we consider smooth real functions with a critical point
-at the origin and critical value $0$, i.e.~functions in $\m^2$, where $\m$
+at the origin and critical value $0$, i.e.\@ functions in $\m^2$, where $\m$
 denotes the ideal of function germs vanishing at the origin. Two function germs
 $f, g \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ are considered as right
 equivalent, denoted by $f \requiv g$, if there exists an $\R$-algebra
@@ -115,7 +115,7 @@ Thus, if we can determine the complex singularity type of a function germ, we
 only need to determine the correct subtype of the corresponding main real
 singularity type.
 
-We denote the $k$-jet of a function germ $f$ by $\jt(f,k)$. In section
+We denote the $k$-jet of a function germ $f$ by $\jet(f,k)$. In section
 \ref{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ} we
 discuss the factorization of the lowest nonzero jets of two right-equivalent
 functions. These results are used in sections
@@ -169,13 +169,12 @@ sections \ref{RealSingularitiesOfZeroModality} to
 \ref{ExceptionalSingularities}.
 
 Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
-$f\requiv g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
+$f\requiv g$, i.e.\@ $\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
 automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. Since $\phi$ is an automorphism
 it is defined by the images $\phi(x_1),\ldots,\phi(x_n)$. We define the $j$-jet
 of $\phi$, denoted by $\phi_j$, to be the automorphism defined by
-$\phi_j(x_1):=\jt(\phi(x_1),j),\ldots,\phi_j(x_n):=\jt(\phi(x_n),j)$. By using
-the next result, given $f$ and $g$, we can
-determine $\phi_1$.
+$\phi_j(x_1):=\jet(\phi(x_1),j),\ldots,\phi_j(x_n):=\jet(\phi(x_n),j)$. By
+using the next result, given $f$ and $g$, we can determine $\phi_1$.
 
 \begin{theorem}\label{kjet}
 Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$
@@ -193,11 +192,11 @@ Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb
 R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=g$. Now
 assume that the monomials of lowest degree $k$ of $f$ factorize
 as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over
-$\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_t^{s_t}+f'$, where the degree and order
-of
-$f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$.
-Now, for all $j\in\{1,\ldots,n\}$, \[\phi(x_j)=\phi_1(x_j)+\textnormal{terms of
-degree higher than $1$}.\] Since $\phi$ is a homomorphism, it follows that
+$\mathbb R$, i.e.\@ $f=f_1^{s_1}\cdots f_t^{s_t}+f'$, where the degree and
+order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater
+than $k$.  Now, for all $j\in\{1,\ldots,n\}$,
+\[\phi(x_j)=\phi_1(x_j)+\textnormal{terms of degree higher than $1$}.\] Since
+$\phi$ is a homomorphism, it follows that
 
 \begin{eqnarray*}
 \phi(f)&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots
@@ -406,7 +405,7 @@ real forms. The fact is that it is not known whether modality is preserved in
 these cases. In the next table we list the normal forms that are used in this
 article. From here onwards we will be working with stable equivalence. For all
 nonquadratic forms $f$ it is thus only necessary, after applying the Splitting
-Lemma to consider the residual part of function germs, i.e.~germs in $\m^3$.
+Lemma to consider the residual part of function germs, i.e.\@ germs in $\m^3$.
 
 \begin{table}[!hbp]
 \centering
@@ -482,7 +481,7 @@ $A_k^+\requiv A_k^-$. The value of $k$ is given by the order of $g$ minus $1$.
 This follows since $\pm x^{k+1}$ and $g$ are right-equivalent and thus have the
 same order. The sign of the singularity type is determined by the sign of the
 coefficient of $x^{k+1}$. This follows since it follows from Lemma \ref{kjet}
-that $\jt(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
+that $\jet(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
 x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the singularity
 type.  Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
 sign of the coefficient of $x^{k+1}$. We use algorithm~\ref{alg:A_k}, after
@@ -497,7 +496,7 @@ the output polynomial $g$ after applying
 Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
 index $\lambda$ of $f$}
 
-\ENSURE{the real singularity type of $f$, i.e.~$A_k^-$ or $A_k^+$,
+\ENSURE{the real singularity type of $f$, i.e.\@ $A_k^-$ or $A_k^+$,
 $k\in\mathbb N$}
 
 \IF{$c=0$}
@@ -552,8 +551,8 @@ the case $D_4^+$ and 3 for $D_4^-$.
 \begin{algorithmic}[1]
 
 \REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_4$}
-\ENSURE{the real singularity type of $g$, i.e.~$D_4^+$ or $D_4^-$}
-\STATE $h := \jt(g,3)$
+\ENSURE{the real singularity type of $g$, i.e.\@ $D_4^+$ or $D_4^-$}
+\STATE $h := \jet(g,3)$
 \STATE $s_1:=$ coefficient of ${x^3}$ in $h$
 \STATE $s_2 :=$ coefficient of ${y^3}$ in $h$
 \IF{$(s_1 = 0)$}
@@ -624,9 +623,9 @@ transformations in Lemma~\ref{transformationD[k]}, for each $j$, the only term
 of total degree $j$ which possibly remains is $a_jy^j$. This term vanishes for
 $j<k-1$ and it does not vanish for $j=k-1$, otherwise $g$ is not of complex
 type $D_k$. Thus, after applying these transformations,
-we can write $g$ as $g=x^2y+\alpha y^{k-1}$ with $a\neq0$. Clearly if $\alpha>0$ then
-$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$ then
-$x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
+we can write $g$ as $g=x^2y+\alpha y^{k-1}$ with $a\neq0$. Clearly if
+$\alpha>0$ then $x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$
+then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
 \begin{algorithm}[h]
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
@@ -635,19 +634,19 @@ $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 \REQUIRE{$g \in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_k$,
 $k\in\mathbb N$, $k>4$}
 
-\ENSURE{the real singularity type of $g$, i.e.~$D_k^-$ or $D_k^+$}
+\ENSURE{the real singularity type of $g$, i.e.\@ $D_k^-$ or $D_k^+$}
 
 \STATE $k:= \mu(g)$
-\STATE $h:=\jt(g,k-1)$
-\STATE factorize $\jt(h,3)$ as $h_1^2h_2$, where $h_1$ and $h_2$ are linear
+\STATE $h:=\jet(g,k-1)$
+\STATE factorize $\jet(h,3)$ as $h_1^2h_2$, where $h_1$ and $h_2$ are linear
 \STATE apply $h_1\mapsto x$, $h_2\mapsto y$ to $h$
 \FOR{$(j = 4, \ldots, k-1)$}
-\IF{$(\jt(h,j)-x^2y\neq0)$}
-\STATE write $\jt(h,j)-x^2y$ as
+\IF{$(\jet(h,j)-x^2y\neq0)$}
+\STATE write $\jet(h,j)-x^2y$ as
 $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \STATE apply $x\mapsto x-\frac{1}{2}(a_1x^{j-2}+\cdots
 +a_{j-1}y^{j-2})$, $y\mapsto y-a_0x^{j-2}$ to $h$
-\STATE $h:=\jt(h,k-1)$
+\STATE $h:=\jet(h,k-1)$
 \ENDIF
 \ENDFOR
 \STATE write $h$ as $h=x^2y+\alpha y^{k-1}$, $0\neq\alpha\in\mathbb Q$
@@ -671,7 +670,7 @@ $\phi(g)=(\phi(x))^3-(\phi(y))^4$.
 Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
 ensure that the coefficient of
 $x^3$ is non-zero by swapping the variables if necessary. Now, using Lemma
-\ref{kjet} and Lemma~\ref{x^3}, $\jt(g,3)$ factorizes as
+\ref{kjet} and Lemma~\ref{x^3}, $\jet(g,3)$ factorizes as
 $c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
 Q[x,y]$. Again,
 using Lemma \ref{kjet}, it follows that by applying
@@ -702,8 +701,8 @@ the monomial $y^4$. Now
 \begin{algorithmic}[1]
 
 \REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
-\ENSURE{the real singularity type of $g$, i.e.~$E_6^-$ or $E_6^+$}
-\STATE $h:= \jt(g,3)$
+\ENSURE{the real singularity type of $g$, i.e.\@ $E_6^-$ or $E_6^+$}
+\STATE $h:= \jet(g,3)$
 \STATE $s:=$ coefficient of ${x^3}$ in $h$
 \IF{$(s=0)$}
 \STATE swap the variables $x$ and $y$
@@ -743,12 +742,12 @@ Berlin (2008).
 \bibitem{classify}
 Kr\"uger, K.:
 {\tt classify.lib}. {A} {\sc Singular} {3-1-5} library for classifying isolated
-hypersurface singularities w.r.t. right equivalence, based on the determinator
-of singularities by V.I. Arnold (2012).
+hypersurface singularities w.r.t.\@ right equivalence, based on the
+determinator of singularities by V.I. Arnold (2012).
 \bibitem{realclassify}
 Marais, M. and Steenpass, A.:
 {\tt realclassify.lib}. {A} {\sc Singular} {3-1-5} library for classifying
-isolated hypersurface singularities over the reals w.r.t. right equivalence,
+isolated hypersurface singularities over the reals w.r.t.\@ right equivalence,
 based on the determinator of singularities by V.I. Arnold. This library is
 based on classify.lib by Kai Kr\"uger, but handles the real case, while
 classify.lib does the complex classification (2012).
