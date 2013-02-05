@@ -11,11 +11,14 @@
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
+\newtheorem{prop}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 
 % ALGORITHM style
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\algorithmicbreak}{\textbf{break}}
+\newcommand{\BREAK}{\STATE \algorithmicbreak}
 
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
@@ -213,6 +216,81 @@ $<$
 \STATE $L :=$ a basis of the $\R$-vector space $\langle K \rangle_{\R}$
 \RETURN $|L|$
 \ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{The Determinacy}
+
+In general, the singularities we deal with in this paper are defined for power
+series, but algorithmically, we want to work with polynomials. It is thus
+important for our algorithmic approach that any power series is right
+equivalent to a polynomial which can be obtained from it by leaving out terms
+of sufficiently high order.
+
+\begin{defn}
+Let $f \in \R[[x_1,\ldots,x_n]]$ be a power series.
+
+\begin{enumerate}
+\item Let $f = \sum_{j=0}^\infty f_j$ be the decomposition of $f$ into
+homogeneous parts $f_j$ of degree $j$.
+For $k \in \N$, we define the \emph{$k$-jet} of $f$ as
+\[
+\jet(f,k) := \sum_{i=0}^k f_k \,.
+\]
+In other words, the $k$-jet of $f$ can be obtained from $f$ by leaving out all
+terms of order higher that $k$.
+
+\item $f$ is called \emph{$k$-determined} if
+\[
+\forall g \in \m^{k+1}: \quad f \requiv \jet(f,k)+g \,.
+\]
+\end{enumerate}
+\end{defn}
+
+The determinacy is, just as the Milnor number, both invariant under right
+equivalence and finite for isolated singularities. We cite the following
+statement (cf.\@ \cite{GLS2007}, Supplement to Theorem~2.23) due to its
+importance for the algorithmic approach and refer to \cite{GLS2007} for further
+results regarding the determinacy:
+
+\begin{prop}
+Let $f \in \m \subset \R[[x_1,\ldots,x_n]]$. If it holds that
+\[
+\m^{k+1} \subset \m^2 \left\langle \frac{\partial f}{\partial x_1}, \ldots,
+\frac{\partial f}{\partial x_n} \right\rangle_{\R[[x_1,\ldots,x_n]]} \,,
+\]
+then $f$ is $k$-determined.
+\end{prop}
+
+As a direct consequence of this, any power series $f$ which has an isolated
+singularity at the origin is $(\mu(f)+1)$-determined. But we can often compute
+a much better upper bound for the determinacy by using the above statement as
+in Algorithm~\ref{alg_Determinacy}. It is worth to note that
+both the Milnor number and the determinacy of an arbitrary power series
+$f \in \R[[x_1,\ldots,x_n]]$ do not change if we regard $f$ as an element of
+$\C[[x_1,\ldots,x_n]]$. The same holds for the output of the corresponding
+algorithms presented here.
+
+\begin{algorithm}[h]
+\caption{\label{alg_Determinacy} \textsc{Determinacy}}
+\begin{algorithmic}[1]
+
+\REQUIRE{$f \in \Q[x_1,\ldots,x_n]$ with an isolated singularity at the origin}
+\ENSURE{an upper bound for the determinacy of $f$}
+
+\STATE $k := \textsc{Milnor}(f)+1$
+\STATE $J := \left( \frac{\partial f}{\partial x_1}, \ldots,
+\frac{\partial f}{\partial x_n} \right) \subset \Q[x_1,\ldots,x_n]$
+\STATE compute a standard basis $G$ of $(\m^2 J)$ w.r.t.\@ a local monomial
+ordering $<$
+\FOR{$(l = 1,\ldots,k-1)$}
+\IF{$(\NF_<(\m^{l+1},G) = 0)$}
+\STATE $k := l$
+\BREAK
+\ENDIF
+\ENDFOR
+\RETURN $k$
 
 \end{algorithmic}
 \end{algorithm}
