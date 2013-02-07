@@ -129,7 +129,8 @@ functions. These results are used in sections
 \ref{RealSingularitiesOfZeroModality} to \ref{ExceptionalSingularities}, where
 the algorithms are given to classify germs in $\m^3$. Firstly, we show that the
 $k$-jets of two right-equivalent functions, where $k$ is the order of the
-functions, factorize in the same way over $\mathbb R$ (Lemma~\ref{kjet}). Since
+functions, factorize in the same way over $\mathbb R$ (Proposition~\ref{kjet}).
+Since
 the real numbers are floating numbers in \textsc{Singular}, it is not always
 possible to factorize over the real numbers using \textsc{Singular}. In some
 cases we prove that these lowest jets will always factorize in linear terms
@@ -349,48 +350,38 @@ of $\phi$, denoted by $\phi_j$, to be the automorphism defined by
 $\phi_j(x_1):=\jet(\phi(x_1),j),\ldots,\phi_j(x_n):=\jet(\phi(x_n),j)$. By
 using the next result, given $f$ and $g$, we can determine $\phi_1$.
 
-\begin{theorem}\label{kjet}
-Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$
-and $k$
-is the lowest degree of $f$. If jet$(f,k)$ factorizes as
-\[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\]
-over $\mathbb R$, then jet$(g,k)$ will factorize
-as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots
-f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$
-is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$
-such that $\phi(f)=g$.
-\end{theorem}
-\begin{proof}
-Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb
-R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=g$. Now
-assume that the monomials of lowest degree $k$ of $f$ factorize
-as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over
-$\mathbb R$, i.e.\@ $f=f_1^{s_1}\cdots f_t^{s_t}+f'$, where the degree and
-order of $f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater
-than $k$.  Now, for all $j\in\{1,\ldots,n\}$,
-\[\phi(x_j)=\phi_1(x_j)+\textnormal{terms of degree higher than $1$}.\] Since
-$\phi$ is a homomorphism, it follows that
+\begin{prop}\label{kjet}
+Let $f,g \in \R[[x_1,\ldots,x_n]]$ be two power series with $f \requiv g$ and
+$k := \ord(f) > 1$. Let $\phi$ be an $\R$-algebra automorphism of
+$\R[[x_1,\ldots,x_n]]$ such that $\phi(f)=g$.
 
-\begin{eqnarray*}
-\phi(f)&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots
-f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\
-&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
-f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\
-&&+\big(\phi-\phi_1\big)(f_1^{s_1}\cdots f_t^{s_t})+\phi(f').\\
-\end{eqnarray*}
-Since the $\deg\big(\phi_1(x_j))=1$ it follows that
-\[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
-f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because
+If $\jet(f,k)$ factorizes as
 \[
-\textnormal{order}\big(\big(\phi-\phi_1\big)(f_1^{s_1}\cdots f_t^{s_t})\big)>k
-\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k
+\jet(f,k) = f_1^{s_1} \cdots f_t^{s_t}
 \]
-it follows that
-\begin{eqnarray*}
-\textnormal{jet}(\phi(f),k)=\textnormal{jet}(g,k)
-=f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
-f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big).
-\end{eqnarray*}
+in $\R[x_1,\ldots,x_n]$, then $\jet(g,k)$ factorizes as
+\[
+\jet(g,k) = \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\]
+\end{prop}
+
+\begin{proof}
+By assumption we have that $f = f_1^{s_1} \cdots f_t^{s_t} + f'$, where
+$f_1^{s_1} \cdots f_t^{s_t}$ is homogeneous of degree $k$ and the order of $f'$
+is greater than $k$. We denote the higher order parts of $\phi$ by
+$\phi^* := \phi-\phi_1$. Since $\phi$ is a homomorphism, it follows that
+\begin{align*}
+\phi(f) &= \phi(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \\
+&= \phi_1(f_1^{s_1} \cdots f_t^{s_t})
++ \phi^*(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \,.
+\end{align*}
+where $\phi_1(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
+both $\phi^*(f_1^{s_1} \cdots f_t^{s_t})$ and $\phi(f')$ are of order higher
+than $k$. Hence
+\[
+\jet(g, k) = \jet(\phi(f), k) = \phi_1(f_1^{s_1} \cdots f_t^{s_t})
+= \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\]
 \end{proof}
 
 Since \textsc{Singular} use real floating point numbers instead of real
@@ -653,7 +644,8 @@ polynomial in this case, say $g\in\mathbb Q[x]$. Note that if $k$ is even, then
 $A_k^+\requiv A_k^-$. The value of $k$ is given by the order of $g$ minus $1$.
 This follows since $\pm x^{k+1}$ and $g$ are right-equivalent and thus have the
 same order. The sign of the singularity type is determined by the sign of the
-coefficient of $x^{k+1}$. This follows since it follows from Lemma \ref{kjet}
+coefficient of $x^{k+1}$. This follows since it follows from
+Proposition~\ref{kjet}
 that $\jet(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
 x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the singularity
 type.  Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
@@ -784,8 +776,8 @@ y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
 By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of  complex
 type
 $D_k$ is $k-1$. Therefore we only need to consider the
-$(k-1)$-jet of $g$ in this case. Using Lemma~\ref{kjet} and Lemma~\ref{x^3}, we
-transform $g$ into a polynomial of the form
+$(k-1)$-jet of $g$ in this case. Using Proposition~\ref{kjet} and
+Lemma~\ref{x^3}, we transform $g$ into a polynomial of the form
 \[x^2y+\textnormal{terms of degree higher than $3$}\]
 by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and $g_2$ of
 degree $1$,
@@ -842,11 +834,11 @@ $\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
 $\phi(g)=(\phi(x))^3-(\phi(y))^4$.
 Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
 ensure that the coefficient of
-$x^3$ is non-zero by swapping the variables if necessary. Now, using Lemma
-\ref{kjet} and Lemma~\ref{x^3}, $\jet(g,3)$ factorizes as
+$x^3$ is non-zero by swapping the variables if necessary. Now, using
+Proposition~\ref{kjet} and Lemma~\ref{x^3}, $\jet(g,3)$ factorizes as
 $c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
 Q[x,y]$. Again,
-using Lemma \ref{kjet}, it follows that by applying
+using Proposition~\ref{kjet}, it follows that by applying
 $x\mapsto\frac{x-b_1y}{b_0},\
 y\mapsto y$ to $g$, $\phi$ is transformed such that $\phi_1(x)=c'x$,
 $c'\in\mathbb
