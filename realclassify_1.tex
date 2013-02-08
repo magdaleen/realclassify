@@ -335,20 +335,22 @@ invariant under coordinate changes of $V$.
 
 
 \subsection{Results regarding the factorization of homogeneous polynomials
-over $\mathbb R$ and $\mathbb Q$}%
+over $\R$ and $\Q$}%
 \label{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ}
 
-The results in this subsection are preliminary results that will be used in
-sections \ref{RealSingularitiesOfZeroModality} to
-\ref{ExceptionalSingularities}.
+\begin{defn}
+Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$.
+For $j > 0$ we define the
+\emph{$j$-jet} of $\phi$, denoted by $\phi_j$, to be the automorphism given by
+\[
+\phi_j(x_i) := \jet(\phi(x_i),j) \quad \forall i = 1,\ldots,n \,.
+\]
+\end{defn}
 
-Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
-$f\requiv g$, i.e.\@ $\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
-automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. Since $\phi$ is an automorphism
-it is defined by the images $\phi(x_1),\ldots,\phi(x_n)$. We define the $j$-jet
-of $\phi$, denoted by $\phi_j$, to be the automorphism defined by
-$\phi_j(x_1):=\jet(\phi(x_1),j),\ldots,\phi_j(x_n):=\jet(\phi(x_n),j)$. By
-using the next result, given $f$ and $g$, we can determine $\phi_1$.
+The next result is in many cases a starting point for the classification of the
+residual part, see section~\ref{sec:residual_part}. Given $f$ and $g$ with $f
+\requiv g$, it can be used to determine $\phi_1$ for some automorphism $\phi$
+such that $\phi(f) = g$.
 
 \begin{prop}\label{kjet}
 Let $f,g \in \R[[x_1,\ldots,x_n]]$ be two power series with $f \requiv g$ and
@@ -384,53 +386,44 @@ than $k$. Hence
 \]
 \end{proof}
 
-Since \textsc{Singular} use real floating point numbers instead of real
-numbers, rounding errors in computations in this setting can
-occur. Therefore, in this paper, the above result would not be of much help
-without the
-following result.
+Since we do not want to work with rounding errors nor field extensions in the
+implementation of the proposed algorithms, the above result would not be of
+much help for this purpose without the following result.
 
 \begin{lemma}\label{x^3}
-If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
-$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over
-$\mathbb
-R$, where $g_1,g_2$ are polynomials of degree $1$, then $f$ will factorize as
-(i) $ag_1'^d$, (ii) $ag_1'\cdot g_2'^d$, (iii) $ag_1'^2(g_1'-g_2')(g_1'+g_2')$
-respectively,
-where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and
-$a\in\mathbb Q$.
+If $f \in \Q[x,y]$ is homogeneous and factorizes as
+\[
+\text{(i) } g_1^d \text{ or (ii) } g_1 g_2^d \quad \text{ over } \R \,,
+\]
+where $g_1, g_2 \in \R[x,y]$ are polynomials of degree $1$ and $d > 1$, then
+$f$ factorizes as
+\[
+\text{(i) } ag_1'^d \text{ or (ii) } ag_1' g_2'^d
+\quad \text{ over } \Q \,,
+\]
+respectively, where $g_1', g_2' \in \Q[x,y]$ are polynomials of degree $1$ and
+$a \in \Q$.
 \end{lemma}
+
 \begin{proof}
 
-(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
-suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1}y)^d$. Since $f=
-a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows
-that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$
-from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since
-$\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb
-Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and
-$g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+(i) Let $f = (a_1x+a_2y)^d$, $a_1, a_2 \in \R$. Without loss of generality,
+suppose $a_1 \neq 0$. Then $f = a_1^d(x+\frac{a_2}{a_1}y)^d$. Since the
+coefficient of $x^d$ in $f \in \Q[x,y]$ is $a_1^d$, we have $a_1^d \in \Q$ and
+therefore $(x+\frac{a_2}{a_1}y)^d \in \Q[x,y]$ which, by dehomogenization,
+leads to $(x+\frac{a_2}{a_1})^d \in \Q[x]$. Since $\Q$ is a perfect field it
+follows that $\frac{a_2}{a_1} \in \Q$. Thus $f = ag_1'^d$, where
+$a := a_1^d \in \Q$ and $g_1' = x+\frac{a_2}{a_1}y \in \Q[x,y]$.
 
-(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,\ldots,a_4\in\mathbb
-R$. Suppose $a_1,a_3\neq 0$.
-For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the
-proofs are similar.
-Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence
-$(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which
-it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb
-Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that
-$(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and
-hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore
-also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that
-$(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
-Thus $f=ag'_1g'^d_2$ with $a:=a_1a_3^d\in\mathbb Q$,
-$g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, and
-$g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$.
-
-(iii) If $f$ factorizes as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$, it
-follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore
-$(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb
-Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+(ii) Let $f = (a_1x+a_2y)(a_3x+a_4y)^d$, $a_1,\ldots,a_4 \in \R$. Suppose
+$a_1,a_3 \neq 0$. For the cases $a_1,a_4 \neq 0$, $a_2,a_3 \neq 0$ and
+$a_2,a_4 \neq 0$ the proofs are similar. We have $a_1a_3^d \in \Q$ analogously
+to part (i). Hence $(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d \in \Q[x,y]$
+which in turn implies $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d \in \Q[x]$.
+Since $\Q$ is a perfect field it follows that the roots of this polynomial are
+rational. Therefore $f = ag_1'g_2'^d$ with $a: = a_1a_3^d \in \Q$,
+$g_1' := (x+\frac{a_2}{a_1}y) \in \Q[x,y]$, and
+$g_2' := (x+\frac{a_4}{a_3}y) \in \Q[x,y]$.
 \end{proof}
 
 
@@ -552,7 +545,7 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 
 
 \section{The real classification of the residual part}%
-\label{TheRealClassificationOfTheResidualPart}
+\label{TheRealClassificationOfTheResidualPart}\label{sec:residual_part}
 
 In \cite{AVG1985} Arnold divided the real singularities of modality $0$ and
 $1$, using stable equivalence, into main types which split up into more
