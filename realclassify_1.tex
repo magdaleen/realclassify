@@ -165,14 +165,6 @@ The Milnor number is known to be finite at isolated singularities
 of isolated singularities. We refer to \cite{GLS2007} for more properties of
 this invariant.
 
-We use Algorithm~\ref{alg_Milnor} to compute the Milnor number of a given
-polynomial at the origin. In line 3, $\dim(\langle G \rangle)$ denotes the
-dimension of $\langle G \rangle$ as an ideal, which is easy to read off from
-the standard basis $G$. In line 6, $\NF_<$ is any weak normal form w.r.t.\@ the
-monomial ordering~$<$. Note that the set $K$ is garantueed to be finite. We
-refer to \cite{GP2008} for details on (local) monomial orderings, standard
-bases and (weak) normal forms.
-
 \begin{algorithm}[h]
 \caption{\label{alg_Milnor} \textsc{Milnor}}
 \begin{algorithmic}[1]
@@ -195,6 +187,15 @@ $<$
 
 \end{algorithmic}
 \end{algorithm}
+
+We use Algorithm~\ref{alg_Milnor} to compute the Milnor number of a given
+polynomial at the origin. In line 3, $\dim(\langle G \rangle)$ denotes the
+dimension of $\langle G \rangle$ as an ideal, which is easy to read off from
+the standard basis $G$. In line 6, $\NF_<$ is any weak normal form w.r.t.\@ the
+monomial ordering~$<$. Note that the set $K$ is garantueed to be finite. We
+refer to \cite{GP2008} for details on (local) monomial orderings, standard
+bases and (weak) normal forms.
+
 
 \subsection{The Determinacy}%
 \label{subsec:determinacy}
@@ -243,12 +244,7 @@ then $f$ is $k$-determined.
 As a direct consequence of this, any power series $f$ which has an isolated
 singularity at the origin is $(\mu(f)+1)$-determined. But we can often compute
 a much better upper bound for the determinacy by using the above statement as
-in Algorithm~\ref{alg_Determinacy}. It is worth to note that
-both the Milnor number and the determinacy of an arbitrary power series
-$f \in \R[[x_1,\ldots,x_n]]$ do not change if we regard $f$ as an element of
-$\C[[x_1,\ldots,x_n]]$. The same holds for the output of the corresponding
-algorithms presented here.
-
+in Algorithm~\ref{alg_Determinacy}.
 \begin{algorithm}[h]
 \caption{\label{alg_Determinacy} \textsc{Determinacy}}
 \begin{algorithmic}[1]
@@ -271,6 +267,11 @@ ordering $<$
 
 \end{algorithmic}
 \end{algorithm}
+It is worth to note that
+both the Milnor number and the determinacy of an arbitrary power series
+$f \in \R[[x_1,\ldots,x_n]]$ do not change if we regard $f$ as an element of
+$\C[[x_1,\ldots,x_n]]$. The same holds for the output of the corresponding
+algorithms presented here.
 
 
 \subsection{Blowing-up}%
