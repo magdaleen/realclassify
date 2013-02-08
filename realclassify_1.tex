@@ -116,7 +116,7 @@ forms. Hence after applying the Splitting Lemma,  we only need to consider the
 residual part in order to complete the classification.   It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
 same name as its corresponding real main singularity type (see Table
-\ref{normal forms}). In fact there is a bijection between the complex
+\ref{tab:normal_forms}). In fact there is a bijection between the complex
 singularity types of modality $0$ and $1$ and the main real singularity types.
 Thus, if we can determine the complex singularity type of a function germ, we
 only need to determine the correct subtype of the corresponding main real
@@ -547,27 +547,26 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 \section{The real classification of the residual part}%
 \label{TheRealClassificationOfTheResidualPart}\label{sec:residual_part}
 
-In \cite{AVG1985} Arnold divided the real singularities of modality $0$ and
-$1$, using stable equivalence, into main types which split up into more
-subtypes by changing the sign in front of certain terms. Each of these subtypes
-is complex equivalent to the complex singularity of the same name as its
-corresponding real main singularity type. We include the complex
-transformations for the corank two singularities in the table below. Since
-there is a real main singularity type of modality $0$ or $1$ for each complex
-singularity type of modality $0$ or $1$, respectively, there is a bijection
-between the main real singularity types of modality $0$ and $1$ and the complex
-singularity types of modality $0$ and $1$, respectively. It is not known yet
-whether the complex forms of higher modal cases  split up into corresponding
-real forms. The fact is that it is not known whether modality is preserved in
-these cases. In the next table we list the normal forms that are used in this
-article. From here onwards we will be working with stable equivalence. For all
-nonquadratic forms $f$ it is thus only necessary, after applying the Splitting
-Lemma to consider the residual part of function germs, i.e.\@ germs in $\m^3$.
+In \cite{AVG1985} Arnold divides the real singularities of modality $0$, using
+stable equivalence, into main types which split up into more subtypes by
+changing the sign in front of certain terms.  It is known that the modality
+does not decrease under complexification (cf. \cite{AVG1985}, pp.~273-274), so
+by applying the complex classification to the real normal forms, it is easy to
+see that there is a one-to-one correspondence between the complex types and the
+real main types in modality $0$. The same holds true also in modality $1$, but
+in both cases, this is not clear a priori and can only be deduced from the
+independently derived complex and real classifications. In fact, it is not
+known whether the modality is preserved under complexification in general.
 
-\begin{table}[!hbp]
+Both the real and complex normal forms of the simple singularities are listed
+in Table~\ref{tab:normal_forms}. From here onwards we will work with stable
+equivalence. For all degenerate forms it is thus only necessary, after
+applying the Splitting Lemma, to consider their residual parts, i.e.\@ germs in $\m^3$.
+
+\begin{table}[!htb]
 \centering
 \caption{Real normal forms of singularities of modality $0$.}
-\label{normal forms}
+\label{tab:normal_forms}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 & Complex & Normal forms & \multirow{2}{*}{Equivalences} &
@@ -579,9 +578,9 @@ $A_k^+ \requiv A_k^-$ & \multirow{2}{*}{$k \geq 1$} \\
 & & $-x^{k+1}$ $(A_k^-)$ & for~even $k$ & \\
 \hline
 \multirow{2}{*}{$D_k$} & \multirow{2}{*}{$x^2y+y^{k-1}$} &
-$x^2y+y^{k-1}$ $(D_k^+)$ & $D_k^+ \requiv D_k^-$ &
+$x^2y+y^{k-1}$ $(D_k^+)$ & \multirow{2}{*}{-} &
 \multirow{2}{*}{$k \geq 4$} \\
-& & $x^2y-y^{k-1}$ $(D_k^-)$ & for even $k$ & \\
+& & $x^2y-y^{k-1}$ $(D_k^-)$ & & \\
 \hline
 \multirow{2}{*}{$E_6$} & \multirow{2}{*}{$x^3+y^4$} & $x^3+y^4$ $(E_6^+)$ &
 \multirow{2}{*}{-} & \multirow{2}{*}{-} \\
@@ -594,32 +593,16 @@ $E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 \end{tabular}
 \end{table}
 
-It is known that the milnor number of a function germ $g$, which we denote by
-$\mu(g)$, is the same regardless whether we work over the complex- or real
-numbers. Therefore a singularity over the complex numbers is nondegenerate if
-and only if the singularity is nondegenerate over the real numbers. The
-restrictions to normal forms in the complex case are thus the same in the real
-case. Furthermore we know that we can transform the normal forms in the real
-case that differ from those we use in the complex case by a complex
-transformation to a complex normal form. Since the milnor number is invariant
-under complex transformations, we can then determine the restrictions. Let us
-take the $X_9$ case as an example and consider the real normal form
-$-x^4+ax^2y^2+y^4$. This normal form is complex equivalent to
-$x^4+aix^2y^2+y^4$, which corresponds to the given corresponding complex normal
-form. Since $a\in\mathbb R$, it follows that $(ia)^2=-a^2\neq4$ and therefore
-this singularity is nondegenerate for all values of $a$.
+Using the \textsc{Singular} library \classify{} (\cite{classify}) for the
+complex classification and the one-to-one correspondence between the main real
+singularity types and the complex types, classifying a real germ boils down to
+determining to which of the corresponding subtypes the germ is equivalent.
 
-Using the $1-1$ correspondence between the main real singularity types and
-complex singularity types, and a \textsc{Singular} library ``classify.lib"
-\cite{classify}, that classifies complex singularities, classifying a real germ
-boils down to determining to which of the corresponding subtypes the germ is
-equivalent.
-
-Throughout the rest of the paper we write $f$ for the given input polynomial,
-$g$ for its residual part which can be obtained by applying the Splitting
-Lemma~\ref{AlgorithmSplittingLemma}, and $c$ for the corank of $f$.
-We also assume that $f$, and thus $g$, is a polynomial over $\mathbb Q$.
-With these notations, $g$ is a polynomial in $c$ variables.
+Throughout the rest of this article we write $f$ for the given input
+polynomial, $g$ for its residual part which can be obtained by applying the
+Splitting Lemma, and $c$ for the corank of $f$.  We also assume that $f$, and
+thus $g$, is a polynomial over $\mathbb Q$.  With these notations, $g$ is a
+polynomial in $c$ variables.
 
 \subsection{$\boldsymbol{A_1}$}
 If $c = 0$, then it follows  that $f$ is of type
