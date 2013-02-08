@@ -97,6 +97,20 @@ determine, for a given polynomial, the type in Arnold's classification over the
 complex numbers. The methods used in \classify{} will not be discussed in this
 paper. For more information in this regard, \cite{Kruger} can be studied.
 
+In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
+which are frequently used for the classification in the subsequent sections. We
+first recall some basic results on the Milnor number and the determinacy in
+subsections~\ref{subsec:milnor_number} and~\ref{subsec:determinacy}, and we
+also give algorithms how these invariants can be efficiently computed. In
+subsection~\ref{subsec:blowing_up} we discuss the computational aspect of
+blowing a singularity up, a technique which we use e.g.\@ in
+Algorithm~\ref{alg:D_4}. As a last prerequisite for the classification, we
+show that the homogeneous parts of lowest degree of two right equivalent
+functions factorize in the same way over $\R$
+(section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also show that
+in some cases, this factorization can even be carried out over $\Q$ which is
+important for the algorithmic aspect (Lemma~\ref{x^3}).
+
 Using the Splitting Lemma (Theorem~\ref{SplittingLemma}), any function germ $f$
 over the real numbers with an isolated singularity at the origin can be
 written, after choosing a suitable coordinate system, as the sum of two
@@ -111,64 +125,24 @@ corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
 In \cite{AVG1985} Arnold classified the real singularities of modality $0$ and
 $1$ up to stable equivalence into main types which split up into more subtypes
 depending the sign of certain terms. Two functions are stably equivalent if
-they are right equivalent after the direct addition of nondegenerte quadratic
-forms. Hence after applying the Splitting Lemma,  we only need to consider the
+they are right equivalent after the direct addition of nondegenerate quadratic
+forms.  Hence after applying the Splitting Lemma,  we only need to consider the
 residual part in order to complete the classification.   It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
-same name as its corresponding real main singularity type (see Table
-\ref{tab:normal_forms}). In fact there is a bijection between the complex
-singularity types of modality $0$ and $1$ and the main real singularity types.
-Thus, if we can determine the complex singularity type of a function germ, we
-only need to determine the correct subtype of the corresponding main real
-singularity type.
-
-We denote the $k$-jet of a function germ $f$ by $\jet(f,k)$. In section
-\ref{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ} we
-discuss the factorization of the lowest nonzero jets of two right-equivalent
-functions. These results are used in sections
-\ref{RealSingularitiesOfZeroModality} to \ref{ExceptionalSingularities}, where
-the algorithms are given to classify germs in $\m^3$. Firstly, we show that the
-$k$-jets of two right-equivalent functions, where $k$ is the order of the
-functions, factorize in the same way over $\mathbb R$ (Proposition~\ref{kjet}).
-Since
-the real numbers are floating numbers in \textsc{Singular}, it is not always
-possible to factorize over the real numbers using \textsc{Singular}. In some
-cases we prove that these lowest jets will always factorize in linear terms
-over the rational numbers and thus in \textsc{Singular}, for example when the
-lowest jet is of degree $k$ and has $k$ similar factors (Lemma \ref{x^3}). In
-some other cases this unfortunately is not true. Since we can distinguish
-between some singularities, by only considering the number of real roots of its
-lowest nonzero jet, the similar factorization of the lowest nonzero jets is
-still useful in these cases. Because the lowest nonzero jet of a function germ
-is a homogeneous polynomial, we use dehomogenization and the library
-``rootsur.lib" \cite{roots}, a library counting the real roots of a univariate
-polynomial in \textsc{Singular}, to count the roots. We for instance use this
-method in the classification of the $D_4$ (Algorithm~\ref{D[4]}) and $E_6$
-(Algorithm \ref{E[6]}) cases.
-
-Sometimes other methods are used in addition to the above methods, for example
-the normal form of singularities of type $E_{14}$ is determined by
-systematically computing higher jets of the $\mathbb R$-algebra automorphism
-between the normal form of the function and the function itself considering the
-terms of these functions, after the lowest jet is determined using the above
-methods (Algorithm \ref{E[14]}).
-
-In the cases $J_{10}$ and $J_{10+k}$, $k>0$ we used different normal forms than
-Arnold. These forms are more suitable to work with over the real numbers and
-specifically simplify the computations to classify these cases over the real
-numbers. We include a list of the normal forms we used at the beginning of
-section \ref{TheRealClassificationOfTheResidualPart}.
-
-Lastly, we used the method of blowing up the origin (Algorithm
-\ref{BlowingUp}), which simplifies singularities. In the case $Y_{r,s}$,
-$r,s>4$ (Algorithm \ref{Y[r,s]}) enough information can be subtracted from the
-resulting, simplified, singularity such that the case can be solved, in some
-specific cases, unfortunately using approximations.
+same name as its corresponding real main singularity type (see
+Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
+types of modality $0$ and $1$ and the main real types.  Thus, if we can
+determine the complex type of a function germ, we only need to determine the
+correct subtype of the corresponding main real type. The classification of the
+residual part is given in section~\ref{sec:residual_part}, together with
+explicit algorithms for each singularity type.
 
 
-\section{Prerequisites}
+\section{Prerequisites}%
+\label{sec:prerequisites}
 
-\subsection{The Milnor Number}
+\subsection{The Milnor Number}%
+\label{subsec:milnor_number}
 
 We briefly recall the following well-known definition:
 
@@ -222,7 +196,8 @@ $<$
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{The Determinacy}
+\subsection{The Determinacy}%
+\label{subsec:determinacy}
 
 In general, the singularities we deal with in this paper are defined for power
 series, but algorithmically, we want to work with polynomials. It is thus
@@ -298,7 +273,8 @@ ordering $<$
 \end{algorithm}
 
 
-\subsection{Blowing-up}
+\subsection{Blowing-up}%
+\label{subsec:blowing_up}
 
 In algebraic geometry, blowing-up is a well-known method. The purpose of this
 section is to give a brief explanation why applying the map
@@ -336,7 +312,8 @@ invariant under coordinate changes of $V$.
 
 \subsection{Results regarding the factorization of homogeneous polynomials
 over $\R$ and $\Q$}%
-\label{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ}
+\label{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ}%
+\label{subsec:factorization}
 
 \begin{defn}
 Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$.
