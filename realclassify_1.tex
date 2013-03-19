@@ -39,6 +39,7 @@
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\Pj}{\mathbb{P}}
+\DeclareMathOperator{\boldzero}{\mathbf{0}}
 
 \title[The classification of real singularities using \textsc{Singular}, %
 Part I]%
@@ -80,28 +81,29 @@ All algorithms are implemented in the \Singular{} library \realclassify{}
 
 
 \section{Introduction}
-The goal of this paper, together with its second part, is to present efficient
+The goal of this paper, together with its second part, is to present
 algorithms for the classification of isolated hypersurface singularities up to
 modality~1 and corank 2 over the real numbers with respect to right
 equivalence. We refer to the classification given by V.I.~Arnold in
-\cite{AVG1985}. Hence we consider smooth real functions with a critical point
+\cite{AVG1985}. Hence we consider real functions with a critical point
 at the origin and critical value $0$, i.e.\@ functions in $\m^2$, where $\m$
 denotes the ideal of function germs vanishing at the origin. Two function germs
 $f, g \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ are considered as right
 equivalent, denoted by $f \requiv g$, if there exists an $\R$-algebra
-automorphism $\phi$ of $\R[[x_1,\ldots, x_n]]$ such that $\phi(f) = g$.  We
+automorphism $\phi$ of $\R[[x_1,\ldots, x_n]]$ such that $\phi(f) = g$. We
 have implemented all the algorithms presented here in the computer algebra
-system \Singular.  The implementation is freely available as a \Singular{}
-library called \realclassify{} which relies on \Singular's \classify{} to
-determine, for a given polynomial, the type in Arnold's classification over the
-complex numbers. The methods used in \classify{} will not be discussed in this
-paper. For more information in this regard, \cite{Kruger} can be studied.
+system \Singular{} (\cite{DGPS}). The implementation is freely available as a
+\Singular{} library called \realclassify{} which relies on \Singular's
+\classify{} to determine, for a given polynomial, the type in Arnold's
+classification over the complex numbers. The methods used in \classify{} will
+not be discussed in this paper. For more information in this regard,
+\cite{Kruger} can be studied.
 
 In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
 which are frequently used for the classification in the subsequent sections. We
 first recall some basic results on the Milnor number and the determinacy in
 subsections~\ref{subsec:milnor_number} and~\ref{subsec:determinacy}, and we
-also give algorithms how these invariants can be efficiently computed. In
+also give algorithms how these invariants can be computed. In
 subsection~\ref{subsec:blowing_up} we discuss the computational aspect of
 blowing a singularity up, a technique which we use e.g.\@ in
 Algorithm~\ref{alg:D_4}. As a last prerequisite for the classification, we
@@ -119,19 +121,19 @@ nondegenerate part of $f$, is a nondegenerate quadratic form and the other
 function, called the residual part of $f$, is an element of $\m^3$. The number
 of variables in the residual part is equal to the corank of $f$, denoted by
 $\corank(f)$. In this paper we only consider germs with corank $0$, $1$
-and~$2$.  A version of the Splitting Lemma for singularities over $\R$ and a
+and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
 corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
 
 In \cite{AVG1985} Arnold classified the real singularities of modality $0$ and
 $1$ up to stable equivalence into main types which split up into more subtypes
-depending the sign of certain terms. Two functions are stably equivalent if
+depending on the sign of certain terms. Two functions are stably equivalent if
 they are right equivalent after the direct addition of nondegenerate quadratic
-forms.  Hence after applying the Splitting Lemma,  we only need to consider the
-residual part in order to complete the classification.   It can be easily seen
+forms. Hence after applying the Splitting Lemma, we only need to consider the
+residual part in order to complete the classification. It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
 same name as its corresponding real main singularity type (see
 Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
-types of modality $0$ and $1$ and the main real types.  Thus, if we can
+types of modality $0$ and $1$ and the main real types. Thus, if we can
 determine the complex type of a function germ, we only need to determine the
 correct subtype of the corresponding main real type. The classification of the
 residual part is given in section~\ref{sec:residual_part}, together with
@@ -214,7 +216,7 @@ Let $f \in \R[[x_1,\ldots,x_n]]$ be a power series.
 homogeneous parts $f_j$ of degree $j$.
 For $k \in \N$, we define the \emph{$k$-jet} of $f$ as
 \[
-\jet(f,k) := \sum_{i=0}^k f_k \,.
+\jet(f,k) := \sum_{i=0}^k f_i \,.
 \]
 In other words, the $k$-jet of $f$ can be obtained from $f$ by leaving out all
 terms of order higher that $k$.
@@ -233,12 +235,12 @@ importance for the algorithmic approach and refer to \cite{GLS2007} for further
 results regarding the determinacy:
 
 \begin{prop}
-Let $f \in \m \subset \R[[x_1,\ldots,x_n]]$. If it holds that
+Let $f \in \m \subset \R[[x_1,\ldots,x_n]]$. If
 \[
 \m^{k+1} \subset \m^2 \left\langle \frac{\partial f}{\partial x_1}, \ldots,
-\frac{\partial f}{\partial x_n} \right\rangle_{\R[[x_1,\ldots,x_n]]} \,,
+\frac{\partial f}{\partial x_n} \right\rangle_{\R[[x_1,\ldots,x_n]]}
 \]
-then $f$ is $k$-determined.
+holds, then $f$ is $k$-determined.
 \end{prop}
 
 As a direct consequence of this, any power series $f$ which has an isolated
@@ -371,13 +373,12 @@ much help for this purpose without the following result.
 \begin{lemma}\label{x^3}
 If $f \in \Q[x,y]$ is homogeneous and factorizes as
 \[
-\text{(i) } g_1^d \text{ or (ii) } g_1 g_2^d \quad \text{ over } \R \,,
+\text{(i) } g_1^d \text{ or (ii) } g_1 g_2^d \,,
 \]
 where $g_1, g_2 \in \R[x,y]$ are polynomials of degree $1$ and $d > 1$, then
 $f$ factorizes as
 \[
-\text{(i) } ag_1'^d \text{ or (ii) } ag_1' g_2'^d
-\quad \text{ over } \Q \,,
+\text{(i) } ag_1'^d \text{ or (ii) } ag_1' g_2'^d \,,
 \]
 respectively, where $g_1', g_2' \in \Q[x,y]$ are polynomials of degree $1$ and
 $a \in \Q$.
@@ -407,6 +408,14 @@ $g_2' := (x+\frac{a_4}{a_3}y) \in \Q[x,y]$.
 
 \section{The Splitting Lemma}\label{TheSplittingLemma}
 
+\begin{defn}
+For $f \in \R[[x_1,\ldots,x_n]]$, we define the corank of $f$, denoted by
+$\corank(f)$, as the corank of the Hessian matrix $H(f)$ at $\boldzero$, i.e.
+\[
+\corank(f) := \corank(H(f)(\boldzero)) \,.
+\]
+\end{defn}
+
 The following well-known theorem, called the Splitting Lemma, allows us to
 reduce the classification to germs of full corank or, algorithmically, to
 a polynomial contained in $\m^3 \cap \R[x_1,\ldots,x_c]$ for a given input
@@ -431,7 +440,7 @@ The following proof is based upon the proofs of the Theorems 2.46 and 2.47 in
 The corank of the Hessian matrix of $f$ at $0$ is $c$, so by the theory of
 quadratic forms over $\R$ there is a transformation matrix $T$ such that
 \[
-T^t \cdot H(f)(\mathbf{0}) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
 \,.
 \]
 Therefore the linear coordinate change
@@ -489,11 +498,11 @@ f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 
 \STATE compute a transformation matrix $T \in \Q^{n \times n}$ such that
 \[
-T^t \cdot H(f)(\mathbf{0}) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
 =:N
 \]
-\STATE $c :=$ nb. of zeroes on the diagonal of $N$
-\STATE $\lambda :=$ nb. of entries equal to $-1$ on the diagonal of $N$
+\STATE $c :=$ number of zeroes on the diagonal of $N$
+\STATE $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
 \STATE $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
 \FOR{$(l = 3, \ldots, k)$}
 \STATE write $f^{(l)}$ as
@@ -527,14 +536,15 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 
 In \cite{AVG1985} Arnold divides the real singularities of modality $0$, using
 stable equivalence, into main types which split up into more subtypes by
-changing the sign in front of certain terms.  It is known that the modality
-does not decrease under complexification (cf. \cite{AVG1985}, pp.~273-274), so
-by applying the complex classification to the real normal forms, it is easy to
-see that there is a one-to-one correspondence between the complex types and the
-real main types in modality $0$. The same holds true also in modality $1$, but
-in both cases, this is not clear a priori and can only be deduced from the
-independently derived complex and real classifications. In fact, it is not
-known whether the modality is preserved under complexification in general.
+changing the sign in front of certain terms. It is known that the modality does
+not decrease under complexification (cf. \cite{AVG1985}, pp.~273-274). So by
+applying the complex classification to the real normal forms, it is easy to see
+that in modality $0$, there is a one-to-one correspondence between the complex
+types and the real main types. As we will see in the second part of this paper,
+the same holds true also in modality $1$, but in both cases, this is not clear
+a priori and can only be deduced from the independently derived complex and
+real classifications. In fact, it is not known whether the modality is
+preserved under complexification in general.
 
 Both the real and complex normal forms of the simple singularities are listed
 in Table~\ref{tab:normal_forms}. From here onwards we will work with stable
@@ -573,23 +583,26 @@ $E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 
 Using the \textsc{Singular} library \classify{} (\cite{classify}) for the
 complex classification and the one-to-one correspondence between the main real
-singularity types and the complex types, classifying a real germ boils down to
-determining to which of the corresponding subtypes the germ is equivalent.
+singularity types and the complex types, the algorithmic classification of a
+real germ boils down to determining to which of the corresponding subtypes the
+germ is equivalent. For the singularity types $E_7$ and $E_8$, there is nothing
+left to do because each of these types has only one real subtype. The rest of
+the cases is considered one by one in the following subsections.
 
 Throughout the rest of this article we write $f$ for the given input
 polynomial, $g$ for its residual part which can be obtained by applying the
-Splitting Lemma, and $c$ for the corank of $f$.  We also assume that $f$, and
-thus $g$, is a polynomial over $\mathbb Q$.  With these notations, $g$ is a
+Splitting Lemma, and $c$ for the corank of $f$. We also assume that $f$, and
+thus $g$, is a polynomial over $\mathbb Q$. With these notations, $g$ is a
 polynomial in $c$ variables.
 
 \subsection{$\boldsymbol{A_1}$}
-If $c = 0$, then it follows  that $f$ is of type
-$A_1^+$ or of type $A_1^-$ depending on the inertia index $\lambda$ of $f$. If
-the inertia index of $f$ is nonzero and less than the number of variables in
-the base ring, then $f$ is both of type $A_1^+$ and $A_1^-$, depending how one
-chooses to order the variables. If the inertia index is equal to the number of
-variables in the base ring, $f$ is of type $A_1^-$. Lastly, if the inertia
-index is $0$, then $f$ is of type $A_1^+$.
+If $c = 0$, then it follows that $f$ is of type $A_1^+$ or of type $A_1^-$
+depending on the inertia index $\lambda$ of $f$. If the inertia index of $f$ is
+nonzero and less than the number of variables in the base ring, then $f$ is
+both of type $A_1^+$ and $A_1^-$, depending on how one chooses to order the
+variables. If the inertia index is equal to the number of variables in the base
+ring, $f$ is of type $A_1^-$. Lastly, if the inertia index is $0$, then $f$ is
+of type $A_1^+$.
 
 \subsection{$\boldsymbol{A_k, k > 1}$}
 If $c=1$, then the singularity is of type
@@ -602,7 +615,7 @@ coefficient of $x^{k+1}$. This follows since it follows from
 Proposition~\ref{kjet}
 that $\jet(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
 x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the singularity
-type.  Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
+type. Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
 sign of the coefficient of $x^{k+1}$. We use algorithm~\ref{alg:A_k}, after
 applying the Splitting Lemma in case $c=0$ or $c=1$.
 
@@ -688,7 +701,7 @@ the case $D_4^+$ and 3 for $D_4^-$.
 \ENDIF
 \ENDIF
 \STATE apply $x\mapsto x$, $y\mapsto 1$ to $h$
-\STATE $n :=$ nb. of real roots of $h$
+\STATE $n :=$ number of real roots of $h$
 \IF{$(n<3)$}
 \RETURN $D_4^+$
 \ELSE
@@ -727,11 +740,11 @@ y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
 \end{eqnarray*}
 \end{lemma}
 
-By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of  complex
+By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of complex
 type
 $D_k$ is $k-1$. Therefore we only need to consider the
 $(k-1)$-jet of $g$ in this case. Using Proposition~\ref{kjet} and
-Lemma~\ref{x^3}, we transform $g$ into a polynomial of the form
+Lemma~\ref{x^3}, we can transform $g$ into a polynomial of the form
 \[x^2y+\textnormal{terms of degree higher than $3$}\]
 by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and $g_2$ of
 degree $1$,
@@ -870,7 +883,7 @@ isolated hypersurface singularities over the reals w.r.t.\@ right equivalence,
 based on the determinator of singularities by V.I. Arnold. This library is
 based on classify.lib by Kai Kr\"uger, but handles the real case, while
 classify.lib does the complex classification (2012).
-\bibitem{primdec.lib} Pfister, G.; Decker, W.;  Schoenemann, H.; Laplagne, S.:
+\bibitem{primdec.lib} Pfister, G.; Decker, W.; Schoenemann, H.; Laplagne, S.:
 {\tt primdec.lib}. {A} {\sc Singular} {3-1-5} library for Primary Decomposition
 and Radical of Ideals (2012).
 \bibitem{Siersma} Siersma D.: Classification and deformation of Singularities,
