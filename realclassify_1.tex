@@ -167,36 +167,8 @@ The Milnor number is known to be finite at isolated singularities
 of isolated singularities. We refer to \cite{GLS2007} for more properties of
 this invariant.
 
-\begin{algorithm}[h]
-\caption{\label{alg_Milnor} \textsc{Milnor}}
-\begin{algorithmic}[1]
-
-\REQUIRE{$f \in \Q[x_1,\ldots,x_n]$}
-\ENSURE{$\mu(f)$}
-
-\STATE $J := \left( \frac{\partial f}{\partial x_1}, \ldots,
-\frac{\partial f}{\partial x_n} \right) \subset \Q[x_1,\ldots,x_n]$
-\STATE compute a standard basis $G$ of $J$ w.r.t.\@ a local monomial ordering
-$<$
-\IF{$(\dim(\langle G \rangle) \neq 0)$}
-\RETURN $\infty$
-\ELSE
-\STATE $K := \{\NF_<(m, G) \mid m \text{ a monomial in } \R[[x_1,\ldots,x_n]]
-\text{ and } m \not\in J = \langle G \rangle \}$
-\STATE $L :=$ a basis of the $\R$-vector space $\langle K \rangle_{\R}$
-\RETURN $|L|$
-\ENDIF
-
-\end{algorithmic}
-\end{algorithm}
-
-We use Algorithm~\ref{alg_Milnor} to compute the Milnor number of a given
-polynomial at the origin. In line 3, $\dim(\langle G \rangle)$ denotes the
-dimension of $\langle G \rangle$ as an ideal, which is easy to read off from
-the standard basis $G$. In line 6, $\NF_<$ is any weak normal form w.r.t.\@ the
-monomial ordering~$<$. Note that the set $K$ is garantueed to be finite. We
-refer to \cite{GP2008} for details on (local) monomial orderings, standard
-bases and (weak) normal forms.
+There is a well-known algorithm for the computation of the Milnor number which
+is implemented in \Singular{}, see \cite{GP2008}, pp. 526-528.
 
 
 \subsection{The Determinacy}%
