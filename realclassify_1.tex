@@ -13,6 +13,8 @@
 \newtheorem{defn}[theorem]{Definition}
 \newtheorem{prop}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
 
 % ALGORITHM style
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -206,7 +208,7 @@ statement (cf.\@ \cite{GLS2007}, Supplement to Theorem~2.23) due to its
 importance for the algorithmic approach and refer to \cite{GLS2007} for further
 results regarding the determinacy:
 
-\begin{prop}
+\begin{prop}\label{prop_determinacy}
 Let $f \in \m \subset \R[[x_1,\ldots,x_n]]$. If
 \[
 \m^{k+1} \subset \m^2 \left\langle \frac{\partial f}{\partial x_1}, \ldots,
@@ -241,6 +243,16 @@ ordering $<$
 
 \end{algorithmic}
 \end{algorithm}
+
+\begin{remark}
+In Algorithm~\ref{alg_Determinacy}, the for-loop computes the minimal
+$k \in \N$ such that the condition in Proposition~\ref{prop_determinacy} holds.
+This number is equal to the degree of the so-called highest corner
+of $\langle G \rangle = (\m^2 J)$ (cf.\@ \cite{GP2008},
+Corollary~A.9.7) and can thus also be computed by combinatorial means with the
+\Singular{} command \verb+highcorner()+ which is often much faster.
+\end{remark}
+
 It is worth to note that
 both the Milnor number and the determinacy of an arbitrary power series
 $f \in \R[[x_1,\ldots,x_n]]$ do not change if we regard $f$ as an element of
