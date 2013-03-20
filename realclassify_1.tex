@@ -83,17 +83,24 @@ All algorithms are implemented in the \Singular{} library \realclassify{}
 
 
 \section{Introduction}
-The goal of this paper, together with its second part, is to present
-algorithms for the classification of isolated hypersurface singularities up to
-modality~1 and corank 2 over the real numbers with respect to right
-equivalence. We refer to the classification given by V.I.~Arnold in
-\cite{AVG1985}. Hence we consider real functions with a critical point
-at the origin and critical value $0$, i.e.\@ functions in $\m^2$, where $\m$
-denotes the ideal of function germs vanishing at the origin. Two function germs
-$f, g \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ are considered as right
-equivalent, denoted by $f \requiv g$, if there exists an $\R$-algebra
-automorphism $\phi$ of $\R[[x_1,\ldots, x_n]]$ such that $\phi(f) = g$. We
-have implemented all the algorithms presented here in the computer algebra
+In \cite{AVG1985}, V.I.~Arnold presents classification theorems for
+singularities over the complex numbers up to modality~2 and for singularities
+over the real numbers up to modality~1, including complete sets of normal
+forms. For the complex case, he also gives an algorithm how the type of a given
+singularity can be computed, called the ``determinator of singularities''
+(cf.~\cite{AVG1985}, ch.~16), but this question is left open for the real case.
+The goal of this paper, together with its second part, is to present algorithms
+for the classification of isolated hypersurface singularities up to modality~1
+and corank 2 over the real numbers with respect to right equivalence.
+
+We consider real functions with a critical point at the origin and critical
+value~$0$, i.e.\@ functions in $\m^2$, where $\m$ denotes the ideal of function
+germs vanishing at the origin. Two function germs $f, g \in \m^2 \subset
+\R[[x_1,\ldots,x_n]]$ are considered as right equivalent, denoted by
+$f \requiv g$, if there exists an $\R$-algebra automorphism $\phi$ of
+$\R[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
+
+We have implemented all the algorithms presented here in the computer algebra
 system \Singular{} (\cite{DGPS}). The implementation is freely available as a
 \Singular{} library called \realclassify{} which relies on \Singular's
 \classify{} to determine, for a given polynomial, the type in Arnold's
@@ -102,15 +109,15 @@ not be discussed in this paper. For more information in this regard,
 \cite{Kruger} can be studied.
 
 In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
-which are frequently used for the classification in the subsequent sections. We
-first recall some basic results on the Milnor number and the determinacy in
-subsections~\ref{subsec:milnor_number} and~\ref{subsec:determinacy}, and we
-also give algorithms how these invariants can be computed. In
-subsection~\ref{subsec:blowing_up} we discuss the computational aspect of
-blowing a singularity up, a technique which we use e.g.\@ in
-Algorithm~\ref{alg:D_4}. As a last prerequisite for the classification, we
-show that the homogeneous parts of lowest degree of two right equivalent
-functions factorize in the same way over $\R$
+which are frequently used for the algorithmic classification in the subsequent
+sections. We first recall some basic results on the Milnor number and the
+determinacy in subsections~\ref{subsec:milnor_number}
+and~\ref{subsec:determinacy}, and we also give algorithms how these invariants
+can be computed. In subsection~\ref{subsec:blowing_up} we discuss the
+computational aspect of blowing a singularity up, a technique which we use
+e.g.\@ in Algorithm~\ref{alg:D_4}. As a last prerequisite for the
+classification, we show that the homogeneous parts of lowest degree of two
+right equivalent functions factorize in the same way over $\R$
 (section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also show that
 in some cases, this factorization can even be carried out over $\Q$ which is
 important for the algorithmic aspect (Lemma~\ref{x^3}).
@@ -126,12 +133,12 @@ $\corank(f)$. In this paper we only consider germs with corank $0$, $1$
 and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
 corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
 
-In \cite{AVG1985} Arnold classified the real singularities of modality $0$ and
+In \cite{AVG1985} Arnold classifies the real singularities of modality $0$ and
 $1$ up to stable equivalence into main types which split up into more subtypes
 depending on the sign of certain terms. Two functions are stably equivalent if
 they are right equivalent after the direct addition of nondegenerate quadratic
 forms. Hence after applying the Splitting Lemma, we only need to consider the
-residual part in order to complete the classification. It can be easily seen
+residual part in order to compute the correct subtype. It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
 same name as its corresponding real main singularity type (see
 Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
@@ -311,10 +318,10 @@ For $j > 0$ we define the
 \]
 \end{defn}
 
-The next result is in many cases a starting point for the classification of the
-residual part, see section~\ref{sec:residual_part}. Given $f$ and $g$ with $f
-\requiv g$, it can be used to determine $\phi_1$ for some automorphism $\phi$
-such that $\phi(f) = g$.
+The next result is in many cases a starting point for the algorithmic
+classification of the residual part, see section~\ref{sec:residual_part}. Given
+$f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_1$ for some
+automorphism $\phi$ such that $\phi(f) = g$.
 
 \begin{prop}\label{kjet}
 Let $f,g \in \R[[x_1,\ldots,x_n]]$ be two power series with $f \requiv g$ and
@@ -522,13 +529,13 @@ In \cite{AVG1985} Arnold divides the real singularities of modality $0$, using
 stable equivalence, into main types which split up into more subtypes by
 changing the sign in front of certain terms. It is known that the modality does
 not decrease under complexification (cf. \cite{AVG1985}, pp.~273-274). So by
-applying the complex classification to the real normal forms, it is easy to see
-that in modality $0$, there is a one-to-one correspondence between the complex
-types and the real main types. As we will see in the second part of this paper,
-the same holds true also in modality $1$, but in both cases, this is not clear
-a priori and can only be deduced from the independently derived complex and
-real classifications. In fact, it is not known whether the modality is
-preserved under complexification in general.
+applying the algorithms for the complex classification to the real normal
+forms, it is easy to see that in modality $0$, there is a one-to-one
+correspondence between the complex types and the real main types. As we will
+see in the second part of this paper, the same holds true also in modality $1$,
+but in both cases, this is not clear a priori and can only be deduced from the
+independently derived complex and real classifications. In fact, it is not
+known whether the modality is preserved under complexification in general.
 
 Both the real and complex normal forms of the simple singularities are listed
 in Table~\ref{tab:normal_forms}. From here onwards we will work with stable
@@ -640,13 +647,13 @@ $k\in\mathbb N$}
 \end{algorithmic}
 \end{algorithm}
 
-The goal of the rest of the paper is to classify singularities of corank $2$.
+For the rest of the paper we turn our attention to singularities of corank $2$.
 In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
-$g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib} we
-determine the complex singularity type and thus the main real singularity type
-of $g$, or equivalently $f$. The purpose of the remaining algorithms in the
-paper is to classify the correct real subtype of $g$, or equivalently $f$. We
-now consider each complex type, or equivalently every real main type,
+$g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib},
+we determine the complex singularity type and thus the main real singularity
+type of $g$, or equivalently $f$. The purpose of the remaining algorithms in
+the paper is to determine the correct real subtype of $g$, or equivalently $f$.
+We now consider each complex type, or equivalently every real main type,
 seperately.
 
 \subsection{$\boldsymbol{D_4}$}
