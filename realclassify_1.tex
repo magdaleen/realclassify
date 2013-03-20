@@ -113,14 +113,11 @@ which are frequently used for the algorithmic classification in the subsequent
 sections. We first recall some basic results on the Milnor number and the
 determinacy in subsections~\ref{subsec:milnor_number}
 and~\ref{subsec:determinacy}, and we also give algorithms how these invariants
-can be computed. In subsection~\ref{subsec:blowing_up} we discuss the
-computational aspect of blowing a singularity up, a technique which we use
-e.g.\@ in Algorithm~\ref{alg:D_4}. As a last prerequisite for the
-classification, we show that the homogeneous parts of lowest degree of two
-right equivalent functions factorize in the same way over $\R$
-(section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also show that
-in some cases, this factorization can even be carried out over $\Q$ which is
-important for the algorithmic aspect (Lemma~\ref{x^3}).
+can be computed. As a further prerequisite, we show that the homogeneous parts
+of lowest degree of two right equivalent functions factorize in the same way
+over $\R$ (section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also
+show that in some cases, this factorization can even be carried out over $\Q$
+which is important for the algorithmic aspect (Lemma~\ref{x^3}).
 
 Using the Splitting Lemma (Theorem~\ref{SplittingLemma}), any function germ $f$
 over the real numbers with an isolated singularity at the origin can be
@@ -265,43 +262,6 @@ both the Milnor number and the determinacy of an arbitrary power series
 $f \in \R[[x_1,\ldots,x_n]]$ do not change if we regard $f$ as an element of
 $\C[[x_1,\ldots,x_n]]$. The same holds for the output of the corresponding
 algorithms presented here.
-
-
-\subsection{Blowing-up}%
-\label{subsec:blowing_up}
-
-In algebraic geometry, blowing-up is a well-known method. The purpose of this
-section is to give a brief explanation why applying the map
-$\varphi: (x,y) \mapsto (x,1)$ to a homogeneous polynomial $f(x,y)$ with an
-isolated singularity at the origin corresponds to blowing up the variety $V(f)$
-at the origin plus choosing a chart. We will make use of the map $\varphi$ for
-the classification of certain singularities, e.g.\@ in Algorithm~\ref{alg:D_4}.
-
-Let us define a variety $\Gamma$ by
-\[
-\Gamma := \{ ((x,y), [w:z]) \mid xz-yw = 0 \} \subset \R^2 \times \Pj_{\R}^1
-\]
-and consider the blowing-up map
-\begin{align*}
-\pi: \quad \Gamma &\rightarrow \R^2 \\
-((x,y), [w:z]) &\mapsto (x,y) \,.
-\end{align*}
-Let $\widetilde{V}$ be the Zariski closure of $\pi^{-1}(V\setminus\{0\})$. We
-know that there is a one-to-one correspondence between points in
-$\widetilde{V} \setminus (\{0\} \times \Pj_{\R}^1)$ and $V\setminus\{0\}$, the
-two objects can thus be identified with each other. We are interested in
-$W := \widetilde{V} \cap (\{0\} \times \Pj_{\R}^1)$ which we may think of as a
-variety in $\Pj_{\R}^1$ and which corresponds to the tangent cone of $V$ at the
-origin. If we choose $w \mapsto [w:1]$ as a chart of $\Pj_{\R}^1$, then all
-points in $\Gamma$ must satisfy $x = yw$. Hence $W$ can be described by
-$f(yw,y)/y^h = f(w,1)$ where $h$ is the degree of $f$. Replacing $w$ with $x$
-finally yields $f(x,1) = \varphi(f(x,y))$.
-
-If we do not want to lose any information about $W$ by choosing the chart as
-above, we have to make sure that the point $[1:0]$ does not lie in $W$. This
-can always be achieved by applying a coordinate transformation such that the
-coefficient of $x^h$ in $f$ is non-zero. Also note that the shape of $W$ is
-invariant under coordinate changes of $V$.
 
 
 \subsection{Results regarding the factorization of homogeneous polynomials
@@ -660,14 +620,15 @@ seperately.
 
 The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
 splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
-The two cases can be distinguished by blowing-up; the details are carried out
-in algorithm~\ref{alg:D_4}. Since the determinacy of
-$D_4$ is $3$, it suffices to look at the $3$-jet. If we want to use
-$x \mapsto x$, $y \mapsto 1$ as blowing-up map, we first have to make sure that
-the coefficient of $x^3$ is non-zero. It is easy to check that this is achieved
-by lines 2 to 13 of algorithm~\ref{alg:D_4}. Finally, the number of real roots
-after blowing up the 3-jet is an invariant of the real subtype which is 1 in
-the case $D_4^+$ and 3 for $D_4^-$.
+The two cases can be distinguished by dehomogenization; the details are carried
+out in algorithm~\ref{alg:D_4}. Since the determinacy of $D_4$ is $3$, it
+suffices to look at the $3$-jet. If we want to dehomogenize the 3-jet via
+$x\mapsto x$, $y\mapsto 1$ without reducing its degree, we first have to make
+sure that the coefficient of $x^3$ is non-zero. It is easy to check that this
+is achieved by lines 2 to 13 of algorithm~\ref{alg:D_4}. Under this condition,
+dehomogenization does not change the number of factors, so the number of real
+roots after dehomogenizing the 3-jet is an invariant of the real
+subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
 
 \begin{algorithm}[h]
 \caption{\label{alg:D_4}\label{D[4]} Algorithm for the case $D_4$}
@@ -705,6 +666,16 @@ the case $D_4^+$ and 3 for $D_4^-$.
 Implementing the algorithms in this paper in \textsc{Singular}, we used the
 library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
 of a univariate polynomial.
+
+\begin{remark}
+Geometrically, the dehomogenization in Algorithm~\ref{alg:D_4} corresponds to
+blowing the 3-jet up at the origin plus choosing a chart. Since the 3-jet is
+homogeneous, blowing-up always yields three lines in the complex case. In the
+real case, however, we get either one or three lines depending on their
+position w.r.t.\@ the real subspace in the complex picture. All the lines lie
+in the chosen chart because the coefficient of $x^3$ is non-zero.
+\end{remark}
+
 
 \subsection{$\boldsymbol{D_k, k > 4}$}
 
