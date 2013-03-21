@@ -112,7 +112,7 @@ In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
 which are frequently used for the algorithmic classification in the subsequent
 sections. We first recall some basic results on the Milnor number and the
 determinacy in subsections~\ref{subsec:milnor_number}
-and~\ref{subsec:determinacy}, and we also give algorithms how these invariants
+and~\ref{subsec:determinacy}, and we also recall how these invariants
 can be computed. As a further prerequisite, we show that the homogeneous parts
 of lowest degree of two right equivalent functions factorize in the same way
 over $\R$ (section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also
@@ -180,7 +180,7 @@ is implemented in \Singular{}, see \cite{GP2008}, pp. 526-528.
 \subsection{The Determinacy}%
 \label{subsec:determinacy}
 
-In general, the singularities we deal with in this paper are defined for power
+In general, the singularities we deal with in this paper are defined by power
 series, but algorithmically, we want to work with polynomials. It is thus
 important for our algorithmic approach that any power series defining an
 isolated singularity is right equivalent to a polynomial which can be obtained
@@ -197,7 +197,7 @@ For $k \in \N$, we define the \emph{$k$-jet} of $f$ as
 \jet(f,k) := \sum_{i=0}^k f_i \,.
 \]
 In other words, the $k$-jet of $f$ can be obtained from $f$ by leaving out all
-terms of order higher that $k$.
+terms of order higher than $k$.
 
 \item $f$ is called \emph{$k$-determined} if
 \[
@@ -620,15 +620,24 @@ seperately.
 
 The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
 splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
-The two cases can be distinguished by dehomogenization; the details are carried
+The two cases can be distinguished by factorization; the details are carried
 out in algorithm~\ref{alg:D_4}. Since the determinacy of $D_4$ is $3$, it
-suffices to look at the $3$-jet. If we want to dehomogenize the 3-jet via
-$x\mapsto x$, $y\mapsto 1$ without reducing its degree, we first have to make
-sure that the coefficient of $x^3$ is non-zero. It is easy to check that this
-is achieved by lines 2 to 13 of algorithm~\ref{alg:D_4}. Under this condition,
-dehomogenization does not change the number of factors, so the number of real
-roots after dehomogenizing the 3-jet is an invariant of the real
-subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
+suffices to look at the $3$-jet. The number of factors of the 3-jet is an
+invariant of the real subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
+
+However, using the \Singular{} command \verb+factorize+ in order to determine
+the number of factors is problematic because the factorization over $\R$
+differs from those over $\Q$ and $\C$ in some cases. As an alternative, we
+dehomogenize the 3-jet and count the number of real roots of the resulting
+univariate polynomial which is exactly the same as the number of factors of the
+3-jet over $\R$.
+
+If we want to dehomogenize the 3-jet via $x\mapsto x$, $y\mapsto 1$ without
+reducing its degree, we first have to make sure that the coefficient of $x^3$
+is non-zero. It is easy to check that this is achieved by lines 2 to 13 of
+algorithm~\ref{alg:D_4}. For the implementation in \Singular{}, we used the
+library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
+of a univariate polynomial.
 
 \begin{algorithm}[h]
 \caption{\label{alg:D_4}\label{D[4]} Algorithm for the case $D_4$}
@@ -662,10 +671,6 @@ subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
 
 \end{algorithmic}
 \end{algorithm}
-
-Implementing the algorithms in this paper in \textsc{Singular}, we used the
-library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
-of a univariate polynomial.
 
 \begin{remark}
 Geometrically, the dehomogenization in Algorithm~\ref{alg:D_4} corresponds to
@@ -702,24 +707,21 @@ y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
 \end{eqnarray*}
 \end{lemma}
 
-By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of complex
-type
-$D_k$ is $k-1$. Therefore we only need to consider the
-$(k-1)$-jet of $g$ in this case. Using Proposition~\ref{kjet} and
-Lemma~\ref{x^3}, we can transform $g$ into a polynomial of the form
-\[x^2y+\textnormal{terms of degree higher than $3$}\]
-by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and $g_2$ of
-degree $1$,
-and then applying the automorphism defined by $g_1\mapsto x$, $g_2\mapsto y$ to
-$g$. We
-now systematically consider the terms of each degree $3<j<k$. By applying the
-transformations in Lemma~\ref{transformationD[k]}, for each $j$, the only term
-of total degree $j$ which possibly remains is $a_jy^j$. This term vanishes for
-$j<k-1$ and it does not vanish for $j=k-1$, otherwise $g$ is not of complex
-type $D_k$. Thus, after applying these transformations,
-we can write $g$ as $g=x^2y+\alpha y^{k-1}$ with $a\neq0$. Clearly if
-$\alpha>0$ then $x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$
-then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
+By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of main
+type $D_k$ is $k-1$. Therefore we only need to consider the $(k-1)$-jet of $g$
+in this case. Using Proposition~\ref{kjet} and Lemma~\ref{x^3}, we can
+transform $g$ into a polynomial of the form \[x^2y+\textnormal{terms of degree
+higher than $3$}\] by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and
+$g_2$ of degree $1$, and then applying the automorphism defined by
+$g_1\mapsto x$, $g_2\mapsto y$ to $g$. We now systematically consider the terms
+of each degree $3<j<k$. By applying the transformations in
+Lemma~\ref{transformationD[k]}, for each $j$, the only term of total degree $j$
+which possibly remains is $a_jy^j$. This term vanishes for $j<k-1$ and it does
+not vanish for $j=k-1$, otherwise $g$ is not of complex type $D_k$. Thus, after
+applying these transformations, we can write $g$ as $g=x^2y+\alpha y^{k-1}$
+with $\alpha \neq 0$. Clearly if $\alpha>0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if
+$\alpha<0$ then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
 \begin{algorithm}[h]
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
