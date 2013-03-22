@@ -221,11 +221,12 @@ Let $f \in \m \subset \R[[x_1,\ldots,x_n]]$. If
 holds, then $f$ is $k$-determined.
 \end{prop}
 
-As a direct consequence of this, any power series $f$ which has an isolated
-singularity at the origin is $(\mu(f)+1)$-determined. But we can often compute
-a much better upper bound for the determinacy by using the above statement as
-in Algorithm~\ref{alg_Determinacy}.
-\begin{algorithm}[h]
+As a consequence of this, any power series $f$ which has an isolated
+singularity at the origin is $(\mu(f)+1)$-determined (cf.\@ \cite{GLS2007},
+Corallary~2.24). But we can often compute a much better upper bound for the
+determinacy by using the above statement as in Algorithm~\ref{alg_Determinacy}.
+
+\begin{algorithm}[ht]
 \caption{\label{alg_Determinacy} \textsc{Determinacy}}
 \begin{algorithmic}[1]
 
@@ -306,7 +307,7 @@ $\phi^* := \phi-\phi_1$. Since $\phi$ is a homomorphism, it follows that
 \begin{align*}
 \phi(f) &= \phi(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \\
 &= \phi_1(f_1^{s_1} \cdots f_t^{s_t})
-+ \phi^*(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \,.
++ \phi^*(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f')
 \end{align*}
 where $\phi_1(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
 both $\phi^*(f_1^{s_1} \cdots f_t^{s_t})$ and $\phi(f')$ are of order higher
@@ -380,8 +381,8 @@ its corank is $c$, then
 f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 \]
 with $g \in \m^3 \cap \R[[x_1,\ldots,x_c]]$. $g$ is called the residual part of
-$f$ and $\lambda$ is called the inertia index of~$f$. Both $g$ and $\lambda$
-are uniquely determined up to right equivalence.
+$f$ and $\lambda$ is called the inertia index of~$f$. Both $\lambda$ an the
+right-equivalence class of $g$ are uniquely determined by $f$.
 \end{theorem}
 
 The following proof is based upon the proofs of the Theorems 2.46 and 2.47 in
@@ -433,7 +434,7 @@ singularity.
 Since this proof is constructive, we can immediately derive algorithm
 \ref{AlgorithmSplittingLemma} from it.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
 \begin{algorithmic}[1]
 
@@ -551,26 +552,29 @@ If $c = 0$, then it follows that $f$ is of type $A_1^+$ or of type $A_1^-$
 depending on the inertia index $\lambda$ of $f$. If the inertia index of $f$ is
 nonzero and less than the number of variables in the base ring, then $f$ is
 both of type $A_1^+$ and $A_1^-$, depending on how one chooses to order the
-variables. If the inertia index is equal to the number of variables in the base
-ring, $f$ is of type $A_1^-$. Lastly, if the inertia index is $0$, then $f$ is
-of type $A_1^+$.
+variables. We treat those cases as $A_1^+$. If the inertia index is equal to
+the number of variables in the base ring, $f$ is of type $A_1^-$. Lastly, if
+the inertia index is $0$, then $f$ is of type $A_1^+$.
 
 \subsection{$\boldsymbol{A_k, k > 1}$}
-If $c=1$, then the singularity is of type
-$A_k^+$ or of type $A_k^-$ for some $k>1$. Furthermore $g$ is a univariate
-polynomial in this case, say $g\in\mathbb Q[x]$. Note that if $k$ is even, then
-$A_k^+\requiv A_k^-$. The value of $k$ is given by the order of $g$ minus $1$.
+If $c=1$, then the singularity is of type $A_k^+$ or of type $A_k^-$ for some
+$k>1$. Furthermore $g$ is a univariate polynomial in this case, say
+$g\in\mathbb Q[x]$. The value of $k$ is given by the order of $g$ minus $1$.
 This follows since $\pm x^{k+1}$ and $g$ are right-equivalent and thus have the
-same order. The sign of the singularity type is determined by the sign of the
-coefficient of $x^{k+1}$. This follows since it follows from
-Proposition~\ref{kjet}
-that $\jet(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
-x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the singularity
-type. Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
-sign of the coefficient of $x^{k+1}$. We use algorithm~\ref{alg:A_k}, after
-applying the Splitting Lemma in case $c=0$ or $c=1$.
+same order.
 
-\begin{algorithm}[h]
+Note that if $k$ is even, then $A_k^+\requiv A_k^-$. Again, we consider those
+cases as $A_k^+$ for the sake of simplicity. Let $k$ be odd. Then the sign of
+the singularity type is determined by the sign of the coefficient of $x^{k+1}$.
+This follows since it follows from Proposition~\ref{kjet} that
+$\jet(g, k+1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where
+$\phi(\pm x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the
+singularity type. Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not
+change the sign of the coefficient of $x^{k+1}$. We use
+algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c=0$ or
+$c=1$.
+
+\begin{algorithm}[ht]
 \caption{\label{alg:A_k} Algorithm for the case $A_k$}
 \begin{algorithmic}[1]
 
@@ -579,7 +583,7 @@ the output polynomial $g$ after applying
 Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
 index $\lambda$ of $f$}
 
-\ENSURE{the real singularity type of $f$, i.e.\@ $A_k^-$ or $A_k^+$,
+\ENSURE{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
 $k\in\mathbb N$}
 
 \IF{$c=0$}
@@ -639,7 +643,7 @@ algorithm~\ref{alg:D_4}. For the implementation in \Singular{}, we used the
 library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
 of a univariate polynomial.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{\label{alg:D_4}\label{D[4]} Algorithm for the case $D_4$}
 \begin{algorithmic}[1]
 
@@ -696,7 +700,7 @@ A singularity of type $D_k^+$ or $D_k^-$ is $(k-1)$-determined.
 \begin{lemma}\label{transformationD[k]}
 Let $j\ge 4$. Then
 \[
-x^2y+a_0x^j+a_1x^{j-1}y+\cdots+a_jy^j\requiv x^2y+a_jx^j,
+x^2y+a_0x^j+a_1x^{j-1}y+\cdots+a_jy^j\requiv x^2y+a_j y^j,
 \quad a_0,\ldots,a_j\in\mathbb R,
 \]
 using the $\mathbb R$-algebra automorphisms
@@ -723,14 +727,14 @@ with $\alpha \neq 0$. Clearly if $\alpha>0$ then
 $x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if
 $\alpha<0$ then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
 \begin{algorithmic}[1]
 
 \REQUIRE{$g \in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_k$,
 $k\in\mathbb N$, $k>4$}
 
-\ENSURE{the real singularity type of $g$, i.e.\@ $D_k^-$ or $D_k^+$}
+\ENSURE{the real singularity type of $g$, i.e.\@ $D_k^+$ or $D_k^-$}
 
 \STATE $k:= \mu(g)$
 \STATE $h:=\jet(g,k-1)$
@@ -792,12 +796,12 @@ the monomial $y^4$. Now
  which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
  $\alpha\in\mathbb R$ .
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
 \begin{algorithmic}[1]
 
 \REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
-\ENSURE{the real singularity type of $g$, i.e.\@ $E_6^-$ or $E_6^+$}
+\ENSURE{the real singularity type of $g$, i.e.\@ $E_6^+$ or $E_6^-$}
 \STATE $h:= \jet(g,3)$
 \STATE $s:=$ coefficient of ${x^3}$ in $h$
 \IF{$(s=0)$}
@@ -816,49 +820,63 @@ $g_1=b_0x+b_1y$
 \end{algorithmic}
 \end{algorithm}
 
+\section{Acknowledgements}
 
- \begin{thebibliography}{99}
-\bibitem{AVG1985} Arnold, V.I.; Gusein-Zade, S.M.; Varchenko, A.N.:
+We would like to thank Gerhard Pfister and Gert-Martin Greuel for insightful
+conversations.
+
+\newpage
+
+\begin{thebibliography}{99}
+
+\bibitem{AVG1985}
+Arnold, V.I.; Gusein-Zade, S.M.; Varchenko, A.N.:
 Singularities of Differential Maps. Vol.~I, Birkh\"auser (1985).
-\bibitem{A1975} Arnold, V.I.:
+
+\bibitem{A1975}
+Arnold, V.I.:
 \textit{Normal form of functions near degenerate critical points.},
 Russian Mth. Surveys 29 ii (1975), 10-50.
+
 \bibitem{DGPS}
 Decker, W.; Greuel, G.-M.; Pfister, G.; Sch{\"o}nemann, H.:
-\newblock {\sc Singular} {3-1-5} --- {A} computer algebra system for polynomial
+\newblock {\sc Singular} {3-1-6} --- {A} computer algebra system for polynomial
 computations.
 \newblock {http://www.singular.uni-kl.de} (2012).
-\bibitem{Kruger} Kr\"uger, K.: Klassifikation von
+
+\bibitem{Kruger}
+Kr\"uger, K.: Klassifikation von
 Hyperfl\"agensingularit\"aten, Diploma Thesis (1997).
-\bibitem{GLS2007}Greuel, G.-M.; Lossen, C.; Shustin E.:
+
+\bibitem{GLS2007}
+Greuel, G.-M.; Lossen, C.; Shustin E.:
 Introduction to Singularities and Deformations, Springer, Berlin (2007).
-\bibitem{GP2008} Greuel G.-M.; Pfister G.;
+
+\bibitem{GP2008}
+Greuel G.-M.; Pfister G.;
 A Singular introduction to Commutative Algebra, 2nd Ed., Springer,
 Berlin (2008).
+
 \bibitem{classify}
 Kr\"uger, K.:
-{\tt classify.lib}. {A} {\sc Singular} {3-1-5} library for classifying isolated
+{\tt classify.lib}. {A} {\sc Singular} {3-1-6} library for classifying isolated
 hypersurface singularities w.r.t.\@ right equivalence, based on the
 determinator of singularities by V.I. Arnold (2012).
+
 \bibitem{realclassify}
 Marais, M. and Steenpass, A.:
-{\tt realclassify.lib}. {A} {\sc Singular} {3-1-5} library for classifying
-isolated hypersurface singularities over the reals w.r.t.\@ right equivalence,
-based on the determinator of singularities by V.I. Arnold. This library is
-based on classify.lib by Kai Kr\"uger, but handles the real case, while
-classify.lib does the complex classification (2012).
-\bibitem{primdec.lib} Pfister, G.; Decker, W.; Schoenemann, H.; Laplagne, S.:
-{\tt primdec.lib}. {A} {\sc Singular} {3-1-5} library for Primary Decomposition
-and Radical of Ideals (2012).
-\bibitem{Siersma} Siersma D.: Classification and deformation of Singularities,
-disertation, University of Amsterdam (1974).
-\bibitem{roots}
-Tobis, A.:
-{\tt rootsur.lib}. {A} {\sc Singular} {3-1-5} library for Counting number of
-real roots of univariate polynomial (2012).
-\bibitem{solve.lib} Wenk, M.: {\tt solve.lib}. Pohl, W.:
-{A} {\sc Singular} {3-1-5} library for Complex Solving of Polynomial Systems
+{\tt realclassify.lib}. {A} {\sc Singular} {3-1-6} library for classifying
+isolated hypersurface singularities over the reals w.r.t.\@ right equivalence
 (2012).
+
+\bibitem{Siersma}
+Siersma D.: Classification and deformation of Singularities,
+dissertation, University of Amsterdam (1974).
+
+\bibitem{roots}
+Tobis, E.:
+{\tt rootsur.lib}. {A} {\sc Singular} {3-1-6} library for counting the number
+of real roots of a univariate polynomial (2012).
 
 \end{thebibliography}
 
