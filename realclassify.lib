@@ -387,53 +387,203 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype[1,3] == "J[2" && mu >10) //case J[10+k]
     {
-       typeofsing = "J["+string(mu)+"]";
-       nf = var(1)^3+var(1)*var(2)^4+var(2)^(6+(mu-10));
-       monparam = var(2)^(6+(mu-10));
-       typeofsing_alternative = typeofsing;
-       nf_alternative = nf;
-    }
+      poly g = jet(rf,3);
+      number s = number(g/(var(1)^3));
+      if(s == 0)
+      {
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+        g = jet(rf,3);
+      }
+      list Factors = factorize(g);
+      poly g1 = Factors[1][2];
+      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      number t1 = number(jet(rf,3)/(var(1)^3));
+      if(t1 < 0)
+      {
+        phi = br, -var(1), var(2);
+        rf = phi(rf);
+        t1 = -t1;
+      }
+      number t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+      phi = br, var(1)-(t2/(3*t1))*var(2)^2, var(2);
+      rf = phi(rf);
+      t1 = number(jet(rf,3)/(var(1)^3));
+      number t3 = number(jet(rf,5)/(var(1)*var(2)^4));
+      number t4 = number(jet(rf,6)/var(2)^6);
+      poly g1 = t1*var(1)^3+t3*var(1)+t4;
+      list Factors = factorize(g1);
+      for(int i = 2; i <= size(Factors[1]); i++)
+      {
+        if((Factors[2][i]) >= 2)
+        {
+          poly g2 = Factors[1][i];
+          break;
+        }
+      }
+      number s1 = number(g2/var(1));
+      g2 = (1/s1)*g2;
+      phi = br, var(1)-(g2-var(1))*var(2)^2,var(2);
+      rf =  phi(rf);
+      t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+      intvec iv = 2,1;
+      intvec jv = 6+mu-12,2;
+      for(int i = 13; i <= 2*(6+mu-10); i++)
+      {
+        t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+        if(i == 2*(6+mu-10))
+        {
+          number t6 = number(jet(rf,6+mu-10)/var(2)^(6+mu-10));
+          poly g3 = jet(rf,i,jv) - t2*var(1)^2*var(2)^2-t6*var(2)^(6+(mu-10));
+        }
+        else
+        {
+          poly g3 = jet(rf,i,jv);
+        }
+        number t = number(g3/(var(1)*var(2)^((i-(6+mu-12))/2)));
+        if((i-(6+mu-12))/2-2 > 0)
+        {
+          phi = br, var(1)-(t/(2*t2))*var(2)^((i-(6+mu-12))/2-2), var(2);
+          rf = phi(rf);
+        }
+      }
+      number t5 = number(jet(rf, 6+(mu-10))/var(2)^(6+(mu-10)));
+      if(t2 > 0)
+      {
+        typeofsing = "J["+string(mu)+"]+";
+        nf = var(1)^3+var(1)^2*var(2)^2+var(2)^(6+(mu-10));
+        monparam = var(2)^(6+(mu-10));
+        typeofsing_alternative = var(1)^3-var(1)^2*var(2)^2+var(2)^(6+(mu-10));
+        nf_alternative = "J["+string(mu)+"]-";
+      }
+      else
+      {
+        typeofsing = "J["+string(mu)+"]-";
+        nf = var(1)^3-var(1)^2*var(2)^2+var(2)^(6+(mu-10));
+        monparam = var(2)^(6+(mu-10));
+        typeofsing_alternative = "J["+string(mu)+"]+";
+        nf_alternative = var(1)^3+var(1)^2*var(2)^2+var(2)^(6+(mu-10));
+      }
+      if((6+mu-10) mod 2 != 0)
+      {
+        morecomments = morecomments +"Via a transformation a --> -a" +newline;
+      }
+      else
+      {
+        if(t5 > 0)
+        {
+          morecomments = morecomments +"Sign of parameter:a > 0" +newline;
+        }
+        else
+        {
+          morecomments = morecomments +"Sign of parameter: a < 0" +newline;
+        }
+      }  
+      if((6+(mu-10)) mod 6 == 0)
+      {
+        morecomments = morecomments +"Value of parameter: a = "+ string(t5*(t1^2/t2^3)^((6+mu-10)/6)) +newline;
+      } 
+      else
+      {
+        if((6+(mu-10)) mod 3 == 0)
+        {
+          morecomments = morecomments +"Value of parameter: a3 = "+ string(t5^3*(t1^2/t2^3)^((6+mu-10)/2)) +newline;
+        }
+        else
+        {
+          if((6+(mu-10)) mod 2 == 0)
+          {
+            morecomments = morecomments +"Value of parameter: a2 = "+ string(t5^2*(t1^2/t2^3)^((6+mu-10)/3)) +newline;  
+          }
+          else
+          {
+            morecomments = morecomments +"Value of parameter: a6 = "+ string(t5^6*(t1^2/t2^3)^((6+mu-10))) +newline;
+          }
+        }
+      }
+    }  
     if(complextype[1,3] == "X[1") //case X[1,k]
     {
       if(mu > 9)
       {
-        rf = jet(rf,4);
-        number s1 = number(rf/(var(1)^4));
-        number s2 = number(rf/(var(2)^4));
+        poly g = jet(rf,4);
+        number s1 = number(g/(var(1)^4));
+        number s2 = number(g/(var(2)^4));
         if(s2 != 0 && s1 == 0)
         {
           phi = br, var(2), var(1);
           rf = phi(rf);
+          g = jet(rf,4);
         }
         if(s2 == 0 && s1 == 0)
         {
-          number t1 = number(rf/(var(1)^3*var(2)));
-          number t2 = number(rf/(var(1)^2*var(2)^2));
-          number t3 = number(rf/(var(1)*var(2)^3));
+          number t1 = number(g/(var(1)^3*var(2)));
+          number t2 = number(g/(var(1)^2*var(2)^2));
+          number t3 = number(g/(var(1)*var(2)^3));
           if(t1+t2+t3 == 0)
           {
             if(2*t1+4*t2+8*t3 != 0)
             {
               phi = br, var(1), 2*var(2);
               rf = phi(rf);
+              g = jet(rf,4);
             }
             else
             {
               phi = br, var(1), 3*var(2);
               rf = phi(rf);
+              g = jet(rf,4);
             }
           }
           phi = br, var(1), var(1)+var(2);
           rf = phi(rf);
-        }
-        ring R = 0, x, dp;
-        map phi = br, x, 1;
-        int k = nrroots(phi(rf));
-        setring(br);
-        if(k == 1)
+          g = jet(rf,4);
+        }  
+        list Factors = factorize(g);
+        for(i = 2; i <= size(Factors[1]); i++)
         {
-          number w = number(rf/(var(1)^4));
-          if(w > 0)
+          if(Factors[2][i] == 2)
+          {
+            poly g1 = Factors[1][i];
+            break;
+          }
+        }
+        phi = br, (var(1)-(g1/(var(2))*var(2)))/(g1/var(1)), var(2);
+        rf = phi(rf);
+        number t1 = number(jet(rf,4)/(var(1)^3*var(2)));
+        number t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+        phi = br, var(1), var(2)-(t1/(2*t2))*var(1);
+        rf = phi(rf);
+        intvec iv = 1,1;
+        intvec jv = 4+mu-11,2;
+        for(int i = 9; i <= 2*(4+mu-9); i++)
+        {
+          t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+          if(i == 2*(4+mu-9))
+          {
+            number t6 = number(jet(rf,4+mu-9)/var(2)^(4+mu-9));
+            poly g3 = jet(rf,i,jv) - t2*var(1)^2*var(2)^2-t6*var(2)^(4+(mu-9));
+          }
+          else
+          {
+            poly g3 = jet(rf,i,jv);
+          }
+          number t = number(g3/(var(1)*var(2)^((i-(4+mu-11))/2)));
+          if((i-(4+mu-11))/2-2 > 0)
+          {
+            phi = br, var(1)-(t/(2*t2))*var(2)^((i-(4+mu-11))/2-2), var(2);
+            rf = phi(rf);
+          }  
+        }
+        number t5 = number(jet(rf, 4+(mu-9))/var(2)^(4+(mu-9))); 
+        t1 = number(jet(rf,4)/var(1)^4);
+        t2 = number(jet(rf,4)/(var(1)^2*var(2)^2));
+        number t3 = number(jet(rf,4+mu-9)/var(2)^(4+mu-9));
+        int s = lcm(4+mu-9,8)/(4+mu-9);
+        if(t1 > 0)
+        {
+          if(t2 > 0)
           {
             typeofsing = "X["+string(mu)+"]++";
             nf = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
@@ -441,28 +591,18 @@ EXAMPLE:  example realclassify; shows an example"
             nf_alternative = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
           }
           else
-          {
-            typeofsing = "X["+string(mu)+"]--";
-            nf = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]++";
-            nf_alternative = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+          { 
+            typeofsing = "X["+string(mu)+"]+-";
+            nf = var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+            typeofsing_alternative = "X["+string(mu)+"]-+";
+            nf_alternative = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+            t2 = -t2;
           }
         }
-        if(k == 3)
+        else
         {
-          list Factors = factorize(rf);
-          for(i = 2; i <= size(Factors[1]); i++)
-          {
-            if(Factors[2][i] == 2)
-            {
-              poly g1 = Factors[1][i];
-              break;
-            }
-          }
-          map phi = br, (var(1)-(g1/(var(2))*var(2)))/(g1/var(1)), var(2);
-          rf = phi(rf);
-          number w = number(rf/(var(1)^2*var(2)^2));
-          if(w > 0)
+          t1 = -t1;
+          if(t2 > 0)
           {
             typeofsing = "X["+string(mu)+"]-+";
             nf = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
@@ -471,13 +611,29 @@ EXAMPLE:  example realclassify; shows an example"
           }
           else
           {
-            typeofsing = "X["+string(mu)+"]+-";
-            nf = var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]-+";
-            nf_alternative = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+            typeofsing = "X["+string(mu)+"]--";
+            nf = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+            typeofsing_alternative = "X["+string(mu)+"]++";
+            nf_alternative = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
           }
-        }
+        }  
         monparam = var(2)^(4+(mu-9));
+        if(4+mu-9 mod 2 != 0)
+        {
+          morecomments = morecomments +"Via a transformation a --> -a" +newline;
+        }
+        else
+        {
+          if(t5 > 0)
+          {
+            morecomments = morecomments +"Sign of parameter: a > 0" +newline;
+          }
+          else
+          {
+            morecomments = morecomments +"Sign of parameter: a > 0" +newline;
+          }
+        }  
+        morecomments = morecomments +"Value of parameter: a"+string(s)+"="+ string(t3^s*(t1/t2^4)^(s*(4+mu-9)/8)) +newline;
       }
     }
     if(complextype[1,3] == "Y[1")  // Case Y[1,r,s]
@@ -670,18 +826,96 @@ EXAMPLE:  example realclassify; shows an example"
     if(complextype == "E[12]")   // case E[12]
     {
       typeofsing = "E[12]";
+      poly g = jet(rf,3);
+      number s = number(g/(var(1)^3));
+      if(s == 0)
+      {
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+        g = jet(rf,3);
+        s = number(g/(var(1)^3));
+      }
+      rf = rf/s;
+      list Factors = factorize(g);
+      poly g1 = Factors[1][2];
+      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      g = jet(rf,3);
+      number w0 = number(g/(var(1)^3));
+      phi = br, var(1)-((jet(rf,4)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+      rf = phi(rf);
+      phi = br, var(1)-((jet(rf,5)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+      rf = phi(rf);
+      rf = s*rf;
+      rf = jet(rf,8);
+      number t1 = number(jet(rf,3)/var(1)^3);
+      number t2 = number(jet(rf,7)/var(2)^7);
+      number t3 = number(jet(rf,6)/(var(1)*var(2)^5));
       nf = var(1)^3+var(2)^7+var(1)*var(2)^5;
       monparam = var(1)*var(2)^5;
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
+      if( t3*t2*t1 > 0)
+      {
+        morecomments = morecomments +"Sign of parameter: a > 0" +newline;
+      }
+      else
+      {
+        morecomments = morecomments +"Sign of parameter: a < 0" +newline;
+      }
+      morecomments = morecomments +"Equation for parameter: a21="+ string((1/(t2^15*t1^7))*t3^21) +newline;
     }
     if(complextype == "E[13]")   // case E[13]
     {
+      poly g = jet(rf,3);
+      number s = number(g/(var(1)^3));
+      if(s == 0)
+      {
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+        g = jet(rf,3);
+        s = number(g/(var(1)^3));
+      }
+      rf = rf/s;
+      list Factors = factorize(g);
+      poly g1 = Factors[1][2];
+      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      g = jet(rf,3);
+      number w0 = number(g/(var(1)^3));
+      phi = br, var(1)-((jet(rf,4)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+      rf = phi(rf);
+      phi = br, var(1)-((jet(rf,5)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+      rf = phi(rf);
+      rf = s*rf;
+      rf = jet(rf,8);
+      number t2 = number(jet(rf,6)/(var(1)*var(2)^5));
+      phi = br, (1/t2)*var(1), var(2);
+      rf = phi(rf);
+      number t1 = number(jet(rf,3)/var(1)^3);
+      if(t1 < 0)
+      {
+        phi = br, -var(1), -var(2);
+        rf = phi(rf);
+        t1 = -t1;
+      }
+      number t3 = number(jet(rf,5)/(var(1)^2*var(2)^3));
+      rf = rf-t3*var(1)^2*var(2)^3-(1/(3*t1))*var(2)^8;
+      number t4 = number(jet(rf,8)/var(2)^8);
+      if(t4 > 0)
+      {
+        morecomments = morecomments +"Sign of parameter: a > 0" +newline;
+      }
+      else
+      {
+        morecomments = morecomments +"Sign of parameter: a < 0" +newline;
+      }
       typeofsing = "E[13]";
       nf = var(1)^3+var(1)*var(2)^5+var(2)^8;
       monparam = var(2)^8;
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
+      morecomments = morecomments +"Equation for parameter: a15="+ string(t1^8*t4^15) +newline;
     }
     if(complextype == "E[14]") //case E[14]
     {
@@ -707,63 +941,138 @@ EXAMPLE:  example realclassify; shows an example"
       rf = phi(rf);
       rf = s*rf;
       rf = jet(rf,8);
-      number w = number(rf/(var(2)^8));
-      if(w > 0)
+      number t1 = number(jet(rf,3)/var(1)^3);
+      if(t1 < 0)
+      {
+        map phi = br, -var(1), var(2);
+        rf = phi(rf);
+        t1 = -t1;
+      }
+      number t2 = number(jet(rf,8)/(var(2)^8));
+      if(t2 > 0)
       {
         typeofsing = "E[14]+";
         nf = var(1)^3+var(2)^8+var(1)*var(2)^6;
         typeofsing_alternative = "E[14]-";
         nf_alternative = var(1)^3-var(2)^8+var(1)*var(2)^6;
       }
-      if(w < 0)
+      if(t2 < 0)
       {
         typeofsing = "E[14]-";
         nf = var(1)^3-var(2)^8+var(1)*var(2)^6;
         typeofsing_alternative = "E[14]+";
         nf_alternative = var(1)^3+var(2)^8+var(1)*var(2)^6;
+        t2 = -t2;
       }
+      number t3 = number(jet(rf,7)/(var(1)*var(2)^6));
       monparam = var(1)*var(2)^6;
+      if(t3 > 0)
+      {
+        morecomments = morecomments +"Sign of parameter: a > 0" +newline;
+      }
+      else
+      {
+        morecomments = morecomments +"Sign of parameter: a < 0" +newline;
+      }
+      morecomments = morecomments +"Equation for parameter: a16="+ string(t3^12/(t1^4*t2^9)) +newline;
     }
     if(complextype == "Z[11]")   // case Z[11]
-    {
+    { 
+      list factorization = factorize(jet(rf, 4));
+      list factors = factorization[1][2];
+      if(factorization[2][2] == 3)
+      {
+        factors = insert(factors, factorization[1][3], 1);
+      }
+      else
+      {
+        factors = insert(factors, factorization[1][3]);
+      }
+      factors[2] = factorization[1][1]*factors[2];
+      factors[2];
+      matrix T[2][2] = factors[1]/var(1), factors[1]/var(2),
+                       factors[2]/var(1), factors[2]/var(2);
+      phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
+      rf = phi(rf);
+      rf = phi(rf);
+      number s = number((jet(rf,5)-var(1)^3*var(2))/(var(2)^5));
+      number t = number((jet(rf,5)-var(1)^3*var(2)-s*var(2))/(var(1)*var(2)^4));
       typeofsing = "Z[11]";
       nf = var(1)^3*var(2)+var(2)^5+var(1)*var(2)^4;
       monparam = var(1)*var(2)^4;
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
+      if(t > 0)
+      {
+        morecomments = morecomments + "Sign of parameter: a > 0" +newline;
+      }
+      else
+      {
+        morecomments = morecomments + "Sign of parameter: a < 0" +newline;
+      }
+      morecomments = morecomments +"Equation for parameter: a5="+ string(t^5*s^4) +newline;
     }
     if(complextype == "Z[12]")   // case Z[12]
     {
+      list factorization = factorize(jet(rf, 4));
+      list factors = factorization[1][2];
+      if(factorization[2][2] == 3)
+      {
+        factors = insert(factors, factorization[1][3], 1);
+      }
+      else
+      {
+        factors = insert(factors, factorization[1][3]);
+      }
+      factors[2] = factorization[1][1]*factors[2];
+      factors[2];
+      matrix T[2][2] = factors[1]/var(1), factors[1]/var(2),
+                       factors[2]/var(1), factors[2]/var(2);
+      phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
+      rf = phi(rf);
+      number s = number((jet(rf,6)-jet(rf,5))/(var(2)^6));
+      number t = number((jet(rf,5)-jet(rf,4))/(var(1)*var(2)^4));
+      rf = rf-s*(var(2)^6+(3/t)*var(1)^2*var(2)^3);
+      s = number((jet(rf,5)-jet(rf,4))/(var(1)^2*var(2)^3));
       typeofsing = "Z[12]";
       nf = var(1)^3*var(2)+var(1)*var(2)^4+var(1)^2*var(2)^3;
       monparam = var(1)^2*var(2)^3;
       typeofsing_alternative = typeofsing;
       nf_alternative = nf;
-    }
-    if(complextype == "Z[13]")   // case Z[13]
-    {
-      poly g = jet(rf,4);
-      number s = number(g/var(1)^3*var(2));
-      if(s == 0)
+      if(s*t > 0)
       {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-        g = jet(rf,4);
-      }
-      list Factors = factorize(g);
-      if(Factors[2][2] == 3)
-      {
-        poly g1 = Factors[1][2];
+        morecomments = morecomments +"Sign of parameter: a > 0" +newline;
       }
       else
       {
-        poly g1 = Factors[1][3];
+        morecomments = morecomments +"Sign of parameter: a < 0" +newline;
       }
-      phi = br, var(1)-(g1/var(2))*var(2), var(2);
+      morecomments = morecomments +"Equation for parameter: a11="+ string(s^11/t^3) +newline;
+    }
+    if(complextype == "Z[13]")   // case Z[13]
+    {
+      list factorization = factorize(jet(rf, 4));
+      list factors = factorization[1][2];
+      if(factorization[2][2] == 3)
+      {
+        factors = insert(factors, factorization[1][3], 1);
+      }
+      else
+      {
+        factors = insert(factors, factorization[1][3]);
+      }
+      factors[2] = factorization[1][1]*factors[2];
+      factors[2];
+      matrix T[2][2] = factors[1]/var(1), factors[1]/var(2),
+                       factors[2]/var(1), factors[2]/var(2);
+      phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
       rf = phi(rf);
-      rf = jet(rf,6);
-      number w = number(rf/var(2)^6);
-      if(w > 0)
+      rf;~;
+      number w1 = number(rf/var(2)^6);
+      w1;~;
+      number w2 = number(rf/(var(1)*var(2)^5));
+      w2;~;
+      if(w1 > 0)
       {
         typeofsing = "Z[13]+";
         nf = var(1)^3*var(2)+var(2)^6+var(1)*var(2)^5;
@@ -778,17 +1087,31 @@ EXAMPLE:  example realclassify; shows an example"
         nf_alternative = var(1)^3*var(2)+var(2)^6+var(1)*var(2)^5;
       }
       monparam = var(1)*var(2)^5;
+      morecomments = morecomments +"a9="+ string(w2^9/w1^7) +newline;
     }
     if(complextype == "W[12]") //case W[12]
     {
-      poly g = jet(rf, 4);
+      poly g = jet(rf,4);
       number s = number(g/(var(1)^4));
       if(s == 0)
       {
-        s = number(g/(var(2)^4));
-        phi = br, var(2), var(1);   // maybe we'll need this transformation
-        rf = phi(rf);               // later
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+        g = jet(rf,4);
       }
+      list Factors = factorize(g);
+      poly g1 = Factors[1][2];
+      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      s = number(jet(rf,5)/(var(1)^5));
+      if(s > 0)
+      {
+        phi = br, var(1), var(2);
+        rf = phi(rf);
+      }
+      s = number(jet(rf,4)/var(1)^4);
+      number t = number(jet(rf,5)/var(2)^5);
+      number u = number(jet(rf,5)/(var(1)^2*var(2)^3));
       if(s > 0)
       {
         typeofsing = "W[12]+";
@@ -798,24 +1121,38 @@ EXAMPLE:  example realclassify; shows an example"
       }
       else
       {
+        s = -s;
         typeofsing = "W[12]-";
         nf = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
         typeofsing_alternative = "W[12]+";
         nf_alternative = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
       }
       monparam = var(1)^2*var(2)^3;
+      morecomments = morecomments +"a10="+ string(u^10/(s^5*t^6)) +newline;
     }
     if(complextype == "W[13]")   //case W[13]
     {
-      poly g = jet(rf, 4);
+      poly g = jet(rf,4);
       number s = number(g/(var(1)^4));
       if(s == 0)
       {
-        s = number(g/(var(2)^4));
-        phi = br, var(2), var(1);   // maybe we'll need this transformation
-        rf = phi(rf);               // later
+        phi = br, var(2), var(1);
+        rf = phi(rf);
+        g = jet(rf,4);
       }
-      if(s > 0)
+      list Factors = factorize(g);
+      poly g1 = Factors[1][2];
+      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      number t2 = number(jet(rf,5)/(var(1)*var(2)^4));
+      phi = br, (1/t2)*var(1), var(2);
+      rf = phi(rf);
+      number t2 = number(jet(rf,5)/(var(1)*var(2)^4));
+      number t1 = number(jet(rf,4)/var(1)^4);
+      number t3 = number(jet(rf,5)/(var(1)^3*var(2)^2));
+      number t4 = number(jet(rf,6)/var(2)^6);
+      rf = rf-t3*var(1)^3*var(2)^2-(t2/(4*t1))*var(2)^6;
+      if(t1 > 0)
       {
         typeofsing = "W[13]+";
         nf = var(1)^4+var(1)*var(2)^4+var(2)^6;
@@ -824,12 +1161,14 @@ EXAMPLE:  example realclassify; shows an example"
       }
       else
       {
+        t1=-t1;
         typeofsing = "W[13]-";
         nf = -var(1)^4+var(1)*var(2)^4+var(2)^6;
         typeofsing_alternative = "W[13]+";
         nf_alternative = var(1)^4+var(1)*var(2)^4+var(2)^6;
       }
       monparam = var(2)^6;
+      morecomments = morecomments +"a7="+ string(t4^7*t1^3) +newline;
     }
     if(typeofsing == "")
     {
