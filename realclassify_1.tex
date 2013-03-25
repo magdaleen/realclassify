@@ -72,7 +72,7 @@ Germany}
 We present algorithms to classify isolated hypersurface singularities over the
 real numbers according to the classification by V.I.~Arnold (\cite{AVG1985}).
 This first part covers the splitting lemma and the simple singularities; a
-second part will be devoted to the unimodal singularities up to corank 2.
+second part will be devoted to the unimodal singularities up to corank~2.
 All algorithms are implemented in the \Singular{} library \realclassify{}
 (\cite{realclassify}).
 \end{abstract}
@@ -429,7 +429,7 @@ It can be eventually left out because $f$ is finitely determined as an isolated
 singularity.
 \end{proof}
 
-Since this proof is constructive, we can immediately derive algorithm
+Since this proof is constructive, we can immediately derive Algorithm
 \ref{AlgorithmSplittingLemma} from it.
 
 \begin{algorithm}[ht]
@@ -569,7 +569,7 @@ $\jet(g, k+1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where
 $\phi(\pm x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the
 singularity type. Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not
 change the sign of the coefficient of $x^{k+1}$. We use
-algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c=0$ or
+Algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c=0$ or
 $c=1$.
 
 \begin{algorithm}[ht]
@@ -623,7 +623,7 @@ seperately.
 The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
 splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
 The two cases can be distinguished by factorization; the details are carried
-out in algorithm~\ref{alg:D_4}. Since the determinacy of $D_4$ is $3$, it
+out in Algorithm~\ref{alg:D_4}. Since the determinacy of $D_4$ is $3$, it
 suffices to look at the $3$-jet. The number of factors of the 3-jet is an
 invariant of the real subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
 
@@ -637,7 +637,7 @@ univariate polynomial which is exactly the same as the number of factors of the
 If we want to dehomogenize the 3-jet via $x\mapsto x$, $y\mapsto 1$ without
 reducing its degree, we first have to make sure that the coefficient of $x^3$
 is non-zero. It is easy to check that this is achieved by lines 2 to 13 of
-algorithm~\ref{alg:D_4}. For the implementation in \Singular{}, we used the
+Algorithm~\ref{alg:D_4}. For the implementation in \Singular{}, we used the
 library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
 of a univariate polynomial.
 
