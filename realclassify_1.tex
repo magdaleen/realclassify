@@ -4,7 +4,7 @@
 
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 \usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algorithmicx, algpseudocode}
 \usepackage[T1]{fontenc}   % for bold \Singular
 \usepackage{multirow}
 
@@ -19,7 +19,8 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \newcommand{\algorithmicbreak}{\textbf{break}}
-\newcommand{\BREAK}{\STATE \algorithmicbreak}
+\newcommand{\Break}{\State \algorithmicbreak}
+\renewcommand{\algorithmicreturn}{\State \textbf{return}}
 
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
@@ -228,21 +229,21 @@ determinacy by using the above statement as in Algorithm~\ref{alg_Determinacy}.
 \caption{\label{alg_Determinacy} \textsc{Determinacy}}
 \begin{algorithmic}[1]
 
-\REQUIRE{$f \in \Q[x_1,\ldots,x_n]$ with an isolated singularity at the origin}
-\ENSURE{an upper bound for the determinacy of $f$}
+\Require{$f \in \Q[x_1,\ldots,x_n]$ with an isolated singularity at the origin}
+\Ensure{an upper bound for the determinacy of $f$}
 
-\STATE $k := \textsc{Milnor}(f)+1$
-\STATE $J := \left( \frac{\partial f}{\partial x_1}, \ldots,
+\State $k := \textsc{Milnor}(f)+1$
+\State $J := \left( \frac{\partial f}{\partial x_1}, \ldots,
 \frac{\partial f}{\partial x_n} \right) \subset \Q[x_1,\ldots,x_n]$
-\STATE compute a standard basis $G$ of $(\m^2 J)$ w.r.t.\@ a local monomial
+\State compute a standard basis $G$ of $(\m^2 J)$ w.r.t.\@ a local monomial
 ordering $<$
-\FOR{$(l = 1,\ldots,k-1)$}
-\IF{$(\NF_<(\m^{l+1},G) = 0)$}
-\STATE $k := l$
-\BREAK
-\ENDIF
-\ENDFOR
-\RETURN $k$
+\For{$(l = 1,\ldots,k-1)$}
+\If{$(\NF_<(\m^{l+1},G) = 0)$}
+\State $k := l$
+\Break
+\EndIf
+\EndFor
+\Return $k$
 
 \end{algorithmic}
 \end{algorithm}
@@ -436,26 +437,26 @@ Since this proof is constructive, we can immediately derive Algorithm
 \caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
 \begin{algorithmic}[1]
 
-\REQUIRE{$f \in \m^2 \subset \Q[x_1,\ldots,x_n]$ and $k \in \N$ such that $f$
+\Require{$f \in \m^2 \subset \Q[x_1,\ldots,x_n]$ and $k \in \N$ such that $f$
 is $k$-determined}
 
-\ENSURE{the corank $c$ of $f$, the inertia index $\lambda$ of $f$ and
+\Ensure{the corank $c$ of $f$, the inertia index $\lambda$ of $f$ and
 $g \in \m^3 \cap \Q[x_1,\ldots,x_c]$ such that
 \[
 f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 \]
 }
 
-\STATE compute a transformation matrix $T \in \Q^{n \times n}$ such that
+\State compute a transformation matrix $T \in \Q^{n \times n}$ such that
 \[
 T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
 =:N
 \]
-\STATE $c :=$ number of zeroes on the diagonal of $N$
-\STATE $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
-\STATE $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
-\FOR{$(l = 3, \ldots, k)$}
-\STATE write $f^{(l)}$ as
+\State $c :=$ number of zeroes on the diagonal of $N$
+\State $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
+\State $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
+\For{$(l = 3, \ldots, k)$}
+\State write $f^{(l)}$ as
 \[
 f^{(l)} = \sum_{j=3}^l g_j
   -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
@@ -463,7 +464,7 @@ f^{(l)} = \sum_{j=3}^l g_j
 \]
 with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
 $h_i^{(l)} \in \m^{l-1}$
-\STATE $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
+\State $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
 by
 \[
 \varphi^{(l)}(x_i) :=
@@ -472,10 +473,10 @@ x_i, &i \leq c, \\
 x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 \end{cases}
 \]
-\ENDFOR
+\EndFor
 
-\STATE $g := \sum_{j=3}^k g_j$
-\RETURN $c, \lambda, g$
+\State $g := \sum_{j=3}^k g_j$
+\Return $c, \lambda, g$
 
 \end{algorithmic}
 \end{algorithm}
@@ -576,35 +577,35 @@ $c=1$.
 \caption{\label{alg:A_k} Algorithm for the case $A_k$}
 \begin{algorithmic}[1]
 
-\REQUIRE{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
+\Require{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
 the output polynomial $g$ after applying
 Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
 index $\lambda$ of $f$}
 
-\ENSURE{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
+\Ensure{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
 $k\in\mathbb N$}
 
-\IF{$c=0$}
-\IF{$\lambda<n$}
-\STATE type $:=A_1^+$
-\ELSE
-\STATE type $:=A_1^-$
-\ENDIF
-\ENDIF
-\IF{$c=1$}
-\STATE $k:= \ord(g)-1$
-\IF{$k$ is even}
-\STATE type $:=A_k^+$
-\ELSE
-\STATE $s:=$ coefficient of $x^{k+1}$
-\IF{$s > 0$}
-\STATE type $:=A_k^+$
-\ELSE
-\STATE type $:=A_k^-$
-\ENDIF
-\ENDIF
-\ENDIF
-\RETURN{type}
+\If{$c=0$}
+\If{$\lambda<n$}
+\State type $:=A_1^+$
+\Else
+\State type $:=A_1^-$
+\EndIf
+\EndIf
+\If{$c=1$}
+\State $k:= \ord(g)-1$
+\If{$k$ is even}
+\State type $:=A_k^+$
+\Else
+\State $s:=$ coefficient of $x^{k+1}$
+\If{$s > 0$}
+\State type $:=A_k^+$
+\Else
+\State type $:=A_k^-$
+\EndIf
+\EndIf
+\EndIf
+\Return{type}
 
 \end{algorithmic}
 \end{algorithm}
@@ -645,31 +646,31 @@ of a univariate polynomial.
 \caption{\label{alg:D_4}\label{D[4]} Algorithm for the case $D_4$}
 \begin{algorithmic}[1]
 
-\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_4$}
-\ENSURE{the real singularity type of $g$, i.e.\@ $D_4^+$ or $D_4^-$}
-\STATE $h := \jet(g,3)$
-\STATE $s_1:=$ coefficient of ${x^3}$ in $h$
-\STATE $s_2 :=$ coefficient of ${y^3}$ in $h$
-\IF{$(s_1 = 0)$}
-\IF{$(s_2 \neq 0)$}
-\STATE swap the variables $x$ and $y$ in $h$
-\ELSE
-\STATE $t_1:=$ coefficient of ${x^2y}$ in $h$
-\STATE $t_2:=$ coefficient of ${xy^2}$ in $h$
-\IF{$(t_1+t_2 \neq 0)$}
-\STATE apply $x\mapsto x$, $y\mapsto x+y$ to $h$
-\ELSE
-\STATE apply $x\mapsto x$, $y\mapsto 2x+y$ to $h$
-\ENDIF
-\ENDIF
-\ENDIF
-\STATE apply $x\mapsto x$, $y\mapsto 1$ to $h$
-\STATE $n :=$ number of real roots of $h$
-\IF{$(n<3)$}
-\RETURN $D_4^+$
-\ELSE
-\RETURN $D_4^-$
-\ENDIF
+\Require{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_4$}
+\Ensure{the real singularity type of $g$, i.e.\@ $D_4^+$ or $D_4^-$}
+\State $h := \jet(g,3)$
+\State $s_1:=$ coefficient of ${x^3}$ in $h$
+\State $s_2 :=$ coefficient of ${y^3}$ in $h$
+\If{$(s_1 = 0)$}
+\If{$(s_2 \neq 0)$}
+\State swap the variables $x$ and $y$ in $h$
+\Else
+\State $t_1:=$ coefficient of ${x^2y}$ in $h$
+\State $t_2:=$ coefficient of ${xy^2}$ in $h$
+\If{$(t_1+t_2 \neq 0)$}
+\State apply $x\mapsto x$, $y\mapsto x+y$ to $h$
+\Else
+\State apply $x\mapsto x$, $y\mapsto 2x+y$ to $h$
+\EndIf
+\EndIf
+\EndIf
+\State apply $x\mapsto x$, $y\mapsto 1$ to $h$
+\State $n :=$ number of real roots of $h$
+\If{$(n<3)$}
+\Return $D_4^+$
+\Else
+\Return $D_4^-$
+\EndIf
 
 \end{algorithmic}
 \end{algorithm}
@@ -729,30 +730,30 @@ $\alpha<0$ then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
 \begin{algorithmic}[1]
 
-\REQUIRE{$g \in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_k$,
+\Require{$g \in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_k$,
 $k\in\mathbb N$, $k>4$}
 
-\ENSURE{the real singularity type of $g$, i.e.\@ $D_k^+$ or $D_k^-$}
+\Ensure{the real singularity type of $g$, i.e.\@ $D_k^+$ or $D_k^-$}
 
-\STATE $k:= \mu(g)$
-\STATE $h:=\jet(g,k-1)$
-\STATE factorize $\jet(h,3)$ as $h_1^2h_2$, where $h_1$ and $h_2$ are linear
-\STATE apply $h_1\mapsto x$, $h_2\mapsto y$ to $h$
-\FOR{$(j = 4, \ldots, k-1)$}
-\IF{$(\jet(h,j)-x^2y\neq0)$}
-\STATE write $\jet(h,j)-x^2y$ as
+\State $k:= \mu(g)$
+\State $h:=\jet(g,k-1)$
+\State factorize $\jet(h,3)$ as $h_1^2h_2$, where $h_1$ and $h_2$ are linear
+\State apply $h_1\mapsto x$, $h_2\mapsto y$ to $h$
+\For{$(j = 4, \ldots, k-1)$}
+\If{$(\jet(h,j)-x^2y\neq0)$}
+\State write $\jet(h,j)-x^2y$ as
 $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
-\STATE apply $x\mapsto x-\frac{1}{2}(a_1x^{j-2}+\cdots
+\State apply $x\mapsto x-\frac{1}{2}(a_1x^{j-2}+\cdots
 +a_{j-1}y^{j-2})$, $y\mapsto y-a_0x^{j-2}$ to $h$
-\STATE $h:=\jet(h,k-1)$
-\ENDIF
-\ENDFOR
-\STATE write $h$ as $h=x^2y+\alpha y^{k-1}$, $0\neq\alpha\in\mathbb Q$
-\IF{$(\alpha>0)$}
-\RETURN $D_k^+$
-\ELSE
-\RETURN $D_k^-$
-\ENDIF
+\State $h:=\jet(h,k-1)$
+\EndIf
+\EndFor
+\State write $h$ as $h=x^2y+\alpha y^{k-1}$, $0\neq\alpha\in\mathbb Q$
+\If{$(\alpha>0)$}
+\Return $D_k^+$
+\Else
+\Return $D_k^-$
+\EndIf
 
 \end{algorithmic}
 \end{algorithm}
@@ -798,22 +799,22 @@ the monomial $y^4$. Now
 \caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
 \begin{algorithmic}[1]
 
-\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
-\ENSURE{the real singularity type of $g$, i.e.\@ $E_6^+$ or $E_6^-$}
-\STATE $h:= \jet(g,3)$
-\STATE $s:=$ coefficient of ${x^3}$ in $h$
-\IF{$(s=0)$}
-\STATE swap the variables $x$ and $y$
-\ENDIF
-\STATE factorize $h$ into linear factors over $\mathbb Q[x,y]$, with a factor
+\Require{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
+\Ensure{the real singularity type of $g$, i.e.\@ $E_6^+$ or $E_6^-$}
+\State $h:= \jet(g,3)$
+\State $s:=$ coefficient of ${x^3}$ in $h$
+\If{$(s=0)$}
+\State swap the variables $x$ and $y$
+\EndIf
+\State factorize $h$ into linear factors over $\mathbb Q[x,y]$, with a factor
 $g_1=b_0x+b_1y$
-\STATE apply $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$ to $g$
-\STATE $d :=$ coefficient of $y^4$ in $g$
-\IF{$(d>0)$}
-\RETURN $E_6^+$
-\ELSE
-\RETURN $E_6^-$
-\ENDIF
+\State apply $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$ to $g$
+\State $d :=$ coefficient of $y^4$ in $g$
+\If{$(d>0)$}
+\Return $E_6^+$
+\Else
+\Return $E_6^-$
+\EndIf
 
 \end{algorithmic}
 \end{algorithm}
