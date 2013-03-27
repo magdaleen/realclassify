@@ -7,6 +7,7 @@
 \usepackage{algorithmicx, algpseudocode}
 \usepackage[T1]{fontenc}   % for bold \Singular
 \usepackage{multirow}
+\usepackage{natbib}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -77,23 +78,24 @@ hypersurface singularities, algorithmic classification, real geometry%
 
 \begin{abstract}
 We present algorithms to classify isolated hypersurface singularities over the
-real numbers according to the classification by V.I.~Arnold (\cite{AVG1985}).
+real numbers according to the classification by V.I.~Arnold \citep{AVG1985}.
 This first part covers the splitting lemma and the simple singularities; a
 second part will be devoted to the unimodal singularities up to corank~2.
 All algorithms are implemented in the \Singular{} library \realclassify{}
-(\cite{realclassify}).
+\citep{realclassify}.
 \end{abstract}
 
 \maketitle
 
 
 \section{Introduction}
-In \cite{AVG1985}, V.I.~Arnold presents classification theorems for
+\citet{AVG1985} present classification theorems for
 singularities over the complex numbers up to modality~2 and for singularities
 over the real numbers up to modality~1, including complete sets of normal
 forms. For the complex case, he also gives an algorithm how the type of a given
 singularity can be computed, called the ``determinator of singularities''
-(cf.~\cite{AVG1985}, ch.~16), but this question is left open for the real case.
+\citep[cf.\@][ch.~16]{AVG1985}, but this question is left open for the real
+case.
 The goal of this paper, together with its second part, is to present algorithms
 for the classification of isolated hypersurface singularities up to modality~1
 and corank 2 over the real numbers with respect to right equivalence.
@@ -106,12 +108,12 @@ $f \requiv g$, if there exists an $\R$-algebra automorphism $\phi$ of
 $\R[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
 
 We have implemented all the algorithms presented here in the computer algebra
-system \Singular{} (\cite{DGPS}). The implementation is freely available as a
+system \Singular{} \citep{DGPS}. The implementation is freely available as a
 \Singular{} library called \realclassify{} which relies on \Singular's
 \classify{} to determine, for a given polynomial, the type in Arnold's
 classification over the complex numbers. The methods used in \classify{} will
 not be discussed in this paper. For more information in this regard,
-\cite{Kruger} can be studied.
+\citet{Kruger} can be studied.
 
 In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
 which are frequently used for the algorithmic classification in the subsequent
@@ -135,8 +137,9 @@ $\corank(f)$. In this paper we only consider germs with corank $0$, $1$
 and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
 corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
 
-In \cite{AVG1985} Arnold classifies the real singularities of modality $0$ and
-$1$ up to stable equivalence into main types which split up into more subtypes
+In \citet{AVG1985}, the real singularities of modality $0$ and $1$ are
+classified up to stable equivalence into main types which split up into more
+subtypes
 depending on the sign of certain terms. Two functions are stably equivalent if
 they are right equivalent after the direct addition of nondegenerate quadratic
 forms. Hence after applying the Splitting Lemma, we only need to consider the
@@ -173,13 +176,13 @@ If $p$ is the origin, we simply write $\mu(f)$ instead of $\mu(f, p)$.
 \end{defn}
 
 The Milnor number is known to be finite at isolated singularities
-(cf.\@ Lemma~2.3 in \cite{GLS2007}) and to be invariant under right equivalence
+\citep[cf.\@][Lemma~2.3]{GLS2007} and to be invariant under right equivalence
 (cf.\@ Lemma~2.10 ibid.). It is thus an important tool for the classification
-of isolated singularities. We refer to \cite{GLS2007} for more properties of
+of isolated singularities. We refer to \citet{GLS2007} for more properties of
 this invariant.
 
 There is a well-known algorithm for the computation of the Milnor number which
-is implemented in \Singular{}, see \cite{GP2008}, pp. 526-528.
+is implemented in \Singular{}, see \citet{GP2008}, pp. 526-528.
 
 
 \subsection{The Determinacy}%
@@ -213,8 +216,9 @@ terms of order higher than $k$.
 
 The determinacy is, just as the Milnor number, both invariant under right
 equivalence and finite for isolated singularities. We cite the following
-statement (cf.\@ \cite{GLS2007}, Supplement to Theorem~2.23) due to its
-importance for the algorithmic approach and refer to \cite{GLS2007} for further
+statement \citep[cf.\@][Supplement to Theorem~2.23]{GLS2007} due to its
+importance for the algorithmic approach and refer to \citet{GLS2007} for
+further
 results regarding the determinacy:
 
 \begin{prop}\label{prop_determinacy}
@@ -227,8 +231,9 @@ holds, then $f$ is $k$-determined.
 \end{prop}
 
 As a consequence of this, any power series $f$ which has an isolated
-singularity at the origin is $(\mu(f)+1)$-determined (cf.\@ \cite{GLS2007},
-Corallary~2.24). But we can often compute a much better upper bound for the
+singularity at the origin is $(\mu(f)+1)$-determined
+\citep[cf.\@][Corollary~2.24]{GLS2007}.
+But we can often compute a much better upper bound for the
 determinacy by using the above statement as in Algorithm~\ref{alg_Determinacy}.
 
 \begin{algorithm}[ht]
@@ -258,8 +263,8 @@ ordering $<$
 In Algorithm~\ref{alg_Determinacy}, the for-loop computes the minimal
 $k \in \N$ such that the condition in Proposition~\ref{prop_determinacy} holds.
 This number is equal to the degree of the so-called highest corner
-of $\langle G \rangle = (\m^2 J)$ (cf.\@ \cite{GP2008},
-Corollary~A.9.7) and can thus also be computed by combinatorial means with the
+of $\langle G \rangle = (\m^2 J)$ \citep[cf.\@][Corollary~A.9.7]{GP2008}
+and can thus also be computed by combinatorial means with the
 \Singular{} command \verb+highcorner()+ which is often much faster.
 \end{remark}
 
@@ -391,7 +396,7 @@ right-equivalence class of $g$ are uniquely determined by $f$.
 \end{theorem}
 
 The following proof is based upon the proofs of the Theorems 2.46 and 2.47 in
-\cite{GLS2007}.
+\citet{GLS2007}.
 
 \begin{proof}
 The corank of the Hessian matrix of $f$ at $0$ is $c$, so by the theory of
@@ -491,10 +496,10 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 \section{The real classification of the residual part}%
 \label{TheRealClassificationOfTheResidualPart}\label{sec:residual_part}
 
-In \cite{AVG1985} Arnold divides the real singularities of modality $0$, using
+In \citet{AVG1985}, the real singularities of modality $0$ are divided, using
 stable equivalence, into main types which split up into more subtypes by
 changing the sign in front of certain terms. It is known that the modality does
-not decrease under complexification (cf. \cite{AVG1985}, pp.~273-274). So by
+not decrease under complexification \citep[cf.\@][pp.~273-274]{AVG1985}. So by
 applying the algorithms for the complex classification to the real normal
 forms, it is easy to see that in modality $0$, there is a one-to-one
 correspondence between the complex types and the real main types. As we will
@@ -538,7 +543,7 @@ $E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 \end{tabular}
 \end{table}
 
-Using the \textsc{Singular} library \classify{} (\cite{classify}) for the
+Using the \textsc{Singular} library \classify{} \citep{classify} for the
 complex classification and the one-to-one correspondence between the main real
 singularity types and the complex types, the algorithmic classification of a
 real germ boils down to determining to which of the corresponding subtypes the
@@ -645,7 +650,7 @@ If we want to dehomogenize the 3-jet via $x\mapsto x$, $y\mapsto 1$ without
 reducing its degree, we first have to make sure that the coefficient of $x^3$
 is non-zero. It is easy to check that this is achieved by lines 2 to 13 of
 Algorithm~\ref{alg:D_4}. For the implementation in \Singular{}, we used the
-library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
+library \texttt{rootsur.lib} \citep{roots} to count the number of real roots
 of a univariate polynomial.
 
 \begin{algorithm}[ht]
@@ -695,7 +700,7 @@ in the chosen chart because the coefficient of $x^3$ is non-zero.
 
 For the cases $D_k$ with $k > 4$, the complex normal form is $x^2y+y^{k-1}$. It
 splits up into $x^2y+y^{k-1}$ ($D_k^+$) and $x^2y-y^{k-1}$ ($D_k^-$) for each
-$k$ over the reals. We use the following two results from \cite{Siersma} to
+$k$ over the reals. We use the following two results from \citet{Siersma} to
 distinguish between the two cases:
 
 \begin{lemma}\label{kDeterminacyD[k]k>4}
