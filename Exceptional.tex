@@ -1,0 +1,393 @@
+\documentclass[noend]{amsproc}
+
+\renewcommand{\arraystretch}{1.3}
+
+\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmicx, algpseudocode}
+\usepackage[T1]{fontenc}   % for bold \Singular
+\usepackage{multirow}
+\usepackage{natbib}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% ALGORITHM style
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\algorithmicbreak}{\textbf{break}}
+\newcommand{\Break}{\State \algorithmicbreak}
+\renewcommand{\algorithmicreturn}{\State \textbf{return}}
+
+\newcommand{\Singular}{\textsc{Singular}}
+\newcommand{\realclassify}{\texttt{realclassify.lib}}
+\newcommand{\classify}{\texttt{classify.lib}}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\requiv}{\overset{r}{\sim}}
+\DeclareMathOperator{\m}{\mathfrak{m}}
+\DeclareMathOperator{\jet}{jet}
+\DeclareMathOperator{\corank}{corank}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\NF}{NF}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\A}{\mathbb{A}}
+\DeclareMathOperator{\Pj}{\mathbb{P}}
+\DeclareMathOperator{\boldzero}{\mathbf{0}}
+\DeclareMathOperator{\dash}{\textnormal{-}}
+
+\begin{document}
+\section{The Equivalence Classes of the Exceptional Singularities and the singularities of main type $J_{10+k}$}
+
+Throughout this section we choose a weight $w$ (or weights) on the variables in $\R[[x_1,\ldots,x_n]]$ and in $\C[[x_1,\ldots,x_n]]$ such that the weighted degree of $x_i$, $w\dash\deg(x_i),\ \forall i$ are natural numbers. For $f,g\in\R[[x_1,\ldots,x_n]]$ or $f,g\in\C[[x_1,\ldots,x_n]]$ we mean by $f*_wg$, $w\dash\deg(f)* w\dash\deg(g)$, where $*$ is any one of $<,\le,>,\ge,=$. We denote the weighted $j\dash\jet$ of a power series $f$ by $j\dash w\dash\jet(f)$.
+
+For background regarding the following definitions and results we refer to \cite{A1974}.
+
+\begin{defn}
+A power series (polynomial, germ, function) has filtration $d$ if all its monomials are of weighted degree $d$ or higher. The power series (polynomials, germs, functions) of filtration $d$ form a linear space $E_d^w$.
+\end{defn}
+
+Note that $E_{d'}^w\subseteq E_d^w$ if $d<d'$. Since the filtration of a product, $E_{d'}^w\cdot E_d^w$, is the sum of the filtrations of the factors, $d'+d$, it follows that $E_d^w$ is an ideal in the ring of power series (polynomials, germs, functions). We denote the ideal of $E_d^w$ consisting of series of filtration strictly greater than $d$ by $E_{>d}^w$. If the weight of all the variables are $1$ we only write $E_d$. 
+
+\begin{defn}\label{phi}
+Let $\phi$ be an $\R$-algebra or $\C$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$ or $\C[[x_1,\ldots,x_n]]$  and let $w$ be a chosen weight on the variables. 
+\begin{itemize}
+\item[(i)] For $j > 0$ we define the
+\emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$, to be the automorphism given by
+\[
+\phi_j^w(x_i) := w\dash\jet(\phi(x_i),w\dash\deg(x_i)+j) \quad \forall i = 1,\ldots,n \,.
+\]
+If the weight of all the variables are $1$, we only write $\phi_j$.\\
+\item[(ii)] $\phi$ has filtration $d$ if,  $\forall\lambda$,
+\[(\phi-1)E_\lambda^w\subset E_{\lambda+d}^w.\]
+\end{itemize}
+\end{defn}
+
+Note that $\phi_0(x_i)=\jet(\phi(x_i),1)\ \forall i$. Furthermore note that $\phi_0^w$ has filtration $\le 0$ and, for $j>0$, if $\phi_{j-1}^w=1$, then $\phi_j^w$ has filtration $j$. 
+
+
+The infinitesimal analogue of Definition \ref{phi}(ii) is:
+
+\begin{defn}
+A formal vector field $v=\sum_i v_i\frac{\partial}{\partial x_i}$ has filtration $d$ if the directional derivitive raises the filtration by not less than $d$, i.e.~$L_vE^w_\lambda\subset E^w_{\lambda+d}$, where $L_v(f)=\sum_i v_i\frac{\partial f}{\partial x_i}$.
+\end{defn}
+
+The following result is proven in \cite{A1974} (Corollary 6.7).
+
+\begin{lemma}\label{vectorlemma}
+Let $f=f_0+f_1+f_2$, where $f_0\in E^w_d$, $f_1\in E^w_{>d}$ and $f_2\in E^w_{d+\delta}$, and let $\phi$ be an automorphism defined by $\phi(x_i)=x_i+v_{0,i}+v_{1,i}$, where $v_0=\sum_iv_{0,i}\frac{\partial}{\partial x_i}$ has filtration $\delta$ and $v_1=\sum_iv_{1,i}\frac{\partial}{\partial x_i}$ has filtration strictly greater than $\delta$ where $\delta>0$. Then
+\[\phi(f)=f_0+\left[ f_1+\sum_iv_{0,i}\frac{\partial f_0}{\partial x_i}\right]+R,\]
+where $R\in E^w_{>d+\delta}$.
+\end{lemma}
+
+
+%For a power series (polynomial, germ, function) $f= O_w^<(k_0)+t_{k_0}+\cdots +t_{k_1} +O_w(k_1)$, with %$t_{k_0},\ldots,t_{k_1}$ terms, we mean by $O_w(k_1)$ all the terms in the Taylor expansion of $f$ with %weighted degree greater or equal than $k_1$ and by $O_w^<(k_0)$ all terms with weighted degree less %than $k_0$. If the weights of all the variables are $1$, we only write $O^<(k_0)$ and $O(k_1)$.
+
+\begin{prop}
+Considering the real exceptional cases of corank 2, allowing only real transformations, there are no equivalences that hold between different subcases and different chosen values of the parameter $a$.
+\end{prop}
+
+\begin{proof}
+Recall that a normal form is a family of polynomials. Let $f$ be an arbitrary polynomial in any one of the exceptional normal forms. Now, $f$ can be written as $f=f_0+f_1$, where $f_0$ is the sum of the terms not having the chosen value of the parameter as coefficient and $f_1$ is the term that has the coefficient as parameter. We choose a weighted degree $w$, with the weights of $x$ and $y$ natural numbers, such that the terms in $f_0$ have the same degree $w_0$. Hence $f_0$ is the quasihomogeneous part of $f$.
+
+Let $\phi$ be an $\R$-algebra automorphism that transform $f$ to a polynomial in the same main singularity type.
+
+Note that in the cases (a) $Z_{11}, Z_{12}, Z_{13}$:
+\begin{equation}\label{a}
+x^2>_w xy>_w y^2>_w x>_w y
+\end{equation} 
+and in the cases (b)  $W_{12}, W_{13}$:
+\begin{equation}\label{b}
+y^3>_wx^2>_w xy>_w y^2>_w x>_w y
+\end{equation} 
+and in the cases (c) $E_{12}, E_{13}, E_{14}$:
+\begin{equation}\label{c}
+x^2>_w xy >_w y^3>_w x>_w y^2>_w y.
+\end{equation}
+Let $k_0$ be the lowest jet of $f$, i.e.~$\jet(f,k_0-1)=0$ and $\jet(f,k_0)\neq 0$. Since 
+\begin{eqnarray*}
+\phi(f) &=& \phi_0(\jet(f,k_0))+\phi_0(f-\jet(f,k_0))+\phi^*(f)\nonumber\\
+ &=& \phi_0(\jet(f,k_0))+R,\label{lowestjet}
+\end{eqnarray*}
+where $\phi^*=\phi-\phi_0$ and $R\in E_{>k_0}$, it is clear that
+\begin{equation}\label{transxy}
+\jet(\phi(x),1)=\alpha x\quad\textnormal{and}\quad\jet(\phi(y),1)=\beta y,\quad 0\neq\alpha,\beta\in\R,
+\end{equation}
+in the cases $Z_{11}, Z_{12}$ and $Z_{13}$ and that
+\begin{equation}
+\jet(\phi(x),1)=\alpha x,\quad 0\neq\alpha\in\R.\label{transx}
+\end{equation}
+in the other cases.
+
+Considering the cases in (a), taking  (\ref{a}) into account, it follows that
+\begin{equation*}
+\frac{\partial f_0}{\partial y}y^2 =_w \frac{\partial f_0}{\partial x}xy>_w f_1\quad\textnormal{and}\quad \frac{\partial f_0}{\partial y}y^2>_w \frac{\partial f_0}{\partial x}y^2>_w f_0.
+\end{equation*}
+Now, $\phi=\phi''\circ\phi'$, where $\phi'$ and $\phi''$ are, respectively, defined by
+\[\phi'(x)=\alpha x,\quad \phi'(y)=\beta y, \quad \phi''(x)=\frac{1}{\alpha}\phi(x), \quad\phi''(y)=\frac{1}{\beta}\phi(y).\]
+If $\alpha,\beta\neq 1$, we replace $f$ by $\phi'(f)$ and $\phi$ by $\phi''$ for the next argument, showing that the coefficient of $y^2$ in $\phi(x)$ is nonzero or equivalently that the coefficient of $y^2$ in $\phi''(x)$ is nonzero.
+Since the filtration of $\phi$ is positive, it follows from Lemma \ref{vectorlemma} that
+\begin{equation*}
+\phi(f) = f_0+c\cdot c_0\frac{\partial f_0}{\partial x}y^2+f_1+R,\quad R\in E^w_{>w\dash\deg(f_1)},
+\end{equation*}
+where $\phi(x) = x+cy^2+R'$, $R'\in E^w_{>w\dash\deg(y^2)}$ and $c_0,c\in\R$.
+Since $\gamma_0\frac{\partial f_0}{\partial x}y^2+\gamma_1f_1\neq \gamma_2f_1$, for any $\gamma_0,\gamma_1,\gamma_2\in\R$, $\gamma_0\neq 0$, in all three cases in (a) it follows that $c=0$. Since we have assumed that $\phi(f)$ transforms $f$ to a polynomial in the same main singularity type and $\phi-\phi_0^w$ only contributes to terms in $R$, it is enough to consider $\phi_0^w$. We therefore only need to consider automorphisms $\phi$ defined by 
+\begin{equation}\label{trans1}
+\phi(x)=\alpha x\quad\textnormal{and}\quad\phi(y)=\beta y,\quad0\neq\alpha,\beta\in\R.
+\end{equation}
+Similarly, for the cases in (b), taking \ref{b} into account, we have that
+\begin{equation*}
+\frac{\partial f_0}{\partial y}y^2 =_w \frac{\partial f_0}{\partial x}xy>_w f_1\quad\textnormal{and}\quad \frac{\partial f_0}{\partial x}y^2>_w \frac{\partial f_0}{\partial y}x>_w f_0.
+\end{equation*}
+Again, if $\alpha,\beta\neq 1$ we replace $f$ by $\phi'(f)$ and $\phi$ by $\phi''$ to show that the coefficient of $x$ in $\phi(y)$ is zero or equivalently that the coefficient of $x$ in $\phi''(y)$ is zero. Since the filtration of $\phi$ is positive, it follows from Lemma \ref{vectorlemma} that
+\begin{equation*}
+\phi(f) = f_0+c\cdot c_1\frac{\partial f_0}{\partial y}x+c_2\cdot c_3\frac{\partial f_0}{\partial x}y^2+f_1+R,\quad R\in E^w_{>w\dash\deg(f_1)},
+\end{equation*}
+where $\phi(y) = y+cx+c_2y^2+R'$, $R'\in E^w_{>w\dash\deg(y^2)}$ and $c,c_1\ldots,c_3\in\R$.
+Since $\gamma_0\frac{\partial f_0}{\partial y}x+\gamma_1\frac{\partial f_0}{\partial x}y^2+\gamma_2f_1\neq \gamma_3f_1$, for any $\gamma_0,\ldots,\gamma_3\in\R$,  not both $\gamma_0$ and $\gamma_1$ zero, in both cases in (b), we only need to consider automorphisms $\phi$ defined by 
+\begin{equation}\label{trans2}
+\phi(x)=\alpha x\quad\textnormal{and}\quad\phi(y)=\beta(y),\quad0\neq\alpha,\beta\in\R.
+\end{equation}
+We now consider the cases in (c). Similarly as above, we replace $f$ by $\phi'(f)$ and $\phi$ by $\phi''$ if $\alpha,\beta\neq 1$ for the following arguments showing that the coefficient of $y^2$ and $y^3$ in $\phi(x)$, or equivalently $\phi''(x)$, is zero. Taking the ordering in \ref{c} into account, we have that \[\phi_0^w(x)=x+cy^2, \quad\phi_0(y)=y,\quad c\in\R.\] Note that $\phi^w_0$ has filtration $<0$ if $c\neq 0$, and that $\phi-\phi^w_0+1$ has filtration $>0$. Hence,
+\begin{eqnarray*}
+\phi(f)&=&\phi_0^w(f)+(\phi-\phi^w_0)(f)\\
+&=& R_1+c_0\cdot c\frac{\partial f_0}{\partial x}y^2+f_0+\phi^w_0(f_1)+R_2 +(\phi-\phi^w_0)(f)\\
+&=&R_1+c_0\cdot c\frac{\partial f_0}{\partial x}y^2+R_3,
+\end{eqnarray*} 
+$R_1\in\R[[x,y]]\setminus E^w_{w\dash\deg\left(\frac{\partial f_0}{\partial x}y^2\right)}$, $R_2\in E^w_{>w_0}$ and $R_3\in E^w_{w_0}$ . Therefore $c=0$ and $\phi$ has positive filtration.
+By \ref{c}, it follows that
+\begin{equation*}
+\frac{\partial f_0}{\partial y}x >_w\frac{\partial f_0}{\partial y}y^2 =_w \frac{\partial f_0}{\partial x}xy>_w  f_1\quad\textnormal{and}\quad \frac{\partial f}{\partial x}y^3>_w f_0.
+\end{equation*}
+Therefore, it follows from Lemma \ref{vectorlemma} that
+\begin{equation*}
+\phi(f) = f_0+c\cdot c_0\frac{\partial f_0}{\partial x}y^3+f_1+R,\quad R\in E^w_{w\dash\deg(f_1)}
+\end{equation*}
+where $\phi(x) = x+ cy^3+R'$, $R'\in E^w_{>w\dash\deg(y^3)}$, $c_0,c\in\R$. Since $\gamma_0\frac{\partial f_0}{\partial x}y^3+\gamma_1f_1\neq \gamma_2f_1$ for any $\gamma_0,\gamma_1,\gamma_2\in\R$, $\gamma_0\neq 0$, in all three cases in (c) it follows that we only need to consider the automorphisms defined by
+\begin{equation}\label{trans3}
+\phi(x) = \alpha x\quad\textnormal{and}\quad\phi(y)=\beta y,\quad0\neq\alpha,\beta\in R.
+\end{equation}
+Using (\ref{trans1}), (\ref{trans2}) and (\ref{trans3}) the result follows easily.
+\end{proof}
+
+\begin{prop}
+Considering the real cases of main type $J_{10+k}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:
+\[J_{10+k}^{+,a}\sim J_{10+k}^{+,-a},\quad J_{10+k}^{-,a}\sim J_{10+k}^{-,-a},\quad \textnormal{for $k$ odd}.\]
+\end{prop}
+
+\begin{proof}
+Let $f$ be an arbitrary polynomial in the normal form of $J_{10+k}^+$ or $J_{10+k}^-$. 
+The Newton polygon defined by the principal part $f_0=x^3\pm x^2y^2+ay^{6+k}$, $a\in\R$ of $f$ has two faces. Choose weights $w_1$ and $w_2$ for the two faces defined by $f_{1,0}=x^3\pm x^2y^2$ and $f_{2,0}=x^2y^2+ay^{6+k}$, respectively, with the weights of $x$ and $y$ natural numbers, such that all the terms on the two faces have the same weight $k_0$. We denote the piecewise weight by $w_0$. We refer to the terms above the two faces, respectively, as $f_{1,1}=ay^{6+k}$ and $f_{2,1}=x^3$.
+
+Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the family of polynomials defining the same main singularity type.
+
+Considering the $3$-jet of $f$ it follows that $\jet(\phi(x),1)=x$. Hence $\phi_0^{w_1}(x)=x+cy^2$ and $\phi_0^{w_1}(y)=\beta y$, $c,\beta\in\R$ which implies that $\phi^{w_1}_0$ has filtration $0$ with regard to the weight $w_1$. Since the value of $c$ has no influence on $f_{1,1}$ and the singularity type of $f$ is unique, we may assume that $\phi_0^{w_1}(x)=x$. Since $\phi-\phi_0^{w_1}+1$ has positive filtration with regard to $w_1$ it follows that 
+\begin{equation}\label{transw2}
+\phi(f) = \phi_0^{w_1}(f_1) + R,\quad R\in E^{w_1}_{>k_0}.
+\end{equation}
+Note that 
+\begin{equation}\label{orderw1}
+y<_{w_2}x<_{w_2}xy^n,
+\end{equation}
+for all $n\ge 1$. We, now, consider recursively the next smallest $s>2$ such that $y^s<_{w_2}x$. Note that $\phi(x)=x+cy^s+R$, $R\in E^{w_2}_{>k_0}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has negative filtration with regard to the weight $w_2$ and $\phi-\phi_0^{w_2}+1$ has positive filtration. Because $s>2$ it follows that $w_2\dash\deg(y^sx^2)>k_0$ and that $y^{2s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(y^{s+2}x)<w_2\dash\deg(x^2y^2)=k_0$. Hence
+\begin{eqnarray*}
+\phi(f) &=& \phi_0^{w_2}+(\phi-\phi_0^{w_2})\\
+ &=&  R_1+c_0\cdot c xy^{s+2}+\phi_0^{w_2}(f_{2,1})+R_2\\
+&=&R_1+c_0\cdot c xy^{s+2}+ c_2\cdot c^3y^{3s}+c_3\cdot c^2y^{2s}x+c_4\cdot cy^sx^2+R_2\\
+&=&R_1+c_0\cdot c xy^{s+2}+ c_2\cdot c^3y^{3s}+R_3,
+\end{eqnarray*}
+where $R_1\in\R[[x,y]]\setminus E^{w_2}_{w_2\dash\deg(xy^{s+2})}$, $R_2, R_3\in E^{w_2}_{>w_2\dash\deg(xy^{s+2})}$ and $c_0,\ldots,c_4\in\R$. Hence $c=0$ and $\phi_0^{w_2}(x)=x$ and $\phi_0^{w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
+\begin{equation}\label{transw1}
+\phi(f) = \phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
+\end{equation}
+Now, it follows from (\ref{transw2}) and (\ref{transw1}) that 
+\begin{equation*}
+\phi(f) = \phi_0^{w_0}(f_0)+R,\quad R\in E^{w_0}_{>k_0}.
+\end{equation*}
+Since $\phi(f)$ is again a polynomial in the family of polynomials defining the same main type, it follows that
+\begin{equation*}
+\phi(f) = \phi_0^{w_0}(f_0).
+\end{equation*}
+Therefore, it follows that we only need to consider automorphisms $\phi$ defined by
+\[\phi(x)=x\quad \phi(y)=\beta y,\]
+from which it follows that $\beta=\pm 1$. Now, the result follows easily.
+\end{proof}
+\newpage
+
+
+\begin{prop}
+Considering the real cases of main type $X_{9+k}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:
+\[X_{9+k}^{++,a}\sim X_{9+k}^{++,-a},\quad X_{9+k}^{+-,a}\sim X_{9+k}^{+-,-a},\]\[ X_{9+k}^{-+,a}\sim X_{9+k}^{-+,-a},\quad X_{9+k}^{--,a}\sim X_{9+k}^{--,-a}\quad \textnormal{for $k$ odd}.\]
+\end{prop}
+
+\begin{proof}
+Let $f$ be an arbitrary polynomial in the normal form of $X_{9+k}^{++}, X_{9+k}^{+-}, X_{9+k}^{--}$ or $X_{9+k}^{-+}$. Similarly as in the previous proof, the Newton polygon defined by the principal part $f_0=\pm x^4\pm x^2y^2+ay^{4+k}$, $a\in\R$, of $f$ has two faces. Choose weights $w_1$ and $w_2$ for the two faces defined by $f_{1,0}=\pm x^4\pm x^2y^2$ and $f_{2,0}=x^2y^2+ay^{4+k}$, respectively, with the weights of $x$ and $y$ natural numbers, such that all the terms on the two faces have the same weight $k_0$. We denote the piecewise weight by $w_0$. We refer to the terms above the two faces, respectively, as $f_{1,1}=x^4$ and $f_{2,1}=ay^{4+k}$.
+
+Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the families of polynomials defining the same main singularity type.
+
+Considering the 4-jet of $f$ it follows that either $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$ or $\jet(\phi(x),1)=\alpha y$ and $\jet(\phi(y),1)=\beta x$, $0\neq\alpha,\beta\in\R$. Let us first assume that $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$. Then $\phi^{w_1}_0(x)$ has filtration $0$ with regard to $w_1$. Therefore
+\begin{equation}\label{trans1}
+\phi(f)=\phi_0^{w_1}(f_1)+R,\quad R\in E^{w_1}_{>k_0}.
+\end{equation} Note that
+\begin{equation}\label{orderw1}
+y<_{w_1}x<_{w_1}xy^n,
+\end{equation}
+for all $n\ge 1$. We now, recursively consider the next smallest $s>1$ such that $y^s<_{w_2}x$. Note that $\phi(x)=\alpha x+cy^s+R$, $R\in E^{w_2}_{>k_0}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has, similar to the previous proof, negative filtration with regard to the weight $w_2$ and $\phi-\phi^{w_2}_0+1$ has positive filtration. Clearly $y^sx^3>_{w_2}y^{2s}x^2>_{w_2}k_0$. Because $s>1$ it follows that $y^{3s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(xy^{s+2})<w_2\dash\deg(x^2y^2)=k_0$. Hence, similar to the previous proof
+\begin{equation}
+\phi(f)=R_1+c_0\cdot cxy^{s+2}+c_1\cdot c^4y^{4s}+R_2,
+\end{equation}
+where $R_1\in\R[[x,y]]\setminus E_{w_2\dash\deg(xy^{s+2})}^{w_2}$, $R_2\in E_{>w_2\dash\deg(xy^{s+2})}^{w_2}$ and $c_0,c_1\in\R$.
+Hence $c=0$ and $\phi_0^{w_2}(x)=\alpha x$ and $\phi_0^ {w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
+\begin{equation}\label{trans2}
+\phi(f)=\phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
+\end{equation}
+Hence it follows from (\ref{trans1}) and (\ref{trans2}) that
+\begin{equation}
+\phi(f)=\phi_0^{w_0}(f_0)+R,\quad R\in E^{w_0}_{>k_0}.
+\end{equation}
+Since $\phi(f)$ is a polynomial in the families of polynomials defining the same main type as $f$, it follows that
+\begin{equation}\label{trans3}
+\phi(f)=\phi_0^{w_0}(f_0).
+\end{equation}
+If $\phi_0(x)=\alpha y$ and $\phi_0(y)=\beta x$, by swapping the weights of $x$ and $y$, (\ref{trans3}) follows similarly.  Since the normal forms of main type $X_{9+k}$ are not symmetric, we get a contradiction for using this transformation. Hence we only need to consider automorphisms defined by
+\begin{equation}\label{phi}
+\phi(x)=\alpha x\quad\phi(y)=\beta y
+\end{equation}
+ From this it follows that $\alpha=\pm 1$ and $\beta=\pm 1$ from which the result follows.
+\end{proof}
+
+In the case $Y_{r,s}$ it is enough to work with the folowing normal forms
+\[\pm x^2y^2+ay^s\pm x^r,\quad a\neq 0,\quad r,s>4,\quad r\ge s,\]
+since all the other polynomials in the original normal forms are equivalent to one in the above normal forms.
+
+\begin{prop}\label{Yrs}
+Considering the real cases of main type $Y_{r,s}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:\\
+If $r$ odd and $s$ even:
+\[Y_{r,s}^{a,++}\sim Y_{r,s}^{a,+-},\quad Y_{r,s}^{a,-+}\sim Y_{r,s}^{a,--}.\]
+If $r$ and $s$ odd:
+\[Y_{r,s}^{a,++}\sim Y_{r,s}^{-a,++}\sim Y_{r,s}^{-a,+-}\sim Y_{r,s}^{a,+-},\quad Y_{r,s}^{a,-+}\sim Y_{r,s}^{-a,--}\sim Y_{r,s}^{a,--}\sim Y_{r,s}^{-a,-+}.\]
+If $r=s$, $r$ and $s$ even:
+\[Y_{r,s}^{|a|,+-}\sim Y_{r,s}^{-|a|,++},\quad Y_{r,s}^{|a|,--}\sim Y_{r,s}^{-|a|,-+}.\]
+\end{prop}
+
+\begin{proof}
+Let $f$ be an arbitrary polynomial in the normal form of $Y_{r,s}^{++}$, $Y_{r,s}^{+-}$, $Y_{r,s}^{-+}$, $Y_{r,s}^{--}$. The Newton polygon defined by the principal part $f_0=\pm x^2y^2+ay^s\pm x^r$, $a\in\R$ of $f$ has two faces. Choose weights $w_1$ and $w_2$ for the two faces defined by $f_{1,0}=\pm x^r\pm x^2y^2$ and $f_{2,0}=\pm x^2y^2+ay^s$, respectively, with the weights of $x$ and $y$ natural numbers, such that all the terms on the two faces have the same weight $k_0$. We denote the piecewise weight by $w_0$. We refer to the terms above the two faces, respectively, as $f_{1,1}=ay^s$ and $f_{2,1}=\pm x^r$.
+
+Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the families defining the same main singularity type. 
+
+Considering the 4-jet of $f$ it follows that either $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$ or $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$, $0\neq \alpha,\beta\in\R$. Let us first assume that $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$.
+Note that
+\begin{equation*}
+x<_{w_1}y<_{w_1}yx^n,
+\end{equation*}
+for all $n\ge 1$. We now, recursively, consider the smallest $t>1$ such that $x^t<_{w_1}y$. Note that $\phi(y)=\beta y+c x^t+R$, $R\in E^{w_1}_{>k_0}$. Therefore if $c\neq 0$ then $\phi_0^{w_1}$ has negative filtration and $\phi-\phi_0^{w_1}+1$ has positive filtration. Similar to the proof of $X_{9+k}$ it follows that
+\begin{equation*}
+\phi(f)=R_1+c_0\cdot cx^{t+2}y+c_1\cdot c^{6+k}x^{(6+k)t}+R_2,
+\end{equation*}
+where $R_1\in\R[[x,y]]\setminus E^{w_1}_{w_1\dash\deg(x^{t+2}y)}$, $R_2\in E_{>w_1\dash\deg(x^{t+2}y)}$ and $c_0,c_1\in\R$. Hence $c=0$ and $\phi_0^{w_1}(x)=\alpha x$ and $\phi_0^{w_1}(y)=\beta y$. Therefore $\phi_0^{w_1}$ has non-negative filtration and
+\begin{equation*}
+\phi(f)=\phi_0^{w_1}(f_1)+R, \quad R\in E_{>k_0}^{w_1}.
+\end{equation*}
+It follows similarly that
+\begin{equation*}
+\phi(f)=\phi_0^{w_2}(f_2)+R,\quad R\in E_{> k_0}^{w_2}
+\end{equation*}
+and hence that
+\begin{equation*}
+\phi(f)=\phi_0^{w_0}(f_0)+R,\quad R\in E^{w_0}_{> k_0}.
+\end{equation*}
+Since $\phi(f)$ is a polynomial in the families defining the same main type as $f$, it follows that
+\begin{equation}\label{phiY}
+\phi(f)=\phi_0^{w_0}(f_0).
+\end{equation}
+If $\phi_0(x)=\alpha y$ and $\phi_0(y)=\beta x$, by swapping the weights of $x$ and $y$, (\ref{phiY}) follows similarly. Since the normal forms of main type $Y_{r,s}$, $r\neq s$, are not symmetric we get a contradiction for this transformation in these cases. Hence we only need to consider the following automorphisms:\\
+If $r=s$:
+\begin{eqnarray*}
+\phi(x)=\alpha x&\quad&\phi(y)=\beta y\\
+\phi(x)=\alpha y&\quad&\phi(y)=\beta x.\\
+\end{eqnarray*}
+If $r\neq s$:
+\begin{equation*}
+\phi(x)=\alpha x\quad\phi(y)=\beta y.
+\end{equation*}
+Now, the result follows easily.
+\end{proof}
+
+\begin{prop}
+Considering the real cases of main type $\widetilde Y_{r,s}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:
+\[\widetilde Y_{r}^{a,+}\sim\widetilde Y_{r}^{-a,+}, \quad\widetilde Y_{r}^{a,-}\sim\widetilde Y_{r}^{-a,-}\quad\textnormal{for $k$ odd}.\]
+\end{prop}
+\begin{proof}
+Let $f=\pm(x^2+y^2)^2+ax^r$, $a\in\R$ be an arbitrary polynomial in $\widetilde Y_{r}^+$ or $\widetilde Y_{r}^-$. It is clear that the singularity type of $f$ is unique, i.e.~$f$ cannot be both of type $\widetilde Y_{r}^+$ and $\widetilde Y_{r}^-$. Let $f'=\pm(x^2+y^2)^2+a'x^r$, $a'\in\R$ be a polynomial in the same subtype as $f$.
+
+Now, we first consider all posible $\C$-algebra automorphisms between $f$ and $f'$. We will show that there exists a $\C$-algebra automorphism $\phi$ such that $\phi(f)=f'$ if and only if $a'=\pm a$ and $r$ is odd or $a'=a$ and $r$ is even. Clearly these equivalences exists in the real case too, which proves the proposition.
+
+Suppose $f$ and $f'$ are complex equivalent. Since $f\sim g$ ,where $g:=-x^2y^2+(\frac{1}{2})^ra^2y^r+x^r$, if $f$ is of type $\widetilde Y_r^+$, and $g:=x^2y^2+(\frac{1}{2})^ra^2y^r+x^r$, if $f$ is of type $\widetilde Y_r^-$, and $f'\sim g'$, where $g':= -x^2y^2+(\frac{1}{2})^ra'^2y^r+x^r$, if $f'$ (and thus $f$) is of type $\widetilde Y_r^+$, and $g':=x^2y^2+(\frac{1}{2})^ra'^2y^r+x^r$, if $f'$ (and this $f$) is of type $\widetilde Y_r^-$, it follows that $g$ and $g'$ are complex equivalent. It can be, similarly as in the proof of Proposision~\ref{Yrs}, shown that we only need to consider $\C$-algebra automorphisms $\phi$ defined by
+\[\phi(x)=\alpha x,\quad \phi(y) = \beta y\quad \textnormal{or}\quad\phi(x)=\alpha y,\quad \phi(y)=\beta x\quad\alpha,\beta\in\C.\]
+We show the result for the case that $\phi$ is defined by $\phi(x)=\alpha x$ and $\phi(y)=\beta y$. The other case can be proven similarly.
+Since $\phi(x^r)=(\phi(x))^r=1$, it follows that $\alpha$ is an $r$th root of unity. This implies that $\beta^2=\alpha^{r-2}$ which implies that  $(\frac{1}{2})^ra'^2=(\frac{1}{2})^ra^2(\alpha^{\frac{r-2}{2}})^r$. In case $r$ is even $(\alpha^{\frac{r-2}{2}})^r=(\alpha^r)^{\frac{r-2}{2}}=1^{\frac{r-2}{2}}=1$, since $\frac{r-2}{2}\in\N$. Therefore $a=a'$. In case $r$ is odd $(\alpha^{\frac{r-2}{2}})^r=1^{\frac{1}{2}}$. Hence $a'=\pm a$. 
+
+\end{proof}
+\begin{thebibliography}{99}
+\bibitem[{Arnold et al.(1985)}]{AVG1985}
+Arnold, V.I., Gusein-Zade, S.M., Varchenko, A.N., 1985.
+Singularities of Differential Maps, Vol.~I.
+Birkh\"auser, Boston.
+
+\bibitem[{Arnold(1974)}]{A1974}
+Arnold, V.I., 1974.
+Normal forms of functions in neighbourhoods of degenerate critical points.
+Russ. Math. Surv. 29(2), 10-50.
+
+\bibitem[{Decker et al.(2012)}]{DGPS}
+Decker, W., Greuel, G.-M., Pfister, G., Sch{\"o}nemann, H., 2012.
+\newblock {\sc Singular} {3-1-6} --- {A} computer algebra system for polynomial
+computations.
+\newblock {http://www.singular.uni-kl.de}.
+
+\bibitem[{Kr\"uger(1997)}]{Kruger}
+Kr\"uger, K., 1997.
+Klassifikation von Hyperfl\"achensingularit\"aten.
+Diploma Thesis, University of Kaiserslautern.
+
+\bibitem[{Greuel et al.(2007)}]{GLS2007}
+Greuel, G.-M., Lossen, C., Shustin E., 2007.
+Introduction to Singularities and Deformations.
+Springer, Berlin.
+
+\bibitem[{Greuel and Pfister(2008)}]{GP2008}
+Greuel G.-M., Pfister G., 2008.
+A Singular Introduction to Commutative Algebra, second ed.
+Springer, Berlin.
+
+\bibitem[{Kr\"uger(2012)}]{classify}
+Kr\"uger, K., 2012.
+{\tt classify.lib}. {A} {\sc Singular} {3-1-6} library for classifying isolated
+hypersurface singularities w.r.t.\@ right equivalence, based on the
+determinator of singularities by V.I. Arnold.
+
+\bibitem[{Marais and Steenpa\ss(2012)}]{realclassify}
+Marais, M., Steenpa\ss, A., 2012.
+{\tt realclassify.lib}. {A} {\sc Singular} {3-1-6} library for classifying
+isolated hypersurface singularities over the reals w.r.t.\@ right equivalence.
+
+\bibitem[{Siersma(1974)}]{Siersma}
+Siersma D., 1974.
+Classification and Deformation of Singularities.
+Dissertation, University of Amsterdam.
+
+\bibitem[{Tobis(2012)}]{roots}
+Tobis, E., 2012.
+{\tt rootsur.lib}. {A} {\sc Singular} {3-1-6} library for counting the number
+of real roots of a univariate polynomial.
+\end{thebibliography}
+\end{document}
