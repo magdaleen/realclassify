@@ -8,6 +8,8 @@
 \usepackage[T1]{fontenc}   % for bold \Singular
 \usepackage{multirow}
 \usepackage{natbib}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -22,10 +24,12 @@
 \newcommand{\algorithmicbreak}{\textbf{break}}
 \newcommand{\Break}{\State \algorithmicbreak}
 \renewcommand{\algorithmicreturn}{\State \textbf{return}}
-
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\classify}{\texttt{classify.lib}}
+
 
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
@@ -88,9 +92,6 @@ Let $f=f_0+f_1+f_2$, where $f_0\in E^w_d$, $f_1\in E^w_{>d}$ and $f_2\in E^w_{d+
 \[\phi(f)=f_0+\left[ f_1+\sum_iv_{0,i}\frac{\partial f_0}{\partial x_i}\right]+R,\]
 where $R\in E^w_{>d+\delta}$.
 \end{lemma}
-
-
-%For a power series (polynomial, germ, function) $f= O_w^<(k_0)+t_{k_0}+\cdots +t_{k_1} +O_w(k_1)$, with %$t_{k_0},\ldots,t_{k_1}$ terms, we mean by $O_w(k_1)$ all the terms in the Taylor expansion of $f$ with %weighted degree greater or equal than $k_1$ and by $O_w^<(k_0)$ all terms with weighted degree less %than $k_0$. If the weights of all the variables are $1$, we only write $O^<(k_0)$ and $O(k_1)$.
 
 \begin{prop}
 Considering the real exceptional cases of corank 2, allowing only real transformations, there are no equivalences that hold between different subcases and different chosen values of the parameter $a$.
@@ -179,6 +180,25 @@ where $\phi(x) = x+ cy^3+R'$, $R'\in E^w_{>w\dash\deg(y^3)}$, $c_0,c\in\R$. Sinc
 Using (\ref{trans1}), (\ref{trans2}) and (\ref{trans3}) the result follows easily.
 \end{proof}
 
+\begin{lemma}
+Considering the real cases of main type $J_{10+k}$, allowing only real transformations, germs in different subtypes cannot be equivalent.
+\end{lemma}
+\begin{proof}
+Let $w$ be the weighted degree with weights $(2,1)$. Let $f=x^3+bx^2y^2+ay^{6+k}\in J_{10+k}$, $a,b\in\R$. $f$ can be easily transformed to $f=x^3+dxy^4+ey^6+ R$, $d,e\in \R$ and $R\in E^w_{>6}$ by the real transformation defined by $x\mapsto x-\frac{b}{3}y^2$, $y\mapsto y$. Let $\phi$ be an arbitrary $\R$-algebra automorphism that transforms $f$ to one of the polynomials in the families of polynomials defining the normal forms of $J_{10+k}^+$ and $J_{10+k}^-$. Using Proposition 6 in \cite{MS2013}, it follows that $\phi_0(x)=x$. Since $\phi$ clearly has non-negative filtration with regard to $w$, it follows that $\phi_0^{w}(x)=x+cy^2$ and $\phi^w_0(y)=ty$, $c,t\in\R$, $t\neq 0$. Now, for a fixed value of $t$,
+\begin{eqnarray}\label{vglf}
+\phi(f)&=&\phi^w_0(f)+(\phi-\phi^w_0)(f)\nonumber\\
+&=&x^3+3cx^2y^2+(3c^2+t^4d)xy^2+(c^3+t^4dc+et^6)y^6+ R, R\in E^w_{>6}.
+\end{eqnarray}  
+Since, $\phi(f)$ is a polynomial in the families of polynomials defining the normal forms of main type $J_{10+k}$, $3c^2+t^4d=0$ and $c^3+t^4dc+et^6=0$. Hence $c$ is a real root of 
+\begin{equation*}
+k(z)=z^3+t^4dz+et^6\quad\textnormal{and}\quad k'(z)=3z^2+t^4d.
+\end{equation*} 
+Now $c=t^2c'$ is a real root of $k$ and $k'$ if and only if $c'$ is a real root of 
+\begin{equation}\label{vglh}
+h(z)=z^3+dz+e\quad\textnormal{an}\quad h'(z)=3z^2+d.
+\end{equation}
+Considering (\ref{vglh}) $c'$ is fixed as the unique double root of $h(z)$. Now $c'$ is either zero, positive or negative. If $c'=0$, then $c=0$ and $f$ is clearly not of type $J_{10+k}$. Hence $c'$ is either positive or negative. If $c'$ is positive then $c$ is also positive. Considering (\ref{vglf}) this means that $f$ is of type $J_{10+k}^+$. If $c'$ is negative it similarly follows that $f$ is of type $J_{10+k}^-$. Now, note that the sign of $c'$ only depends on $h$ and $h'$, which only depends on $f$ and not on the transformation $\phi$ that we used. Since $c'$ cannot be both positive and negative this implies that the type of $f$ is unique.
+\end{proof}
 \begin{prop}
 Considering the real cases of main type $J_{10+k}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:
 \[J_{10+k}^{+,a}\sim J_{10+k}^{+,-a},\quad J_{10+k}^{-,a}\sim J_{10+k}^{-,-a},\quad \textnormal{for $k$ odd}.\]
@@ -190,7 +210,7 @@ The Newton polygon defined by the principal part $f_0=x^3\pm x^2y^2+ay^{6+k}$, $
 
 Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the family of polynomials defining the same main singularity type.
 
-Considering the $3$-jet of $f$ it follows that $\jet(\phi(x),1)=x$. Hence $\phi_0^{w_1}(x)=x+cy^2$ and $\phi_0^{w_1}(y)=\beta y$, $c,\beta\in\R$ which implies that $\phi^{w_1}_0$ has filtration $0$ with regard to the weight $w_1$. Since the value of $c$ has no influence on $f_{1,1}$ and the singularity type of $f$ is unique, we may assume that $\phi_0^{w_1}(x)=x$. Since $\phi-\phi_0^{w_1}+1$ has positive filtration with regard to $w_1$ it follows that 
+Considering the $3$-jet of $f$ it follows that $\phi_0(x)=x$. Hence $\phi_0^{w_1}(x)=x+cy^2$ and $\phi_0^{w_1}(y)=\beta y$, $c,\beta\in\R$, $\beta\neq 0$, which implies that $\phi^{w_1}_0$ has filtration $0$ with regard to the weight $w_1$. Since the value of $c$ has no influence on $f_{1,1}$, the singularity type of $f$ is unique and $\phi_0^{w_1}$ therefore only contributes to terms above the diagonal, we may assume that $\phi_0^{w_1}(x)=x$. Since $\phi-\phi_0^{w_1}+1$ has positive filtration with regard to $w_1$ it follows that 
 \begin{equation}\label{transw2}
 \phi(f) = \phi_0^{w_1}(f_1) + R,\quad R\in E^{w_1}_{>k_0}.
 \end{equation}
@@ -198,14 +218,14 @@ Note that
 \begin{equation}\label{orderw1}
 y<_{w_2}x<_{w_2}xy^n,
 \end{equation}
-for all $n\ge 1$. We, now, consider recursively the next smallest $s>2$ such that $y^s<_{w_2}x$. Note that $\phi(x)=x+cy^s+R$, $R\in E^{w_2}_{>k_0}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has negative filtration with regard to the weight $w_2$ and $\phi-\phi_0^{w_2}+1$ has positive filtration. Because $s>2$ it follows that $w_2\dash\deg(y^sx^2)>k_0$ and that $y^{2s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(y^{s+2}x)<w_2\dash\deg(x^2y^2)=k_0$. Hence
+for all $n\ge 1$. We, now, consider recursively the next smallest $s>2$ such that $y^s<_{w_2}x$. Note that $\phi_0^{w_2}(x)=x+cy^s+R$, $R\in E^{w_2}_{>w_2\dash deg(y^2)}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has negative filtration with regard to the weight $w_2$ and $\phi-\phi_0^{w_2}+1$ has positive filtration. Because $s>2$ it follows that $w_2\dash\deg(y^sx^2)>k_0$ and that $y^{2s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(y^{s+2}x)<w_2\dash\deg(x^2y^2)=k_0$. Hence
 \begin{eqnarray*}
 \phi(f) &=& \phi_0^{w_2}+(\phi-\phi_0^{w_2})\\
- &=&  R_1+c_0\cdot c xy^{s+2}+\phi_0^{w_2}(f_{2,1})+R_2\\
-&=&R_1+c_0\cdot c xy^{s+2}+ c_2\cdot c^3y^{3s}+c_3\cdot c^2y^{2s}x+c_4\cdot cy^sx^2+R_2\\
-&=&R_1+c_0\cdot c xy^{s+2}+ c_2\cdot c^3y^{3s}+R_3,
+ &=&  R_1+\beta^2c xy^{s+2}+\phi_0^{w_2}(f_{2,1})+R_2\\
+&=&R_1+2\beta^2 xy^{s+2}+ 3 c^3y^{3s}+ 3c^2y^{2s}x+3cy^sx^2+R_2\\
+&=&R_1+2\beta^2 xy^{s+2}+ 3c^3y^{3s}+R_3,
 \end{eqnarray*}
-where $R_1\in\R[[x,y]]\setminus E^{w_2}_{w_2\dash\deg(xy^{s+2})}$, $R_2, R_3\in E^{w_2}_{>w_2\dash\deg(xy^{s+2})}$ and $c_0,\ldots,c_4\in\R$. Hence $c=0$ and $\phi_0^{w_2}(x)=x$ and $\phi_0^{w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
+where $R_1\in\R[[x,y]]\setminus E^{w_2}_{w_2\dash\deg(xy^{s+2})}$, $R_2, R_3\in E^{w_2}_{>w_2\dash\deg(xy^{s+2})}$. Hence $c=0$ and $\phi_0^{w_2}(x)=x$ and $\phi_0^{w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
 \begin{equation}\label{transw1}
 \phi(f) = \phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
 \end{equation}
@@ -234,18 +254,18 @@ Let $f$ be an arbitrary polynomial in the normal form of $X_{9+k}^{++}, X_{9+k}^
 
 Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the families of polynomials defining the same main singularity type.
 
-Considering the 4-jet of $f$ it follows that either $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$ or $\jet(\phi(x),1)=\alpha y$ and $\jet(\phi(y),1)=\beta x$, $0\neq\alpha,\beta\in\R$. Let us first assume that $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$. Then $\phi^{w_1}_0(x)$ has filtration $0$ with regard to $w_1$. Therefore
+Considering the 4-jet of $f$ it follows that either $\phi_0(x)=\alpha x$ and $\phi_0(y)=\beta y$ or $\phi_0(x)=\alpha y$ and $\phi_0(y)=\beta x$, $0\neq\alpha,\beta\in\R$. Let us first assume that $\phi_0(x)=\alpha x$ and $\phi_0(y)=\beta y$. Then $\phi^{w_1}_0(x)$ has filtration $0$ with regard to $w_1$. Therefore
 \begin{equation}\label{trans1}
 \phi(f)=\phi_0^{w_1}(f_1)+R,\quad R\in E^{w_1}_{>k_0}.
 \end{equation} Note that
 \begin{equation}\label{orderw1}
-y<_{w_1}x<_{w_1}xy^n,
+y<_{w_2}x<_{w_2}xy^n,
 \end{equation}
-for all $n\ge 1$. We now, recursively consider the next smallest $s>1$ such that $y^s<_{w_2}x$. Note that $\phi(x)=\alpha x+cy^s+R$, $R\in E^{w_2}_{>k_0}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has, similar to the previous proof, negative filtration with regard to the weight $w_2$ and $\phi-\phi^{w_2}_0+1$ has positive filtration. Clearly $y^sx^3>_{w_2}y^{2s}x^2>_{w_2}k_0$. Because $s>1$ it follows that $y^{3s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(xy^{s+2})<w_2\dash\deg(x^2y^2)=k_0$. Hence, similar to the previous proof
+for all $n\ge 1$. We now, recursively consider the next smallest $s>1$ such that $y^s<_{w_2}x$. Note that $\phi_0^{w_2}(x)=\alpha x+cy^s+R$, $R\in E^{w_2}_{>w_2\dash\deg(y^2)}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has, similar to the previous proof, negative filtration with regard to the weight $w_2$ and $\phi-\phi^{w_2}_0+1$ has positive filtration. Because $s>1$ it follows that $w_2\dash\deg(y^sx^3)>w_2\dash\deg(y^{2s}x^2)>w_2\dash\deg(x^2y^2)=k_0$ and that $y^{3s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(xy^{s+2})<w_2\dash\deg(x^2y^2)=k_0$. Hence, similar to the previous proof
 \begin{equation}
-\phi(f)=R_1+c_0\cdot cxy^{s+2}+c_1\cdot c^4y^{4s}+R_2,
+\phi(f)=R_1+2\alpha\beta^2 cxy^{s+2}+c^4y^{4s}+R_2,
 \end{equation}
-where $R_1\in\R[[x,y]]\setminus E_{w_2\dash\deg(xy^{s+2})}^{w_2}$, $R_2\in E_{>w_2\dash\deg(xy^{s+2})}^{w_2}$ and $c_0,c_1\in\R$.
+where $R_1\in\R[[x,y]]\setminus E_{w_2\dash\deg(xy^{s+2})}^{w_2}$, $R_2\in E_{>w_2\dash\deg(xy^{s+2})}^{w_2}$.
 Hence $c=0$ and $\phi_0^{w_2}(x)=\alpha x$ and $\phi_0^ {w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
 \begin{equation}\label{trans2}
 \phi(f)=\phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
@@ -284,14 +304,14 @@ Let $f$ be an arbitrary polynomial in the normal form of $Y_{r,s}^{++}$, $Y_{r,s
 
 Let $\phi$ be an $\R$-algebra automorphism that transforms $f$ to a polynomial in the families defining the same main singularity type. 
 
-Considering the 4-jet of $f$ it follows that either $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$ or $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$, $0\neq \alpha,\beta\in\R$. Let us first assume that $\jet(\phi(x),1)=\alpha x$ and $\jet(\phi(y),1)=\beta y$.
+Considering the 4-jet of $f$ it follows that either $\phi_0(x)=\alpha x$ and $\phi_0(y)=\beta y$ or $\phi_0(x)=\alpha y$ and $\phi_0(y)=\beta x$, $0\neq \alpha,\beta\in\R$. Let us first assume that $\phi_0(x)=\alpha x$ and $\phi_0(y)=\beta y$.
 Note that
 \begin{equation*}
 x<_{w_1}y<_{w_1}yx^n,
 \end{equation*}
-for all $n\ge 1$. We now, recursively, consider the smallest $t>1$ such that $x^t<_{w_1}y$. Note that $\phi(y)=\beta y+c x^t+R$, $R\in E^{w_1}_{>k_0}$. Therefore if $c\neq 0$ then $\phi_0^{w_1}$ has negative filtration and $\phi-\phi_0^{w_1}+1$ has positive filtration. Similar to the proof of $X_{9+k}$ it follows that
+for all $n\ge 1$. We now, recursively, consider the smallest $t>1$ such that $x^t<_{w_1}y$. Note that $\phi_0^{w_1}(y)=\beta y+c x^t+R$, $R\in E^{w_1}_{w_1\dash\deg(x^t)}$. Therefore if $c\neq 0$ then $\phi_0^{w_1}$ has negative filtration and $\phi-\phi_0^{w_1}+1$ has positive filtration. Similar to the proof of $X_{9+k}$ it follows that
 \begin{equation*}
-\phi(f)=R_1+c_0\cdot cx^{t+2}y+c_1\cdot c^{6+k}x^{(6+k)t}+R_2,
+\phi(f)=R_1+2\alpha^2\beta cx^{t+2}y+c^{s}x^{st}+R_2,
 \end{equation*}
 where $R_1\in\R[[x,y]]\setminus E^{w_1}_{w_1\dash\deg(x^{t+2}y)}$, $R_2\in E_{>w_1\dash\deg(x^{t+2}y)}$ and $c_0,c_1\in\R$. Hence $c=0$ and $\phi_0^{w_1}(x)=\alpha x$ and $\phi_0^{w_1}(y)=\beta y$. Therefore $\phi_0^{w_1}$ has non-negative filtration and
 \begin{equation*}
@@ -322,21 +342,167 @@ If $r\neq s$:
 Now, the result follows easily.
 \end{proof}
 
+
+The following result can be found in \cite{PdJ2000} for the complex case. The proof can be copied for the real case.
+
+\begin{theorem}\label{faces}
+Let $f\in\R[[x,y]]$ be convenient, let $\Delta_1,\ldots,\Delta_r$ be the faces of the Newton polygon of $f$ and $d_i$ the slope of $\Delta_i$. Then $f=f_1\cdots f_r$, where $f_i$ is convenient such that the Newton Polygon of $f_i$ has only one face of slope $d_i$, $i=1,\ldots,r$.
+\end{theorem}
+
+The following result is proved for $a\ge 4$ and $b\ge 5$ in \cite{AVG1985}.
+\begin{lemma}\label{principalpart}
+Every function $f$ with principal part $f_0=x^a+\lambda x^2y^2+y^b$, where $0\neq\lambda\in\R$ and $a,b\in\N$ such that $f_0$ has two faces, is (complex and real) equivalent to it's principal part.
+\end{lemma}
+\begin{proof}
+Using Theorem \ref{faces} and the form of $f_0=x^a+\lambda x^2y^2+y^b$, it follows that 
+\begin{equation}\label{twofaces}
+f=(c_1x^2+c_3y^{b-2}+xh_1+y^ch_3)(c_2y^2+c_4x^{a-2}+yh_2+x^dh_4),
+\end{equation}
+where $h_1,\ldots,h_4\in\R[[x,y]]$, $1=c_1c_4, \lambda=c_1c_2, 1=c_3c_2$, $c>b-2$ and $d>a-2$. Since $f$ is finite determined, after repeatedly applying $x\mapsto x-\frac{1}{2c_1}h_1$, $y\mapsto y-\frac{1}{2c_2}h_2$ followed by $x\mapsto x-\frac{1}{c_4(a-2)}x^{a-d-2}h_4$, $y\mapsto y-\frac{1}{c_3(b-2)}y^{b-c-2} h_3$, writing $f$ as in (\ref{twofaces}), adapting $h_1,\ldots,h_4$, $c$ and $d$ ($c_1,\ldots,c_4$ do not change) accordingly, after each application, we have that 
+\begin{eqnarray}
+f&\sim& (c_1x^2+c_3y^{b-2})(c_2y^2+c_4x^{a-2})\nonumber\\
+&=&c_1c_4x^a+c_1c_2x^2y^2+c_3c_2y^b+2c_3c_4y^bx^a\nonumber\\
+&=&x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},\label{firsttrans}
+\end{eqnarray}
+where $\lambda_1=c_3c_4$. Note that, since $w\dash\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application that $c>b-2$ and similarly that $d>a-2$, i.e. $f_0$ stays unaffected. By now repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$, $y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in (\ref{firsttrans}), adapting $c'$ and $d'$ accordingly, after each application, using the fact that $f$ is finite determined, it follows that
+\[f\sim \lambda x^2y^2+x^a+y^b.\]
+\end{proof}
+
+\begin{lemma}\label{equivalences}
+All polynomials of realtype $\widetilde Y_{r}$ is of complextype $Y_{r,r}$. In particular we have the following equivalences:
+\[-(x^2+y^2)^2+ax^r\sim -x^2y^2+\left(\frac{1}{2}\right)^{2r}a^2y^r+x^r\sim -x^2y^2+\left(\frac{1}{2}\right)^ra(x^r+x^{r-1}y+\ldots+y^r)\]
+\[(x^2+y^2)^2+ax^r\sim x^2y^2+\left(\frac{1}{2}\right)^{2r}a^2y^r+x^r\sim x^2y^2+\left(\frac{1}{2}\right)^ra(x^r+x^{r-1}y+\ldots+y^r).\] 
+Furthermore, let $g= \pm x^2y^2+\left(\frac{1}{2}\right)^ra(x^r+x^{r-1}y+\ldots+y^r)$ and $g'= \pm x^2y^2+\left(\frac{1}{2}\right)^ra'(x^r+x^{r-1}y+\ldots+y^r)$ and suppose $\phi$ is a complex automorphism such that $\phi(g)=g'$ then $\phi_0(g)=g'$. Similarly, for the other two forms, we only need to consider the $1$-jets of complex automorphisms between polynomials of the same form.
+\end{lemma}
+\begin{proof}
+Let $w$ be a weighted degree of the Newton polygon defined by $f_0=x^2y^2+x^r+y^r$ such that $f_0$ has weight $k_0$ and let $f=\pm(x^2+y^2)^2+ax^r$. Applying $x-iy\mapsto x$, $x+iy\mapsto y$, i.e.~$x\mapsto\frac{1}{2}(x+y)$, $y\mapsto\frac{1}{2}i(x-y)$, we have
+\[f\sim\pm x^2y^2+\left(\frac{1}{2}\right)^rax^r+\left(\frac{1}{2}\right)^ray^r+R\sim \pm 4a^{\frac{4}{r}}x^2y^2+x^r+y^r+R',\]
+where $R=a\left(\frac{1}{2}\right)^r(x^{r-1}y+\cdots+xy^{r-1})$, $R'=x^{r-1}y+\cdots+xy^{r-1}$, i.e.~$R,R'\in E_{>k_0}^w$.
+Thus the result of the first part follows from Lemma \ref{principalpart}. 
+
+Let $w_1$ be the weighted degree $(1,1)$. In this case all $\R$- or $\C$-algebra automorphisms are of non-negative filtration. Since, all the monomials in $R$ and $R'$ has the same $w_1$-degree, any transformation on $R$ and $R'$ will only influence terms of degree $\ge r$. Using this fact, the proof of the second part is similar to the proof of Proposition \ref{Yrs}.
+\end{proof}
+
 \begin{prop}
 Considering the real cases of main type $\widetilde Y_{r,s}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different chosen values of the parameter $a$:
-\[\widetilde Y_{r}^{a,+}\sim\widetilde Y_{r}^{-a,+}, \quad\widetilde Y_{r}^{a,-}\sim\widetilde Y_{r}^{-a,-}\quad\textnormal{for $k$ odd}.\]
+\[\widetilde Y_{r}^{a,+}\sim\widetilde Y_{r}^{-a,+}, \quad\widetilde Y_{r}^{a,-}\sim\widetilde Y_{r}^{-a,-}\quad\textnormal{for $r$ odd}.\]
 \end{prop}
 \begin{proof}
 Let $f=\pm(x^2+y^2)^2+ax^r$, $a\in\R$ be an arbitrary polynomial in $\widetilde Y_{r}^+$ or $\widetilde Y_{r}^-$. It is clear that the singularity type of $f$ is unique, i.e.~$f$ cannot be both of type $\widetilde Y_{r}^+$ and $\widetilde Y_{r}^-$. Let $f'=\pm(x^2+y^2)^2+a'x^r$, $a'\in\R$ be a polynomial in the same subtype as $f$.
 
-Now, we first consider all posible $\C$-algebra automorphisms between $f$ and $f'$. We will show that there exists a $\C$-algebra automorphism $\phi$ such that $\phi(f)=f'$ if and only if $a'=\pm a$ and $r$ is odd or $a'=a$ and $r$ is even. Clearly these equivalences exists in the real case too, which proves the proposition.
+Let $f'=\pm(x^2+y^2)^2+a'x^r$, $a'\in\R$ be a polynomial in the same subtype as $f$.
 
-Suppose $f$ and $f'$ are complex equivalent. Since $f\sim g$ ,where $g:=-x^2y^2+(\frac{1}{2})^ra^2y^r+x^r$, if $f$ is of type $\widetilde Y_r^+$, and $g:=x^2y^2+(\frac{1}{2})^ra^2y^r+x^r$, if $f$ is of type $\widetilde Y_r^-$, and $f'\sim g'$, where $g':= -x^2y^2+(\frac{1}{2})^ra'^2y^r+x^r$, if $f'$ (and thus $f$) is of type $\widetilde Y_r^+$, and $g':=x^2y^2+(\frac{1}{2})^ra'^2y^r+x^r$, if $f'$ (and this $f$) is of type $\widetilde Y_r^-$, it follows that $g$ and $g'$ are complex equivalent. It can be, similarly as in the proof of Proposision~\ref{Yrs}, shown that we only need to consider $\C$-algebra automorphisms $\phi$ defined by
-\[\phi(x)=\alpha x,\quad \phi(y) = \beta y\quad \textnormal{or}\quad\phi(x)=\alpha y,\quad \phi(y)=\beta x\quad\alpha,\beta\in\C.\]
-We show the result for the case that $\phi$ is defined by $\phi(x)=\alpha x$ and $\phi(y)=\beta y$. The other case can be proven similarly.
-Since $\phi(x^r)=(\phi(x))^r=1$, it follows that $\alpha$ is an $r$th root of unity. This implies that $\beta^2=\alpha^{r-2}$ which implies that  $(\frac{1}{2})^ra'^2=(\frac{1}{2})^ra^2(\alpha^{\frac{r-2}{2}})^r$. In case $r$ is even $(\alpha^{\frac{r-2}{2}})^r=(\alpha^r)^{\frac{r-2}{2}}=1^{\frac{r-2}{2}}=1$, since $\frac{r-2}{2}\in\N$. Therefore $a=a'$. In case $r$ is odd $(\alpha^{\frac{r-2}{2}})^r=1^{\frac{1}{2}}$. Hence $a'=\pm a$. 
+Suppose $f$ and $f'$ are real equivalent, i.e.~there exists an $\R$-algebra automorphism $\phi^f$ such that $\phi^f(f)=f'$. 
+By Lemma \ref{equivalences} $f$ is complex equivalent to $g$, where $g:=x^2y^2+(\frac{1}{2})^ra(y^r+\ldots+x^r)$, if $f$ is of type $\widetilde Y_r^+$, and $g:=-x^2y^2+(\frac{1}{2})^ra(y^r+\ldots+x^r)$, if $f$ is of type $\widetilde Y_r^-$, and $f'$ is complex equivalent to $g'$, where $g':= x^2y^2+(\frac{1}{2})^ra'(y^r+\ldots+x^r)$, if $f'$ (and thus $f$) is of type $\widetilde Y_r^+$, and $g':=-x^2y^2+(\frac{1}{2})^ra'(y^r+\ldots+x^r)$, if $f'$ (and thus $f$) is of type $\widetilde Y_r^-$, it follows that $g$ and $g'$ are complex equivalent. Let $\phi'$ be defined by $x\mapsto x-iy$, $y\mapsto x+iy$. Then it follows that there exists an $\C$-algebra automorphism $\phi^g$ such that $\phi^f=(\phi')^{-1}\circ\phi^g\circ\phi'$ and that $\phi^g(g)=g'$.  Hence we have the following commuting diagram:
 
+\begin{center}
+\begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+\matrix (m) [matrix of math nodes, row sep=1em,column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+{ g& & g' \\
+&\#&\\
+  f &  &f' \\ };
+\path[->](m-1-1) edge node[auto] {$\scriptstyle \varphi^g_0$}(m-1-3);
+\path[->](m-3-1) edge node[auto]{$\scriptstyle \varphi^f$}(m-3-3);
+\path[->](m-3-1) edge node[auto]{$\scriptstyle \varphi'$}(m-1-1);
+\path[->](m-1-3) edge node[auto]{$\scriptstyle (\varphi')^{-1}$}(m-3-3);
+\end{tikzpicture}.
+\end{center}
+According to Lemma \ref{equivalences}, $\phi^g_0(g)=g'$. Hence $\phi^f_0(f)=(\phi')^{-1}\circ\phi_0^g\circ\phi'(f)=f'$, from which the result easily follows.
 \end{proof}
+
+\begin{prop}
+Considering the real cases of main type $J_{10}$, allowing only real transformations, the following equivalences are all the equivalences that hold between different subcases and different values of the parameter $a$:
+\begin{itemize}
+\item $ J_{10}^{-,0} \sim J_{10}^{+,\frac{3}{\sqrt{2}}}\sim J_{10}^{+,-\frac{3}{\sqrt{2}}}$;\\
+\item $J_{10}^{+,a}\sim J_{10}^{+,\frac{3c_1}{\sqrt{d+3c_1^2}}}\sim J_{10}^{-,\frac{3c_2}{\sqrt{|d+3c_2^2|}}}\sim J_{10}^{+,\frac{3c_3}{\sqrt{d+3c_3^2}}}$, if $k(z)=z^3+dz+e$ has three roots $c_1<c_2<c_3$, where $e=-\frac{1}{3}a+1$ and $e=\frac{2}{27}a^3-\frac{1}{3}a$;\\
+\item $J_{10}^{-,a}\sim J_{10}^{+,\frac{3c_1}{\sqrt{d+3c_1^2}}}\sim J_{10}^{-,\frac{3c_2}{\sqrt{|d+3c_2^2|}}}\sim J_{10}^{+,\frac{3c_3}{\sqrt{d+3c_3^2}}}$, if $k(z)=z^3+dz+e$ has three roots $c_1<c_2<c_3$, where $e=-\frac{1}{3}a^2-1$ and $e=\frac{2}{27}a^3+\frac{1}{3}a$.\\
+\end{itemize}
+(In the last case $a=\frac{3c_2}{\sqrt{|d+3c_2^2|}}$ and in the second last case $a=\frac{3c_1}{\sqrt{d+3c_1^2}}$ or $a=\frac{3c_3}{\sqrt{d+3c_3^2}}$.)
+\end{prop}
+
+\begin{proof}
+Let $f=x^3+ax^2y^2\pm xy^4$ be an arbitrary polynomial of real type $J_{10}^+$ or $J_{10}^-$.  We transform $f$ to the form $f=x^3+dxy^4+ey^6$, where $d=-\frac{1}{3}a^2+1$ and $e=\frac{2}{27}a^3-\frac{1}{3}a$, if $f$ is of type $J_{10}^+$ and $d=-\frac{1}{3}a^2-1$ and $e=\frac{2}{27}a^3+\frac{1}{3}a$ if $f$ is of type $J_{10}^-$, by $x\mapsto x-\frac{a}{3}y^2$ and $y\mapsto y$. We chose a weight $w$ for the diagonal defined by $f$ with the weights of $x$ and $y$ natural numbers. 
+
+Since  there exist a transformation $\phi'$ such that
+
+\begin{equation}\label{phi'}
+\phi'(x^3+a'x^2y^2\pm |d'|xy^4)=x^3+a''x^2y^2\pm xy^4,\quad a''=\frac{a'}{|d'|},\  a',d'\in R,
+\end{equation}
+
+it suffices to consider transformations $\phi$ such that $\phi(f)$ is of the form 
+\begin{equation}\label{form}
+x^3+a'x^2y^2\pm |d'|xy^4,\quad a',d'\in R.
+\end{equation}
+Using Proposition 6 in \cite{MS2013}, it follows that $\phi_0(x)=x$. Hence $\phi_0^w(x)=x+cy^2$ and $\phi_0^w(y)=ty$, $c,t\in\R$, $t\neq 0$. Since we only consider terms on the diagonal of $\phi(f)$, we only need to consider $\phi_0^w(f)$. Now
+
+\begin{equation}\label{eqc}
+\phi_0^w(f)=x^3+3cx^2y^2+(3c^2+t^4d)xy^4+(c^3+t^4dc+et^6)y^6.
+\end{equation}
+
+Since $c=t^2c'$, where $c'=\frac{c}{t^2}$, we rewrite (\ref{eqc}) as
+
+\begin{equation}\label{eqc'}
+\phi_0^w(f)=x^3+3t^2c'x^2y^2+t^4(3c'^2+d)xy^4+t^6(c'^3+dc'+e)y^6.
+\end{equation}
+
+Clearly, for a fixed value of $t\neq 0$, $c'$ is any value such that $c'$ is a root of $k(z)=z^3+dz+e$. Considering the transformation $\phi'$, $\phi'\circ\phi_0^w$ transform $f$ to the same polynomial, regardless the value of $t$. Hence we may assume that $t=1$ and $c=c'$. 
+
+We consider the following cases:
+\begin{itemize}
+\item[(A)] $e=0$ with subcases:
+\begin{itemize}
+\item[(I)]$d>0$;
+\item[(II)]$d<0$;
+\end{itemize}
+\item[(B)] $e\neq 0$ with subcases:
+\begin{itemize}
+\item[(I)]$k(z)$ has one real root;
+\item[(II)]$k(z)$ has three real roots, with subcases:
+\begin{itemize}
+\item[(i)] $d\ge 0$;
+\item[(ii)] $d<0$;
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+(A) We consider the case when $e=0$. In this case $k(z)=z^3+dz=z(z^2+d)$.
+
+(I) If $d>0$ (i.e. $f$ is of type $J_{10}^+$) the only root of $k$ is $0$ (i.e.~$c=0$) from which it follows that $\phi$ is the identity. Clearly $\phi'$ is then also the identity and the only possible value for $a''$ in (\ref{phi'}) is $0$.
+
+(II) If $d<0$ (i.e.~$f$ is of type $J_{10}^+$ and $a=\pm\frac{3}{\sqrt{2}}$, or $f$ is of type $J_{10}^-$ and $a=0$) then $0$, $\sqrt{|d|}$ and $-\sqrt{|d|}$ are roots of $k$ (i.e. $c=0$ or $c=\sqrt{|d|}$ or $c=-\sqrt{|d|}$). In the first case $\phi$ and $\phi'$ are both the identity. In the last two cases $3c^2=-3d>0$ which implies that $3c^2+d=-2d>0$. Considering (\ref{eqc'}) and $\phi'$, taking into account that $\frac{3\sqrt{|d|}}{\sqrt{-2d}}=\frac{3}{\sqrt{2}}$, the following equivalences are all the equivalences between $f$ and germs in the families of polynomials defining the normal forms of main case $J_{10}$:
+\begin{eqnarray*}
+f&\sim&x^3-xy^4;\\
+f&\sim&x^3+\frac{3}{\sqrt{2}}x^2y^2+xy^4;\\
+f&\sim&x^3-\frac{3}{\sqrt{2}}x^2y^2+xy^4.
+\end{eqnarray*} 
+ Hence in this case $f$ is of type $J_{10}^+$ and $J_{10}^-$.
+
+(B) In this case, note that since
+\begin{eqnarray*}
+k(z)&=&(z-c_1)(z-c_2)(z-c_3)\\
+&=&z^3-(c_1+c_2+c_3)z^2+(c_1c_2+c_1c_3+c_2c_3)z-c_1c_2c_3,
+\end{eqnarray*}
+it follows that
+\begin{equation}\label{RelationOfRoots}
+c_1+c_2+c_3=0\quad\textnormal{and}\quad c_1c_2+c_1c_3+c_2c_3=d,
+\end{equation}
+where $c_1$, $c_2$ and $c_3$ are the complex roots of $k$.
+
+(I) We firstly consider the case when $k$ has one real root $c_1$ and two roots that are complex conjugates $c_2$ and $c_3$, i.e.~there is only one possible value for $c$, namely $c_1$. It follows from (\ref{RelationOfRoots}) that $c_2c_3=d+c_1^2$. Since the product of two complex conjugates are positive $d+c_1^2>0$ which implies that $d+3c_1^2>0$. This means, considering (\ref{eqc'}), that $f$ is of type $J_{10}^+$. Since there is only one possible value of $c$, there is only one possible transformation that transforms $f$ to (\ref{form}) and thus only one possible type $J_{10}^+$ and only one possible value of $a''$, namely $a$.
+
+(II) We now consider the case where $k$ has three real roots $c_1$, $c_2$ and $c_3$. The three roots must be different, otherwise $k(z)$ and $k'(z)$ have a similar root which implies, considering (\ref{eqc'}), that $f$ is degenerate. Hence $a''$ has three different values, namely $\frac{3c_j}{\sqrt{|d+3c_j^2|}}$, $j=1,2,3$, putting $c=c_j$ respectively.
+
+Let $c_1<c_2<c_3$. Now, since $c_1+c_2+c_3=0$ not all three roots have the same sign. Firstly we consider the case when $k$ has only one negative root, i.e.~$c_1<0$ and $c_2,c_3\ge 0$. In this case note that $|c_1|=|c_2+c_3|=|c_2|+|c_3|$, i.e.~$|c_1|>|c_2|$ and $|c_1|>|c_2|$. Then $3c_1^2+d=3c_1^2+c_1c_2+c_1c_3+c_2c_3>0$, since $|c_1^2|>|c_1c_3|$, $|c_1^2|>|c_1c_2|$ and $c_1^2>0$, while $c_1c_2<0$ and $c_1c_3<0$. Hence, putting $c=c_1$, $f$ is transformed to $J_{10}^+$.
+Furthermore $3c_i^2+d=3c_j^2+c_1(c_2+c_3)+c_2c_3=3c_j^2-(c_2+c_3)(c_2+c_3)+c_2c_3=3c_j^2-(c_2^2+c_2c_3+c_3^2)$, for $j=1,2$. Therefore, since $|c_2|<|c_3|$, putting $c=c_2$ result in $J_{10}^-$ and putting $c=c_3$ result in $J_{10}^+$.
+
+In the case that $c_1<0$, $c_2<0$ and $c_3\ge 0$ the result follows similarly. 
+
+Hence, if $k$ has three real roots, $f$ is of type $J_{10}^+$ and $J_{10}^-$. 
+\end{proof}
+
+Considering the above proof, note that the $J_{10}^-$ normal form is redundant. Also note that although $J_{10}^+$ covers the $\mu$-constant stratum, $J_{10}^-$ does not.
+\newpage
+
 \begin{thebibliography}{99}
 \bibitem[{Arnold et al.(1985)}]{AVG1985}
 Arnold, V.I., Gusein-Zade, S.M., Varchenko, A.N., 1985.
@@ -379,6 +545,12 @@ determinator of singularities by V.I. Arnold.
 Marais, M., Steenpa\ss, A., 2012.
 {\tt realclassify.lib}. {A} {\sc Singular} {3-1-6} library for classifying
 isolated hypersurface singularities over the reals w.r.t.\@ right equivalence.
+
+\bibitem[{Marais and Steenpa\ss (2013)}]{MS2013}Marais, M.S., Steenpa\ss, A., 2013.
+The classification of real singularities using \textsc{Singular}. Part I: Splitting Lemma and Simple Singularities.
+\bibitem[{Pfister and De Jongh (2000)}]{PdJ2000}
+Pfister, G., De Jongh, T., 2000.
+Local analytic Geometry, Amer. Math. Soc.
 
 \bibitem[{Siersma(1974)}]{Siersma}
 Siersma D., 1974.
