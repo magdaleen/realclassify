@@ -251,6 +251,14 @@ P_3(f, g)
 &f(u) \text{ and } g(v) \text{ are well-defined and } \\
 &\T_{\R}(f(u), g(v)) \neq \varnothing \} \,.
 \end{align*}
+
+\item
+For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
+as
+\begin{align*}
+C(p(X)) &:= \{ (a, ra) \in \C^2 \mid r \in \C, \; p(r) = 0 \} \,, \\
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid r \in \C, \; p(r) = 0 \} \,.
+\end{align*}
 \end{enumerate}
 \end{defn}
 
@@ -270,13 +278,7 @@ $P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
 
 \begin{theorem}
 The structure of the equivalence classes of the exceptional unimodal
-singularities is as shown in Table~\ref{tab:exceptional_equivalences}, where
-for any polynomial $p(X) \in \C[X]$, the sets $C(p(X))$ and $R(p(X))$ are
-defined as
-\begin{align*}
-C(p(X)) &:= \{ (a, ra) \in \C^2 \mid r \in \C, \; p(r) = 0 \} \,, \\
-R(p(X)) &:= \{ (a, ra) \in \R^2 \mid r \in \C, \; p(r) = 0 \} \,.
-\end{align*}
+singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
 
 \begin{table}[!htb]
 \centering
@@ -325,6 +327,135 @@ $W_{13}^-$ & $W_{13}^-$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
 $W_{13}^+$ & $W_{13}^-$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \hline
 $W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+\begin{theorem}
+The structure of the equivalence classes of the $J_{10+k}$
+singularities is as shown in Table~\ref{tab:J10+k_equivalences} where in each
+case,
+\begin{align*}
+l &= \frac{6}{\gcd(6,k)}, \text{ and} \\
+s &=
+\begin{cases}
+  1,  &\text{if } k \equiv 2 \pmod{4}, \\
+  -1, &\text{else.}
+\end{cases}
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10+k}$ singularities}
+\label{tab:J10+k_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$J_{10+k}^+$ & $J_{10+k}^+$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ \\
+\hline
+
+$J_{10+k}^-$ & $J_{10+k}^-$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ \\
+\hline
+
+$J_{10+k}^+$ & $J_{10+k}^-$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  \varnothing, &\text{if } l \text{ is even} \\
+  R(X-s), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$J_{10+k}^-$ & $J_{10+k}^+$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  \varnothing, &\text{if } l \text{ is even} \\
+  R(X-s), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+\begin{theorem}
+The structure of the equivalence classes of the $X_{9+k}$
+singularities is as shown in Table~\ref{tab:X9+k_equivalences} where in each
+case,
+\begin{align*}
+l &= \frac{4}{\gcd(4,k)}, \text{ and} \\
+s &=
+\begin{cases}
+  1,  &\text{if } k \equiv 4 \pmod{8}, \\
+  -1, &\text{else.}
+\end{cases}
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $X_{9+k}$ singularities}
+\label{tab:X9+k_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{++}$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } k \text{ is odd} \\
+  R(X-1), &\text{if } k \text{ is even}
+\end{array}$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{+-}$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{-+}$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  R(X-1), &\text{if } k \equiv 4 \pmod{8} \\
+  R(X+1), &\text{if } k \equiv 0 \pmod{8} \\
+  \varnothing, &\text{else}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{--}$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  R(X-1), &\text{if } k \equiv 4 \pmod{8} \\
+  R(X+1), &\text{if } k \equiv 0 \pmod{8} \\
+  \varnothing, &\text{else}
+\end{array}$ &
+$\varnothing$ \\
 \hline
 \end{tabular}
 \end{table}
