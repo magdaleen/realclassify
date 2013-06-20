@@ -271,15 +271,11 @@ $P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
 \begin{theorem}
 The structure of the equivalence classes of the exceptional unimodal
 singularities is as shown in Table~\ref{tab:exceptional_equivalences}, where
-$C_l$, $\pm I$ and $I$ are defined as
+for any polynomial $p(X) \in \C[X]$, the sets $C(p(X))$ and $R(p(X))$ are
+defined as
 \begin{align*}
-C_l
-&:= \{ (a, e^{\frac{k}{l} \cdot 2 \pi i} \cdot a) \in \C^2
-\mid a \in \C,\, k \in \Z \} \text{ for } l \in \N \,, \\
-\pm I
-&:= \{ (a, a), (a, -a) \in \R^2 \mid a \in \R\} \,, \\
-I
-&:= \{ (a, a) \in \R^2 \mid a \in \R\} \,.
+C(p(X)) &:= \{ (a, ra) \in \C^2 \mid r \in \C, \; p(r) = 0 \} \,, \\
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid r \in \C, \; p(r) = 0 \} \,.
 \end{align*}
 
 \begin{table}[!htb]
@@ -290,45 +286,45 @@ I
 \hline
 $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 \hline\hline
-$E_{12}$ & $E_{12}$ & $C_{21}$ & $I$ & $I$ \\
+$E_{12}$   & $E_{12}$   & $C(X^{21}-1)$ & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$E_{13}$ & $E_{13}$ & $C_{15}$ & $I$ & $I$ \\
+$E_{13}$   & $E_{13}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$E_{14}^+$ & $E_{14}^+$ & $C_{12}$ & $\pm I$ & $I$ \\
+$E_{14}^+$ & $E_{14}^+$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$E_{14}^-$ & $E_{14}^-$ & $C_{12}$ & $\pm I$ & $I$ \\
+$E_{14}^-$ & $E_{14}^-$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$E_{14}^+$ & $E_{14}^-$ & $C_{24}$ & $\pm I$ & $\varnothing$ \\
+$E_{14}^+$ & $E_{14}^-$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$E_{14}^-$ & $E_{14}^+$ & $C_{24}$ & $\pm I$ & $\varnothing$ \\
+$E_{14}^-$ & $E_{14}^+$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$Z_{11}$ & $Z_{11}$ & $C_{15}$ & $I$ & $I$ \\
+$Z_{11}$   & $Z_{11}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$Z_{12}$ & $Z_{12}$ & $C_{11}$ & $I$ & $I$ \\
+$Z_{12}$   & $Z_{12}$   & $C(X^{11}-1)$ & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$Z_{13}^+$ & $Z_{13}^+$ & $C_{9}$ & $I$ & $I$ \\
+$Z_{13}^+$ & $Z_{13}^+$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$Z_{13}^-$ & $Z_{13}^-$ & $C_{9}$ & $I$ & $I$ \\
+$Z_{13}^-$ & $Z_{13}^-$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
 \hline
-$Z_{13}^+$ & $Z_{13}^-$ & $C_{18}$ & $\pm I$ & $\varnothing$ \\
+$Z_{13}^+$ & $Z_{13}^-$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
 \hline
-$Z_{13}^-$ & $Z_{13}^+$ & $C_{18}$ & $\pm I$ & $\varnothing$ \\
+$Z_{13}^-$ & $Z_{13}^+$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
 \hline
-$W_{12}^+$ & $W_{12}^+$ & $C_{10}$ & $\pm I$ & $I$ \\
+$W_{12}^+$ & $W_{12}^+$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$W_{12}^-$ & $W_{12}^-$ & $C_{10}$ & $\pm I$ & $I$ \\
+$W_{12}^-$ & $W_{12}^-$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$W_{12}^+$ & $W_{12}^-$ & $C_{20}$ & $\pm I$ & $\varnothing$ \\
+$W_{12}^+$ & $W_{12}^-$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{12}^-$ & $W_{12}^+$ & $C_{20}$ & $\pm I$ & $\varnothing$ \\
+$W_{12}^-$ & $W_{12}^+$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{13}^+$ & $W_{13}^+$ & $C_{8}$ & $\pm I$ & $I$ \\
+$W_{13}^+$ & $W_{13}^+$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$W_{13}^-$ & $W_{13}^-$ & $C_{8}$ & $\pm I$ & $I$ \\
+$W_{13}^-$ & $W_{13}^-$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
 \hline
-$W_{13}^+$ & $W_{13}^-$ & $C_{16}$ & $\pm I$ & $\varnothing$ \\
+$W_{13}^+$ & $W_{13}^-$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{13}^-$ & $W_{13}^+$ & $C_{16}$ & $\pm I$ & $\varnothing$ \\
+$W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \hline
 \end{tabular}
 \end{table}
