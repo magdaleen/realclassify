@@ -1,0 +1,2003 @@
+\documentclass[noend]{amsproc}
+\linespread{1}
+\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{multirow}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% ALGORITHM style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\newcommand{\Singular}{\textsc{Singular}}
+\newcommand{\realclassify}{\texttt{realclassify.lib}}
+\newcommand{\NF}[1]{\operatorname{NF}(#1)}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\requiv}{\overset{r}{\sim}}
+\DeclareMathOperator{\m}{\mathfrak{m}}
+\DeclareMathOperator{\jt}{jet}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\K}{\mathbb{K}}
+\DeclareMathOperator{\T}{T}
+\DeclareMathOperator{\Aut}{Aut}
+
+\title{The classification of real singularities using \textsc{Singular}}
+
+\author{Magdaleen S. Marais}
+\address{Magdaleen S. Marais\\
+African Institute for Mathematical Sciences and Stellenbosch University\\
+6 Melrose Rd\\
+Muizenberg 7945, Cape Town\\
+South Africa}
+\email{magdaleen@aims.ac.za}
+
+\author{Andreas Steenpa\ss}
+\address{Andreas Steenpa\ss\\
+Department of Mathematics\\
+University of Kaiserslautern\\
+Erwin-Schr\"odinger-Str.\\
+67663 Kaiserslautern\\
+Germany}
+\email{steenpass@mathematik.uni-kl.de}
+
+\thanks{ }
+\subjclass[2000]{}
+\keywords{}
+\begin{document}
+\begin{abstract}
+The algorithms implemented in the library ``realclassify.lib" in
+\textsc{singular} are discussed in this paper. The purpose of this library is
+to classify the~$0$ and $1$ modal isolated hypersurface singularities at $0$ of
+corank $0$, $1$ and $2$ over the real numbers as computed by V.I.~Arnold in
+\cite{AVG1985}.
+\end{abstract}
+\maketitle
+\section{Introduction}
+The goal of this paper is to present the algorithms that were implemented in a
+library, ``realclassify.lib'' \cite{realclassify} in \textsc{singular}, which
+classifies the $0$ and $1$ modal isolated hypersurface singularities at $0$ of
+corank $0$, $1$ and $2$ over the real numbers $\mathbb R$, using
+right-equivalence, as was computed by V.I.~Arnold in \cite{AVG1985}. Hence we
+consider smooth real functions with critical point $0$ and critical value $0$,
+i.e.~functions in $\m^2$, where $\m$ denotes the ideal of function germs
+vanishing at the origin. Two function germs $f, g\in\mathbb R[[x_1,\ldots,
+x_n]]$, $f,g\in \m^2$, where $\mathbb R[[x_1,\ldots,x_n]]$ is the power series
+ring in coordinates $x_1,\ldots,x_n$ over $\mathbb R$, are considered as
+right-equivalent, denoted by $f\requiv g$, if there exists an $\mathbb
+R$-algebra automorphism $\phi$ of $\mathbb R[[x_1,\ldots, x_n]]$ such that
+$\phi(f)=g$. Because the only possible non-approximated input power series over
+the real numbers in computer systems, and thus in particularly in
+\textsc{singular}, are polynomials with rational coefficients, some of the
+algorithms we used apply only to such input polynomials.  There already is a
+\textsc{Singular} library ``classify.lib'' \cite{classify}, which for a given
+polynomial computes its type in Arnold's classification over the complex
+numbers. We used this library as a basis to build ``realclassify.lib'' on. The
+methods used in ``classify.lib'' will not be discussed in this paper. For more
+information in this regard \cite{Kruger} can be studied.
+
+Using the Splitting Lemma (Lemma~\ref{SplittingLemma}) any function germ $f$
+over the real numbers with an isolated singularity at $0$, using a suitable
+coordinate system, can be written as the sum of two functions of which the
+variables do not coincide. One of the  functions, called the nondegenerate part
+of $f$, is a nondegenerate quadratic form and the other function, called the
+residual part of $f$, is an element of $\m^3$. The number of variables in the
+residual part is equal to the corank, denoted by $c$, of $f$. In this paper we
+will only consider germs with corank $0$, $1$ and $2$.
+
+The algorithm that we used to implement the Splitting Lemma is discussed in
+section \ref{TheSplittingLemma}.
+
+In \cite{AVG1985} Arnold divided the real singularities of modality $0$ and $1$
+up to stable equivalence into main types
+which split up into more subtypes by changing the sign in front of certain
+terms. Two functions are stably equivalent if they are right-equivalent after
+the direct addition of nondegenerte quadratic forms. Hence, for all
+nonquadratic forms $f$, after applying the Splitting Lemma we only need to
+consider the residual part of $f$ to complete the classification of $f$.   It
+can be easily seen that the subtypes are complex equivalent to a
+complex singularity type of the same name as its corresponding real main
+singularity type (see Table \ref{normal forms}). In fact there is a bijection
+between the complex singularity
+types of modality $0$ and $1$ and the main real singularity types. Thus, if we
+can determine the complex singularity type of a function germ in these cases,
+we only need to consider the subtypes of the
+corresponding
+main real singularity type to determine the real type of the function germ.
+
+We denote the $k$-jet of a function germ $f$ by $\jt(f,k)$. In section
+\ref{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ} we
+discuss the factorization of the lowest nonzero jets of two right-equivalent
+functions. These results are used in sections
+\ref{RealSingularitiesOfZeroModality} to \ref{ExceptionalSingularities}, where
+the algorithms are given to classify germs in $\m^3$. Firstly, we show that the
+$k$-jets of two right-equivalent functions, where $k$ is the order of the
+functions, factorize in the same way over $\mathbb R$ (Lemma~\ref{kjet}). Since
+the real numbers are floating numbers in \textsc{Singular}, it is not always
+possible to factorize over the real numbers using \textsc{Singular}. In some
+cases we prove that these lowest jets will always factorize in linear terms
+over the rational numbers and thus in \textsc{Singular}, for example when the
+lowest jet is of degree $k$ and has $k$ similar factors (Lemma \ref{x^3}). In
+some other cases this unfortunately is not true. Since we can distinguish
+between some singularities, by only considering the number of real roots of its
+lowest nonzero jet, the similar factorization of the lowest nonzero jets is
+still useful in these cases. Because the lowest nonzero jet of a function germ
+is a homogeneous polynomial, we use dehomogenization and the library
+``rootsur.lib" \cite{roots}, a library counting the real roots of a univariate
+polynomial in \textsc{Singular}, to count the roots. We for instance use this
+method in the classification of the $D_4$ (Algorithm~\ref{D[4]}) and $E_6$
+(Algorithm \ref{E[6]}) cases.
+
+Sometimes other methods are used in addition to the above methods, for example
+the normal form of singularities of type $E_{14}$ is determined by
+systematically computing higher jets of the $\mathbb R$-algebra automorphism
+between the normal form of the function and the function itself considering the
+terms of these functions, after the lowest jet is determined using the above
+methods (Algorithm \ref{E[14]}).
+
+In the cases $J_{10}$ and $J_{10+k}$, $k>0$ we used different normal forms than
+Arnold. These forms are more suitable to work with over the real numbers and
+specifically simplify the computations to classify these cases over the real
+numbers. We include a list of the normal forms we used at the beginning of
+section \ref{TheRealClassificationOfTheResidualPart}.
+
+Lastly, we used the method of blowing up the origin (Algorithm
+\ref{BlowingUp}), which simplifies singularities. In the case $Y_{r,s}$,
+$r,s>4$ (Algorithm \ref{Y[r,s]}) enough information can be subtracted from the
+resulting, simplified, singularity such that the case can be solved, in some
+specific cases, unfortunately using approximations.
+
+\newpage
+
+\section{The Structure of the Equivalence Classes}
+
+For the unimodal singularities, we add the values of the parameter which occurs
+in the normal form as given in Table~\ref{tab:normal_forms} in parentheses to
+the name of the singularity (sub-)type if we want to refer specifically to the
+corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
+(complex or real) right-equivalence class of $x^3+y^8+3xy^6$.
+
+For any specific equivalence class $C$, we denote by $\NF{C}$ its normal form
+as shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
+$\NF{E_{14}(a)} = \NF{E_{14}^+(a)}$ for the polynomial $x^3+y^8+axy^6$ and
+$\NF{E_{14}^-(a)}$ for $x^3-y^8+axy^6$.
+
+\begin{defn}
+Let $\K$ be either $\R$ or $\C$ and let $f$ and $g$ be two power series in
+$\K[[x_1, \ldots, x_n]]$. We denote the set of $\K$-algebra automorphisms
+of $\K[[x_1, \ldots, x_n]]$ which take $f$ to $g$ by $\T_{\K}(f,g)$, i.e.\@
+\[
+\T_{\K}(f,g)
+:= \{\phi \in \Aut_{\K}(\K[[x_1, \ldots, x_n]]) \mid \phi(f) = g \} \,.
+\]
+\end{defn}
+
+\begin{remark}
+Let $\K$ be either $\R$ or $\C$. Let $\psi':\; \K[a] \rightarrow \K(b)$ be a
+$\K$-algebra homomorphism. Then $\ker(\psi')$ is a prime ideal in $\K[a]$, thus
+$\psi'$ can be extended to a $\K$-algebra homomorphism
+$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(b)$ defined by
+$\psi(a) := \psi'(a)$.
+
+Note that $\ker(\psi') = \langle 0 \rangle$ if and only if
+$\psi'(a) \not\in \K \subset \K(b)$ (with the usual inclusion). In this case we
+get a $\K$-algebra homomorphism $\psi:\; \K(a) \rightarrow \K(b)$.
+
+Let $f \in \K(a)[[x_1,\ldots,x_n]]$ be a power series. We write $f(q)$ with
+$q \in \K(b)$ as a shorthand notation for $\psi^*(f)$ where
+\[
+\psi^*:\;
+(\K[a]_{\ker(\psi')})[[x_1,\ldots,x_n]] \rightarrow \K(b)[[x_1,\ldots,x_n]]
+\]
+is the canonical extension of the $\K$-algebra homomorphism
+$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(b)$
+given by $\psi(a) := q$ as above. In order that this notation is well-defined,
+we have to make sure that
+$f \in (\K[a]_{\ker(\psi')})[[x_1,\ldots,x_n]]
+\subseteq \K(a)[[x_1,\ldots,x_n]]$
+(with the usual inclusion). For $\psi(a) = \psi'(a) = q \not\in \K$, this
+condition always holds.
+
+As a special case, we may also use this notation $b = a$ and thus get a
+$\K$-algebra homomorphism $\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(a)$.
+For $\psi'(a) = q \in \K$, we may even forget about $b$ and simply consider
+$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K$. Note
+that the notation $f(q)$ is compatible with the notations for equivalence
+classes and normal forms introduced above in the sense that, e.g.,
+$\NF{E_{14}(a)}(b) = \NF{E_{14}(b)}$.
+\end{remark}
+
+\begin{defn}
+\phantom{X}\hfill
+\begin{enumerate}
+\item
+Given power series $f,g \in \C(a)[[x_1,\ldots,x_n]]$, we define the
+first set of parameter changes of $f$ and $g$ as
+\begin{align*}
+P_1(f, g)
+:= \{ (u, v) \in \C^2 \mid
+&f(u) \text{ and } g(v) \text{ are well-defined and } \\
+&\T_{\C}(f(u), g(v)) \neq \varnothing \} \,.
+\end{align*}
+
+\item
+Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
+second set of parameter changes of $f$ and $g$ as
+\begin{align*}
+P_2(f, g)
+:= \{ (u, v) \in \R^2 \mid
+&f(u) \text{ and } g(v) \text{ are well-defined and } \\
+&\T_{\C}(f(u), g(v)) \neq \varnothing \} \,.
+\end{align*}
+
+\item
+Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
+third set of parameter changes of $f$ and $g$ as
+\begin{align*}
+P_3(f, g)
+:= \{ (u, v) \in \R^2 \mid
+&f(u) \text{ and } g(v) \text{ are well-defined and } \\
+&\T_{\R}(f(u), g(v)) \neq \varnothing \} \,.
+\end{align*}
+
+\item
+For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
+as
+\begin{align*}
+C(p(X)) &:= \{ (a, ra) \in \C^2 \mid r \in \C, \; p(r) = 0 \} \,, \\
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid r \in \C, \; p(r) = 0 \} \,.
+\end{align*}
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+\phantom{X}\hfill
+\begin{enumerate}
+\item
+Note that $P_3(f, g) \subseteq P_2(f, g) \subseteq P_1(f, g)$ for any two power
+series $f,g \in \R(a)[[x_1,\ldots,x_n]]$.
+
+\item
+For any two unimodal singularity (sub-)types $T_1, T_2$, we simply write
+$P_i(T_1,T_2)$ instead of $P_i(\NF{T_1(a)}, \NF{T_2(a)})$, e.g., we write
+$P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
+\end{enumerate}
+\end{remark}
+
+\begin{theorem}
+The structure of the equivalence classes of the exceptional unimodal
+singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
+
+\begin{table}[!htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the exceptional unimodal singularities}
+\label{tab:exceptional_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+$E_{12}$   & $E_{12}$   & $C(X^{21}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$E_{13}$   & $E_{13}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$E_{14}^+$ & $E_{14}^+$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$E_{14}^-$ & $E_{14}^-$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$E_{14}^+$ & $E_{14}^-$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
+\hline
+$E_{14}^-$ & $E_{14}^+$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
+\hline
+$Z_{11}$   & $Z_{11}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$Z_{12}$   & $Z_{12}$   & $C(X^{11}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$Z_{13}^+$ & $Z_{13}^+$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$Z_{13}^-$ & $Z_{13}^-$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
+\hline
+$Z_{13}^+$ & $Z_{13}^-$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
+\hline
+$Z_{13}^-$ & $Z_{13}^+$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
+\hline
+$W_{12}^+$ & $W_{12}^+$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$W_{12}^-$ & $W_{12}^-$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$W_{12}^+$ & $W_{12}^-$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
+\hline
+$W_{12}^-$ & $W_{12}^+$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
+\hline
+$W_{13}^+$ & $W_{13}^+$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$W_{13}^-$ & $W_{13}^-$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
+\hline
+$W_{13}^+$ & $W_{13}^-$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
+\hline
+$W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+\begin{theorem}
+The structure of the equivalence classes of the $J_{10+k}$
+singularities is as shown in Table~\ref{tab:J10+k_equivalences} where in each
+case,
+\begin{align*}
+l &= \frac{6}{\gcd(6,k)}, \text{ and} \\
+s &=
+\begin{cases}
+  1,  &\text{if } k \equiv 2 \pmod{4}, \\
+  -1, &\text{else.}
+\end{cases}
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10+k}$ singularities}
+\label{tab:J10+k_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$J_{10+k}^+$ & $J_{10+k}^+$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ \\
+\hline
+
+$J_{10+k}^-$ & $J_{10+k}^-$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ \\
+\hline
+
+$J_{10+k}^+$ & $J_{10+k}^-$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  \varnothing, &\text{if } l \text{ is even} \\
+  R(X-s), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$J_{10+k}^-$ & $J_{10+k}^+$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  \varnothing, &\text{if } l \text{ is even} \\
+  R(X-s), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+\begin{theorem}
+The structure of the equivalence classes of the $X_{9+k}$
+singularities is as shown in Table~\ref{tab:X9+k_equivalences} where in each
+case,
+\begin{align*}
+l &= \frac{4}{\gcd(4,k)}, \text{ and} \\
+s &=
+\begin{cases}
+  1,  &\text{if } k \equiv 4 \pmod{8}, \\
+  -1, &\text{else.}
+\end{cases}
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $X_{9+k}$ singularities}
+\label{tab:X9+k_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{++}$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } k \text{ is odd} \\
+  R(X-1), &\text{if } k \text{ is even}
+\end{array}$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{+-}$ & $C(X^l-1)$ &
+$\begin{array}{ll}
+  R(X^2-1), &\text{if } l \text{ is even} \\
+  R(X-1), &\text{if } l \text{ is odd}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{-+}$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  R(X-1), &\text{if } k \equiv 4 \pmod{8} \\
+  R(X+1), &\text{if } k \equiv 0 \pmod{8} \\
+  \varnothing, &\text{else}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+
+$X_{9+k}^{++}$ & $X_{9+k}^{--}$ & $C(X^l-s)$ &
+$\begin{array}{ll}
+  R(X-1), &\text{if } k \equiv 4 \pmod{8} \\
+  R(X+1), &\text{if } k \equiv 0 \pmod{8} \\
+  \varnothing, &\text{else}
+\end{array}$ &
+$\varnothing$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+
+\section{The Splitting Lemma}\label{TheSplittingLemma}
+The following well-known theorem, called the Splitting Lemma, allows us to
+reduce the classification to germs of corank $c$ or, equivalently, to germs
+in $\m^3$ contained in $\mathbb R[[x_1,\ldots,x_c]]$.
+
+
+\begin{theorem}\label{SplittingLemma}
+If $f\in \m^2\subset \mathbb R[[x_1,\ldots,x_n]]$ has corank $c$, then
+\[ f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2,\]
+with $g\in \m^3$. $g$ is called the residual part of $f$ and $\lambda$
+is called
+the inertia index of the quadratic form of $f$. $g$ and $\lambda$ are
+uniquely determined up to right equivalence.
+\end{theorem}
+
+We implemented Theorem \ref{SplittingLemma} in \textsc{Singular},
+using the following algorithm. Since $\textsc{Singular}$ use real floating
+numbers, which do not represent the real numbers, instead of real numbers,
+rounding errors can occor working in this setting. On the other hand, Algorithm
+\ref{AlgorithmSplittingLemma} also function correctly working over the rational
+numbers, with a rational input polynomial. In this case the output polynomial
+$g$ will also be rational and calculations will be exact.
+
+We denote the set of all monomials with nonzero coefficients that appear in a
+power series $f$, called the support of $f$, by $\supp(f)$.
+
+\begin{algorithm}[h]
+\caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
+\begin{algorithmic}[1]
+\REQUIRE{$f\in \m^2\subset\mathbb
+R[x_1,\ldots,x_n]$ and $k\in\mathbb N$ such that $f$ is
+$k$-determined.}
+
+\ENSURE{$c:=\textnormal{corank}(f)$, $\lambda\in\mathbb
+N$ and
+$g\in \m^3\cap\mathbb R[x_1,\ldots,x_c]$ with \[\displaystyle
+f\requiv g-\sum_{i=c+1}^{c+\lambda} x_i^2+\sum_{i=c+\lambda+1}^nx_i^2.\]}
+
+\STATE $S:=\emptyset$
+\FOR{$i=1;\ i\le n;\  i++$}
+\IF{$\jt(f,2)\in \mathbb R[x_1,\ldots,\hat
+x_i,\ldots,x_n]$}
+\STATE $S:=S\cup\{x_i\}$
+\ELSE
+\STATE $f:=\jt(f,k)$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\IF{$a(0)=0$}
+\STATE choose $j\in\{i+1,\ldots,n\}$ with $x_ix_j\in\supp(f)$
+\STATE apply $x_j\mapsto x_j+x_i$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\WHILE{$p\neq 0$}
+\STATE apply $x_i\mapsto x_i-\frac{p}{2a(0)}$
+\STATE $f:=\jt(f,k)$
+\STATE write $f$ as $f=ax_i^2+px_i+r$ with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb R[x_1,\ldots,x_n]$
+\ENDWHILE
+\ENDIF
+\ENDIF
+\ENDFOR
+\STATE $c =\# S$
+\STATE change the order of variables such that $f=g+\sum_{i=c+1}^na_ix_i^2$
+\STATE $\lambda:=\#(\{a_i:i=c+1,\ldots,n\}\cap\mathbb R^-)$
+\STATE change the order of variables such that
+\[f=g-\sum_{i=c+1}^{c+\lambda}a_ix_i^2+\sum_{i=c+\lambda+1}^na_ix_i^2,\
+a_i>0\]
+\STATE apply $x_i\mapsto 0, i=c+1,\ldots,n$ to $f$
+\STATE $g:=f$
+\RETURN{$c, \lambda, g$}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{proof}
+If we can prove that we can write $f$ as \begin{equation}\label{eq4}
+f=a+\sum_{j=1}^i a_jx_j^2+r
+\end{equation}
+where
+$r\in\mathbb R[x_{i+1},\ldots,x_n],\quad a_j\in\mathbb R,\quad a\in \m^3$ and
+the degree of $x_j$ in $a$ is greater than $1$, for all $j\in\{1,\ldots,i\}$,
+after $i$ applications of the for-loop, then we have the desired result after
+$n$ applications of the for-loop. We will prove this by induction. After $0$
+applications it is trivial to write $f$ in the form of (\ref{eq4}) for $i=0$.
+Suppose we can write $f$ in this form after $i-1$ applications. If $x_i\in
+S$, then it is also trivial to write $f$ in the form of (\ref{eq4}). Suppose
+$x_i\not\in S$. It follows from the induction hypotheses that $tx_j\not\in
+\textnormal{supp}(f)$ for all monomials $t\in\mathbb R[x_1,\ldots,\hat
+x_j,\ldots,x_n]$ and $j\in\{1,\ldots,i-1\}$. Then the $k$-jet of $f$ can
+be written as
+\[f=ax_i^2+px_i+r\]
+with $p,r\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]$ and $a\in\mathbb
+R[x_1,\ldots,x_n]$. If $a(0)\neq 0$, then $x_i^2\in\textnormal{supp}(f)$. If
+$a(0)=0$, then $x_i^2\not\in\textnormal{supp}(f)$. Since $x_i$ appears in some
+term of the $2$-jet of $f$ and since it follows from the induction that
+$x_ix_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$, it follows
+that
+there exists a $j\in\{i+1,\ldots,n\}$ such that
+$x_ix_j\in\textnormal{supp}(f)$.
+If we choose such an index $j$ and apply the transformation
+\begin{equation}\label{eq2}
+x_j\mapsto x_j+x_i,\quad x_ix_j\mapsto x_ix_j+x_i^2,
+\end{equation}
+then $x_i^2\in\textnormal{supp}(f)$. Writing $f$ in the form $ax_i^2+px_i+r$,
+we now have that $a(0)\neq0$.
+
+Now suppose that $p\neq 0$, i.e.~there appear terms in $f$ where the degree
+of $x_i$ is one. Then the while-loop applies and the following transformation
+is made
+\begin{equation}\label{eq3}
+x_i\mapsto x_i-\frac{p}{2a(0)}\qquad
+(\textnormal{this is allowed since }a(0)\neq 0).
+\end{equation}
+Then
+\begin{eqnarray*}
+f&=&a(x_i-\frac{p}{2a(0)})^2+p(x_i-\frac{p}{2a(0)})+r\\
+&=&ax_i^2-\frac{apx_i}{a(0)}+\frac{ap^2}{4a^2(0)}+px_i-\frac{p^2}{2a(0)}+r\\
+&=&ax_i^2+(1-\frac{a}{a(0)})px_i+\frac{ap^2}{4a^2(0)}-\frac{p^2}{2a(0)}+r\\
+&=&ax_i^2+bpx_i+\frac{a'p^2}{4a^2(0)}+r',
+\end{eqnarray*}
+where
+\begin{equation*}
+b=1-\frac{a}{a(0)}\in\m,\quad a'=a-a(0)\in\m,\quad
+r'=\frac{p^2}{4a(0)}-\frac{p^2}{2a(0)}+r\in\mathbb R[x_1,\ldots,\hat
+x_i,\ldots,x_n].
+\end{equation*}
+Since
+\begin{equation*}
+b=b_2x_i^2+b_1x_i+b_0,
+\end{equation*}
+where
+\begin{equation*}
+b_2\in\mathbb R[x_1,\ldots,x_n] \quad\textnormal{and}\quad b_1,b_0\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n],
+\end{equation*}
+we have that
+\begin{eqnarray*}
+bpx_i&=&b_2px_i^3+b_1x_i^2+b_0px_i\\
+&=&(b_2px_i+b_1p)x_i^2+b_0px_i\\
+&=&b'x_i^2+b_0px_i,
+\end{eqnarray*}
+where
+\begin{equation*}
+b'\in\m\in\mathbb R[x_1,\ldots,x_n]\quad\textnormal{and}\quad b_0\in\mathbb
+R[x_1,\ldots,\hat x_i,\ldots,x_n].
+\end{equation*}
+Also
+\begin{equation*}
+\frac{a'p^2}{4a^2(0)}=c_2x_i^2+c_1x_i+c_0
+\end{equation*}
+where
+\begin{equation*}
+c_1,c_0\in\mathbb R[x_1,\ldots,\hat x_i,\ldots,x_n]\quad\textnormal{and}\quad
+c_2\in\mathbb R[x_1,\ldots,x_n].
+\end{equation*}
+Since $a'\in\m$ and $p^2\in\m^2$ it follows that $\frac{a'p^2}{4a(0)}\in\m^3$
+and hence $c_2\in\m$. Because $a(0)\neq 0$ and $b'(0)=0$ and $c_2(0)=0$, it
+follows that $(a+b'+c_2)(0)\neq 0$. Furthermore,
+since $b\in\m$, it follows that $b_0\in\m$ and hence
+$\textnormal{order}(b_0p)>\textnormal{order}(p)$. Similarly since
+$\textnormal{order}(\frac{a'p^2}{4d^2(0)})>\textnormal{order}(p)$ it
+follows that $\textnormal{order}(c_1)>\textnormal{order}(p)$ and therefore
+$\textnormal{order}(b_0p+c_1)>\textnormal{order}(p)$. Thus we conclude that
+\begin{eqnarray}
+f&=&(a+b'+c_2)x_i^2+(b_0p+c_1)x_i+r'+c_0\nonumber\\
+&=&a''x_i^2+p''x_i+r''\label{eq1}
+\end{eqnarray}
+where
+\begin{eqnarray*}
+&&a'' = (a+b'+c_2)\in\mathbb R[x_1,\ldots,x_n],\quad
+p'',r''\in\mathbb R[x_1,,\ldots,\hat x_i,\ldots,x_n],\\
+&&a''(0)\neq0\quad\textnormal{and}\quad\textnormal{order}(p'')
+>\textnormal{order}(p).
+\end{eqnarray*}
+If $\textnormal{jet}(k,p''x_i)\neq 0$, then the while-loop will be applied
+again
+and we will get as output a polynomial of the form (\ref{eq1}). Since
+the degree
+of $p''$ strictly increases after each application of the while-loop,
+$\textnormal{jet}(k,p''x_i)$ is equal to zero after finitely many applications
+and the while-loop terminates. Considering the transformations  (\ref{eq2})
+and
+(\ref{eq3}), it follows that after each application of the while-loop,
+it holds
+that $tx_j\not\in\textnormal{supp}(f)$ for $j\in\{1,\ldots,i-1\}$. Hence
+after $i$ applications of the for-loop, $f$ is in the form (\ref{eq4}).
+
+Now, $x_i^2\in\textnormal{supp}(f)$ after $n$ applications of the for-loop
+if and only if $x_i$ appears in some term of $\textnormal{jet}(2,f)$ after
+$i-1$ applications of the for-loop, i.e.~$x_i$ will be in the Jacobian of
+$f$ if and only if $x_i\in S$. Hence the corank of $f$ is $\#S$.
+\end{proof}
+
+\section{The real classification of the residual part of $f$}%
+\label{TheRealClassificationOfTheResidualPart}
+
+In \cite{AVG1985} Arnold divided the real singularities of modality $0$ and
+$1$, using stable equivalence, into main types which split up into more
+subtypes by changing the sign in front of certain terms. Each of these subtypes
+is complex equivalent to the complex singularity of the same name as its
+corresponding real main singularity type. We include the complex
+transformations for the corank two singularities in the table below. Since
+there is a real main singularity type of modality $0$ or $1$ for each complex
+singularity type of modality $0$ or $1$, respectively, there is a bijection
+between the main real singularity types of modality $0$ and $1$ and the complex
+singularity types of modality $0$ and $1$, respectively. It is not known yet
+whether the complex forms of higher modal cases  split up into corresponding
+real forms. The fact is that it is not known whether modality is preserved in
+these cases. In the next table we list the normal forms that are used in this
+article. From here onwards we will be working with stable equivalence. For all
+nonquadratic forms $f$ it is thus only necessary, after applying the Splitting
+Lemma to consider the residual part of function germs, i.e.~germs in $\m^3$.
+
+\begin{table}[!hbp]
+\label{tab:normal_forms}
+\centering
+\caption{Real Normal Forms of modality $0$ and $1$.}
+\label{normal forms}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+&Complex NF & NF of real subtypes& Transformation&Restrictions\\\hline
+$A_k$&$x^{k+1}$&$x^{k+1}$&$x\mapsto x$, $y\mapsto y$&$k\ge 1$\\
+&&$-x^{k+1}$&$x\mapsto {i}^{\frac{2}{k+1}}x$, $y\mapsto y$&$k\ge 1$\\
+\hline
+$D_k$&$x^2y+y^{k-1}$&$x^2y+y^{k-1}$&$x\mapsto x$, $y\mapsto y$&$k\ge 4$\\
+&&$x^2y-y^{k-1}$&$x\mapsto i^{\frac{2k-3}{k-1}}x$,
+$y\mapsto {i}^{\frac{2}{k-1}}y$&$k\ge 4$\\
+\hline
+$E_6$&$x^3+y^4$&$x^3+y^4$&$x\mapsto x$, $y\mapsto y$&-\\
+&&$x^3-y^4$&$x\mapsto x$, $y\mapsto\sqrt{i} y$&-\\
+\hline
+$E_7$&$x^3+xy^3$&$x^3+xy^3$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$E_8$&$x^3+y^5$&$x^3+y^5$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$X_9$&$x^4+ax^2y^2+y^4$&$x^4+ax^2y^2+y^4$&$x\mapsto x$,
+$y\mapsto y$&$a^2\neq 4$\\
+&&$x^4+ax^2y^2-y^4$&$x\mapsto x$, $y\mapsto \sqrt{i}y$&-\\
+&&$-x^4+ax^2y^2+y^4$&$x\mapsto\sqrt{i}x$, $y\mapsto y$&-\\
+&&$-x^4+ax^2y^2-y^4$&$x\mapsto\sqrt{i}x$, $y\mapsto \sqrt{i}y$&$a^2\neq 4$\\
+\hline
+$J_{10}$&$x^3+ax^2y^2+y^6$&$x^3+ax^2y^2+y^6$&$x\mapsto x$,
+$y\mapsto y$& $4a^3+27\neq0$\\
+&&$x^3+ax^2y^2-y^6$&$x\mapsto x$, $y\mapsto \sqrt[3]{i}y$&$-4a^3+27\neq0$\\
+\hline
+$J_{10+k}$&$x^3+xy^4+ay^6$&$x^3+xy^4+ay^6$&$x\mapsto x$,
+$y\mapsto y$&$a\neq 0$, $k>0$\\
+&&$x^3-xy^4+ay^6$&$x\mapsto x$, $y\mapsto \sqrt{i}y$&$a\neq 0$, $k>0$\\
+\hline
+$X_{9+k}$&$x^4+x^2y^2+ay^{4+k}$&$x^4+x^2y^2+ay^{4+k}$&$x\mapsto x$,
+$y\mapsto y$&$a\neq 0$, $k>0$\\
+&&$x^4-x^2y^2+ay^{4+k}$&$x\mapsto x$, $y\mapsto iy$&$a\neq 0$, $k>0$\\
+&&$-x^4+x^2y^2+ay^{4+k}$&$x\mapsto \sqrt{i}x$, $y\mapsto i^{\frac{3}{2}}y$
+&$a\neq 0$, $k>0$\\
+&&$-x^4-x^2y^2+ay^{4+k}$&$x\mapsto \sqrt{i}x$, $y\mapsto \sqrt{i}y$&$a\neq 0$,
+$k>0$\\
+\hline
+$Y_{r,s}$&$x^2y^2+x^r+ay^s$&$x^2y^2+x^r+ay^s$&$x\mapsto x$, $y\mapsto y$
+&$a\neq 0$, $r,s>4$\\
+&&$x^2y^2-x^r+ay^s$&$x\mapsto i^{\frac{2}{r}}x$, $y\mapsto i^{\frac{2r-2}{r}}y$
+&$a\neq 0$, $r,s>4$\\
+&&$-x^2y^2+x^r+ay^s$&$x\mapsto x$, $y\mapsto iy$&$a\neq 0$, $r,s>4$\\
+&&$-x^2y^2-x^r+ay^s$&$x\mapsto i^{\frac{2}{r}}x$, $y\mapsto i^{\frac{r-2}{r}}y$
+&$a\neq 0$, $r,s>4$\\
+\hline
+$E_{12}$&$x^3+y^7+axy^5$&$x^3+y^7+axy^5$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$E_{13}$&$x^3+xy^5+ay^8$&$x^3+xy^5+ay^8$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$E_{14}$&$x^3+y^8+axy^6$&$x^3+y^8+axy^6$&$x\mapsto x$, $y\mapsto y$&-\\
+&&$x^3-y^8+axy^6$&$x\mapsto x$, $y\mapsto \sqrt[4]iy$&-\\
+\hline
+$Z_{11}$&$x^3y+y^5+axy^4$&$x^3+y^5+axy^4$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$Z_{12}$&$x^3y+xy^4+ax^2y^3$&$x^3y+xy^4+ax^2y^3$&$x\mapsto x$, $y\mapsto y$&-\\
+\hline
+$Z_{13}$&$x^3y+y^6+axy^5$&$x^3y+y^6+axy^5$&$x\mapsto x$, $y\mapsto y$& -\\
+&&$x^3y-y^6+axy^5$&$x\mapsto i^{\frac{11}{9}}x$, $y\mapsto \sqrt[3]i y$& -\\
+\hline
+$W_{12}$&$x^4+y^5+ax^2y^3$&$x^4+y^5+ax^2y^3$&$x\mapsto x$, $y\mapsto y$&-\\
+&&$-x^4+y^5+ax^2y^3$&$x\mapsto\sqrt{i} x$, $y\mapsto y$&-\\
+\hline
+$W_{13}$&$x^4+xy^4+ay^6$&$x^4+xy^4+ay^6$&$x\mapsto x$, $y\mapsto y$&-\\
+&&$-x^4+xy^4+ay^6$&$x\mapsto \sqrt{i}x$, $y\mapsto i^{\frac{7}{8}}y$&-\\
+\hline
+\end{tabular}
+\end{table}
+
+It is known that the milnor number of a function germ $g$, which we denote by
+$\mu(g)$, is the same regardless whether we work over the complex- or real
+numbers. Therefore a singularity over the complex numbers is nondegenerate if
+and only if the singularity is nondegenerate over the real numbers. The
+restrictions to normal forms in the complex case are thus the same in the real
+case. Furthermore we know that we can transform the normal forms in the real
+case that differ from those we use in the complex case by a complex
+transformation to a complex normal form. Since the milnor number is invariant
+under complex transformations, we can then determine the restrictions. Let us
+take the $X_9$ case as an example and consider the real normal form
+$-x^4+ax^2y^2+y^4$. This normal form is complex equivalent to
+$x^4+aix^2y^2+y^4$, which corresponds to the given corresponding complex normal
+form. Since $a\in\mathbb R$, it follows that $(ia)^2=-a^2\neq4$ and therefore
+this singularity is nondegenerate for all values of $a$.
+
+Using the $1-1$ correspondence between the main real singularity types and
+complex singularity types, and a \textsc{Singular} library ``classify.lib"
+\cite{classify}, that classifies complex singularities, classifying a real germ
+boils down to determining to which of the corresponding subtypes the germ is
+equivalent.
+
+\subsection{Results regarding the factorization of homogeneous polynomials
+over $\mathbb R$ and $\mathbb Q$}%
+\label{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ}
+
+The results in this subsection are preliminary results that will be used in
+sections \ref{RealSingularitiesOfZeroModality} to
+\ref{ExceptionalSingularities}.
+
+Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$ such that
+$f\requiv g$, i.e.~$\phi(f)=g$, where $\phi$ is an $\mathbb R$-algebra
+automorphism of  $\mathbb R[[x_1,\ldots,x_n]]$. Since $\phi$ is an automorphism
+it is defined by the images $\phi(x_1),\ldots,\phi(x_n)$. We define the $j$-jet
+of $\phi$, denoted by $\phi_j$, to be the automorphism defined by
+$\phi_j(x_1):=\jt(\phi(x_1),j),\ldots,\phi_j(x_n):=\jt(\phi(x_n),j)$. By using
+the next result, given $f$ and $g$, we can
+determine $\phi_1$.
+
+\begin{theorem}\label{kjet}
+Let $f,g\in \m^2\subset\mathbb R[[x_1,\ldots,x_n]]$. Suppose $f\requiv g$
+and $k$
+is the lowest degree of $f$. If jet$(f,k)$ factorizes as
+\[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\]
+over $\mathbb R$, then jet$(g,k)$ will factorize
+as \[f_1^{s_1} (\phi_1(x_1),\ldots,\phi_1(x_n)),\cdots
+f_t^{s_t}(\phi_1(x_1)),\ldots,(\phi_1(x_n)))\] over $\mathbb R$, where $\phi$
+is an $\mathbb R$-algebra automorphism of $\mathbb R[[x_1,\ldots,x_n]]$
+such that $\phi(f)=g$.
+\end{theorem}
+\begin{proof}
+Since $f\requiv g$, there exists a ring automorphism $\phi\in\mathbb
+R[[x_1,\ldots,x_n]]$ such that  $\phi(f)=g$. Now
+assume that the monomials of lowest degree $k$ of $f$ factorize
+as \[f_1^{s_1}(x_1,\ldots,x_n)\cdots f_t^{s_t}(x_1,\ldots,x_n)\] over
+$\mathbb R$, i.e.~$f=f_1^{s_1}\cdots f_t^{s_t}+f'$, where the degree and order
+of
+$f_1^{s_1},\ldots,f_t^{s_t}$ is $k$ and the order of $f'$ is greater than $k$.
+Now, for all $j\in\{1,\ldots,n\}$, \[\phi(x_j)=\phi_1(x_j)+\textnormal{terms of
+degree higher than $1$}.\] Since $\phi$ is a homomorphism, it follows that
+
+\begin{eqnarray*}
+\phi(f)&=&f_1^{s_1}\big(\phi(x_1),\ldots,\phi(x_n)\big)\cdots
+f_t^{s_t}\big(\phi(x_1),\ldots,\phi(x_n)\big)+\phi(f')\\
+&=&f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\\
+&&+\big(\phi-\phi_1\big)(f_1^{s_1}\cdots f_t^{s_t})+\phi(f').\\
+\end{eqnarray*}
+Since the $\deg\big(\phi_1(x_j))=1$ it follows that
+\[\deg\big(f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\big)=k.\] Because
+\[
+\textnormal{order}\big(\big(\phi-\phi_1\big)(f_1^{s_1}\cdots f_t^{s_t})\big)>k
+\quad\textnormal{and}\quad\textnormal{order}\big(\phi(f')\big)>k
+\]
+it follows that
+\begin{eqnarray*}
+\textnormal{jet}(\phi(f),k)=\textnormal{jet}(g,k)
+=f_1^{s_1}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big)\cdots
+f_t^{s_t}\big(\phi_1(x_1),\ldots,\phi_1(x_n)\big).
+\end{eqnarray*}
+\end{proof}
+
+Since \textsc{Singular} use real floating point numbers instead of real
+numbers, rounding errors in computations in this setting can
+occur. Therefore, in this paper, the above result would not be of much help
+without the
+following result.
+
+\begin{lemma}\label{x^3}
+If $f\in\mathbb Q[x,y]$ is homogeneous and factorizes as (i) $g_1^d$, (ii)
+$g_1\cdot g_2^{d}$ or as  (iii) $g_1^2(g_1-g_2)(g_1+g_2)$, $d>1$, over
+$\mathbb
+R$, where $g_1,g_2$ are polynomials of degree $1$, then $f$ will factorize as
+(i) $ag_1'^d$, (ii) $ag_1'\cdot g_2'^d$, (iii) $ag_1'^2(g_1'-g_2')(g_1'+g_2')$
+respectively,
+where $g_1', g_2'$ are polynomials of degree $1$ over $\mathbb Q$ and
+$a\in\mathbb Q$.
+\end{lemma}
+\begin{proof}
+
+(i) Let $f=(a_1x+a_2y)^d$, $a_1,a_2\in\mathbb R$. Without loss of generality,
+suppose $a_1\neq 0$. Then $f=a_1^d(x+\frac{a_2}{a_1}y)^d$. Since $f=
+a_1^dx^d+da_1^{d-1}a_2x^{d-1}y+\cdots+a_2^dy\in\mathbb Q[x,y]$, it follows
+that $a_1^d\in\mathbb Q$. Hence $(x+\frac{a_2}{a_1}y)^d\in\mathbb Q[x,y]$
+from which it follows that $(x+\frac{a_2}{a_1})^d\in\mathbb Q[x]$. Since
+$\mathbb Q$ is a perfect field it follows that $\frac{a_2}{a_1}\in\mathbb
+Q$. Thus $f=a{g'}_1^d$, where $a:=a_1^d\in\mathbb Q$ and
+$g_1=x+\frac{a_2}{a_1}y\in\mathbb Q[x,y]$.
+
+(ii) Let $f=(a_1x+a_2y)(a_3x+a_4y)^{d}$, $a_1,\ldots,a_4\in\mathbb
+R$. Suppose $a_1,a_3\neq 0$.
+For the cases $a_1,a_4\neq 0$, $a_2,a_3\neq 0$ and $a_2,a_4\neq 0$ the
+proofs are similar.
+Similar as above, it follows that $a_1a_3^{d}\in\mathbb Q$. Hence
+$(x+\frac{a_2}{a_1}y)(x+\frac{a_4}{a_3}y)^d\in\mathbb Q[x,y]$ from which
+it follows that $(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})^d\in\mathbb
+Q[x]$. Since $\mathbb Q$ is a perfect field, it follows that
+$(x+\frac{a_2}{a_1})(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ and
+hence that $(x+\frac{a_4}{a_3})^{d-1}\in\mathbb Q[x]$. Therefore
+also $(x+\frac{a_4}{a_3})\in\mathbb Q[x]$ which implies that
+$(x+\frac{a_2}{a_1})\in\mathbb Q[x]$.
+Thus $f=ag'_1g'^d_2$ with $a:=a_1a_3^d\in\mathbb Q$,
+$g'_1:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$, and
+$g'_2:=(x+\frac{a_2}{a_1}y)\in\mathbb Q[x,y]$.
+
+(iii) If $f$ factorizes as $g_1^2(g_1-g_2)(g_1+g_2)$ over $\mathbb R$, it
+follows similarly as above that $g_1\in\mathbb Q[x,y]$. Therefore
+$(g_1-g_2)(g_1+g_2)=g_1^2-g_2^2\in\mathbb Q[x,y]$ and hence $g_2^2\in\mathbb
+Q[x,y]$. Using (i) $g_2\in\mathbb Q[x,y]$ and the result follows.
+\end{proof}
+
+\subsection{Real $\mathbf{0}$-modal singularities of corank $\mathbf{0}$ and
+$\mathbf{1}$}%
+\label{RealSingularitiesOfZeroModality}
+
+Throughout the rest of the paper we write $f$ for the given input polynomial,
+$g$ for its residual part which can be obtained by applying the Splitting
+Lemma~\ref{AlgorithmSplittingLemma}, and $c$ for the corank of $f$.
+We also assume that $f$, and thus $g$, is a polynomial over $\mathbb Q$.
+With these notations, $g$ is a polynomial in $c$ variables.
+
+If $c = 0$, then it follows  that $f$ is of type
+$A_1^+$ or of type $A_1^-$ depending on the inertia index $\lambda$ of $f$. If
+the inertia index of $f$ is nonzero and less than the number of variables in
+the base ring, then $f$ is both of type $A_1^+$ and $A_1^-$, depending how one
+chooses to order the variables. If the inertia index is equal to the number of
+variables in the base ring, $f$ is of type $A_1^-$. Lastly, if the inertia
+index is $0$, then $f$ is of type $A_1^+$.
+
+If $c=1$, then the singularity is of type
+$A_k^+$ or of type $A_k^-$ for some $k>1$. Furthermore $g$ is a univariate
+polynomial in this case, say $g\in\mathbb Q[x]$. Note that if $k$ is even, then
+$A_k^+\requiv A_k^-$. The value of $k$ is given by the order of $g$ minus $1$.
+This follows since $\pm x^{k+1}$ and $g$ are right-equivalent and thus have the
+same order. The sign of the singularity type is determined by the sign of the
+coefficient of $x^{k+1}$. This follows since it follows from Lemma \ref{kjet}
+that $\jt(g,1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where $\phi(\pm
+x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the singularity
+type.  Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not change the
+sign of the coefficient of $x^{k+1}$. We use algorithm~\ref{alg:A_k}, after
+applying the Splitting Lemma in case $c=0$ or $c=1$.
+
+\begin{algorithm}[h]
+\caption{\label{alg:A_k} Algorithm for the case $A_k$}
+\begin{algorithmic}[1]
+
+\REQUIRE{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
+the output polynomial $g$ after applying
+Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
+index $\lambda$ of $f$}
+
+\ENSURE{the real singularity type of $f$, i.e.~$A_k^-$ or $A_k^+$,
+$k\in\mathbb N$}
+
+\IF{$c=0$}
+\IF{$\lambda<n$}
+\STATE type $:=A_1^+$
+\ELSE
+\STATE type $:=A_1^-$
+\ENDIF
+\ENDIF
+\IF{$c=1$}
+\STATE $k:= \ord(g)-1$
+\IF{$k$ is even}
+\STATE type $:=A_k^+$
+\ELSE
+\STATE $s:=$ coefficient of $x^{k+1}$
+\IF{$s > 0$}
+\STATE type $:=A_k^+$
+\ELSE
+\STATE type $:=A_k^-$
+\ENDIF
+\ENDIF
+\ENDIF
+\RETURN{type}
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Real $\mathbf 0$-modal singularities of corank $\mathbf 2$}
+The goal of the rest of the paper is to classify singularities of corank $2$.
+In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
+$g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib} we
+determine the complex singularity type and thus the main real singularity type
+of $g$, or equivalently $f$. The purpose of the remaining algorithms in the
+paper is to classify the correct real subtype of $g$, or equivalently $f$. We
+now consider each complex type, or equivalently every real main type,
+seperately.
+
+\subsubsection{$D_4$}
+
+The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
+splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
+The two cases can be distinguished by blowing-up; the details are carried out
+in algorithm~\ref{alg:D_4}. Since the determinacy of
+$D_4$ is $3$, it suffices to look at the $3$-jet. If we want to use
+$x \mapsto x$, $y \mapsto 1$ as blowing-up map, we first have to make sure that
+the coefficient of $x^3$ is non-zero. It is easy to check that this is achieved
+by lines 2 to 13 of algorithm~\ref{alg:D_4}. Finally, the number of real roots
+after blowing up the 3-jet is an invariant of the real subtype which is 1 in
+the case $D_4^+$ and 3 for $D_4^-$.
+
+\begin{algorithm}[h]
+\caption{\label{alg:D_4}\label{D[4]} Algorithm for the case $D_4$}
+\begin{algorithmic}[1]
+
+\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_4$}
+\ENSURE{the real singularity type of $g$, i.e.~$D_4^+$ or $D_4^-$}
+\STATE $h := \jt(g,3)$
+\STATE $s_1:=$ coefficient of ${x^3}$ in $h$
+\STATE $s_2 :=$ coefficient of ${y^3}$ in $h$
+\IF{$(s_1 = 0)$}
+\IF{$(s_2 \neq 0)$}
+\STATE swap the variables $x$ and $y$ in $h$
+\ELSE
+\STATE $t_1:=$ coefficient of ${x^2y}$ in $h$
+\STATE $t_2:=$ coefficient of ${xy^2}$ in $h$
+\IF{$(t_1+t_2 \neq 0)$}
+\STATE apply $x\mapsto x$, $y\mapsto x+y$ to $h$
+\ELSE
+\STATE apply $x\mapsto x$, $y\mapsto 2x+y$ to $h$
+\ENDIF
+\ENDIF
+\ENDIF
+\STATE apply $x\mapsto x$, $y\mapsto 1$ to $h$
+\STATE $n:= \#$ real roots of $h$
+\IF{$(n<3)$}
+\RETURN $D_4^+$
+\ELSE
+\RETURN $D_4^-$
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+Implementing the algorithms in this paper in \textsc{Singular}, we used the
+library \texttt{rootsur.lib} (\cite{roots}) to count the number of real roots
+of a univariate polynomial.
+
+\subsubsection{$D_k, k > 4$}
+
+For the cases $D_k$ with $k > 4$, the complex normal form is $x^2y+y^{k-1}$. It
+splits up into $x^2y+y^{k-1}$ ($D_k^+$) and $x^2y-y^{k-1}$ ($D_k^-$) for each
+$k$ over the reals. We use the following two results from \cite{Siersma} to
+distinguish between the two cases:
+
+\begin{lemma}\label{kDeterminacyD[k]k>4}
+A singularity of type $D_k^+$ or $D_k^-$ is $(k-1)$-determined.
+\end{lemma}
+
+\begin{lemma}\label{transformationD[k]}
+Let $j\ge 4$. Then
+\[
+x^2y+a_0x^j+a_1x^{j-1}y+\cdots+a_jy^j\requiv x^2y+a_jx^j,
+\quad a_0,\ldots,a_j\in\mathbb R,
+\]
+using the $\mathbb R$-algebra automorphisms
+\begin{eqnarray*}
+x&\mapsto&x+p_1,\textnormal{ where }
+p_1=-\frac{1}{2}(a_1x^{j-2}+\cdots+a_{j-1}y^{j-2})\,,\\
+y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
+\end{eqnarray*}
+\end{lemma}
+
+By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of  complex
+type
+$D_k$ is $k-1$. Therefore we only need to consider the
+$(k-1)$-jet of $g$ in this case. Using Lemma~\ref{kjet} and Lemma~\ref{x^3}, we
+transform $g$ into a polynomial of the form
+\[x^2y+\textnormal{terms of degree higher than $3$}\]
+by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and $g_2$ of
+degree $1$,
+and then applying the automorphism defined by $g_1\mapsto x$, $g_2\mapsto y$ to
+$g$. We
+now systematically consider the terms of each degree $3<j<k$. By applying the
+transformations in Lemma~\ref{transformationD[k]}, for each $j$, the only term
+of total degree $j$ which possibly remains is $a_jy^j$. This term vanishes for
+$j<k-1$ and it does not vanish for $j=k-1$, otherwise $g$ is not of complex
+type $D_k$. Thus, after applying these transformations,
+we can write $g$ as $g=x^2y+\alpha y^{k-1}$ with $a\neq0$. Clearly if $\alpha>0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
+
+\begin{algorithm}[h]
+\caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
+\begin{algorithmic}[1]
+
+\REQUIRE{$g \in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $D_k$,
+$k\in\mathbb N$, $k>4$}
+
+\ENSURE{the real singularity type of $g$, i.e.~$D_k^-$ or $D_k^+$}
+
+\STATE $k:= \mu(g)$
+\STATE $h:=\jt(g,k-1)$
+\STATE factorize $\jt(h,3)$ as $h_1^2h_2$, where $h_1$ and $h_2$ are linear
+\STATE apply $h_1\mapsto x$, $h_2\mapsto y$ to $h$
+\FOR{$(j = 4, \ldots, k-1)$}
+\IF{$(\jt(h,j)-x^2y\neq0)$}
+\STATE write $\jt(h,j)-x^2y$ as
+$a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
+\STATE apply $x\mapsto x-\frac{1}{2}(a_1x^{j-2}+\cdots
++a_{j-1}y^{j-2})$, $y\mapsto y-a_0x^{j-2}$ to $h$
+\STATE $h:=\jt(h,k-1)$
+\ENDIF
+\ENDFOR
+\STATE write $h$ as $h=x^2y+\alpha y^{k-1}$, $0\neq\alpha\in\mathbb Q$
+\IF{$(\alpha>0)$}
+\RETURN $D_k^+$
+\ELSE
+\RETURN $D_k^-$
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{$E_6$}
+
+In this case, whose complex normal form is $x^3+y^4$, we have that either
+$g\requiv x^3+y^4$ ($E_6^+$) or $g\requiv x^3-y^4$ ($E_6^-$).
+Therefore there exists an $\mathbb
+R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
+$\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
+$\phi(g)=(\phi(x))^3-(\phi(y))^4$.
+Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
+ensure that the coefficient of
+$x^3$ is non-zero by swapping the variables if necessary. Now, using Lemma
+\ref{kjet} and Lemma~\ref{x^3}, $\jt(g,3)$ factorizes as
+$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
+Q[x,y]$. Again,
+using Lemma \ref{kjet}, it follows that by applying
+$x\mapsto\frac{x-b_1y}{b_0},\
+y\mapsto y$ to $g$, $\phi$ is transformed such that $\phi_1(x)=c'x$,
+$c'\in\mathbb
+R$. Since $\phi$ is an automorphism, $\phi_1(y)=d_0x+d_1y$,
+$d_0,d_1\in\mathbb R$,
+with $d_1\neq 0$. Hence
+\begin{equation*}
+(\phi(y))^4=d_1^4y^4+\textnormal{terms of degree 4 and higher, not of the
+form $\alpha y^4$, $\alpha\in\mathbb R$.}
+\end{equation*}
+If we can show that $(\phi(x))^3$ does not contain a term of the form
+$\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $g$
+is of type $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of
+the monomial $y^4$. Now
+\begin{eqnarray*}
+\textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)
+&=&3(\phi_1(x)^2)(\phi_2(x)-\phi_1(x))\\
+&=&3(c'x)^2(\phi_2(x)-\phi_1(x)),
+\end{eqnarray*}
+ which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
+ $\alpha\in\mathbb R$ .
+
+\begin{algorithm}[h]
+\caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
+\begin{algorithmic}[1]
+
+\REQUIRE{$g\in \m^3\subset\mathbb Q[x,y]$ of complex singularity type $E_6$}
+\ENSURE{the real singularity type of $g$, i.e.~$E_6^-$ or $E_6^+$}
+\STATE $h:= \jt(g,3)$
+\STATE $s:=$ coefficient of ${x^3}$ in $h$
+\IF{$(s=0)$}
+\STATE swap the variables $x$ and $y$
+\ENDIF
+\STATE factorize $h$ into linear factors over $\mathbb Q[x,y]$, with a factor
+$g_1=b_0x+b_1y$
+\STATE apply $x\mapsto \frac{x-b_1y}{b_0}$, $y\mapsto y$ to $g$
+\STATE $d :=$ coefficient of $y^4$ in $g$
+\IF{$(d>0)$}
+\RETURN $E_6^+$
+\ELSE
+\RETURN $E_6^-$
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Real parabolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
+Given a vector $w=(w_1,w_2)$ of integers we define the weighted degree of
+$x^\alpha y^\beta$ by \[w-\deg(x^\alpha y^\beta):=w_1\alpha+w_2\beta.\]
+
+\subsubsection{$X_9:$}\label{X_9}
+For the case $X_9$, the normal form given by Arnold in \cite{AVG1985} is
+\[
+\pm x^4 +a x^2 y^2 \pm y^4 \,, a \in \R \,,
+\]
+with $a^2 \neq 4$ if the signs of $x^4$ and $y^4$ are equal.
+
+The structure of the real equivalence classes of this main type is rather
+involved in comparison to most other cases, e.g.~we have that
+$x^4 +3 x^2 y^2 +y^4$ can be transformed into $x^4+\frac{6}{5} x^2 y^2 +y^4$
+via $x \mapsto \sqrt[4]{\frac{1}{5}}(x+y)$,
+$y \mapsto \sqrt[4]{\frac{1}{5}}(x-y)$ and that $-x^4 +4x^2 y^2 -y^4$ can be
+transformed into $x^4 -10 x^2 y^2 +y^4$ via
+$x \mapsto \sqrt[4]{\frac{1}{2}}(x+y)$ and
+$y \mapsto \sqrt[4]{\frac{1}{2}}(x-y)$. We will first examine this structure in
+detail and then give an algorithm to determine the equivalence class of a given
+singularity of real main type $X_9$.
+
+If we were in the complex case, the normal form would be
+\begin{equation}\label{eqn:X9_cnf}
+x^4 +ax^2y^2 +y^4
+\end{equation}
+with $a \in \C$ and $a^2 \neq 4$. In order to investigate for which values
+$a' \in \C$ this can be transformed, for a given $a$, into
+$x^4 +a'x^2y^2 +y^4$, we may proceed as follows, e.g. using \Singular:
+We first apply a generic coordinate transformation
+\[
+\varphi: \; x \mapsto rx+sy, \; y \mapsto tx+uy, \; r,s,t,u \in \C
+\]
+to (\ref{eqn:X9_cnf}). Note that it suffices to consider the 1-jet of $\varphi$
+because $X_9$ is 4-determined as can be shown using the highest corner method
+(cf. TODO). We can then set up the ideal of transformations which take $a$ to
+$a'$. By eliminating $r$, $s$, $t$ and $u$ from this ideal, we get a polynomial
+of degree 6 in both $a$ and $a'$ which does not involve any other variables.
+Factorizing this polynomial gives the following solutions:
+\begin{align*}
+a'_1 &= a  & a'_3 &= \frac{2a+12}{a-2} & a'_5 &= \frac{-2a+12}{a+2} \\
+a'_2 &= -a & a'_4 &= \frac{2a-12}{a+2} & a'_6 &= \frac{2a+12}{-a+2}.
+\end{align*}
+Hence the equivalence class of a generic complex singularity of main type $X_9$
+can be represented by $x^4 +a'x^2y^2 +y^4$ for six different values of
+$a' \in \C$. The non-generic cases are precisely those with
+$a' \in \{-6, 0, 6\}$ where some of the above solutions coincide.
+
+TODO: Draw a picture here?
+
+If, as the next step, we restrict ourselves to singularities of main type $X_9$
+given by polynomials with real coefficients, but still allow complex
+transformations, the picture changes. In this case we have to distinguish
+between the subtypes $X_9^{++}$, $X_9^{--}$, $X_9^{+-}$, and $X_9^{-+}$,
+referring to the signs of $x^4$ and $y^4$ in the normal form, respectively. By
+simply interchanging the variables $x$ and $y$, the last two subtypes can be
+considered as one.
+The question now is for which $i \in \{1, \ldots, 6\}$ there is a (possibly
+complex) transformation that takes
+$\pm x^4 +ax^2y^2 \pm y^4$ to $\pm x^4 +a'_i x^2y^2 \pm y^4$, and we may
+ask this for each combination of signs.
+It turns out that for transformations from $X_9^{++}$ to itself, from
+$X_9^{--}$ to itself or from $X_9^{++}$ to $X_9^{--}$ and vice-versa, all the
+solutions $a'_1, \ldots, a'_6$ hold valid. For those from $X_9^{+-}$ to
+itself (and thus also from $X_9^{-+}$ to itself, from $X_9^{+-}$ to
+$X_9^{-+}$
+and vice-versa), only $a'_1$ and $a'_2$ remain. For any of the cases from
+$X_9^{++}$ or $X_9^{++}$ to $X_9^{+-}$ or $X_9^{+-}$, there is a valid
+transformation if and only if the parameter $a$ is in $\{-6, 0, 6\}$, and it
+then becomes~$0$.
+
+TODO: Draw a picture here?
+
+If we allow only for real transformations, i.e. automophisms of $\R[[x,y]]$,
+we get even more equivalence classes. Then, besides the identity map taking $a$
+to $a'_1=a$ and identifying $X_9^{+-}$ with $X_9^{-+}$,
+only the following equivalences hold:
+\begin{align}
+X_9^{++,a} \; &\requiv \; X_9^{++,a'_5} \; \text{ for } a > -2 \\
+X_9^{--,a} \; &\requiv \; X_9^{--,a'_3} \; \text{ for } a < 2 \\
+X_9^{++,a} \; &\requiv \; X_9^{--,a'_4} \; \text{ for } a < -2 \\
+X_9^{--,a} \; &\requiv \; X_9^{++,a'_6} \; \text{ for } a > 2.
+\end{align}
+
+TODO: Explain how this can be computed?
+TODO: Draw a picture here.
+
+The main tool for determining the subtype of a given real singularity of main
+type $X_9$ is blowing-up. Again, it suffices to consider the 4-jet of the
+polynomial $f = kx^4 + lx^3y + mx^2y^2 + nxy^3 + oy^4 \in \R[x, y]$ defining
+the given singularity. Before the blowing-up, we have to make sure that the
+coefficient of $x^4$ is non-zero. If this is not
+the case, this can be easily achieved by switching the variables if
+$o \neq 0$, or otherwise by applying either $y \mapsto x+y$, $y \mapsto 2x+y$,
+or $y \mapsto 3x+y$. These transformations yield $l+m+n$, $2l+4m+8n$, and
+$3l+9m+27n$, respectively, as coefficients of $x^4$, which cannot all at once
+be zero.
+
+TODO: Say what WE take as normal forms.
+
+Applying the blowing-up map $x \mapsto x \,, y \mapsto 1$ results in a
+polynomial $f_{\text{blowup}} \in \R[x]$ of degree 4 which has either four, two
+or no real roots. This number is invariant with respect to any transformation
+applied to $f$ before the blowing-up. Blowing-up the normal forms shows the
+following picture:
+
+\begin{tabular}{l|c}
+Subtype & Number of real roots after the blowing-up \\ \hline
+$X_9^{++,a} \,, a < -2$ & 4 \\
+$X_9^{+-}$ & 2 \\
+$X_9^{++,a} \,, a > -2$ & 0 \\
+$X_9^{--,a} \,, a < 2$ & 0
+\end{tabular}
+
+To distinguish the two cases where the number of real roots is zero, it
+suffices to look at the sign of the (now for sure non-zero) coefficient of
+$x^4$: It stays invariant under any real transformation whatsoever.
+
+\realclassify{} also tries to determine the parameter $a$ as far as possible,
+but in some cases it is not determined uniquely, and several possibilities are
+given. The method we use proceeds as follows: Very similar to the complex case,
+eliminating the coefficients of a generic coordinate transformation from the
+ideal of transformations which take the given polynomial $f$ to its normal form
+yields an univariate polynomial $p_f(a)$ of degree 6 in the parameter $a$. The
+possible values of $a$ are among the real roots of this polynomial.
+
+In order to
+test these roots separately, we try to factorize $p_f$, but there is no
+guaranty that it splits into linear factors and there are indeed cases where it
+does not. We then employ different means to exclude as many
+factors as possible. One method is to verify, for each factor, that it has at
+least one real root in the interval which contains $a$ according to the
+subtype. Finally, another check can be done by switching over to the
+quotient ring defined by each factor. If the value of $a$ is indeed one of the
+real roots of a certain factor of $p_f$, then the ideal of generic
+transformations which take the given polynomial to its normal form has at least
+one real root in this ring, which can in many cases be checked by using the
+command \texttt{nrRootsDeterm()} from \Singular{}'s \texttt{rootsmr.lib}.
+
+The complete algorithm to determine the subtype and the parameter of a given
+real singularity of main type $X_9$ now reads as follows:
+
+
+\subsubsection{$J_{10}$:}
+For the main real singularity type $J_{10}$ we use the complex normal form
+$x^3+axy^4+ y^6$, which splits up into $x^3+axy^4\pm y^6$ in the real case (see
+Table \ref{normal forms}),  instead of the complex normal form
+$x^3+ax^2y^2+xy^4$, which splits up into $x^3+ax^2y^2\pm xy^4$, used by Arnold
+in \cite{AVG1985}. Using this different normal form makes calculations in
+\textsc{Singular}, determining the real singularity type easier. Furthermore,
+note that, in mapping $x\mapsto -x$, in the real normal forms we used, does not
+change the sign of $y^6$, i.e. the term with the parameter $a$ as coefficient, while in Arnold's normal forms it changes the sign of
+the term $xy^4$, which makes the normal forms we used in general more suitable
+for computations in  the real case.
+
+Now, having a polynomial $g$ over $\mathbb Q$ of complex type $J_{10}$, using
+Lemma \ref{kjet} and Lemma \ref{x^3}, we transform $g$ to a polynomial of the
+form \[b''x^3+\textnormal{ terms of higher degree,}\] where $b''\in\mathbb Q$.
+Since $g$ is right-equivalent to one of the germs $x^3+axy^4\pm y^6$, for some
+$a\in\mathbb R$, there exists an $\mathbb R$-algebra automorphism $\phi$ such
+that $\phi(x^3+axy^4+y^6)=g$ or such that $\phi( x^3+axy^4-y^6)=g$. Clearly,
+$\jt(\phi(x),1)=\sqrt[3]{b''}x$. Hence \[g=b''
+x^3+c''x^2y^2+d''xy^4+e''y^6+\textnormal{ terms of higher $w$-degree,}\] where
+$b'',c'',d'',e''\in\mathbb{Q}$ and $w=(\frac{1}{3},\frac{1}{6})$. Applying the
+map defined by $x\mapsto \frac{1}{\sqrt[3]{b''}}x$ and
+$y\mapsto\frac{1}{\sqrt[6]{b''}}y$ transforms $g$
+to\[g=x^3+c'x^2y^2+d'xy^4+e'y^6+\textnormal{ terms of higher $w$-degree,}\]
+where $c'=\frac{c''}{b''}\in\mathbb{Q}$, $d'=\frac{d''}{b''}\in\mathbb{Q}$ and
+$e'=\frac{e''}{b''}\in\mathbb{Q}$. (Since it is only necessary to consider the
+weighted 1-jet of $g$ from here onwards, as is clear from the rest of the
+arguments, we may instead of the above transformation, transform $g$ by
+multiplication with the scalar $\frac{1}{b''}$). We get rid of the term
+$c'x^2y^2$ by applying te map defined by $x\mapsto x-\frac{c'}{3}y^2$ and
+$y\mapsto y$, i.e.
+\[g=x^3+dxy^4+ey^6+g_1,\]where $d,e\in\mathbb Q$ and $w-\deg(g_1)>1$. Note that
+after the above transformations $\phi_1(x)=x$. Hence it follows that
+$w-\deg(\phi(g_1))>1$. Therefore the singularity type of $g$ is determined by
+the sign of $e$.
+
+\begin{theorem}(Algorithm for the case $J_{10}$)
+\end{theorem}
+\noindent\textnormal{\bf Input:} $g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $J_{10}$.\newline
+\textnormal{\bf Output:} the real singularity type of $g$, i.e.~$J_{10}^-$ or
+$J_{10}^+$.
+\begin{itemize}
+\item $h:= \jt(g,3)$;
+\item $s_1:=$ coefficient of $x^3$;
+\item $s_2:=$ coefficient of $y^3$;
+\item if ($s_1=0$)\newline
+\phantom{}\quad\quad Swap the variables $x$ and $y$;
+\item factorize $h$ over $\mathbb Q[x,y]$, with a factor $t_1x+t_2y$;
+\item apply (to $g$) $x\mapsto\frac{x-t_2y}{t_1}$, $y\mapsto y$;
+\item write $g$ as
+$b''x^3+\textnormal{terms of higher degree},\quad b''\in\mathbb Q$;
+\item if $(b'' <0)$\newline
+\phantom{}\quad $x\mapsto -x$, $y\mapsto y$;
+\item $g:= \frac{1}{\mid b''\mid} g$;
+\item write $g$ as $x^3+c'x^2y^2+d'xy^4+e'y^6+$ terms of higher $w$-degree,
+where $w=(\frac{1}{3},\frac{1}{6})$ and $c',d',e'\in\mathbb Q$;
+\item Apply (to $g$) $x\mapsto x-\frac{c'}{3}y^2$, $y\mapsto y$;
+\item write $g$ as $x^3+dxy^4+ey^6+$ terms of higher $w$-degree',\quad
+$c,e\in\mathbb Q$.
+\item if $(e>0)$\newline
+\phantom{}\quad  type of singularity $:=J_{10}+$;\newline
+\phantom{}else\newline
+\phantom{}\quad type of singularity $:=J_{10}-$;
+\item return type of singularity;
+\end{itemize}
+
+\subsection{Real hyperbolic $\mathbf 1$-modal singularities of corank $\mathbf 2$}
+\subsubsection{$J_{10+k}$:}In the $J_{10+k}$ $k>0$ cases, similar to the $J_{10}$ case, we have used
+different normal forms than Arnold in \cite{AVG1985}.
+Here we have used the complex normal form $x^3+xy^4+a y^{6+k}$, instead of the
+normal form $x^3+x^2y^2+ay^{6+k}$. Since the normal form $x^3+xy^4+a y^{6+k}$
+does not split up in the real case, it is much more suitable than the normal
+form $x^3+x^2y^2+ay^{6+k}$ that splits up in $x^3\pm x^2y^2+ay^{6+k}$ in the
+real case. Using this normal form we thus only need the complex classification
+in this case.
+
+\subsubsection{$X_{9+k}$:}Considering the case when $g$ is of complex type $X_{9+k}$, we know that $g$ is
+of the
+form
+\[
+g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4+\textnormal{ terms of higher degree,}
+\]
+$a_0,\ldots,a_4\in\mathbb Q$.
+Similar to the $X_9$-case , Section \ref{X_9}, it is possible to transform $g$ such that the coefficient of $x_4$ is non-zero. Hence we may assume that $a_0\neq 0$.
+
+Now, $g\requiv h$, where $h=x^4+x^2y^2+ay^{4+k}$ if $g$ is of type
+$X_{9+k}^{++}$, $h=-x^4-x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{--}$,
+$h=-x^4+x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{-+}$ and
+$h=x^4-x^2y^2+ay^{4+k}$ if $g$ is of type $X_{9+k}^{+-}$, for some
+$0\neq a\in\mathbb R$.  It follows
+from Lemma~\ref{kjet} that $\textnormal{jet}(g,4)$ factor as
+$\pm\phi_1(x)^2(\phi_1(x)^2+\phi_1(y)^2)$ in the first two cases and as
+$\pm\phi_1(x)^2(\phi_1(x)-\phi_1(y))(\phi_1(x)+\phi_1(y))$ in the second two
+cases, where $\phi$ is the $\mathbb R$-algebra automorphism such that
+$\phi(g)=h$. Since $a_0\neq 0$,  the dehomogenization $\jt(g,1)(x,1)$ has one
+root in the first two
+cases and
+three roots in the last two cases.
+
+Since the sign of the terms in the $4$-jet of $h$ in the first two cases
+does not differ and the power of both $x$ and $y$ in all the terms is even,
+we only need to consider the sign of the $x^4$-term to distinguish between
+the $X_{9+k}^{++}$ and $X_{9+k}^{--}$ cases.
+
+If $\jt(g,1)$ has three roots, we transform $g$ by using Lemma \ref{kjet}
+and Lemma~\ref{x^3} such that $\phi_1(x)=\alpha x$, $\alpha\in\mathbb R$. We therefore may assume that
+$\jt(g,1)$ is of the form
+$\jt(g,1)=a_0x^4+a_1x^3y+a_2x^2y^2=\pm(\alpha x)^2((\alpha
+x)^2\mp\phi_1(y)^2)=\pm(\alpha x)^4\mp (\alpha x)^2\phi_1(y)^2$,
+$a_0,a_1,a_2\in\mathbb Q$. Since
+$\phi$ is
+an automorphism, $\phi_1(y)=\beta x+\gamma y$ with $\gamma \neq 0$,
+and since the sign of $\gamma$ does not influence the sign of $(\alpha
+x)^2\phi_1(y)^2$, and we know that the sign in front of $(\alpha x)^4$
+and $(\alpha x)^2\phi_1(y)^2$ differ, we decide between the cases
+$X_{9+k}^{+-}$ and $X_{9+k}^{-+}$ by considering the sign of the term $x^2y^2$.
+
+\begin{algorithm}[h]
+\caption{Algorithm for the case $X_{9+k}$\label{X[9+k]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $X_{9+k}$}
+\ENSURE{the real singularity type of $g$, i.e.~$X_{9+k}^-$
+or $X_{9+k}^+$.}
+\STATE $g:=\jt(g,4)$
+\STATE $s_1:=$ coefficient of ${x^4}$
+\STATE $s_2:=$ coefficient of ${y^4}$
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE Swap the variables $x$ and $y$
+\ENDIF
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE $t_1:=$ coefficient of ${x^3y}$
+\STATE $t_2:=$ coefficient of ${x^2y^2}$
+\STATE $t_3:=$ coefficient of ${xy^3}$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq0$}
+\STATE Apply $x\mapsto x$, $y\mapsto 2y$ (to $g$)
+\ELSE 
+\STATE Apply $x\mapsto x$, $y\mapsto 3y$ (to $g$)
+\ENDIF
+\ENDIF
+\STATE Apply $x\mapsto x$, $y\mapsto x+y$ (to $g$)
+\ENDIF
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4,\quad
+a_0,\ldots,a_4\in\mathbb Q$
+\STATE $g':=g(x,1)=a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $n:=\#$ real roots of $g'$
+\IF{$n=1$}
+\IF{$a_0>0$}
+\RETURN $X_{9+k}^{++}$
+\ELSE
+\RETURN $X_{9+k}^{--}$
+\ENDIF
+\ENDIF
+\IF{$n=3$}
+\STATE Factorize $g$ in linear factors over $\mathbb Q[x,y]$,
+with $g_1:=t_1x+t_2y$ the factor with multiplicity $2$
+\STATE Apply $x\mapsto\frac{x+t_2y}{t_1}$, $y\mapsto y$ (to $g$)
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2,\quad
+a_0,a_1,a_2\in\mathbb Q$
+\IF{$a_2>0$}
+\RETURN $X_{9+k}^{-+}$
+\ELSE
+\RETURN $X_{9+k}^{+-}$
+\ENDIF
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsubsection{$Y_{r,s}$ and $\widetilde Y_{r,s}$} Next we consider the case when $g$ is of one of the following complex cases:
+$Y_{r,s}$ and $\widetilde Y_r$, $r,s>4$. Note that in the complex case, normal
+forms of type $\widetilde Y_r$ are right-equivalent to normal forms of type
+$Y_{r,s}$. This is unfortunately not true in the real case and we hence have to
+treat these cases separately.  Similar to the $D_4$ case, we distinguish
+between the two cases, using Lemma \ref{kjet} and the library {\tt rootsur.lib},
+noticing that the $4$-jet of polynomials of type $Y_{r,s}$ factorize into four
+linear factors, while the $4$-jet of polynomials of type $\widetilde Y_r$ do
+not have any linear factors.
+
+For the case when $g$ is of type $\widetilde Y_r$, for some $r$ we have to
+distinguish between the following normal forms in the real case
+$\pm(x^2+y^2)^2+ax^r$ and determine the value of $r$. Using the fact that the
+$4$-jet $(x^2+y^2)^2$ is always positive, substituting any real numbers for $x$
+and $y$,  we distinguish between the two cases by considering the sign of the coefficient of $x^4$, after transforming the input polynomial to a polynomial of which the relating coefficient is nonzero. Such a transformation is explained in Section \ref{X_9}. It is
+already known (see~\cite{AVG1985}) that $r=\frac{\mu-9}{2}+4$.
+
+Considering the cases when $g$ is of type $Y_{r,s}$, for some $r$ and $s$,
+$r,s>4$, we have to distinguish between the normal forms $\pm x^2y^2\pm
+x^r+ay^s$ and determine the values of $r$ and $s$.  We determine the sign in
+front of the monomial $x^2y^2$ in the same way as determining the sign in front
+of the monomial $(x^2+y^2)^2$ in the case $\widetilde Y_r$.
+
+For the determining of $r$ and $s$ we use the method of blowing up the origin.
+By blowing up the origin once, polynomials right-equivalent to one of the
+normal forms $\pm x^2y^2\pm x^r+ay^s$ transform to two different germs of which
+one is right-equivalent to one of the germs $\pm x^2\pm x^{r-4}+ax^{s-4}y^s$
+and one is right-equivalent to one of the germs  $\pm x^2\pm
+x^{s-4}+ax^{r-4}y^r$, for some $0\neq a\in \mathbb R$, if $r$ and $s$ are
+different, and to one germ which is right-equivalent to one of the germs $\pm
+x^2\pm x^{r-4}+ax^{r-4}y^r$, for some $0\neq a\in\mathbb R$, if  $r=s$. Since
+the milnor number of $f_1=\pm x^2\pm x^{s-4}+ax^{r-4}y^r$ is $s-5$ and the
+milnor number of $f_2=\pm x^2\pm x^{r-4}+ax^{s-4}y^s$  is $r-5$, if $r,s\neq
+4$, we determine $r$ and $s$ by calculating the milnor numbers of the resulting
+germs. Now, if necessary swap $x$ and $y$ such that $r\le s$. If $r$ is uneven,
+then $x^2y^2+x^{r}+ay^s\requiv x^2y^2- x^{r}+ay^s$ and
+$-x^2y^2+x^{r}+ay^s\requiv -x^2y^2- x^{r}+ay^s$. When $r=6$ the sign of the
+monomial $x^r$ in the normal form of $g$ is negative if the inertia index of
+$f_1$, after applying the Splitting Lemma, is greater than zero, if the sign of
+$y^2$ in $f_1$ is positive, and is greater than one if the sign of $y^2$ in
+$f_1$ is negative. Otherwise the sign of $x^r$ in the normal form of $g$ is
+positive. If $r$ is even and $r\neq 6$ we determine the sign in front of the
+monomial $x^r$, similar to previous calculations, considering the sign of $x^{r-4}$
+after transforming the residual part to a germ of which the coefficient of $x^{r-4}$ is non-zero.
+
+We implemented Algorithm \ref{BlowingUp} that blows an input polynomial $g$ in
+$\mathbb Q[x_1,x_2]$ of complex type $Y_{r,s}$ up at the origin and gives as
+output a list $L$, containing the following entries. $L[1]$ and $L[2]$: the
+values of $r$ and $s$, $r\le s$, respectively; $L[3]$: the inertia index of the
+resulting germ, after blowing up $g$, with lowest milnor number, if this
+resulting germ have a singularity on the exceptional divisor, i.e. $L[1]\neq
+5$, and $0$ otherwise; $L[4]$: the sign of the monomial $x_1^r$ or $x_2^r$ in
+the normal form of the resulting singularity with lowest milnor number; $L[5]$
+the value $1$ if the resulting germs have singularities that occur at
+irrational points on the exceptional divisor, and $0$ otherwise. If the value
+of $L[5]$ is $1$, the values of $L[3]$ and $L[4]$ is determined using floating
+real numbers and thus may be wrong.
+
+In Algorithm \ref{BlowingUp}, we consider the different blowing up charts
+seperately. Without loss of generality, let us consider the chart where $x_i$
+is the local equation for the exceptional divisor. After determining the strict
+transform $p$, we determine whether $p$ has singularities on the exceptional
+divisor, and if this is the case, where on the exceptional divisor do the
+singularities occur. We do this by determining a minimal prime decomposition
+$P_1\cap\cdots\cap P_s$, of the radical of the ideal $P=\langle
+\textnormal{jacob}(p),p,x_i\rangle$ over $\mathbb Q$, using the \textsc{Singular}
+library {\tt primdec.lib} \cite{primdec.lib} (If $p$ has zero or one singularity
+on the exceptional divisor, $s=1$, otherwise, if $p$ has two singularities on
+the exceptional divisor, $s=1$ or $s=2$, depending whether all the $P_j$'s are
+prime over $\mathbb R$).  If $P_j$ is not prime over $\mathbb R$ for any $j$,
+then $p$ has singularities at irrational points on the exceptional divisor.
+This can be determined by considering the degrees of a reduced standard basis,
+using lexicographical ordering, for every $P_j$. If the degree of any basis
+element of $P_j$, for some $j$, is of degree $2$ then $P_j$ is not prime over
+$\mathbb R$.
+
+As we will see later, if $p$ has no singularities on the exceptional divisor or the
+singularities of $p$ occur at rational points on the exceptional divisor in one
+chart, this is the case in both charts. Let us first consider this case.
+In this case we firstly determine a list $L_1$ which contains the resulting
+singularities at $0$, or $x_1$ in case $p$ has no singularities on the exceptional divisor, 
+in both charts, after $g$ is blown up. Considering the chart with
+exceptional divisor $x_i$, if $P=\langle 1\rangle$, then $p$ has no singularities on the
+exceptional divisor and $x_1$ is added to the list $L_1$. Otherwise, we determine the
+rational points on the exceptional divisor where singularities occur by
+determining the zero set of $P$. We do this by determining the zero point
+$(s_{1j},s_{2j})$ of each $P_j$, using a reduced basis determined by using
+lexicographical ordering. Transforming $p$ by the transformation defined by
+$x_1\mapsto x_1-s_{1j}$, $x_2\mapsto x_2-s_{2j}$ we map the singularity that
+occur at  $(s_{1j},s_{2j})$ to $0$. We add these resulting singularities to
+$L_1$. Repeating the process for both charts, $L_1$ contains all the resulting
+singularities, possibly repeated, after blowing up $g$ at the origin, and $x_1$
+for each resulting germ that does not have singularities on the exceptional divisor. We
+simplify $L_1$ by deleting repeating singularities and ordering the entries
+according to the milnor number of the entries. Having the list $L_1$, the
+methods discussed above are used to determine the values of the list $L$.
+
+If there occur a singularity of $p$ at an irrational point in some chart on the
+exceptional divisor both charts contain two singularities of the strict
+transform at irrational points on the exceptional divisor. Thus it is only
+necessary to consider one chart. This can be seen as follows. Since $g$ is of
+type $Y_{r,s}$, $g$ is of the form
+\[g=(a_0x_1+a_1x_2)^2(b_0x_1+b_1x_2)^2+\textnormal{ higher terms in $x_1$ and
+$x_2$, $a_0,a_1,b_0,b_1\in\mathbb R$.}\] Without loss of generality we consider
+the chart where $x_1$ is the local equation for the exceptional divisor. Then
+\[p=(a_0+a_1x_2)^2(b_0+b_1x_2)^2+\textnormal{ terms that are divisible by
+$x_1$.}\] Taking $p$ and $x_1$ in $P$ into account the only possible zero
+points of $P$ are the roots of the rational polynomial $p_1 =
+(a_0+a_1x_2)^2(b_0+b_1x_2)^2$. If $a_1=0$ or $b_1=0$ it follows from the fact
+that $\mathbb Q$ is a perfect field that $p_1$ only has a rational root. Hence
+$a_1\neq 0$ and $b_1\neq 0$. Therefore   $(0,-\frac{a_0}{a_1})$ and
+$(0,-\frac{b_0}{b_1})$ are the only possible zero points of $P$. Because one of
+these points are irrational $a_0$ and $b_0$ are nonzero. Since $\mathbb Q$ is a
+perfect field and $(a_0+a_1x_2)^2(b_0+b_1x_2)^2$ is  a rational polynomial it
+follows that $(a_0+a_1x_2)(b_0+b_1x_2)$ is also a rational polynomial.
+Therefore both roots $-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ are irrational
+if any one of the roots is irrational. Furthermore,
+$(a_0+a_1t)(b_0+b_1t)\in\mathbb Q(t)$ is a minimal polynomial for
+$-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ over $\mathbb Q$. Hence $P$ has zero
+points at $-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ or no zero points at all.
+Since every chart contain the whole exceptional divisor, except one point, each
+chart will contain at least one singular point of $p$, and hence in this case
+two singular points of $p$, on the exceptional divisor. Similarly, the
+singularities of $p$ on the exceptional divisor in the chart with exceptional
+divisor $x_2$, will occur at the irrational points $(-\frac{a_1}{a_0},0)$ and
+$(-\frac{b_1}{b_0},0)$. Furthermore, as we will see in the next paragraph, in
+such cases the milnor numbers of the two resulting singularities will be equal.
+Hence such cases will only occur if the normal form of $g$ is of either one of
+the forms $\pm x_1^2x_2^2\pm x_1^r+ax_2^r$.
+
+In such a case, we first ensure that the singularities of $p$ occur at
+irrational points $(0,e)$ and $(0,-e)$, for some $e\in\mathbb R$, on the
+exceptional divisor. This is done by applying the rational transformation
+$x_1\mapsto x_1$, $x_2\mapsto x_2-(\frac{a_0b_1+b_0a_1}{a_1b_1})x_1$ to $g$.
+Now $g$ will be of the form
+\[g=c(x_1+ex_2)^2(x_1-ex_2)^2+\textnormal{ higher terms in $x_1$ and $x_2$,
+$c,e\in\mathbb R$}.\]
+Determining $p$, again, we have
+\[p=c(1+ex_2)^2(1-ex_2)^2+\textnormal{ terms that are divisible by $x_1$.}\]
+ Working over the ring $\mathbb Q(t)\cong \mathbb Q(e)\cong \mathbb Q (-e)$,
+ with minimum polynomial $(t-e)(t+e)$, we shift the singularities of $p$ to $0$
+ by the transformations defined by $x_1\mapsto x_1$, $x_2\mapsto x_2-t$. Since
+ $t$ can represent either $e$ or $-e$, the resulting polynomial represent both
+ singularities working over $\mathbb Q(t)$. The milnor numbers for the
+ resulting singularities, and thus L[1] and L[2], can be detemined working over
+ the ring $\mathbb Q(t)$. Because both resulting singularities are represented by
+ one polynomial over $\mathbb Q(t)$, the milnor number will be the same in both
+ cases. Since $t$ represents $e$ or $-e$, $t$ does not have a sign. Therefore
+ it is not enough working over $\mathbb Q(t)$ when determining the inertia
+ index of the resulting singularities or the sign of the monomial $x_1^r$ or
+ the monomial $x_2^r$ in  any one of the resulting normal forms. The resulting
+ singularities over $\mathbb R$ is determined by replacing $t$ with $e$ and
+ $-e$, respectively. Since it is only possible to work with floating real
+ numbers in \textsc{Singular} approximation errors may occur. We determine the
+ approximated values of $e$ and $-e$ using the library {\tt solve.lib}
+ \cite{solve.lib} in \textsc{Singular}. Using the previously discussed methods
+ the approximated values of $L[3]$ and $L[4]$ can now be determined.
+
+\begin{algorithm}[h]
+\caption{Algorithm for blowing up singularities of main type $Y_{r,s}$\label{BlowingUp}}
+\begin{algorithmic}[1]
+
+\REQUIRE{ $g\in\m^3\subset\mathbb Q[x_1,x_2]$ of complex
+singularity type $Y_{r,s}$.}
+\ENSURE{ a List $L$ with entries $L[1]$ and $L[2]$: the values
+of $r$ and $s$, $r\le s$, respectively; $L[3]$: the inertia index of the
+resulting germ, after blowing up $g$, with lowest milnor number if $L[1]\neq
+5$, and $0$ otherwise; $L[4]$: the sign of the monomial $x_1^r$ or $x_2^r$ in
+the normal form of the resulting singularity with lowest milnor number; $L[5]$
+the value $1$ if the resulting germs have singularities on the exceptional divisor, i.e.~$L[1]\neq 5$, and occur at irrational points on the exceptional
+divisor and $0$ otherwise. If the value of $L[5]$ is $1$, the values of $L[3]$
+and $L[4]$ are determined using floating real numbers and thus may be wrong.}
+\STATE $L_1:=\emptyset$
+\STATE $L:=\emptyset$
+\FOR{$i=1,2$}
+\STATE $\phi_1:$ $x_i\mapsto x_i$, $x_j\mapsto x_ix_j$,
+$j\neq i$
+\STATE $p:=\phi_1(g)$
+\WHILE{$p$ is divisible by $x_i$}
+\STATE $p=p/x_i$
+\ENDWHILE
+\STATE Let $P_1,\ldots,P_s$ be the prime ideals in the prime
+decomposition
+of the radical of the ideal
+$\langle\textnormal{jacob}(p),p,x_1\rangle$ over $\mathbb Q$ and let
+$f_{1j}, f_{2j}$ be a reduced standard basis for $P_j$, using
+lexicographical
+ordering;
+\IF{$\deg(f_{1j})=1$, i.e.~$P_j$ is prime, for all $j$}
+\STATE $m=0$
+\ELSE
+\STATE $m=1$
+\ENDIF
+\IF{$m=0$}
+\FOR{$(j=1; j\le s; j++)$}
+\IF{$P_j=\langle 1\rangle$}
+\STATE add $x_1$ to $L_1$
+\ENDIF
+\IF{$P_j\neq\langle 1\rangle$}
+\FOR{$i=1,2$}
+\STATE $\phi_2$: $x_1\mapsto x_1-s_1$,
+$x_2\mapsto x_2-s_2$, where $s_1$ is the solution of
+$x_1$ in $f_{2j}$ and $s_2$ is the
+solution of $x_2$ in $f_{1j}$
+\STATE Add $\phi_2(p)$ to $L_1$
+\ENDFOR
+\ENDIF
+\ENDFOR
+\ELSE
+\STATE $\phi_3$: $x_1\mapsto x_1$,
+$x_2\mapsto x_2 -\frac{a_0b_1+a_1b_0}{a_1b_1}x_1$, where $g=(a_0x_1+a_1x_2)^2(b_0x_1+b_1x_2)^2+$ higher terms
+in $x_1$ and $x_2$,
+$a_0,a_1,b_0,b_1\in\mathbb R$
+\STATE $g :=\phi_3(g)=c(x_1-ex_2)(x_1+ex_2)+$ higher terms
+in $x_1$ and $x_2$ $c,e\in\mathbb R$
+\STATE $p:=\phi_1(g)$
+\WHILE{$p$ is divisible by $x_i$}
+\STATE $p=p/x_i$
+\ENDWHILE
+\STATE $\phi_4: x_1\mapsto x_1, x_2\mapsto x_2-t$
+\STATE $h_1=\phi_4(p)\in\mathbb Q(t)[x_1,x_2]$
+\STATE $\mu_1 = $ milnor number of $h_1$
+\STATE Determine the real value $e$ and replace $t$ by $e$
+in $h_1$,
+i.e~now, $h_1\in\mathbb R[x_1,x_2]$
+\STATE Apply the Splitting Lemma to $h_1$
+\STATE $f_1:= $ the residual part of $h_1$
+\STATE $\lambda:= $ the inertia index of $h_1$
+\STATE $f'_1:=\jt(f_1,\mu_1-3)$
+\STATE $s_1:=$ coefficient of $x_1^{\mu_1-3}$
+\STATE $s_2:=$ coefficient of $x_2^{\mu_1-3}$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Apply $x_1\mapsto x_2, x_2\mapsto x_1$
+\ENDIF
+\STATE sign = coefficient of $x_1^{\mu_1-3}$
+\ENDIF
+\ENDFOR
+\IF{$m = 0$}
+\STATE $l:=$ the size of $L_1$
+\FOR{$i = 1, i\le l, i++$}
+\IF{$L_1[i]=x_1$}
+\STATE $\mu_i=4;$
+\ELSE
+\STATE $\mu_i=$ milnor number of $L_1[i]+4$;\newline
+\ENDIF
+\ENDFOR
+\STATE Delete repeating entries of $L_1$ and order the entries of
+$L_1$ from small to
+big with regard to its milnor number; \newline
+\IF{$(L_1[1]\neq x_1)$}
+\STATE Apply the Splitting Lemma to $L_1[1]$
+\STATE $f_1:=$ the residual part of $L_1[1]$
+\STATE $\lambda:=$ inertia index of $L_1[1]$
+\STATE $f_1':=\jt(f_1,\mu_1-3)$
+\STATE $s_1:=$ coefficient of $x_1^{\mu_1-3}$
+\STATE $s_2:=$ coefficient of $x_2^{\mu_1-3}$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Apply $x_1\mapsto x_2$, $x_2\mapsto x_1$
+\ENDIF
+\STATE sign $=$ coefficient of $x_1^{\mu_1-3}$;\newline
+\ELSE
+\STATE $\lambda = 0$
+\STATE sign $=0$
+\STATE $L[1]=\mu_1$
+\STATE $L[2]=\mu_2$
+\STATE $L[3]=\lambda$
+\STATE $L[4]=$ sign
+\STATE $L[5]=m$
+\ENDIF
+\ENDIF
+\RETURN $L$
+
+\end{algorithmic}[1]
+\end{algorithm}[h]
+
+Here follows the algorithm we implemented to classify the singularities, using
+the output list $L$ in Algorithm \ref{BlowingUp}, of type $\widetilde Y_r$ and
+$Y_{r,s}$.
+
+\begin{algorithm}[h]
+\caption{Algorithm for the cases $\widetilde Y_r$ and $Y_{r,s}$
+\label{Y[r,s]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $f\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $\widetilde Y_r$ or $Y_{r,s}$.}
+ENSURE{ the real singularity type of $g$,
+i.e.~$\widetilde Y_r^+$, $\widetilde Y_r^-$, $Y_{r,s}^{++}$, $Y_{r,s}^{+-}$,
+$Y_{r,s}^{--}$, $Y_{r,s}^{-+}$.}
+\STATE $\mu :=$ milnor number of $f$
+\STATE $h :=  \jt(g,4)$
+\STATE $s_1 := \textnormal{coefficient of }x^4$
+\STATE $s_2 := \textnormal{coefficient of }y^4$
+\IF{$s_1=0$ and $s_2\neq 0$}
+\STATE Swap the variables $x$ and $y$ in $h$
+\ENDIF
+\IF{$s_1=0$ and $s_2=0$}
+\STATE $t_1:=\textnormal{coefficient of }x^3y\ (\textnormal{in } h)$
+\STATE $t_2:=\textnormal{coefficient of }x^2y^2\ (\textnormal{in } h)$
+\STATE $t_3:=\textnormal{coefficient of }xy^3\ (\textnormal{in } h)$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq 0$}
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto y$
+\ELSE
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto 3y$
+\ENDIF
+\STATE Apply (to $h$) $x\mapsto x$, $y\mapsto x+y$
+\ENDIF
+\ENDIF
+\STATE Write $h$ as $a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4$,
+$a_0,\ldots,a_4\in\mathbb Q, a_0\neq 0$
+\STATE sign = coefficient of $x^4$ (in $h$)
+\STATE Apply $x\mapsto x$, $y\mapsto 1$
+\STATE Write $h$ as $a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $r := \#$ real roots of $h$
+\IF{$r=0$}
+\STATE $r'=\frac{\mu-9}{2}+4$
+\IF{sign$>0$}
+\RETURN $\widetilde Y_{r'}^+$
+\ELSE
+\RETURN $\widetilde Y_{r'}^-$
+\ENDIF
+\ENDIF
+\IF{$r\neq 0$}
+
+\STATE Blowing up the origin of $g$ and let $L$ be a list with entries
+$L[1]$ and $L[2]$: the values of $r$ and $s$, $r\le s$, respectively; $L[3]$:
+the inertia index of the resulting singularity, after blowing up $g$, with
+lowest milnor number if the resulting germs have singularities on the exceptional divisor, i.e~$L[1]\neq 5$, and $0$ otherwise; $L[4]$: the sign of the monomial
+$x_1^r$ or $x_2^r$ in the normal form of the resulting singularity with lowest
+milnor number; $L[5]$ the value $1$ if the resulting germs intersects the
+exceptional divisor smoothly and occur at irrational points on the exceptional
+divisor and $0$ otherwise.
+\STATE $\mu_1:=L[1]$
+\STATE $\mu_2:=L[2]$
+\STATE $\lambda:=L[3]$
+\STATE $\sign_1:= L[4]$
+\STATE $m:=L[5]$
+
+\IF{($\mu_1+1$) mod $2=1$}
+\IF{sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\ELSE
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\ELSE
+\IF{$\mu_1=5$}
+\IF{sign$<0$}
+\STATE redefine $\sign_1$ as $\sign_1:=\lambda-1$
+\ELSE
+\STATE redefine $\sign_1$ as $\sign_1:=\lambda$
+\ENDIF
+\IF{$\sign_1>0$ and sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\IF{$\sign_1>0$ and sign$<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{--}$
+\ENDIF
+\IF{$\sign_1=0$ and sign$>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\ENDIF
+\IF{$\sign_1=0$ and sign$<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{-+}$
+\ENDIF
+
+\ELSE
+\STATE $\sign_1=$ coefficient of $x^{\mu_1-3}$
+\ENDIF
+\IF{sign$>0$ and $\sign_1>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{++}$
+\IF{sign$>0$ and $\sign_1<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{+-}$
+\ENDIF
+\IF{sign$<0$ and $\sign_1>0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{--}$
+\ENDIF
+\IF{sign$<0$ and $\sign_1<0$}
+\RETURN $Y_{\mu_1+1,\mu_2+1}^{-+}$
+\ENDIF
+\ENDIF
+\ENDIF
+
+\ENDIF
+\end{algorithmic}[1]
+\end{algorithm}[h]
+
+
+\subsection{Real exceptional $\mathbf 1$-modal singularities of corank $\mathbf 2$}
+\label{ExceptionalSingularities}
+\subsubsection{Exceptional cases:}Lastly we treat the exceptional singularities. The cases $E_{12}$, $E_{13}$,
+$Z_{11}$ and $Z_{12}$ are solved only using the complex classification of $g$.
+Singularities of complextype $Z_{13}$ are solved, similar to case $D_{4}$,
+using Lemma \ref{kjet} and Lemma \ref{x^3} to transform the $4$-jet of $g$, to
+the form $x^3y$, after which the sign of the term $y^6$ is considered.
+
+To classify the singularities of complextype $W_{12}$ and $W_{13}$ we only need
+to consider the signs of the coefficients of the monomials of the form $x^4$ in
+the $4$-jet of~$g$.
+
+For the case $E_{14}$ we use Lemma \ref{kjet} and Lemma \ref{x^3} to write the
+$3$-jet of $g$ in the form $sx^3$, $s\in\mathbb Q$. To simplify calculations we
+divide $g$ by $s$ such that $\jt(g,3)=x^3$ and after the following
+transformations multiply $g$ by $s$ again. We sistematically transform $g$ such
+that the $4$-jet is $a_0x^3$ and then such that the $5$-jet is $a_0x^3$,
+$a_0=\pm 1$.  We now, similarly to the case $D_4$, after multiplying $g$ with
+$s$ again, consider the sign of the $y^8$-term to determine the real
+singularity type. We only include the algorithm for the case $E_{14}$, since
+the algorithms for the other exceptional cases are trivial.
+
+\begin{algorithm}[h]
+\caption{Algorithm for the case $X_{9+k}$\label{X[9+k]}}
+\begin{algorithmic}[1]
+\REQUIRE{ $g\in \m^3\subset\mathbb Q[x,y]$ of complex
+singularity type $X_{9+k}$}
+\ENSURE{the real singularity type of $g$, i.e.~$X_{9+k}^-$
+or $X_{9+k}^+$.}
+\STATE $g:=\jt(g,4)$
+\STATE $s_1:=$ coefficient of ${x^4}$
+\STATE $s_2:=$ coefficient of ${y^4}$
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE Swap the variables $x$ and $y$
+\ENDIF
+\IF{$s_2\neq0$ and $s_1=0$}
+\STATE $t_1:=$ coefficient of ${x^3y}$
+\STATE $t_2:=$ coefficient of ${x^2y^2}$
+\STATE $t_3:=$ coefficient of ${xy^3}$
+\IF{$t_1+t_2+t_3=0$}
+\IF{$2t_1+4t_2+8t_3\neq0$}
+\STATE Apply $x\mapsto x$, $y\mapsto 2y$ (to $g$)
+\ELSE 
+\STATE Apply $x\mapsto x$, $y\mapsto 3y$ (to $g$)
+\ENDIF
+\ENDIF
+\STATE Apply $x\mapsto x$, $y\mapsto x+y$ (to $g$)
+\ENDIF
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4,\quad
+a_0,\ldots,a_4\in\mathbb Q$
+\STATE $g':=g(x,1)=a_0x^4+a_1x^3+a_2x^2+a_3x+a_4$
+\STATE $n:=\#$ real roots of $g'$
+\IF{$n=1$}
+\IF{$a_0>0$}
+\RETURN $X_{9+k}^{++}$
+\ELSE
+\RETURN $X_{9+k}^{--}$
+\ENDIF
+\ENDIF
+\IF{$n=3$}
+\STATE Factorize $g$ in linear factors over $\mathbb Q[x,y]$,
+with $g_1:=t_1x+t_2y$ the factor with multiplicity $2$
+\STATE Apply $x\mapsto\frac{x+t_2y}{t_1}$, $y\mapsto y$ (to $g$)
+\STATE Write $g$ as $g=a_0x^4+a_1x^3y+a_2x^2y^2,\quad
+a_0,a_1,a_2\in\mathbb Q$
+\IF{$a_2>0$}
+\RETURN $X_{9+k}^{-+}$
+\ELSE
+\RETURN $X_{9+k}^{+-}$
+\ENDIF
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Algorithm for the case $E_{14}$}\label{E[14]}
+\begin{algorithmic}[1]
+\REQUIRE{$f\in \m^3$, $f\in\mathbb Q[x,y]$ of complex
+singularity type $E_{14}$.}
+\ENSURE{the real singularity type of $f$, i.e.~$E_{14}^+$ or
+$E_{14}^-$.}
+\STATE $h_1 :=\jt(g,3)$
+\STATE $s :=$ coefficient of $h_1$
+\IF{$s=0$}
+\STATE swap variables $x$ and $y$ in $g$
+\ENDIF
+\STATE $g := \frac{g}{s}$
+\STATE $h_2 :=\jt(g,3)$
+\STATE Factors $:=$ the list of factors of $h_1$ over $\mathbb Q$
+\STATE Write $g_1$ as $t_1x+t_2y$, $t_1,t_2\in\mathbb Q$, $t_1 := \pm-1$, where
+$g_1$ is the first entry in the list $F$
+\STATE Apply (to $g$): $x\mapsto \frac{x-t_2y}{t_1}$, $y\mapsto y$
+\STATE Write $g$ as $a_0x^3+ $terms of higher degree,\quad$a_0\in\mathbb Q$
+\STATE $g_3:=\frac{\jt(f,4)-a_0x^3}{3x^2}$
+\STATE Apply (to $g$): $x\mapsto g_3$, $y\mapsto y$
+\STATE $g_4:=\frac{\jt(f,5)-a_0x^3}{3x^2}$
+\STATE Apply (to $g$): $x\mapsto x-g_4$, $y\mapsto y$
+\STATE $g := g*s$
+\STATE $w:=$ the coefficient of $y^8$ in $g$
+\IF{$w>0$}
+\RETURN $E_{14}^+$
+\ELSE
+\RETURN $E_{14}^-$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+ \begin{thebibliography}{99}
+\bibitem{AVG1985} Arnold, V.I.; Gusein-Zade, S.M.; Varchenko, A.N.:
+Singularities of Differential Maps. Vol.~I, Birkh\"auser (1985).
+\bibitem{A1975} Arnold, V.I.:
+\textit{Normal form of functions near degenerate critical points.},
+Russian Mth. Surveys 29 ii (1975), 10-50.
+\bibitem{DGPS}
+Decker, W.; Greuel, G.-M.; Pfister, G.; Sch{\"o}nemann, H.:
+\newblock {\sc Singular} {3-1-5} --- {A} computer algebra system for polynomial
+computations.
+\newblock {http://www.singular.uni-kl.de} (2012).
+\bibitem{Kruger} Kr\"uger, K.: Klassifikation von
+Hyperfl\"agensingularit\"aten, Diploma Thesis (1997).
+\bibitem{GLS2007}Greuel, G.-M.; Lossen, C.; Shustin E.:
+Introduction to Singularities and Deformations, Springer, Berlin (2007).
+\bibitem{GP2008} Greuel G.-M.; Pfister G.;
+A Singular introduction to Commutative Algebra, 2nd Ed., Springer,
+Berlin (2008).
+\bibitem{classify}
+Kr\"uger, K.:
+{\tt classify.lib}. {A} {\sc Singular} {3-1-5} library for classifying isolated
+hypersurface singularities w.r.t. right equivalence, based on the determinator
+of singularities by V.I. Arnold (2012).
+\bibitem{realclassify}
+Marais, M. and Steenpass, A.:
+{\tt realclassify.lib}. {A} {\sc Singular} {3-1-5} library for classifying
+isolated hypersurface singularities over the reals w.r.t. right equivalence,
+based on the determinator of singularities by V.I. Arnold. This library is
+based on classify.lib by Kai Kr\"uger, but handles the real case, while
+classify.lib does the complex classification (2012).
+\bibitem{primdec.lib} Pfister, G.; Decker, W.;  Schoenemann, H.; Laplagne, S.:
+{\tt primdec.lib}. {A} {\sc Singular} {3-1-5} library for Primary Decomposition
+and Radical of Ideals (2012).
+\bibitem{Siersma} Siersma D.: Classification and deformation of Singularities,
+disertation, University of Amsterdam (1974).
+\bibitem{roots}
+Tobis, A.:
+{\tt rootsur.lib}. {A} {\sc Singular} {3-1-5} library for Counting number of
+real roots of univariate polynomial (2012).
+\bibitem{solve.lib} Wenk, M.: {\tt solve.lib}. Pohl, W.:
+{A} {\sc Singular} {3-1-5} library for Complex Solving of Polynomial Systems
+(2012).
+
+\end{thebibliography}
+
+\end{document}
