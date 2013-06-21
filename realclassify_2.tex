@@ -33,6 +33,7 @@
 \DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\T}{T}
 \DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Quot}{Quot}
 
 \title[The classification of real singularities using \textsc{Singular}, %
 Part II]%
@@ -99,36 +100,24 @@ of $\K[[x_1, \ldots, x_n]]$ which take $f$ to $g$ by $\T_{\K}(f,g)$, i.e.\@
 \end{defn}
 
 \begin{remark}
-Let $\K$ be either $\R$ or $\C$. Let $\psi':\; \K[a] \rightarrow \K(b)$ be a
-$\K$-algebra homomorphism. Then $\ker(\psi')$ is a prime ideal in $\K[a]$, thus
-$\psi'$ can be extended to a $\K$-algebra homomorphism
-$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(b)$ defined by
-$\psi(a) := \psi'(a)$.
+Let $\K$ be either $\R$ or $\C$. As usual, we denote the quotient field
+$\Quot(\K[a])$ by $\K(a)$. Let $f \in \K(a)[[x_1,\ldots,x_n]]$ be a power
+series over this quotient field. Then $f$ can be written as
+$f = \sum_{\nu \in \N^n} c_\nu \boldsymbol{x}^\nu$ with coeffients
+$c_\nu = \frac{p_\nu}{q_\nu} \in \K(a)$ where $p_\nu, q_\nu \in \K[a]$ are
+polynomials and $q_\nu \neq 0$ for $\nu \in \N^n$.
 
-Note that $\ker(\psi') = \langle 0 \rangle$ if and only if
-$\psi'(a) \not\in \K \subset \K(b)$ (with the usual inclusion). In this case we
-get a $\K$-algebra homomorphism $\psi:\; \K(a) \rightarrow \K(b)$.
+If we consider the polynomials $p_\nu, q_\nu$ as polynomial functions
+$p_\nu, q_\nu: \; \K \rightarrow \K$, then we may also consider the
+coefficients $c_\nu$ as functions
+$c_\nu: \; \K \setminus V(q_\nu) \rightarrow \K$ where $V(q_\nu)$ is the set of
+points where $q_\nu$ vanishes. Via this correspondence, we finally get power
+series
+$f(u) := \sum_{\nu \in \N^n} c_\nu(u) \boldsymbol{x}^\nu
+\in \K[[x_1,\ldots,x_n]]$ for each value
+$u \in \K \setminus \bigcup_{\nu \in \N^n} V(q_\nu)$.
 
-Let $f \in \K(a)[[x_1,\ldots,x_n]]$ be a power series. We write $f(q)$ with
-$q \in \K(b)$ as a shorthand notation for $\psi^*(f)$ where
-\[
-\psi^*:\;
-(\K[a]_{\ker(\psi')})[[x_1,\ldots,x_n]] \rightarrow \K(b)[[x_1,\ldots,x_n]]
-\]
-is the canonical extension of the $\K$-algebra homomorphism
-$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(b)$
-given by $\psi(a) := q$ as above. In order that this notation is well-defined,
-we have to make sure that
-$f \in (\K[a]_{\ker(\psi')})[[x_1,\ldots,x_n]]
-\subseteq \K(a)[[x_1,\ldots,x_n]]$
-(with the usual inclusion). For $\psi(a) = \psi'(a) = q \not\in \K$, this
-condition always holds.
-
-As a special case, we may also use this notation $b = a$ and thus get a
-$\K$-algebra homomorphism $\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K(a)$.
-For $\psi'(a) = q \in \K$, we may even forget about $b$ and simply consider
-$\psi:\; \K[a]_{\ker(\psi')} \rightarrow \K$. Note
-that the notation $f(q)$ is compatible with the notations for equivalence
+Note that the notation $f(u)$ is compatible with the notations for equivalence
 classes and normal forms introduced above in the sense that, e.g.,
 $\NF{E_{14}(a)}(b) = \NF{E_{14}(b)}$.
 \end{remark}
@@ -138,7 +127,7 @@ $\NF{E_{14}(a)}(b) = \NF{E_{14}(b)}$.
 \begin{enumerate}
 \item
 Given power series $f,g \in \C(a)[[x_1,\ldots,x_n]]$, we define the
-first set of parameter changes of $f$ and $g$ as
+first set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_1(f, g)
 := \{ (u, v) \in \C^2 \mid
@@ -148,7 +137,7 @@ P_1(f, g)
 
 \item
 Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
-second set of parameter changes of $f$ and $g$ as
+second set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_2(f, g)
 := \{ (u, v) \in \R^2 \mid
@@ -158,20 +147,12 @@ P_2(f, g)
 
 \item
 Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
-third set of parameter changes of $f$ and $g$ as
+third set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_3(f, g)
 := \{ (u, v) \in \R^2 \mid
 &f(u) \text{ and } g(v) \text{ are well-defined and } \\
 &\T_{\R}(f(u), g(v)) \neq \varnothing \} \,.
-\end{align*}
-
-\item
-For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
-as
-\begin{align*}
-C(p(X)) &:= \{ (a, ra) \in \C^2 \mid r \in \C, \; p(r) = 0 \} \,, \\
-R(p(X)) &:= \{ (a, ra) \in \R^2 \mid r \in \C, \; p(r) = 0 \} \,.
 \end{align*}
 \end{enumerate}
 \end{defn}
@@ -189,6 +170,19 @@ $P_i(T_1,T_2)$ instead of $P_i(\NF{T_1(a)}, \NF{T_2(a)})$, e.g., we write
 $P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
 \end{enumerate}
 \end{remark}
+
+It turns out that in some cases, the sets $P_1$, $P_2$ and $P_3$ are just
+unions of sets of the form $(a, ra)_{a \in \K}$ for some $r \in \C$ and $\K$
+either $\C$ or $\R$. For those cases we use the following auxiliary notation.
+
+\begin{defn}
+For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
+as
+\begin{align*}
+C(p(X)) &:= \{ (a, ra) \in \C^2 \mid a, r \in \C, \; p(r) = 0 \} \,, \\
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
+\end{align*}
+\end{defn}
 
 
 \section{Generic Coordinate Transformations}
