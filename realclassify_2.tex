@@ -1,9 +1,13 @@
 \documentclass[noend]{amsproc}
+
+\renewcommand{\arraystretch}{1.3}
 \linespread{1}
+
 \usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{multirow}
+\usepackage{rotating}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -19,6 +23,7 @@
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\NF}[1]{\operatorname{NF}(#1)}
+\newcommand{\tY}{\widetilde{Y}}
 
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
@@ -73,6 +78,89 @@ corank $0$, $1$ and $2$ over the real numbers as computed by V.I.~Arnold in
 
 
 \section{Introduction}
+
+\begin{table}[htbp]
+\centering
+\caption{Normal forms of singularities of modality $1$ and corank $2$.}
+\label{tab:normal_forms}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+
+\multicolumn{1}{|c}{}
+ & & Complex     & Normal forms     & \multirow{2}{*}{Restrictions} \\
+\multicolumn{1}{|c}{}
+ & & normal form & of real subtypes &                               \\
+\hline\hline
+
+
+\multirow{6}{*}{\begin{sideways}Parabolic\end{sideways}}
+
+& \multirow{4}{*}{$X_9$} & \multirow{4}{*}{$x^4+ax^2y^2+y^4$}
+  & $+x^4+ax^2y^2+y^4$ $(X_9^{++})$ & \multirow{2}{*}{$a^2\neq4$} \\\cline{4-4}
+&&& $-x^4+ax^2y^2-y^4$ $(X_9^{--})$ &                             \\\cline{4-5}
+&&& $+x^4+ax^2y^2-y^4$ $(X_9^{+-})$ & \multirow{2}{*}{-}          \\\cline{4-4}
+&&& $-x^4+ax^2y^2+y^4$ $(X_9^{-+})$ &                             \\\cline{2-5} 
+
+& \multirow{2}{*}{$J_{10}$} & \multirow{2}{*}{$x^3+ax^2y^2+xy^4$}
+  & $x^3+ax^2y^2+xy^4$ $(J_{10}^+)$ & $a^2 \neq 4$ \\ \cline{4-5}
+&&& $x^3+ax^2y^2-xy^4$ $(J_{10}^-)$ & -            \\ \hline
+
+
+\multirow{12}{*}{\begin{sideways}Hyperbolic\end{sideways}}
+
+& \multirow{2}{*}{$J_{10+k}$} & \multirow{2}{*}{$x^3+x^2y^2+ay^{6+k}$}
+  & $x^3+x^2y^2+ay^{6+k}$ $(J_{10+k}^+)$
+      & \multirow{2}{*}{$a \neq 0,\; k > 0$} \\ \cline{4-4}
+&&& $x^3-x^2y^2+ay^{6+k}$ $(J_{10+k}^-)$ &   \\ \cline{2-5}
+
+& \multirow{4}{*}{$X_{9+k}$} & \multirow{4}{*}{$x^4+x^2y^2+ay^{4+k}$}
+  & $+x^4+x^2y^2+ay^{4+k}$ $(X_{9+k}^{++})$
+      & \multirow{4}{*}{$a \neq 0,\; k > 0$}  \\ \cline{4-4}
+&&& $-x^4-x^2y^2+ay^{4+k}$ $(X_{9+k}^{--})$ & \\ \cline{4-4}
+&&& $+x^4-x^2y^2+ay^{4+k}$ $(X_{9+k}^{+-})$ & \\ \cline{4-4}
+&&& $-x^4+x^2y^2+ay^{4+k}$ $(X_{9+k}^{-+})$ & \\ \cline{2-5}
+
+& \multirow{4}{*}{$Y_{r,s}$} & \multirow{4}{*}{$x^2y^2+x^r+ay^s$}
+  & $+x^2y^2+x^r+ay^s$ $(Y_{r,s}^{++})$
+      & \multirow{4}{*}{$a \neq 0,\; r,s > 4$} \\ \cline{4-4}
+&&& $-x^2y^2-x^r+ay^s$ $(Y_{r,s}^{--})$ &      \\ \cline{4-4}
+&&& $+x^2y^2-x^r+ay^s$ $(Y_{r,s}^{+-})$ &      \\ \cline{4-4}
+&&& $-x^2y^2+x^r+ay^s$ $(Y_{r,s}^{-+})$ &      \\ \cline{2-5}
+
+& \multirow{2}{*}{$\tY_r$} & \multirow{2}{*}{$(x^2+y^2)^2+ax^r$}
+  & $+(x^2+y^2)^2+ax^r$ $(\tY_r^+)$
+      & \multirow{2}{*}{$a \neq 0,\; r > 4$} \\ \cline{4-4}
+&&& $-(x^2+y^2)^2+ax^r$ $(\tY_r^-)$ &        \\ \hline
+
+
+\multirow{12}{*}{\begin{sideways}Exceptional\end{sideways}}
+
+& $E_{12}$ & $x^3+y^7+axy^5$ & $x^3+y^7+axy^5$ & - \\ \cline{2-5}
+
+& $E_{13}$ & $x^3+xy^5+ay^8$ & $x^3+xy^5+ay^8$ & - \\ \cline{2-5}
+
+& \multirow{2}{*}{$E_{14}$} & \multirow{2}{*}{$x^3+y^8+axy^6$}
+  & $x^3+y^8+axy^6$ $(E_{14}^+)$ & \multirow{2}{*}{-} \\ \cline{4-4}
+&&& $x^3-y^8+axy^6$ $(E_{14}^-)$ &                    \\ \cline{2-5}
+
+& $Z_{11}$ & $x^3y+y^5+axy^4$ & $x^3y+y^5+axy^4$ & - \\ \cline{2-5}
+
+& $Z_{12}$ & $x^3y+xy^4+ax^2y^3$ & $x^3y+xy^4+ax^2y^3$ & - \\ \cline{2-5}
+
+& \multirow{2}{*}{$Z_{13}$} & \multirow{2}{*}{$x^3y+y^6+axy^5$}
+  & $x^3y+y^6+axy^5$ $(Z_{13}^+)$ & \multirow{2}{*}{-} \\ \cline{4-4}
+&&& $x^3y-y^6+axy^5$ $(Z_{13}^-)$ &                    \\ \cline{2-5}
+
+& \multirow{2}{*}{$W_{12}$} & \multirow{2}{*}{$x^4+y^5+ax^2y^3$}
+  & $+x^4+y^5+ax^2y^3$ $(W_{12}^+)$ & \multirow{2}{*}{-} \\ \cline{4-4}
+&&& $-x^4+y^5+ax^2y^3$ $(W_{12}^-)$ &                    \\ \cline{2-5}
+
+& \multirow{2}{*}{$W_{13}$} & \multirow{2}{*}{$x^4+xy^4+ay^6$}
+  & $+x^4+xy^4+ay^6$ $(W_{13}^+)$ & \multirow{2}{*}{-} \\ \cline{4-4}
+&&& $-x^4+xy^4+ay^6$ $(W_{13}^-)$ &                    \\ \hline
+
+\end{tabular}
+\end{table}
 
 
 \section{The Sets of Parameter Transformations
