@@ -98,7 +98,7 @@ corank $0$, $1$ and $2$ over the real numbers as computed by V.I.~Arnold in
 & \multirow{4}{*}{$X_9$} & \multirow{4}{*}{$x^4+ax^2y^2+y^4$}
   & $+x^4+ax^2y^2+y^4$ $(X_9^{++})$ & \multirow{2}{*}{$a^2\neq4$} \\\cline{4-4}
 &&& $-x^4+ax^2y^2-y^4$ $(X_9^{--})$ &                             \\\cline{4-5}
-&&& $+x^4+ax^2y^2-y^4$ $(X_9^{+-})$ & \multirow{2}{*}{-}          \\\cline{4-4}
+&&& $+x^4+ax^2y^2-y^4$ $(X_9^{+-})$ & \multirow{2}{*}{$a^2\neq-4$}\\\cline{4-4}
 &&& $-x^4+ax^2y^2+y^4$ $(X_9^{-+})$ &                             \\\cline{2-5} 
 
 & \multirow{2}{*}{$J_{10}$} & \multirow{2}{*}{$x^3+ax^2y^2+xy^4$}
@@ -272,6 +272,16 @@ R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
 \end{align*}
 \end{defn}
 
+\begin{defn}
+For $\Omega \subset \C$, let $(f_i: \Omega \rightarrow \C)_{i \in I}$ be a
+family of complex-valued functions on $\Omega$. We define the joint graph of
+$(f_i)_{i \in I}$ as
+\[
+\Gamma_\Omega((f_i)_{i \in I})
+:= \{ (a, f_i(a)) \in \Omega \times \C \mid a\in \Omega,\; i \in I \}\,.
+\]
+\end{defn}
+
 
 \section{Generic Coordinate Transformations}
 
@@ -280,6 +290,103 @@ R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
 
 
 \section{Results}
+
+\begin{theorem}
+The structure of the equivalence classes of the $X_9$ singularities is as shown
+in Table~\ref{tab:X9_equivalences} where for $j = 1, \ldots, 6$ and
+$\rho, \sigma \in \{1, i\}$, the function $f_j^{\rho, \sigma}$ is defined as
+follows:
+\begin{align*}
+f_1^{\rho, \sigma}(a) &= +\rho \sigma \cdot a \,, &
+f_3^{\rho, \sigma}(a) &= \frac{+2\sigma a+12\rho\sigma}{a-2\rho} \,, &
+f_5^{\rho, \sigma}(a) &= \frac{-2\sigma a+12\rho\sigma}{a+2\rho} \,, \\
+f_2^{\rho, \sigma}(a) &= -\rho \sigma \cdot a \,, &
+f_4^{\rho, \sigma}(a) &= \frac{+2\sigma a-12\rho\sigma}{a+2\rho} \,, &
+f_6^{\rho, \sigma}(a) &= \frac{-2\sigma a-12\rho\sigma}{a-2\rho} \,.
+\end{align*}
+
+Furthermore, we use the following notation:
+\begin{align*}
+\C'  &:= \C \setminus \{ -2, 2\} \,, &
+\R'  &:= \R \setminus \{ -2, 2\} \,, &
+\C'' &:= \C \setminus \{ -2i, 2i\} \,.
+\end{align*}
+
+\newcommand{\specialvrule}{\rule[-1.8ex]{0pt}{5ex}}
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $X_9$ singularities}
+\label{tab:X9_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$X_9^{++}$ & $X_9^{++}$ &
+\multirow{6}{*}{$\Gamma_{\C'}\left(f_1^{1,1}, \ldots, f_6^{1,1}\right)$} &
+\multirow{6}{*}{$\Gamma_{\R'}\left(f_1^{1,1}, \ldots, f_6^{1,1}\right)$} &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{\R'}\left(f_1^{1,1}\right)$\specialvrule \\
+    $\cup\; \Gamma_{\R^{>-2}}\left(f_5^{1,1}\right)$\specialvrule
+\end{tabular}
+\\ \cline{1-2}\cline{5-5}
+
+$X_9^{--}$ & $X_9^{--}$ &&&
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{\R'}\left(f_1^{1,1}\right)$\specialvrule \\
+    $\cup\; \Gamma_{\R^{<2}}\left(f_3^{1,1}\right)$\specialvrule
+\end{tabular}
+\\ \cline{1-2}\cline{5-5}
+
+$X_9^{++}$ & $X_9^{--}$ &&&
+$\Gamma_{\R^{<-2}}\left(f_4^{1,1}\right)$\specialvrule
+\\ \cline{1-2}\cline{5-5}
+
+$X_9^{--}$ & $X_9^{++}$ &&&
+$\Gamma_{\R^{>2}}\left(f_6^{1,1}\right)$\specialvrule
+\\ \hline
+
+
+$X_9^{+-}$ & $X_9^{+-}$ &
+\multirow{4}{*}{$\Gamma_{\C''}\left(f_1^{i,i}, \ldots, f_6^{i,i}\right)$} &
+\multirow{4}{*}{$\Gamma_{\R}\left(f_1^{1,1}, f_2^{1,1}\right)$} &
+\multirow{4}{*}{$\Gamma_{\R}\left(f_1^{1,1}\right)$} \\ \cline{1-2}
+
+$X_9^{-+}$ & $X_9^{-+}$ &&& \\ \cline{1-2}
+
+$X_9^{+-}$ & $X_9^{-+}$ &&& \\ \cline{1-2}
+
+$X_9^{-+}$ & $X_9^{+-}$ &&& \\ \hline
+
+
+$X_9^{++}$ & $X_9^{+-}$ &
+\multirow{4}{*}{$\Gamma_{\C'}\left(f_1^{1,i}, \ldots, f_6^{1,i}\right)$} &
+\multirow{4}{*}{$\{(-6,0), (0,0), (6,0)\}$} &
+\multirow{4}{*}{$\varnothing$} \\ \cline{1-2}
+
+$X_9^{++}$ & $X_9^{-+}$ &&& \\ \cline{1-2}
+
+$X_9^{--}$ & $X_9^{+-}$ &&& \\ \cline{1-2}
+
+$X_9^{--}$ & $X_9^{-+}$ &&& \\ \hline
+
+
+$X_9^{+-}$ & $X_9^{++}$ &
+\multirow{4}{*}{$\Gamma_{\C''}\left(f_1^{i,1}, \ldots, f_6^{i,1}\right)$} &
+\multirow{4}{*}{$\{(0,-6), (0,0), (0,6)\}$} &
+\multirow{4}{*}{$\varnothing$} \\ \cline{1-2}
+
+$X_9^{-+}$ & $X_9^{++}$ &&& \\ \cline{1-2}
+
+$X_9^{+-}$ & $X_9^{--}$ &&& \\ \cline{1-2}
+
+$X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
 
 \begin{theorem}
 The structure of the equivalence classes of the $J_{10+k}$
