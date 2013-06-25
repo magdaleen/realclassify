@@ -518,6 +518,106 @@ $\varnothing$ \\
 \end{theorem}
 
 \begin{theorem}
+The structure of the equivalence classes of the $Y_{r,s}$ singularities is as
+shown in Table~\ref{tab:Yrs_equivalences} where in each case
+\begin{align*}
+l &= \frac{r}{\gcd(r,s)} \cdot \gcd(2, r+1, s+1) \,, \\
+s_1 &=
+\begin{cases}
+  1,  &\text{if } r \equiv 0 \pmod{4} \text{ or } s \equiv 0 \pmod{4}, \\
+  -1, &\text{else,}
+\end{cases} \\
+s_2 &=
+\begin{cases}
+  1,  &\text{if } r \not\equiv 0 \pmod{2}
+      \text{ or } \frac{s}{\gcd(r,s)} \equiv 0 \pmod{2}, \\
+  -1, &\text{else.}
+\end{cases}
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $Y_{r,s}$ singularities}
+\label{tab:Yrs_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$Y_{r,s}^{++}$ & $Y_{r,s}^{++}$ &
+\multirow{4}{*}{$C(X^l-1)$} &
+\multirow{4}{*}{$R(X^l-1)$} &
+\multirow{4}{*}{$R(X^{s+1}-1)$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{+-}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{-+}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{--}$ & $Y_{r,s}^{--}$ &&&
+\\ \hline
+
+
+$Y_{r,s}^{++}$ & $Y_{r,s}^{-+}$ &
+\multirow{4}{*}{$C(X^l-s_1)$} &
+\multirow{4}{*}{$R(X^l-s_1)$} &
+\multirow{4}{*}{$\varnothing$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{--}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{++}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{--}$ & $Y_{r,s}^{+-}$ &&&
+\\ \hline
+
+
+$Y_{r,s}^{++}$ & $Y_{r,s}^{+-}$ &
+\multirow{4}{*}{$C(X^l-s_2)$} &
+\multirow{4}{*}{$R(X^l-s_2)$} &
+\multirow{4}{*}{$\varnothing$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{++}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{--}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &&&
+\\ \hline
+
+
+$Y_{r,s}^{++}$ & $Y_{r,s}^{--}$ &
+\multirow{4}{*}{$C(X^l-s_1 s_2)$} &
+\multirow{4}{*}{$R(X^l-s_1 s_2)$} &
+\multirow{4}{*}{$\begin{cases}
+  R(X^{s+1}-1), &\!\text{if } r \not\equiv 0 \pmod{2} \\
+  \varnothing,  &\!\text{if } r \equiv 0 \pmod{2}
+\end{cases}$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{-+}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{+-}$ &&&
+\\ \cline{1-2}
+
+$Y_{r,s}^{--}$ & $Y_{r,s}^{++}$ &&&
+\\ \hline
+
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+
+\begin{theorem}
 The structure of the equivalence classes of the exceptional unimodal
 singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
 
