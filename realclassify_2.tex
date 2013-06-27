@@ -535,6 +535,9 @@ s_2 &=
 \end{cases}
 \end{align*}
 
+In the special case where $r = s$, additional equivalences occur. They are
+listed in Table~\ref{tab:Yrr_equivalences}.
+
 \begin{table}[htb]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $Y_{r,s}$ singularities}
@@ -551,10 +554,10 @@ $Y_{r,s}^{++}$ & $Y_{r,s}^{++}$ &
 \multirow{4}{*}{$R(X^{s+1}-1)$}
 \\ \cline{1-2}
 
-$Y_{r,s}^{+-}$ & $Y_{r,s}^{+-}$ &&&
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{-+}$ &&&
 \\ \cline{1-2}
 
-$Y_{r,s}^{-+}$ & $Y_{r,s}^{-+}$ &&&
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{+-}$ &&&
 \\ \cline{1-2}
 
 $Y_{r,s}^{--}$ & $Y_{r,s}^{--}$ &&&
@@ -567,10 +570,10 @@ $Y_{r,s}^{++}$ & $Y_{r,s}^{-+}$ &
 \multirow{4}{*}{$\varnothing$}
 \\ \cline{1-2}
 
-$Y_{r,s}^{+-}$ & $Y_{r,s}^{--}$ &&&
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{++}$ &&&
 \\ \cline{1-2}
 
-$Y_{r,s}^{-+}$ & $Y_{r,s}^{++}$ &&&
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{--}$ &&&
 \\ \cline{1-2}
 
 $Y_{r,s}^{--}$ & $Y_{r,s}^{+-}$ &&&
@@ -586,10 +589,10 @@ $Y_{r,s}^{++}$ & $Y_{r,s}^{+-}$ &
 \end{cases}$}
 \\ \cline{1-2}
 
-$Y_{r,s}^{+-}$ & $Y_{r,s}^{++}$ &&&
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{--}$ &&&
 \\ \cline{1-2}
 
-$Y_{r,s}^{-+}$ & $Y_{r,s}^{--}$ &&&
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{++}$ &&&
 \\ \cline{1-2}
 
 $Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &&&
@@ -602,13 +605,47 @@ $Y_{r,s}^{++}$ & $Y_{r,s}^{--}$ &
 \multirow{4}{*}{$\varnothing$}
 \\ \cline{1-2}
 
-$Y_{r,s}^{+-}$ & $Y_{r,s}^{-+}$ &&&
-\\ \cline{1-2}
-
 $Y_{r,s}^{-+}$ & $Y_{r,s}^{+-}$ &&&
 \\ \cline{1-2}
 
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{-+}$ &&&
+\\ \cline{1-2}
+
 $Y_{r,s}^{--}$ & $Y_{r,s}^{++}$ &&&
+\\ \hline
+
+\end{tabular}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Additional equivalences for the $Y_{r,s}$ singularities in the
+special case $r = s$}
+\label{tab:Yrr_equivalences}
+\begin{tabular}{|c|c||c|}
+\hline
+
+$T_1$ & $T_2$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$Y_{r,s}^{++}$ & $Y_{r,s}^{+-}$ &
+\multirow{2}{*}{$\begin{cases}
+  R(X+1),      &\!\text{if } r \equiv 0 \pmod{2} \text{ and } a < 0 \\
+  \varnothing, &else
+\end{cases}$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{-+}$ & $Y_{r,s}^{--}$ &
+\\ \hline
+
+$Y_{r,s}^{+-}$ & $Y_{r,s}^{++}$ &
+\multirow{2}{*}{$\begin{cases}
+  R(X+1),      &\!\text{if } r \equiv 0 \pmod{2} \text{ and } a > 0 \\
+  \varnothing, &else
+\end{cases}$}
+\\ \cline{1-2}
+
+$Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &
 \\ \hline
 
 \end{tabular}
