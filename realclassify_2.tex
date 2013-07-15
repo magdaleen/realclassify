@@ -291,6 +291,7 @@ $(f_i)_{i \in I}$ as
 
 \section{Results}
 
+
 \begin{theorem}
 The structure of the equivalence classes of the $X_9$ singularities is as shown
 in Table~\ref{tab:X9_equivalences} where for $j = 1, \ldots, 6$ and
@@ -382,6 +383,129 @@ $X_9^{-+}$ & $X_9^{++}$ &&& \\ \cline{1-2}
 $X_9^{+-}$ & $X_9^{--}$ &&& \\ \cline{1-2}
 
 $X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
+\end{tabular}
+\end{table}
+
+\end{theorem}
+
+
+\begin{theorem}
+The structure of the equivalence classes of the $J_{10}$ singularities is as
+shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
+$\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
+follows:
+\begin{align*}
+f_1^{\rho, \sigma}(a) &= +\sqrt{\rho \sigma} \cdot a \,, \\
+f_2^{\rho, \sigma}(a) &= -\sqrt{\rho \sigma} \cdot a \,, \\
+f_3^{\rho, \sigma}(a)
+&= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+    + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
+f_4^{\rho, \sigma}(a)
+&= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+    + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
+f_5^{\rho, \sigma}(a)
+&= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+    - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
+f_6^{\rho, \sigma}(a)
+&= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+    - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,.
+\end{align*}
+
+In each case, $\rho$ and $\sigma$ are given by
+\begin{align*}
+\rho &=
+\begin{cases}
+    +1, &\text{if } T_1 = J_{10}^+ \,, \\
+    -1, &\text{if } T_1 = J_{10}^- \,, \\
+\end{cases}
+&\sigma &=
+\begin{cases}
+    +1, &\text{if } T_2 = J_{10}^+ \,, \\
+    -1, &\text{if } T_2 = J_{10}^- \,. \\
+\end{cases}
+\end{align*}
+
+Furthermore, we use the following notation:
+\begin{align*}
+\C'  &:= \C \setminus \{ -2, 2\}         \,, &
+\R'  &:= \R \setminus \{ -2, 2\}         \,, \\
+I_1 &:= \left] {\textstyle\frac{3}{\sqrt{2}}}, \infty \right[ \subset \R \,, &
+I_2 &:= \left] 2, {\textstyle\frac{3}{\sqrt{2}}} \right[ \subset \R      \,, \\
+I_3 &:= \left] {\textstyle-\frac{3}{\sqrt{2}}}, -2 \right[ \subset \R    \,, &
+I_4 &:= \left] -\infty, {\textstyle-\frac{3}{\sqrt{2}}} \right[ \subset \R \,.
+\end{align*}
+
+\begin{table}[htb]
+\centering
+\caption{$P_1$, $P_2$ and $P_3$ for the $X_9$ singularities}
+\label{tab:X9_equivalences}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline
+
+$J_{10}^+$ & $J_{10}^+$ &
+$\Gamma_{\C'}\left(f_1^{\rho,\sigma}, \ldots, f_6^{\rho,\sigma}\right)$ &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{\R'}\left(f_1^{\rho,\sigma},
+        f_2^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{>+2}}\left(f_3^{\rho,\sigma},
+        f_4^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{<-2}}\left(f_5^{\rho,\sigma},
+        f_6^{\rho,\sigma}\right)$ \\
+    $\cup \left\{\left(0, \frac{-3}{\sqrt{2}}\right),
+        \left(0, \frac{+3}{\sqrt{2}}\right)\right\}$ \\
+\end{tabular} &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{\R'}\left(f_1^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{>+2}}\left(f_4^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{<-2}}\left(f_5^{\rho,\sigma}\right)$ \\
+\end{tabular} \\
+\hline
+
+$J_{10}^-$ & $J_{10}^-$ &
+$\Gamma_{\C}\left(f_1^{\rho,\sigma}, \ldots, f_6^{\rho,\sigma}\right)$ &
+$\Gamma_{\R}\left(f_1^{\rho,\sigma}, f_2^{\rho,\sigma}\right)$ &
+$\Gamma_{\R}\left(f_1^{\rho,\sigma}\right)$ \\
+\hline
+
+$J_{10}^+$ & $J_{10}^-$ &
+$\Gamma_{\C'}\left(f_1^{\rho,\sigma}, \ldots, f_6^{\rho,\sigma}\right)$ &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \{(0, 0)\}$ \\
+    $\cup\; \Gamma_{\R^{>+2}}\left(f_3^{\rho,\sigma},
+        f_4^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{<-2}}\left(f_5^{\rho,\sigma},
+        f_6^{\rho,\sigma}\right)$ \\
+\end{tabular} &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{I_1} \left(f_3^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{I_2} \left(f_4^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{I_3} \left(f_5^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{I_4} \left(f_6^{\rho,\sigma}\right)$ \\
+    $\cup \left\{\left(\frac{-3}{\sqrt{2}}, 0\right),
+        \left(\frac{+3}{\sqrt{2}}, 0\right)\right\}$ \\
+\end{tabular} \\
+\hline
+
+$J_{10}^-$ & $J_{10}^+$ &
+$\Gamma_{\C}\left(f_1^{\rho,\sigma}, \ldots, f_6^{\rho,\sigma}\right)$ &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \{(0, 0)\}$ \\
+    $\cup\; \Gamma_{\R}\left(f_3^{\rho,\sigma}, \ldots,
+        f_6^{\rho,\sigma}\right)$ \\
+\end{tabular} &
+\begin{tabular}[x]{@{}l@{}}
+    $\phantom{\cup}\; \Gamma_{\R^{>0}}\left(f_3^{\rho,\sigma},
+        f_6^{\rho,\sigma}\right)$ \\
+    $\cup\; \Gamma_{\R^{<0}}\left(f_4^{\rho,\sigma},
+        f_5^{\rho,\sigma}\right)$ \\
+    $\cup \left\{\left(0, \frac{-3}{\sqrt{2}}\right),
+        \left(0, \frac{+3}{\sqrt{2}}\right)\right\}$ \\
+\end{tabular} \\
+\hline
+
 \end{tabular}
 \end{table}
 
