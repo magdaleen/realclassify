@@ -279,7 +279,7 @@ $P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
 \end{remark}
 
 It turns out that in some cases, the sets $P_1$, $P_2$ and $P_3$ are just
-unions of all sets of the form $(a,r)_{a \in \K}$ or $(a, ra)_{a \in \K}$, where $r \in \C$ is a root of a known polynomial $p(X)$, and $\K$ is
+unions of all sets of the form $(a, ra)_{a \in \K}$, where $r \in \C$ is a root of a known polynomial $p(X)$, and $\K$ is
 either $\C$ or $\R$. For those cases we use the following auxiliary notation.
 
 \begin{defn}
@@ -287,8 +287,7 @@ For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$, $R(p(X))$ and
 as
 \begin{align*}
 C(p(X)) &:= \{ (a, ra) \in \C^2 \mid a, r \in \C, \; p(r) = 0 \} \,, \\
-R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,,\\
-S(p(X)) &:= \{(a,r)\in\C^2\mid r\in\C,\; p(r)=0\}.
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \}.
 \end{align*}
 \end{defn}
 
@@ -300,6 +299,8 @@ $(f_i)_{i \in I}$ as
 \Gamma_\Omega((f_i)_{i \in I})
 := \{ (a, f_i(a)) \in \Omega \times \C \mid a\in \Omega,\; i \in I \}\,.
 \]
+Let $(\Omega_a)_{a\in\Omega}$, $\Omega\subset\C$, be a set of subsets of $\C$, each depending on some condition $d_a$, and let $(f_i:\bigcup_{a\in\Omega}\Omega_{a}\to\C)_{i\in I}$ be a family of complex valued functions on $\cup_a\Omega_{a}$. Then we define the implicit graph of $(f_i)_{i\in I}$ as
+\[ \widetilde\Gamma_{\Omega_a}^{d_a}((f_i)_{i\in I}):=\{(a, f_i(c))\in\Omega\times\C\mid c\in\Omega_a, i\in I\}.\]
 \end{defn}
 
 \section{Finite Jets of Power Series and Transformations}
@@ -308,7 +309,7 @@ For background regarding the definitions in this section we refer to \cite{A1975
 
 \begin{remark}
 \phantom{X}\hfill
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item Let $\K$ be either $\R$ or $\C$. Throughout this paper we choose weights $w$ on the variables in $\K[[x_1,\ldots,x_n]]$ such that the weighted degree of $x_i$, $w\dash\deg(x_i),\ \forall i$ are natural numbers. 
 \item For $f,g\in\K[[x_1,\ldots,x_n]]$, we mean by $f*_wg$, $w\dash\deg(f)* w\dash\deg(g)$, where $*$ is any one of $<,\le,>,\ge,=$. We denote the weighted $j\dash\jet$ of a power series $f$ by $j\dash w\dash\jet(f)$.
 \end{enumerate}
@@ -324,7 +325,7 @@ Note that $E_{d'}^w\subseteq E_d^w$ if $d<d'$. Since the filtration of a product
 
 \begin{defn}\label{phi}
 Let $\K$ be either $\R$ or $\C$. Let $\phi$ be an $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ and let $w$ be a chosen weight on the variables. 
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item For $j > 0$ we define the
 \emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$, to be the automorphism given by
 \[
@@ -370,14 +371,14 @@ where $R\in E^w_{>d+\delta}$.
 
 \begin{theorem}\label{tab:sufficient_sets}
 Let $\K$ and $\mathbb L$ be either $\R$ or $\C$, respectively, with $\mathbb L\subset \K$ and let $T_1,T_2$ be two singularity subtypes such that both are of one of the following main types:
-\begin{enumerate}
-\item $J_{10}\,,$
-\item $E_{12},E_{13},E_{14},Z_{11},Z_{12},Z_{13},W_{12},W_{13}\,,$
-\item $ J_{10+k}\,,$ 
-\item $X_{9+k}\,,$
-\item $Y_{r,s}\,.$
+\begin{enumerate}[(a)]
+\item[(i)] $J_{10}\,,$
+\item[(ii)] $E_{12},E_{13},E_{14},Z_{11},Z_{12},Z_{13},W_{12},W_{13}\,,$
+\item[(iii)] $ J_{10+k}\,,$ 
+\item[(iv)] $X_{9+k}\,,$
+\item[(v)] $Y_{r,s}\,.$
 \end{enumerate}
-In the case (1) the set $S_0$, in the cases (2), (3) and (4) the set $S_1$ and in the case (5) the set $S_2$ is, respectively, a sufficient set of $\K$-transformations preserving $\mathbb L$ for $T_1$ and $T_2$:
+In the case (i) the set $S_0$, in the cases (ii), (iii) and (iv) the set $S_1$ and in the case (v) the set $S_2$ is, respectively, a sufficient set of $\K$-transformations preserving $\mathbb L$ for $T_1$ and $T_2$:
 \begin{eqnarray*}
 S_0&=&\left\{\phi\in\Aut_{\K}(\K[[x,y]])\left |\begin{array}{l}\phi(x)=\alpha x+cy^2,\\\phi(y)=ty, \alpha,c,t\in\K\ (\textit{if $\K=\R$ then $\alpha=1$})\end{array}\right.\right\};\\\\
 S_1&:=&\{\phi\in\Aut_{\K}(\K[[x,y]]) \mid \phi(x)=\alpha x, \phi(y)=\beta y, \alpha, \beta\in\K\};\\\\
@@ -389,9 +390,9 @@ S_2&:=&\left\{\phi\in\Aut({\K}[[x,y]]) \left |
 \end{theorem}
 \begin{proof}
 
-(1) Let $T_1$ and $T_2$ be (not neccesarily different) subtypes of $J_{10}$ and let $f=T_1(a)$, $a\in\K$. We choose a weight $w$ such that the terms on the diagonal defined by $f$ have the same weight. Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$. Using Proposition 6 in \cite{MS2013}, it follows that $\phi_0(x)=\alpha x$ ($\alpha=1$ if $\K=\R$), $\alpha\in\K$. Hence $\phi_0^w(x)=\alpha x+cy^2$ and $\phi_0^w(y)=ty$, $\alpha,c,t\in\K$. Since we only consider terms on the diagonal of $\phi(f)$, we only need to consider $\phi_0^w(f)$.
+(i) Let $T_1$ and $T_2$ be (not neccesarily different) subtypes of $J_{10}$ and let $f=T_1(a)$, $a\in\K$. We choose a weight $w$ such that the terms on the diagonal defined by $f$ have the same weight. Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$. Using Proposition 6 in \cite{MS2013}, it follows that $\phi_0(x)=\alpha x$ ($\alpha=1$ if $\K=\R$), $\alpha\in\K$. Hence $\phi_0^w(x)=\alpha x+cy^2$ and $\phi_0^w(y)=ty$, $\alpha,c,t\in\K$. Since we only consider terms on the diagonal of $\phi(f)$, we only need to consider $\phi_0^w(f)$.
 
- (2) We only give the proof for the $E_{12}, E_{13}$ and $E_{14}$ singularities. The result can be similarly proved for the other Exceptional unimodal cases. Let $T_1$ be a real $E_{12}$, $E_{13}$ or $E_{14}$ subtype and let $f=T_1(a)$, $a\in\K$. Then $f$ can be written as $f=f_0+f_1$, where $f_0$ is the sum of the terms not having the chosen value of the parameter as coefficient and $f_1$ is the term that has the chosen value for the parameter as coefficient. We choose a weighted degree $w$ such that the terms of $f_0$ have the same degree $w_0$. Hence $f_0$ is the quasihomogeneous part of $f$.
+ (i) We only give the proof for the $E_{12}, E_{13}$ and $E_{14}$ singularities. The result can be similarly proved for the other Exceptional unimodal cases. Let $T_1$ be a real $E_{12}$, $E_{13}$ or $E_{14}$ subtype and let $f=T_1(a)$, $a\in\K$. Then $f$ can be written as $f=f_0+f_1$, where $f_0$ is the sum of the terms not having the chosen value of the parameter as coefficient and $f_1$ is the term that has the chosen value for the parameter as coefficient. We choose a weighted degree $w$ such that the terms of $f_0$ have the same degree $w_0$. Hence $f_0$ is the quasihomogeneous part of $f$.
 
 Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$ and $T_2$ a subtype of the same main type as $T_1$.
 
@@ -431,7 +432,7 @@ Therefore, it follows from Lemma \ref{vectorlemma} that
 \end{equation*}
 where $\phi(x) = x+ cy^3+R'$, $R'\in E^w_{>w\dash\deg(y^3)}$, $c\in\K$. If $f_1\in E^w_{>w\dash\deg(\frac{\partial f}{\partial x}y^3)}$ then it follows that $c=0$ and we apply Lemma \ref{vectorlemma} again, this time with $\phi(x)=x+cy^4+R'$, where $R'\in E^w_{>w\dash\deg(y^4)}$, $c\in\K$.  Since $\gamma_0\frac{\partial f_0}{\partial x}y^n+\gamma_1f_1\neq \gamma_2f_1$ for any $\gamma_0,\gamma_1,\gamma_2\in\K$, $n\in\N$, $\gamma_0\neq 0$, in all three cases, the result follows.
 
-(2) Let $T_1$ be the subtype $J_{10+k}^+$ or the subtype $J_{10+k}^-$ and let $f=T_1(a)$, $a\in\K$. 
+(ii) Let $T_1$ be the subtype $J_{10+k}^+$ or the subtype $J_{10+k}^-$ and let $f=T_1(a)$, $a\in\K$. 
 The Newton polygon defined by the principal part $f_0=x^3\pm x^2y^2+ay^{6+k}$, $a\in\K$, of $f$ has two faces. Choose weights $w_1$ and $w_2$ for the two faces defined by $f_{1,0}=x^3\pm x^2y^2$ and $f_{2,0}=x^2y^2+ay^{6+k}$ such that all the terms on the two faces have the same weight $k_0$. We denote the piecewise weight by $k_0$. We refer to the terms above the two faces, respectively, as $f_{1,1}=ay^{6+k}$ and $f_{2,1}=x^3$.
 
 Let $\phi$ be a $\K$-algebra automorphism that transforms $f$ to $T_2(a')$, where $a'\in\K$ and $T_2$ is a subtype of the same main type as $T_1$.
@@ -471,9 +472,9 @@ Since $\phi(f)$ is again of main type $J_{10+k}$, it follows that
 \phi(f) = \phi_0^{w_0}(f_0)=\phi_0^{w_0}(f).
 \end{equation*}
 
-(3) and (4)  follows similar to (2).
+(iii) and (iv)  follows similar to (ii).
 
-%(5) Let $T_1(a)=\sigma(x^2+y^2)^2+ax^r$ and $T_2(a')=\sigma'(x^2+y^2)^2+a'x^r$, where $a,a'\in\K$, $\sigma=\pm 1$ and $\sigma'=\pm\sigma$, and, $T_1$ and $T_2$ (not necessarily different) subtypes of $\widetilde Y_{r}$. Suppose there exists a $\phi^T\in\T_{\K}(T_1,T_2)$ such that $\phi^T(T_1(a))=T_2(a')$.
+(v) Let $T_1(a)=\sigma(x^2+y^2)^2+ax^r$ and $T_2(a')=\sigma'(x^2+y^2)^2+a'x^r$, where $a,a'\in\K$, $\sigma=\pm 1$ and $\sigma'=\pm\sigma$, and, $T_1$ and $T_2$ (not necessarily different) subtypes of $\widetilde Y_{r}$. Suppose there exists a $\phi^T\in\T_{\K}(T_1,T_2)$ such that $\phi^T(T_1(a))=T_2(a')$.
 %% or of type $\widetilde Y_{r}^-$. It is clear that a pol  that the singularity type of $f$ is unique, i.e.~$f$ %cannot be both of type $\widetilde Y_{r}^+$ and $\widetilde Y_{r}^-$. Let $f'=\pm(x^2+y^2)^2+a'x^r$, %$a'\in\R$ be a polynomial in the same subtype as $f$.
 %
 %By Lemma \ref{equivalences} there exist  $\phi'\in\T_{\C}(T_1,g_\sigma)$ and a $\phi''\in\T_{\C}(T_2,g_{\sigma})$ such that $\phi'(T_1(a))=g_\sigma((\frac{1}{2})^ra)$, $\phi''(T_2(a'))=g_{\sigma}((\frac{1}{2}b)^ra')$, $\phi'=\phi'_0$ and $\phi''=\phi''_0$, where $b=1$, if $\sigma=\sigma'$, and $b=\sqrt{i}$, if $\sigma=-\sigma'$. Since $\phi^T(T_1)=T_2$, it follows that there exist a $\phi^g\in\T_{\C}(g_\sigma,g_{\sigma})$, such that $\phi^g(g_\sigma((\frac{1}{2})^ra))=g_{\sigma}((\frac{1}{2}b)^ra'))$ and $\phi^T=\phi'\circ\phi^g\circ\phi''$.   Since $\phi^g(g_\sigma((\frac{1}{2})^ra))=\phi^g_0(g_\sigma((\frac{1}{2})^ra))$, by Lemma \ref{equivalences}(3), we have the following commuting diagram:
@@ -687,75 +688,6 @@ Considering $P_3(T_1,T_2)$, where $T_1$ and $T_2$ are real subtypes of $\widetil
 \section{Results}
 In this section we present the sets $P_1,P_2,P_3$ in table form for every unimodal real singularity type up to corank 2.
 
-\begin{theorem}\label{tab:ThmJ10_equivalences}
-The structure of the equivalence classes of the $J_{10}$ singularities is as shown
-in Table~\ref{tab:J10_equivalences} where for each normal form $T_1=J_{10}^+$ or $T_1=J_{10}^-$ we associate a polynomial $k(z)$, as well as three complex numbers, $\gamma_1,\gamma_2,\gamma_3$, and three real numbers, $\gamma'_1,\gamma'_2,\gamma'_3$, in case $a$ is real and $k(z)$ has three real roots, defined as follows:
-
-Let
-\[k(z)=z^3+dz+e,\]
-where 
-\begin{equation*}
-d=\left\{\begin{array}{ll}-\frac{1}{3}a^2+1&\textit{if $T_1=J_{10}^+$}\\-\frac{1}{3}a^2-1&\textit{if $T_1=J_{10}^-$}\end{array}\right.\qquad e=\left\{\begin{array}{ll}\frac{2}{27}a^3-\frac{1}{3}a&\textit{if $T_1=J_{10}^+$}\\\frac{2}{27}a^3+\frac{1}{3}a&\textit{if $T_1=J_{10}^-$.}\end{array}\right.
-\end{equation*}
-Let $c_1,c_2,c_3$ be the three complex roots of $k(z)$. If only one root is real, we choose $c_2$ to be that root. If $c_1,c_2,c_3\in\R$ we order the roots such that $c_1<c_2<c_3$. 
-Now, let
-\begin{equation*}
-\gamma_1=\frac{3c_1}{\sqrt{d+3c_1^2}}\qquad\gamma_2=\frac{3c_2}{\sqrt{d+3c_2^2}}\qquad\gamma_3=\frac{3c_3}{\sqrt{d+3c_3^2}}.
-\end{equation*}
-If $a,c_1,c_2,c_3$ are real, let
-\begin{equation*}
-\gamma'_1=\frac{3c_1}{\sqrt{d+3c_1^2}}\qquad\gamma'_2=\frac{3c_2}{\sqrt{|d+3c_2^2|}}\qquad\gamma'_3=\frac{3c_3}{\sqrt{d+3c_3^2}}.
-\end{equation*}
-\end{theorem}
-\begin{remark}
-Note that if one of the roots of $k(z)$ in Theorem \ref{tab:ThmJ10_equivalences} is zero, we have named it in such a way that $c_2=0$. Furthermore, if $c_2=0$, then $\gamma_1=\gamma_3$ and $\gamma_1'=\gamma_3'$, in case $a,c_1,c_2,c_3\in\R$.
-\end{remark}
-
-%\begin{landscape}
-{\begin{table}[!htb]
-\centering
-
-\label{tab:J10_equivalences}
-\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
-\begin{tabular}{|c|c||c|c|c|}
-\hline
-$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
-\hline\hline 
-&&&&\\
-$J_{10}^+$   & $J_{10}^+$   &
-$\begin{array}{l}\displaystyle\bigcup_{j=1,2,3}S(X^2-\gamma_j^2)\end{array}$&
-$\begin{array}{l}
-\displaystyle\bigcup_{j=1,3}S(X^2-{\gamma_j}^2),\\\qquad\textit{if $c_2\neq 0$ and $c_1\in\R$}
-\\\\S(X^2-a^2)\\\qquad\textit{if $c_2\neq0$ and $c_1\not\in\R$}\\\\
-\displaystyle\bigcup_{j=1,2,3}S(X^2-{\gamma_j}^2),\\\qquad\textit{if $c_2= 0$}
-\end{array}$
-&$\begin{array}{l}\displaystyle\bigcup_{j=1,3}S(X-\gamma'_j),\\\qquad\textit{if $c_1\in\R$}\\\\S(X-a),\\\qquad\textit{if $c_1\not\in\R$}\end{array}$
-\\&&&&\\
-\hline
-&&&&\\
-$J_{10}^+$   & $J_{10}^-$& $\displaystyle\bigcup_{j=1,2,3}S(X^2-\gamma_j^2)$&
-$\begin{array}{l}S(X^2-{\gamma_2}^2),\\\qquad\textit{if $c_1\in\R$ or $c_2=0$}\\\\\varnothing,\\\qquad\textit{if $c_1\not\in\R$ and $c_2\neq 0$}\end{array}$
-&$\begin{array}{l}S(X-\gamma'_2),\\\qquad\textit{if $c_1\in\R$}\\\\\varnothing,\\\qquad\textit{if $c_1\not\in\R$}\end{array}$\\
-&&&&\\
-\hline
-&&&&\\
-$J_{10}^-$   & $J_{10}^+$& $\displaystyle\bigcup_{j=1,2,3}S(X^2-\gamma_j^2)$&
-$\begin{array}{l}\displaystyle\bigcup_{j=1,3}S(X^2-{\gamma_j}^2),\\\qquad\textit{if $c_2\neq 0$}\\\\\displaystyle\bigcup_{j=1,2,3}S(X^2-{\gamma_j}^2),\\\qquad\textit{if $c_2= 0$}\end{array}$
-&$\displaystyle\bigcup_{j=1,3}S(X-\gamma'_j)$\\
-&&&&\\
-\hline
-&&&&\\
-$J_{10}^-$   & $J_{10}^-$& $\displaystyle\bigcup_{j=1,2,3}S(X^2-\gamma_j^2)$&
-$S
-(X^2-a^2)$
-&$S(X-a)$\\
-&&&&\\
-\hline
-\end{tabular}
-\end{table}}
-%\end{landscape}
-
-
 \begin{theorem}
 The structure of the equivalence classes of the $X_9$ singularities is as shown
 in Table~\ref{tab:X9_equivalences} where for $j = 1, \ldots, 6$ and
@@ -853,7 +785,70 @@ $X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
 \end{theorem}
 
 
-\begin{theorem}
+We have two representations for the equivalence structure in the $J_{10}$ case. The representation in Theorem \ref{tab:ThmJ10_equivalences} is more complicated than the one in  Theorem~\ref{tab:J10_equivalences_2}, in the sense that the first one contains implicit graphs of functions. We include the first representation, since it can very easily be computed by hand and will be used in the third part of this paper to compute the real type, as well as the equivalence class, of a real singularity of main type $J_{10}$.
+\begin{theorem}\label{tab:ThmJ10_equivalences}
+The structure of the equivalence classes of the $J_{10}$ singularities is as shown
+in Table~\ref{tab:J10_equivalences}, where 
+\[f_1(z)=\frac{3z}{\sqrt{d+3z^2}}\quad\textnormal{and}\quad f_2(z)=\frac{3z}{\sqrt{|d+3z^2|}}\]
+with 
+\begin{equation*}
+d=\left\{\begin{array}{ll}-\frac{1}{3}a^2+1&\textit{if $T_1=J_{10}^+$}\\-\frac{1}{3}a^2-1&\textit{if $T_1=J_{10}^-$}\end{array}\right.\qquad e=\left\{\begin{array}{ll}\frac{2}{27}a^3-\frac{1}{3}a&\textit{if $T_1=J_{10}^+$}\\\frac{2}{27}a^3+\frac{1}{3}a&\textit{if $T_1=J_{10}^-$.}\end{array}\right.
+\end{equation*}
+Furthermore, we define
+\[k(z):=z^3+dz+e.\]
+We now assign subsets of the roots of $k(z)$ to each $a\in\C':=\C\setminus\{2,-2\}$ or $a\in\R':=\R\setminus\{2,-2\}$ depending on a condition $d_a$. Let $c_1,c_2,c_3$ be the three complex roots of $k(z)$. If only one root is real, we choose $c_2$ to be that root. If $c_1,c_2,c_3\in\R$ we order the roots such that $c_1<c_2<c_3$. We define
+\[\Omega_1:=\left\{\begin{array}{ll}\{c_1,c_2,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.,\quad\Omega_2:=\left\{\begin{array}{ll}\{c_2\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.\]\[\Omega_3:=\left\{\begin{array}{ll}\{c_1,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else.}\end{array}\right.\]
+
+%for each normal form $T_1=J_{10}^+$ or $T_1=J_{10}^-$ we associate a polynomial $k(z)$, as well as three complex numbers, $\gamma_1,\gamma_2,\gamma_3$, and three real numbers, $\gamma'_1,\gamma'_2,\gamma'_3$, in case $a$ is real and $k(z)$ has three real roots, defined as follows:
+\end{theorem}
+\begin{remark}
+Note that if one of the roots of $k(z)$ in Theorem \ref{tab:ThmJ10_equivalences} is zero, we have named it in such a way that $c_2=0$. Furthermore, if $c_2=0$, then $f_1(c_1)=f_1(c_3)$ and $f_2(c_1)=f_2(c_3)$, in case $a,c_1,c_2,c_3\in\R$.
+\end{remark}
+
+%\begin{landscape}
+{\begin{table}[!htb]
+\centering
+
+\label{tab:J10_equivalences}
+\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline 
+&&&&\\
+$J_{10}^+$   & $J_{10}^+$   &
+$\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}
+\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))\subset\R}(f_1,-f_1)\\\\
+\bigcup \widetilde\Gamma_{\Omega_2}^{0\not\in V(k(z))\not\subset\R}(f_1,-f_1)\\\\
+\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)
+\end{array}$
+&$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{V(k(z))\subset\R}(f_2)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{V(k(z))\not\subset{\R}}(f_2)\end{array}$
+\\&&&&\\
+\hline
+&&&&\\
+$J_{10}^+$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R }(f_1,-f_1)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{ 0\in V(k(z)) }(f_1,-f_1)\end{array}$
+&$\begin{array}{l}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R}(f_2)\end{array}$\\
+&&&&\\
+\hline
+&&&&\\
+$J_{10}^-$   & $J_{10}^+$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))}(f_1,-f_1)\\\\\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)\end{array}$
+&$\widetilde\Gamma_{\Omega_3}^{a\in\R'}(f_2)$\\
+&&&&\\
+\hline
+&&&&\\
+$J_{10}^-$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\widetilde\Gamma_{\Omega_2}^{a\in\C'}(f_1,-f_1)$
+&$\widetilde\Gamma_{\Omega_2}^{a\in\R'}(f_2)$\\
+&&&&\\
+\hline
+\end{tabular}
+\end{table}}
+%\end{landscape}
+
+\begin{theorem}\label{tab:J10_equivalences_2}
 The structure of the equivalence classes of the $J_{10}$ singularities is as
 shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
