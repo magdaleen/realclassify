@@ -3,7 +3,7 @@
 \renewcommand{\arraystretch}{1.3}
 \linespread{1}
 
-\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
+\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb,lscape,array}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{multirow}
@@ -14,6 +14,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{definition}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
 
 % ALGORITHM style
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,6 +40,10 @@
 \DeclareMathOperator{\T}{T}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\Quot}{Quot}
+\DeclareMathOperator{\dash}{\textnormal{-}}
+\DeclareMathOperator{\jet}{jet}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows}
 
 \title[The classification of real singularities using \textsc{Singular}, %
 Part II]%
@@ -161,8 +166,6 @@ corank $0$, $1$ and $2$ over the real numbers as computed by V.I.~Arnold in
 
 \end{tabular}
 \end{table}
-
-
 \section{The Sets of Parameter Transformations
 $\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}
 
@@ -178,14 +181,30 @@ $\NF{E_{14}(a)} = \NF{E_{14}^+(a)}$ for the polynomial $x^3+y^8+axy^6$ and
 $\NF{E_{14}^-(a)}$ for $x^3-y^8+axy^6$.
 
 \begin{defn}
-Let $\K$ be either $\R$ or $\C$ and let $f$ and $g$ be two power series in
-$\K[[x_1, \ldots, x_n]]$. We denote the set of $\K$-algebra automorphisms
-of $\K[[x_1, \ldots, x_n]]$ which take $f$ to $g$ by $\T_{\K}(f,g)$, i.e.\@
+Let $\K$ be either $\R$ or $\C$, let $f,g\in\K[[x_1, \ldots, x_n]]$ and let $S$ be a subset of the set of the $\K$-algebra automorphisms
+of $\K[[x_1, \ldots, x_n]]$, i.e.~$S\subset\Aut_{\K}\K[[x_1,\ldots,x_n]]$. 
+\begin{enumerate}
+\item We denote the set of all automorphisms in $S$ which take $f$ to $g$ by $\T_{\K}^S(f,g)$, i.e.\@
+\[
+\T_{\K}^S(f,g):=\{\phi\in S\mid \phi(f)=g\}\,.
+\]
+\item If $S=\Aut_{\K}(\K[[x_1,\ldots,x_n]]$ we only write $\T_{\K}(f,g)$, i.e.\@
 \[
 \T_{\K}(f,g)
 := \{\phi \in \Aut_{\K}(\K[[x_1, \ldots, x_n]]) \mid \phi(f) = g \} \,.
 \]
+\item If $\T_{\K}(f,g)\neq\varnothing$, we write $f\overset{\K}\sim g$.
+\end{enumerate}
 \end{defn}
+%\begin{defn}
+%Let $\K$ be either $\R$ or $\C$ and let $f$ and $g$ be two power series in
+%$\K[[x_1, \ldots, x_n]]$. We denote the set of $\K$-algebra automorphisms
+%of $\K[[x_1, \ldots, x_n]]$ which take $f$ to $g$ by $\T_{\K}(f,g)$, i.e.\@
+%\[
+%\T_{\K}(f,g)
+%:= \{\phi \in \Aut_{\K}(\K[[x_1, \ldots, x_n]]) \mid \phi(f) = g \} \,.
+%\]
+%\end{defn}
 
 \begin{remark}
 Let $\K$ be either $\R$ or $\C$. As usual, we denote the quotient field
@@ -260,15 +279,15 @@ $P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
 \end{remark}
 
 It turns out that in some cases, the sets $P_1$, $P_2$ and $P_3$ are just
-unions of sets of the form $(a, ra)_{a \in \K}$ for some $r \in \C$ and $\K$
+unions of all sets of the form $(a, ra)_{a \in \K}$, where $r \in \C$ is a root of a known polynomial $p(X)$, and $\K$ is
 either $\C$ or $\R$. For those cases we use the following auxiliary notation.
 
 \begin{defn}
-For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
+For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$, $R(p(X))$ and $S(p(X))$
 as
 \begin{align*}
 C(p(X)) &:= \{ (a, ra) \in \C^2 \mid a, r \in \C, \; p(r) = 0 \} \,, \\
-R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
+R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \}.
 \end{align*}
 \end{defn}
 
@@ -280,17 +299,394 @@ $(f_i)_{i \in I}$ as
 \Gamma_\Omega((f_i)_{i \in I})
 := \{ (a, f_i(a)) \in \Omega \times \C \mid a\in \Omega,\; i \in I \}\,.
 \]
+Let $(\Omega_a)_{a\in\Omega}$, $\Omega\subset\C$, be a set of subsets of $\C$, each depending on some condition $d_a$, and let $(f_i:\bigcup_{a\in\Omega}\Omega_{a}\to\C)_{i\in I}$ be a family of complex valued functions on $\cup_a\Omega_{a}$. Then we define the implicit graph of $(f_i)_{i\in I}$ as
+\[ \widetilde\Gamma_{\Omega_a}^{d_a}((f_i)_{i\in I}):=\{(a, f_i(c))\in\Omega\times\C\mid c\in\Omega_a, i\in I\}.\]
 \end{defn}
 
+\section{Finite Jets of Power Series and Transformations}
 
-\section{Generic Coordinate Transformations}
+For background regarding the definitions in this section we refer to \cite{A1975}.
+
+\begin{remark}
+\phantom{X}\hfill
+\begin{enumerate}[(a)]
+\item Let $\K$ be either $\R$ or $\C$. Throughout this paper we choose weights $w$ on the variables in $\K[[x_1,\ldots,x_n]]$ such that the weighted degree of $x_i$, $w\dash\deg(x_i),\ \forall i$ are natural numbers. 
+\item For $f,g\in\K[[x_1,\ldots,x_n]]$, we mean by $f*_wg$, $w\dash\deg(f)* w\dash\deg(g)$, where $*$ is any one of $<,\le,>,\ge,=$. We denote the weighted $j\dash\jet$ of a power series $f$ by $j\dash w\dash\jet(f)$.
+\end{enumerate}
+\end{remark}
+
+\begin{defn}
+A power series has filtration $d$ if all its monomials are of weighted degree $d$ or higher. The power series of filtration $d$ form a linear space $E_d^w$.
+\end{defn}
+
+\begin{remark}
+Note that $E_{d'}^w\subseteq E_d^w$ if $d<d'$. Since the filtration of a product, $E_{d'}^w\cdot E_d^w$, is the sum of the filtrations of the factors, $d'+d$, it follows that $E_d^w$ is an ideal in the ring of power series. We denote the ideal of $E_d^w$ consisting of series of filtration strictly greater than $d$ by $E_{>d}^w$. If the weight of all the variables are $1$ we only write $E_d$. 
+\end{remark}
+
+\begin{defn}\label{phi}
+Let $\K$ be either $\R$ or $\C$. Let $\phi$ be an $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ and let $w$ be a chosen weight on the variables. 
+\begin{enumerate}[(a)]
+\item For $j > 0$ we define the
+\emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$, to be the automorphism given by
+\[
+\phi_j^w(x_i) := w\dash\jet(\phi(x_i),w\dash\deg(x_i)+j) \quad \forall i = 1,\ldots,n \,.
+\]
+If the weight of all the variables are $1$, we only write $\phi_j$.\\
+\item $\phi$ has filtration $d$ if,  $\forall\lambda$,
+\[(\phi-1)E_\lambda^w\subset E_{\lambda+d}^w.\]
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+Note that $\phi_0(x_i)=\jet(\phi(x_i),1)\ \forall i$. Furthermore note that $\phi_0^w$ has filtration $\le 0$ and, for $j>0$, if $\phi_{j-1}^w=1$, then $\phi_j^w$ has filtration $j$. 
+\end{remark}
+
+The infinitesimal analogue of Definition \ref{phi}(2) is:
+
+\begin{defn}
+Let $\K$ be either $\R$ or $\C$. A formal vector field $v=\sum_i v_i\frac{\partial}{\partial x_i}$ over $\K[[x_1,\ldots,x_n]]$, where $v_i\in\K[[x_1,\ldots,x_n]]$, has filtration $d$ if the directional derivitive raises the filtration by not less than $d$, i.e.~$L_vE^w_\lambda\subset E^w_{\lambda+d}$, where $L_v(f)=\sum_i v_i\frac{\partial f}{\partial x_i}$.
+\end{defn}
+
+\begin{remark}
+Throughout the paper we also use the concepts of semi-quasihomo-genious power series and their quasihomogenious part as well as piecewise quasihomogenious power series and their Newton polygons. For background regarding these concepts we again refer to \cite{A1975}.
+\end{remark}
+
+\section{Sufficient Sets of Transformations Between Real Normal Forms}
+The results in this section narrow down the transformations we need to consider between specific unimodal normal forms of the same main type, to determine equivalence, considerably. In fact these results are in many cases the main step in determining the structure of the equivalence classes of corank 2, unimodal singularities of the same main type. (See section \ref{OnTheComputationOfTheResults})
 
 
-\section{On the Computation of the Results}
+\begin{defn}
+Let $\mathbb L$ and $\K$ both be either $\R$ or $\C$, such that $\mathbb L\subset\mathbb K$, and let $f,g\in\mathbb L(a)[[x_1,\ldots,x_n]]$. We call $S\subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ a sufficient set of $\K$-transformations preserving $\mathbb L$ for $f$ and $g$, if for all $u,v\in\mathbb L$,  
+\[T_{\K}(f(u),g(v))\neq\varnothing\Leftrightarrow \T_{\K}^S(f(u),g(v))\neq\varnothing\,.\]
+\end{defn}
+We need the following result to prove the main result of this section, Theorem~\ref{tab:sufficient_sets}.
+
+The following result is proven in \cite{A1975}.
+\begin{lemma}\label{vectorlemma}
+Let $\K$ be either $\R$ or $\C$. Let $f=f_0+f_1+f_2\in\K[[x_1,\ldots,x_n]]$, where $f_0\in E^w_d$, $f_1\in E^w_{>d}$ and $f_2\in E^w_{d+\delta}$, and let $\phi$ be a $\K$-algebra automorphism defined by $\phi(x_i)=x_i+v_{0,i}+v_{1,i}$, where $v_0=\sum_iv_{0,i}\frac{\partial}{\partial x_i}$ has filtration $\delta$ and $v_1=\sum_iv_{1,i}\frac{\partial}{\partial x_i}$ has filtration strictly greater than $\delta$ where $\delta>0$. Then
+\[\phi(f)=f_0+\left[ f_1+\sum_iv_{0,i}\frac{\partial f_0}{\partial x_i}\right]+R,\]
+where $R\in E^w_{>d+\delta}$.
+\end{lemma}
 
 
+\begin{theorem}\label{tab:sufficient_sets}
+Let $\K$ and $\mathbb L$ be either $\R$ or $\C$, respectively, with $\mathbb L\subset \K$ and let $T_1,T_2$ be two singularity subtypes such that both are of one of the following main types:
+\begin{enumerate}[(a)]
+\item[(i)] $J_{10}\,,$
+\item[(ii)] $E_{12},E_{13},E_{14},Z_{11},Z_{12},Z_{13},W_{12},W_{13}\,,$
+\item[(iii)] $ J_{10+k}\,,$ 
+\item[(iv)] $X_{9+k}\,,$
+\item[(v)] $Y_{r,s}\,.$
+\end{enumerate}
+In the case (i) the set $S_0$, in the cases (ii), (iii) and (iv) the set $S_1$ and in the case (v) the set $S_2$ is, respectively, a sufficient set of $\K$-transformations preserving $\mathbb L$ for $T_1$ and $T_2$:
+\begin{eqnarray*}
+S_0&=&\left\{\phi\in\Aut_{\K}(\K[[x,y]])\left |\begin{array}{l}\phi(x)=\alpha x+cy^2,\\\phi(y)=ty, \alpha,c,t\in\K\ (\textit{if $\K=\R$ then $\alpha=1$})\end{array}\right.\right\};\\\\
+S_1&:=&\{\phi\in\Aut_{\K}(\K[[x,y]]) \mid \phi(x)=\alpha x, \phi(y)=\beta y, \alpha, \beta\in\K\};\\\\
+S_2&:=&\left\{\phi\in\Aut({\K}[[x,y]]) \left |
+\begin{array}{ll}\begin{array}{l}\phi(x)=\alpha x,\quad \phi(y)=\alpha y,\ \alpha,\beta\in\K\end{array}&, \textit{ if $r\neq s$}\\\\
+\begin{array}{ll}\phi(x)=\alpha x,& \phi(y)=\beta y,\ \alpha,\beta\in\K\\&\textit{or}\\
+                        \phi(x)=\alpha y,& \phi(y)=\beta x,\ \alpha,\beta\in\K\end{array}&,\textit{if $r=s$}\end{array}\right.\right\}.
+\end{eqnarray*}
+\end{theorem}
+\begin{proof}
+
+(i) Let $T_1$ and $T_2$ be (not neccesarily different) subtypes of $J_{10}$ and let $f=T_1(a)$, $a\in\K$. We choose a weight $w$ such that the terms on the diagonal defined by $f$ have the same weight. Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$. Using Proposition 6 in \cite{MS2013}, it follows that $\phi_0(x)=\alpha x$ ($\alpha=1$ if $\K=\R$), $\alpha\in\K$. Hence $\phi_0^w(x)=\alpha x+cy^2$ and $\phi_0^w(y)=ty$, $\alpha,c,t\in\K$. Since we only consider terms on the diagonal of $\phi(f)$, we only need to consider $\phi_0^w(f)$.
+
+ (i) We only give the proof for the $E_{12}, E_{13}$ and $E_{14}$ singularities. The result can be similarly proved for the other Exceptional unimodal cases. Let $T_1$ be a real $E_{12}$, $E_{13}$ or $E_{14}$ subtype and let $f=T_1(a)$, $a\in\K$. Then $f$ can be written as $f=f_0+f_1$, where $f_0$ is the sum of the terms not having the chosen value of the parameter as coefficient and $f_1$ is the term that has the chosen value for the parameter as coefficient. We choose a weighted degree $w$ such that the terms of $f_0$ have the same degree $w_0$. Hence $f_0$ is the quasihomogeneous part of $f$.
+
+Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$ and $T_2$ a subtype of the same main type as $T_1$.
+
+Note that in this case
+\begin{equation}\label{c}
+x^2>_w xy >_w y^3>_w x>_w y^2>_w y.
+\end{equation}
+Let $k_0$ be the degree of lowest jet of $f$, i.e.~$\jet(f,k_0-1)=0$ and $\jet(f,k_0)\neq 0$. Since 
+
+\begin{equation}
+\phi(f) = \phi_0(\jet(f,k_0))+\phi_0(f-\jet(f,k_0))+\phi^*(f)= \phi_0(\jet(f,k_0))+R,\label{lowestjet}
+\end{equation}
+where $\phi^*=\phi-\phi_0$ and $R\in E_{>k_0}$, it is clear that
+
+\begin{equation}
+\phi_0(x)=\alpha x,\quad 0\neq\alpha\in\K,\label{transx}
+\end{equation}
+
+i.e~ $\phi_0^{w}(x)=\alpha x$ and $\phi_0^{w}(y)=\beta y$, $\alpha,\beta\in\K$.
+
+
+Now, $\phi=\phi''\circ\phi'$, where $\phi'$ and $\phi''$ are, respectively, defined by
+\[\phi'(x)=\alpha x,\quad \phi'(y)=\beta y, \quad \phi''(x)=\frac{1}{\alpha}\phi(x), \quad\phi''(y)=\frac{1}{\beta}\phi(y).\]
+If $\alpha,\beta\neq 1$, we replace $f$ by $\phi'(f)$ and $\phi$ by $\phi''$ for the following arguments showing that the coefficient of $y^2$ and $y^3$ in $\phi(x)$, or equivalently $\phi''(x)$, is zero. Taking the ordering in (\ref{c}) into account, we have that \[\phi_0^w(x)=x+cy^2, \quad\phi_0(y)=y,\quad c\in\K.\] Note that $\phi^w_0$ has filtration $<0$ if $c\neq 0$, and that $\phi-\phi^w_0+1$ has filtration $>0$. Furthermore note that $\phi_0^w(f_1)\in E_{w_0}^w$ in all three cases. Hence,
+\begin{eqnarray*}
+\phi(f)&=&\phi_0^w(f)+(\phi-\phi^w_0)(f)\\
+&=& R_1+c\frac{\partial f_0}{\partial x}y^2+f_0+\phi^w_0(f_1)+R_2 +(\phi-\phi^w_0)(f)=R_1+c\frac{\partial f_0}{\partial x}y^2+R_3,
+\end{eqnarray*} 
+$R_1\in\K[[x,y]]\setminus E^w_{w\dash\deg\left(\frac{\partial f_0}{\partial x}y^2\right)}$, $R_2\in E^w_{>w_0}$ and $R_3\in E^w_{w_0}$ . Therefore $c=0$ and $\phi$ has positive filtration.
+By (\ref{c}), it follows that
+\begin{equation*}
+\frac{\partial f_0}{\partial y}x >_w\frac{\partial f_0}{\partial y}y^2 =_w \frac{\partial f_0}{\partial x}xy>_w  f_1\quad\textnormal{and}\quad \frac{\partial f_0}{\partial x}y^3>_w f_0.
+\end{equation*}
+Therefore, it follows from Lemma \ref{vectorlemma} that
+\begin{equation*}
+\phi(f) = f_0+c\frac{\partial f_0}{\partial x}y^3+f_1+R,\quad R\in E^w_{>w\dash\deg(\frac{\partial f_0}{\partial x}y^3)}
+\end{equation*}
+where $\phi(x) = x+ cy^3+R'$, $R'\in E^w_{>w\dash\deg(y^3)}$, $c\in\K$. If $f_1\in E^w_{>w\dash\deg(\frac{\partial f}{\partial x}y^3)}$ then it follows that $c=0$ and we apply Lemma \ref{vectorlemma} again, this time with $\phi(x)=x+cy^4+R'$, where $R'\in E^w_{>w\dash\deg(y^4)}$, $c\in\K$.  Since $\gamma_0\frac{\partial f_0}{\partial x}y^n+\gamma_1f_1\neq \gamma_2f_1$ for any $\gamma_0,\gamma_1,\gamma_2\in\K$, $n\in\N$, $\gamma_0\neq 0$, in all three cases, the result follows.
+
+(ii) Let $T_1$ be the subtype $J_{10+k}^+$ or the subtype $J_{10+k}^-$ and let $f=T_1(a)$, $a\in\K$. 
+The Newton polygon defined by the principal part $f_0=x^3\pm x^2y^2+ay^{6+k}$, $a\in\K$, of $f$ has two faces. Choose weights $w_1$ and $w_2$ for the two faces defined by $f_{1,0}=x^3\pm x^2y^2$ and $f_{2,0}=x^2y^2+ay^{6+k}$ such that all the terms on the two faces have the same weight $k_0$. We denote the piecewise weight by $k_0$. We refer to the terms above the two faces, respectively, as $f_{1,1}=ay^{6+k}$ and $f_{2,1}=x^3$.
+
+Let $\phi$ be a $\K$-algebra automorphism that transforms $f$ to $T_2(a')$, where $a'\in\K$ and $T_2$ is a subtype of the same main type as $T_1$.
+
+Considering the $3$-jet of $f$ it follows that $\phi_0(x)=\alpha x$. Hence $\phi_0^{w_1}(x)=\alpha x+cy^2$ and $\phi_0^{w_1}(y)=\beta y$, $\alpha, c,\beta\in\C$, $\alpha,\beta\neq 0$, which implies that $\phi^{w_1}_0$ has non-negative filtration with regard to the weight $w_1$.  Hence
+\begin{eqnarray*}
+\phi(f)&=&\phi^{w_1}_0(f)+(\phi-\phi^{w_1}_0)(f)\\
+&=&\alpha^3x^3+\alpha^2(3c\pm\beta^2)x^2y^2+\alpha(3c^2\pm2 c\beta^2)xy^4+(c^3\pm c^2\beta^2)y^6+R,
+\end{eqnarray*}
+where $R\in E^{w_0}_{>k_0}$. Since $\phi(f)$ is of type $J_{10+k}$, $c$ is a root of $k(z)=z^3\pm z^2\beta^2$ and $k'(z)=3z^2\pm2 z\beta^2$. Hence $c=0$.  
+
+Since $\phi-\phi_0^{w_1}+1$ has positive filtration with regard to $w_1$ it follows that 
+\begin{equation}\label{transw2}
+\phi(f) = \phi_0^{w_1}(f_1) + R,\quad R\in E^{w_1}_{>k_0}.
+\end{equation}
+Note that 
+\begin{equation}\label{orderw1}
+y<_{w_2}x<_{w_2}xy^n,
+\end{equation}
+for all $n\ge 1$. We, now, consider recursively the next smallest $s>2$ such that $y^s<_{w_2}x$. Note that $\phi_0^{w_2}(x)=x+cy^s+R$, $R\in E^{w_2}_{>w_2\dash deg(y^2)}$. Therefore if $c\neq 0$, then $\phi_0^{w_2}$ has negative filtration with regard to the weight $w_2$ and $\phi-\phi_0^{w_2}+1$ has positive filtration. Because $s>2$ it follows that $w_2\dash\deg(y^sx^2)>k_0$ and that $y^{2s}x>_{w_2}y^{s+2}x$. Since $y^s<_{w_2}x$ it follows furthermore that $w_2\dash\deg(y^{s+2}x)<w_2\dash\deg(x^2y^2)=k_0$. Hence
+\begin{eqnarray*}
+\phi(f) &=& \phi_0^{w_2}(f)+(\phi-\phi_0^{w_2})(f)\\
+ &=&  R_1+2\beta^2\alpha c xy^{s+2}+\phi_0^{w_2}(f_{2,1})+R_2\\
+&=&R_1+2\beta^2\alpha c xy^{s+2}+ 3 c^3y^{3s}+ 3\alpha c^2y^{2s}x+3\alpha^2 cy^sx^2+R_2\\
+&=&R_1+2\beta^2\alpha c xy^{s+2}+ 3c^3y^{3s}+R_3,
+\end{eqnarray*}
+where $R_1\in\K[[x,y]]\setminus E^{w_2}_{w_2\dash\deg(xy^{s+2})}$, $R_2, R_3\in E^{w_2}_{>w_2\dash\deg(xy^{s+2})}$. Therefore $c=0$ and $\phi_0^{w_2}(x)=x$ and $\phi_0^{w_2}(y)=\beta y$. Thus $\phi$ has non-negative filtration with regard to $w_2$ and
+\begin{equation}\label{transw1}
+\phi(f) = \phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
+\end{equation}
+Now, it follows from (\ref{transw2}) and (\ref{transw1}) that 
+\begin{equation*}
+\phi(f) = \phi_0^{w_0}(f_0)+R,\quad R\in E^{w_0}_{>k_0}.
+\end{equation*}
+Since $\phi(f)$ is again of main type $J_{10+k}$, it follows that
+\begin{equation*}
+\phi(f) = \phi_0^{w_0}(f_0)=\phi_0^{w_0}(f).
+\end{equation*}
+
+(iii) and (iv)  follows similar to (ii).
+
+(v) Let $T_1(a)=\sigma(x^2+y^2)^2+ax^r$ and $T_2(a')=\sigma'(x^2+y^2)^2+a'x^r$, where $a,a'\in\K$, $\sigma=\pm 1$ and $\sigma'=\pm\sigma$, and, $T_1$ and $T_2$ (not necessarily different) subtypes of $\widetilde Y_{r}$. Suppose there exists a $\phi^T\in\T_{\K}(T_1,T_2)$ such that $\phi^T(T_1(a))=T_2(a')$.
+%% or of type $\widetilde Y_{r}^-$. It is clear that a pol  that the singularity type of $f$ is unique, i.e.~$f$ %cannot be both of type $\widetilde Y_{r}^+$ and $\widetilde Y_{r}^-$. Let $f'=\pm(x^2+y^2)^2+a'x^r$, %$a'\in\R$ be a polynomial in the same subtype as $f$.
+%
+%By Lemma \ref{equivalences} there exist  $\phi'\in\T_{\C}(T_1,g_\sigma)$ and a $\phi''\in\T_{\C}(T_2,g_{\sigma})$ such that $\phi'(T_1(a))=g_\sigma((\frac{1}{2})^ra)$, $\phi''(T_2(a'))=g_{\sigma}((\frac{1}{2}b)^ra')$, $\phi'=\phi'_0$ and $\phi''=\phi''_0$, where $b=1$, if $\sigma=\sigma'$, and $b=\sqrt{i}$, if $\sigma=-\sigma'$. Since $\phi^T(T_1)=T_2$, it follows that there exist a $\phi^g\in\T_{\C}(g_\sigma,g_{\sigma})$, such that $\phi^g(g_\sigma((\frac{1}{2})^ra))=g_{\sigma}((\frac{1}{2}b)^ra'))$ and $\phi^T=\phi'\circ\phi^g\circ\phi''$.   Since $\phi^g(g_\sigma((\frac{1}{2})^ra))=\phi^g_0(g_\sigma((\frac{1}{2})^ra))$, by Lemma \ref{equivalences}(3), we have the following commuting diagram:
+%
+%\begin{center}
+%\begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+%\matrix (m) [matrix of math nodes, row sep=1em,column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+%{ g_\sigma((\frac{1}{2})^ra))& & g_{\sigma}((\frac{1}{2}b)^ra')) \\
+%&\#&\\
+%  T_1(a) &  &T_2(a') \\ };
+%\path[->](m-1-1) edge node[auto] {$\scriptstyle \phi^g_0$}(m-1-3);
+%\path[->](m-3-1) edge node[anchor=north]{$\scriptstyle \phi^T$}(m-3-3);
+%\path[->](m-3-1) edge node[auto]{$\scriptstyle \phi'$}(m-1-1);
+%\path[->](m-1-3) edge node[auto]{$\scriptstyle (\phi'')^{-1}$}(m-3-3);
+%\end{tikzpicture}
+%\end{center}
+%which implies that $\phi^T(T_1)=\phi^T_0(T_1)$. The result now follows easily.
+\end{proof}
+
+
+
+
+\section{On the Computation of the Results}\label{OnTheComputationOfTheResults}
+
+
+\paragraph{\bf Computing the structure of the $J_{10}$ singularities:}Here follows a summary of the calculations used to calculate Table \ref{tab:J10_equivalences} in Theorem~\ref{tab:ThmJ10_equivalences}.
+
+Let $T_1$ and $T_2$ be subtypes of $J_{10}$ and let $\K$ be either $\R$ or $\C$.  We transform $T_1(a)$, $a\in\K$ to  $f=x^3+dxy^4+ey^6$, where $d=-\frac{1}{3}a^2+1$ and $e=\frac{2}{27}a^3-\frac{1}{3}a$, if $T_1$ is type $J_{10}^+$ and $d=-\frac{1}{3}a^2-1$ and $e=\frac{2}{27}a^3+\frac{1}{3}a$ if $T_1$ is type $J_{10}^-$, by 
+
+\begin{equation}\label{Cancelling2ndTerm}
+x\mapsto x-\frac{a}{3}y^2,\quad y\mapsto y.
+\end{equation}
+Note that (\ref{Cancelling2ndTerm}) is a real transformation if $a$ is real.
+%We choose a weight $w$ for the diagonal defined by $f$. 
+We firstly consider $P_3(T_1,T_2)$, with $a\in\R$. Since  there exists an invertable transformation $\phi'$ such that
+\begin{equation}\label{phi'}
+\phi'(x^3+a'x^2y^2\pm |d'|xy^4)=x^3+a''x^2y^2\pm xy^4,\quad a''=\frac{a'}{\sqrt{|d'|}},\  a',d'\in \R,
+\end{equation}
+it suffices to consider transformations $\phi$ such that $\phi(f)$ is of the form 
+\begin{equation}\label{form}
+x^3+a'x^2y^2\pm |d'|xy^4,\quad a',d'\in \R.
+\end{equation}
+Taking Theorem \ref{tab:sufficient_sets} into account, we have that
+\begin{equation}\label{eqc}
+\phi(f)=x^3+3cx^2y^2+(3c^2+t^4d)xy^4+(c^3+t^4dc+et^6)y^6,\quad t,c\in\R.
+\end{equation}
+Since $c=t^2c'$, where $c'=\frac{c}{t^2}$, we rewrite (\ref{eqc}) as
+\begin{equation}\label{eqc'}
+\phi(f)=x^3+3t^2c'x^2y^2+t^4(3c'^2+d)xy^4+t^6(c'^3+dc'+e)y^6.
+\end{equation}
+Clearly, for a fixed value of $t\neq 0$, $c'$ is any real root of $k(z)=z^3+dz+e$. Since $\phi'\circ\phi$ transform $f$ to the same polynomial, regardless the value of $t$, we may assume that $t=1$ and $c=c'$. 
+
+We consider the following cases:
+\begin{itemize}
+\item[(AI)]$k(z)$ has one real root;
+\item[(AII)]$k(z)$ has three real roots.
+\end{itemize}
+
+Note that
+\begin{equation}\label{RelationOfRoots}
+c_1+c_2+c_3=0\quad\textnormal{and}\quad c_1c_2+c_1c_3+c_2c_3=d,
+\end{equation}
+where $c_1$, $c_2$ and $c_3$ are the complex roots of $k(z)$.
+
+(AI) We firstly consider the case when $k$ has one real root $c_1$ and two roots that are complex conjugates $c_2$ and $c_3$, i.e.~there is only one possible value for $c$, namely $c_1$. It follows from (\ref{RelationOfRoots}) that $c_2c_3=d+c_1^2$. Since the product of two complex conjugates are positive $d+c_1^2>0$ which implies that $d+3c_1^2>0$. This means, considering (\ref{eqc'}), that $T_2$ is type $J_{10}^+$. Since there is only one possible value for $c$, there is only one possible transformation that transforms $f$ to (\ref{form}) and thus only one possible type $J_{10}^+$ and only one possible value of $a''$, namely $a$.
+
+(AII) We now consider the case where $k$ has three real roots $c_1<c_2<c_3$. The three roots must be different, otherwise $k(z)$ and $k'(z)$ have a similar root which implies, considering (\ref{eqc'}), that $\phi(f)\neq T_2(b)$, $\forall b\in\R$. Hence $a''$ has three different values, namely $\frac{3c_j}{\sqrt{|d+3c_j^2|}}$, $j=1,2,3$, putting $c=c_j$ respectively.
+
+Let $c_1<c_2<c_3$. Now, since $c_1+c_2+c_3=0$ not all three roots have the same sign. Let the sign of $c_1$ be different from that of $c_2$ and $c_3$. In this case note that $|c_1|=|c_2+c_3|=|c_2|+|c_3|$, i.e.~$|c_1|>|c_2|$ and $|c_1|>|c_3|$. Then $3c_1^2+d=3c_1^2+c_1c_2+c_1c_3+c_2c_3>0$, since $|c_1^2|>|c_1c_3|$, $|c_1^2|>|c_1c_2|$ and $c_1^2>0$, while $c_1c_2<0$, $c_1c_3<0$ and $c_2c_3>0$. Hence, putting $c=c_1$, $f$ is transformed to $J_{10}^+$.
+Furthermore $3c_i^2+d=3c_j^2+c_1(c_2+c_3)+c_2c_3=3c_j^2-(c_2+c_3)(c_2+c_3)+c_2c_3=3c_j^2-(c_2^2+c_2c_3+c_3^2)$, for $j=1,2$. Therefore, since $|c_2|<|c_3|$, putting $c=c_2$ result in $J_{10}^-$ and putting $c=c_3$ result in $J_{10}^+$.
+
+Next we consider $P_1(T_1,T_2)$, with $a\in\C$. Similarly than in (\ref{phi'}) there exist invertable complex transformations $\phi'$ such that
+\begin{equation}
+\phi'(x^3+a'x^2y^2+d'xy^4)=x^3+a''x^2y^2\pm xy^4,\quad a''=\frac{a'}{\pm\sqrt{d'}}, a',d'\in\C
+\end{equation}
+and that
+\begin{equation}
+\phi'(x^3+a'x^2y^2+d'xy^4)=x^3+a''x^2y^2-xy^4,\quad a''=i\frac{a'}{\pm\sqrt{d'}}, a', d'\in\C.
+\end{equation}
+Hence it suffices to consider transformations $\phi$ such that $\phi(f)$ is of the form
+\begin{equation}
+x^3+a'x^2y^2+d'xy^4,\quad a',d'\in\C,
+\end{equation}
+from which it can easily be derived that
+%In this case $\phi_0^w(x)=\alpha x+cy^2$ and $\phi_0^w(y)=ty$, $\alpha,c,t\in \C$, $\alpha, t\neq 0$. %Again, since we only consider terms on the diagonal of $\phi(f)$, we only need to consider $\phi_0^w(f)$. %Using Proposition 6 in \cite{MS2013}, it follows that $\alpha$ is a third root of unity. Similarly as in %(\ref{eqc'}) we have that
+%\begin{equation}
+%\phi_0^w(f)=x^3+3c'\alpha^2x^2y^2+\alpha t^4(3c'^2+d)xy^4+t^6(c'^3+dc'+e)y^6,
+%\end{equation}
+%where $c'=\frac{c}{t^2}$. Again, clearly $c'$ is a root of $k(z)$, hence $\phi_0^w(f)$ transforms to
+\begin{equation}\label{eqc'1}
+\phi(f)=x^3\pm\frac{3c}{\sqrt{3{c}^2+d}}x^2y^2+xy^4\quad\textnormal{or}\quad\phi(f)=x^3\pm i\frac{3c}{\sqrt{3{c}^2+d}}x^2y^2-xy^4,
+\end{equation}
+%Since $t$ and $\alpha$ play no role in (\ref{eqc'1}) and in (\ref{eqc'2}), we may assume that $t,\alpha=1$ %and $c'=c$. 
+%Now, again, $k(z)$ has three different roots $c_1$, $c_2$ and $c_3$.
+%, otherwise $f$ is not of main type $J_{10}$. 
+%Hence $a''$ in (\ref{eqc'1}) and in (\ref{eqc'2}) has, in both cases, $6$ different values, if the square of two %roots are not the same, and $4$ different values if the square of two roots are the same. 
+where $c$ is a root of $k(z)=z^3+dz+e$. Note that, since $k(z)$ has three different roots and the coefficient of $z^2$ in $k(z)$ is zero, $a''$ has $6$ different values, if $e\neq 0$, and $4$ different values, if $e=0$.
+
+Lastly we consider $P_2(T_1,T_2)$, with $a\in\R$. Calculations in this case are similar, except that we need to check each time whether $a''$ is real. This boils down to checking whether either the real or imaginary part of $\frac{3c}{\sqrt{3{c}^2+d}}$ is zero, which implies, by an easy calculation, that for 
+$c=\alpha +i\beta$, 
+\begin{equation}\label{eqd}
+\alpha=0,\ \beta=0\textnormal{ or }d=0.
+\end{equation}
+If the imaginary part is zero $T_2$ is type $J_{10}^+$ and if the real part is zero $T_2$ is type $J_{10}^-$.
+%, i.e.~${c}^2=\alpha^2-\beta^2+i(2\alpha\beta)$. Then,
+%then
+%$\frac{9c^2}{3c^2+d}
+%3 \frac{\alpha^2-\beta^2+i(2\alpha\beta)}{\alpha^2-\beta^2+i(2\alpha\beta)+\frac{d}{3}}\\
+%%&=&3\frac{\alpha^2-\beta^2+i(2\alpha\beta)}{(\alpha^2-\beta^2+\frac{d}{3})+i(2\alpha\beta)}\cdot\frac{(\alpha^2-\beta^2+\frac{d}{3})-i(2\alpha\beta)}{(\alpha^2-\beta^2+\frac{d}{3})-i(2\alpha\beta)}\\
+%=3 \frac{1}{(\alpha^2-\beta^2+\frac{d}{3})^2+(2\alpha\beta)^2}(2\alpha\beta \frac{d}{3}i+(\alpha^2-\beta^2)(\alpha^2-\beta^2+\frac{d}{3})+(2\alpha\beta)^2),$ which implies that
+%for the imaginary part or real part of $\frac{3c}{\sqrt{3{c}^2+d}}$ to be zero,
+%$2\alpha\beta \frac{d}{3}=0.$
+We consider the following cases:
+
+\begin{itemize}
+\item[(BI)]$k(z)$ has $3$ real roots;\quad (i) $e\neq 0$;\quad (ii) $e=0$;
+\item[(BII)]$k(z)$ has $1$ real root;\quad (i) $e\neq 0$;\quad (ii) $e=0$.
+\end{itemize}
+(BI) In this case all possible values of $c$ are applicable. Both (i) and (ii) follows similar to (AII). Note that in case (ii) we additionally have the equivalence $x^3+xy^4\sim x^3-xy^4$.
+
+%(i) Let  $c_1<c_2<c_3$ be the roots of $k(z)$. Since the squares of two different roots in this case are not equal, we have $6$ different values of $a''$. With similar calculations as in (AII) it follows that $c=c_1$ correspond to type $J_{10}^+$, $c=c_2$ correspond to type $J_{10}^-$ and $c=c_3$ correspond to type $J_{10}^+$.
+%
+%(ii) The result follows similarly than in (i), except that in this case we additionally have the equivalence $x^3+xy^4\sim x^3-xy^4$.
+
+% If $d<0$ (i.e.~$f$ is of type $J_{10}^+$ and $a=\pm\frac{3}{\sqrt{2}}$, or $f$ is of type $J_{10}^-$ and $a=0$) then $0$, $\sqrt{|d|}$ and $-\sqrt{|d|}$ are roots of $k$ (i.e. $c=0$ %or $c=\sqrt{|d|}$ or $c=-\sqrt{|d|}$). In the first case $\phi$ and $\phi'$ are both the identity. In the last two cases $3c^2=-3d>0$ which implies that $3c^2+d=-2d>0$. %Considering (\ref{eqc'}) and $\phi'$, taking into account that $\frac{3\sqrt{|d|}}{\sqrt{-2d}}=\frac{3}{\sqrt{2}}$, the following equivalences are all the equivalences between $f$ and %germs in the families of polynomials defining the normal forms of main case $J_{10}$:
+%\begin{eqnarray*}
+%f&\sim&x^3\pm xy^4;\\
+%f&\sim&x^3\pm\frac{3}{\sqrt{2}}x^2y^2+xy^4.
+%\end{eqnarray*} 
+
+(BII)(i) When $e\neq 0$, the nonreal roots have nonzero real and imaginary parts, and hence, by (\ref{eqd}), only the real value of $c$ is applicable. Therefore there are only two possible values for the parameter $a''$, namely $\pm a$. Similar than in (AI) it follows that $T_2$ is of type $J_{10}^+$.
+
+(ii)  In this case 
+%$d>0$ and $k(z)$ has three roots $0$, $i\sqrt{d}$, $-i\sqrt{d}$. $c=0$ correspond to normal forms of type %$J_{10}^+$ and $J_{10}^-$, while $i\sqrt{d}$ and $-i\sqrt{d}$ correspond to a normal form of type %$J_{10}^+$. We therefore 
+we have the same equivalences than in (BI(ii)).
+
+\begin{remark}
+Note that the $J_{10}^-$ normal form is redundant. Also note that although $J_{10}^+$ covers the $\mu$-constant stratum in the real case $J_{10}^-$ does not.
+\end{remark}
+\paragraph{\bf Computing the structure of the equivalences of $\widetilde Y_r$ singularities} Firstly it is important to notice that the set $S_1$ or $S_2$ in Theorem \ref{tab:sufficient_sets} is not a sufficient set of $\C$-transformations preserving $\R$ or $\C$ for subtypes of $\widetilde Y_r$. A counter example can be found in Example \ref{tab:counter_example_Yr}.
+
+We need the following prelimanary results to determine the structure of the equivalence classes in this case:
+
+The following result can be found in \cite{PdJ2000} for $\K=\C$. The proof for the $\K=\R$ case is similar.
+
+\begin{theorem}\label{faces}
+Let $\K$ be either $\R$ or $\C$ and let $f\in\K[[x,y]]$ be convenient, let $\Delta_1,\ldots,\Delta_r$ be the faces of the Newton polygon of $f$ and $d_i$ the slope of $\Delta_i$. Then $f=f_1\cdots f_r$, where $f_i\in\K[[x,y]]$ is convenient such that the Newton Polygon of $f_i$ has only one face of slope $d_i$, $i=1,\ldots,r$.
+\end{theorem}
+ 
+The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ in \cite{A1975}.
+
+\begin{lemma}\label{principalpart}
+Let $\K$ be either $\R$ or $\C$. For every nondegenerate power series $f\in\K[[x,y]]$ with principal part $f_0=x^a+\lambda x^2y^2+y^b$, where $0\neq\lambda\in\K$ and $a,b\in\N$, such that $f_0$ has two faces, $f\overset{\K}\sim f_0$.
+\end{lemma}
+\begin{proof}
+Using Theorem \ref{faces} and the form of $f_0=x^a+\lambda x^2y^2+y^b$, it follows that 
+\begin{equation}\label{twofaces}
+f=(c_1x^2+c_3y^{b-2}+xh_1+y^ch_3)(c_2y^2+c_4x^{a-2}+yh_2+x^dh_4),
+\end{equation}
+where $h_1,\ldots,h_4\in\K[[x,y]]$, $1=c_1c_4, \lambda=c_1c_2, 1=c_3c_2$, $c>b-2$ and $d>a-2$. Since $f$ is finite determined, after repeatedly applying $x\mapsto x-\frac{1}{2c_1}h_1$, $y\mapsto y-\frac{1}{2c_2}h_2$ followed by $x\mapsto x-\frac{1}{c_4(a-2)}x^{a-d-2}h_4$, $y\mapsto y-\frac{1}{c_3(b-2)}y^{b-c-2} h_3$, writing $f$ as in~(\ref{twofaces}), adapting $h_1,\ldots,h_4$, $c$ and $d$ ($c_1,\ldots,c_4$ do not change) accordingly, after each application, we have that 
+\begin{equation}
+f\overset{\K}\sim (c_1x^2+c_3y^{b-2})(c_2y^2+c_4x^{a-2})
+%=c_1c_4x^a+c_1c_2x^2y^2+c_3c_2y^b+2c_3c_4y^bx^a
+=x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},\label{firsttrans}
+\end{equation}
+where $\lambda_1=c_3c_4$, $a\le c'\in\N$, $b\le d'\in\N$. Note that, since $w\dash\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application that $c>b-2$ and similarly that $d>a-2$, i.e. $f_0$ stays unaffected. By now repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$, $y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in (\ref{firsttrans}), adapting $c'$ and $d'$ accordingly, after each application, using the fact that $f$ is finite determined, it follows that
+\[f\overset{\K}\sim \lambda x^2y^2+x^a+y^b.\qedhere\]
+\end{proof}
+
+\begin{lemma}\label{equivalences}
+Let $\sigma$ is either $+$ or $-$, and $r>4$. Let $T_{\sigma,1}$ and $T_{\sigma,2}$ be of real subtype $\widetilde Y_{r}^{\sigma}$ and of real sub-type $Y_{r,r}^{\sigma,+}$, respectively. Then $\left(a,\left(\frac{1}{4}\right)^{r}a^2\right)_{a\in\C}\in P_1(T_{\sigma,1},T_{\sigma,2})$ and $\left(a,\left(\frac{1}{4}i\right)^{r}a^2\right)_{a\in\C}\in P_1(T_{\sigma,1},T_{-\sigma,2})$.
+
+\end{lemma}
+\begin{proof}
+By applying $\phi$ defined by $\phi(x)=b\frac{1}{2}(x+y)$ and $\phi(y)=b\frac{1}{2}i(x-y)$ to $T_{\sigma,1}$, where $b=1$, considering $P_1(T_{\sigma,1},T_{\sigma,2})$, and $b=\sqrt{i}$, considering $P_1(T_{\sigma,1},T_{-\sigma,2})$, the result follows clearly, using 
+%we have
+%\[f\sim\pm x^2y^2+\left(\frac{1}{2}\right)^rax^r+\left(\frac{1}{2}\right)^ray^r+R\sim \pm 4a^{\frac{4}%{r}}x^2y^2+x^r+y^r+R',\]
+%where $R=a\left(\frac{1}{2}\right)^r(x^{r-1}y+\cdots+xy^{r-1})$, $R'=x^{r-1}y+\cdots+xy^{r-1}$, %i.e.~$R,R'\in E_{>k_0}^w$.
+%Thus the result of the first part follows from 
+Lemma \ref{principalpart}. 
+%Let $w_1$ be the weighted degree $(1,1)$. In this case all $\R$- or $\C$-algebra automorphisms are of %non-negative filtration. Since, all the monomials in $R$ and $R'$ has the same $w_1$-degree, any %transformation on $R$ and $R'$ will only influence terms of degree $\ge r$. Using this fact, the proof of the %second part is similar to the proof of Proposition \ref{Yrs}.
+\end{proof}
+
+Let $T_{\sigma,1}$ and $T_{\sigma,2}$ be as above and let $\sigma'=\pm\sigma$. Using Lemma \ref{equivalences}, considering complex transformations, we have Diagram \ref{Yr_commuting_diagram}, where $c=\left(\frac{1}{4}\right)^r$.
+
+\begin{figure}
+\caption{Relationship between $\widetilde Y_r$ and $Y_{r,s}$ considering complex transformations}
+\label{Yr_commuting_diagram}
+\begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+\matrix (m) [matrix of math nodes, row sep=1em,column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+{ T_{\sigma,2}\left(ca^2\right) & & T_{\sigma',2}\left(ca'\right) \\
+&\#&\\
+  T_{\sigma,1}(a) &  &T_{\sigma',1}(\pm\sqrt{a'}) \\ };
+\path[<->](m-1-1) edge node[auto] {$$}(m-1-3);
+\path[<->](m-3-1) edge node[anchor=north]{$$}(m-3-3);
+\path[<->](m-3-1) edge node[auto]{$$}(m-1-1);
+\path[<->](m-1-3) edge node[auto]{$$}(m-3-3);
+\end{tikzpicture}
+\end{figure}
+Therefore we determined $P_1(T_1,T_2)$ and $P_2(T_1,T_2)$, where $T_1$ and $T_2$ are real subtypes of the the main type $\widetilde Y_r$, using the structure of the equivalence classes of the $Y_{r,s}$ singularities. 
+
+\begin{example}\label{tab:counter_example_Yr}
+Let $T_1$ be a real subtype of $\widetilde Y_8$. Taking Diagram \ref{Yr_commuting_diagram} into account it follows that $(a,-a)\in P_2(T_1,T_1)$, $a\in\R$. Hence $\phi(T_1(a))=T_1(-a)$. Considering the transformations in $S_1$ and $S_2$ in Theorem \ref{tab:sufficient_sets}, it is clear that $\phi\not\in S_1$ and $\phi\not\in S_2$, i.e.~$S_1$ and $S_2$ are not sufficient sets of $\C$-transformations preserving $\C$ or $\R$ for $T_1$ and $T_1$.
+\end{example}
+
+Let $T_1$ and $T_2$ be real subtypes of $\widetilde Y_r$ and let $a\in\R$. We now consider $P_3(T_1,T_2)$. It is clear that $P_3(T_1,T_2)=\varnothing$, if $T_1$ and $T_2$ are not of the same subtype. Furthermore, it is clear that $P_3(T_1,T_1)\subset P_2(T_1,T_1)\subset\{(a,-a)\mid a\in\R\}$ and that $(a,-a)\in P_3(T_1,T_1)$, if $r$ is odd. Since $T_1(a)$ is finite determinate, $f(x)=c^4+c^2x^2+|a|x^r$, $c\in\R$ has only positive values, while $g(x)=c^4+c^2x^2-|a|x^r$, has negative values, it follows that $(a,-a)\not\in P_3(T_1,T_1)$, if $r$ is even. 
+
+\begin{remark}
+Considering $P_3(T_1,T_2)$, where $T_1$ and $T_2$ are real subtypes of $\widetilde Y_r$, it follows that $S_1$ is a sufficient set of $\R$-transformations preserving $\R$ for real subtypes of $\widetilde Y_r$. 
+\end{remark}
 \section{Results}
-
+In this section we present the sets $P_1,P_2,P_3$ in table form for every unimodal real singularity type up to corank 2.
 
 \begin{theorem}
 The structure of the equivalence classes of the $X_9$ singularities is as shown
@@ -389,7 +785,70 @@ $X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
 \end{theorem}
 
 
-\begin{theorem}
+We have two representations for the equivalence structure in the $J_{10}$ case. The representation in Theorem \ref{tab:ThmJ10_equivalences} is more complicated than the one in  Theorem~\ref{tab:J10_equivalences_2}, in the sense that the first one contains implicit graphs of functions. We include the first representation, since it can very easily be computed by hand and will be used in the third part of this paper to compute the real type, as well as the equivalence class, of a real singularity of main type $J_{10}$.
+\begin{theorem}\label{tab:ThmJ10_equivalences}
+The structure of the equivalence classes of the $J_{10}$ singularities is as shown
+in Table~\ref{tab:J10_equivalences}, where 
+\[f_1(z)=\frac{3z}{\sqrt{d+3z^2}}\quad\textnormal{and}\quad f_2(z)=\frac{3z}{\sqrt{|d+3z^2|}}\]
+with 
+\begin{equation*}
+d=\left\{\begin{array}{ll}-\frac{1}{3}a^2+1&\textit{if $T_1=J_{10}^+$}\\-\frac{1}{3}a^2-1&\textit{if $T_1=J_{10}^-$}\end{array}\right.\qquad e=\left\{\begin{array}{ll}\frac{2}{27}a^3-\frac{1}{3}a&\textit{if $T_1=J_{10}^+$}\\\frac{2}{27}a^3+\frac{1}{3}a&\textit{if $T_1=J_{10}^-$.}\end{array}\right.
+\end{equation*}
+Furthermore, we define
+\[k(z):=z^3+dz+e.\]
+We now assign subsets of the roots of $k(z)$ to each $a\in\C':=\C\setminus\{2,-2\}$ or $a\in\R':=\R\setminus\{2,-2\}$ depending on a condition $d_a$. Let $c_1,c_2,c_3$ be the three complex roots of $k(z)$. If only one root is real, we choose $c_2$ to be that root. If $c_1,c_2,c_3\in\R$ we order the roots such that $c_1<c_2<c_3$. We define
+\[\Omega_1:=\left\{\begin{array}{ll}\{c_1,c_2,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.,\quad\Omega_2:=\left\{\begin{array}{ll}\{c_2\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.\]\[\Omega_3:=\left\{\begin{array}{ll}\{c_1,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else.}\end{array}\right.\]
+
+%for each normal form $T_1=J_{10}^+$ or $T_1=J_{10}^-$ we associate a polynomial $k(z)$, as well as three complex numbers, $\gamma_1,\gamma_2,\gamma_3$, and three real numbers, $\gamma'_1,\gamma'_2,\gamma'_3$, in case $a$ is real and $k(z)$ has three real roots, defined as follows:
+\end{theorem}
+\begin{remark}
+Note that if one of the roots of $k(z)$ in Theorem \ref{tab:ThmJ10_equivalences} is zero, we have named it in such a way that $c_2=0$. Furthermore, if $c_2=0$, then $f_1(c_1)=f_1(c_3)$ and $f_2(c_1)=f_2(c_3)$, in case $a,c_1,c_2,c_3\in\R$.
+\end{remark}
+
+%\begin{landscape}
+{\begin{table}[!htb]
+\centering
+
+\label{tab:J10_equivalences}
+\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
+\hline\hline 
+&&&&\\
+$J_{10}^+$   & $J_{10}^+$   &
+$\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}
+\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))\subset\R}(f_1,-f_1)\\\\
+\bigcup \widetilde\Gamma_{\Omega_2}^{0\not\in V(k(z))\not\subset\R}(f_1,-f_1)\\\\
+\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)
+\end{array}$
+&$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{V(k(z))\subset\R}(f_2)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{V(k(z))\not\subset{\R}}(f_2)\end{array}$
+\\&&&&\\
+\hline
+&&&&\\
+$J_{10}^+$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R }(f_1,-f_1)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{ 0\in V(k(z)) }(f_1,-f_1)\end{array}$
+&$\begin{array}{l}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R}(f_2)\end{array}$\\
+&&&&\\
+\hline
+&&&&\\
+$J_{10}^-$   & $J_{10}^+$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))}(f_1,-f_1)\\\\\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)\end{array}$
+&$\widetilde\Gamma_{\Omega_3}^{a\in\R'}(f_2)$\\
+&&&&\\
+\hline
+&&&&\\
+$J_{10}^-$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
+$\widetilde\Gamma_{\Omega_2}^{a\in\C'}(f_1,-f_1)$
+&$\widetilde\Gamma_{\Omega_2}^{a\in\R'}(f_2)$\\
+&&&&\\
+\hline
+\end{tabular}
+\end{table}}
+%\end{landscape}
+
+\begin{theorem}\label{tab:J10_equivalences_2}
 The structure of the equivalence classes of the $J_{10}$ singularities is as
 shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
@@ -782,10 +1241,10 @@ $Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &
 The structure of the equivalence classes of the $\tY_r$ singularities is as
 shown in Table~\ref{tab:tYr_equivalences} where in each case
 \begin{align*}
-l &= \frac{4}{\gcd(4, r)}, \text{ and} \\
+l &= 2\cdot{\gcd(2, r+1)}, \text{ and} \\
 s &=
 \begin{cases}
-  1,  &\text{if } r \equiv 0 \pmod{8}, \\
+  1,  &\text{if } r \equiv 0 \pmod{4}, \\
   -1, &\text{else.}
 \end{cases}
 \end{align*}
@@ -802,7 +1261,7 @@ $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 
 $\tY_r^+$ & $\tY_r^+$ &
 \multirow{2}{*}{$C(X^l-1)$} &
-\multirow{2}{*}{$R(X^l-1)$} &
+\multirow{2}{*}{$R(X^2-1)$} &
 \multirow{2}{*}{$\begin{cases}
   R(X^2-1), &\text{if } r \equiv 1 \pmod{2} \\
   R(X-1),   &\text{if } r \equiv 0 \pmod{2}
@@ -921,9 +1380,16 @@ isolated hypersurface singularities over the reals w.r.t. right equivalence,
 based on the determinator of singularities by V.I. Arnold. This library is
 based on classify.lib by Kai Kr\"uger, but handles the real case, while
 classify.lib does the complex classification (2012).
+
+\bibitem{MS2013}Marais, M.S.; Steenpa\ss, A.:
+The classification of real singularities using \textsc{Singular}. Part I: Splitting Lemma and Simple Singularities. (2013)
+
 \bibitem{primdec.lib} Pfister, G.; Decker, W.;  Schoenemann, H.; Laplagne, S.:
 {\tt primdec.lib}. {A} {\sc Singular} {3-1-5} library for Primary Decomposition
 and Radical of Ideals (2012).
+\bibitem{PdJ2000}
+Pfister, G.; De Jongh, T.:
+Local analytic Geometry, Amer. Math. Soc. (2000)
 \bibitem{Siersma} Siersma D.: Classification and deformation of Singularities,
 disertation, University of Amsterdam (1974).
 \bibitem{roots}
