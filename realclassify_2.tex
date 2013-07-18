@@ -305,8 +305,6 @@ $(f_i)_{i \in I}$ as
 \Gamma_\Omega((f_i)_{i \in I})
 := \{ (a, f_i(a)) \in \Omega \times \C \mid a\in \Omega,\; i \in I \}\,.
 \]
-Let $(\Omega_a)_{a\in\Omega}$, $\Omega\subset\C$, be a set of subsets of $\C$, each depending on some condition $d_a$, and let $(f_i:\bigcup_{a\in\Omega}\Omega_{a}\to\C)_{i\in I}$ be a family of complex valued functions on $\cup_a\Omega_{a}$. Then we define the implicit graph of $(f_i)_{i\in I}$ as
-\[ \widetilde\Gamma_{\Omega_a}^{d_a}((f_i)_{i\in I}):=\{(a, f_i(c))\in\Omega\times\C\mid c\in\Omega_a, i\in I\}.\]
 \end{defn}
 
 \section{Finite Jets of Power Series and Transformations}
@@ -1052,69 +1050,6 @@ $X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
 
 \end{theorem}
 
-
-We have two representations for the equivalence structure in the $J_{10}$ case. The representation in Theorem \ref{tab:ThmJ10_equivalences} is more complicated than the one in  Theorem~\ref{tab:J10_equivalences_2}, in the sense that the first one contains implicit graphs of functions. We include the first representation, since it can very easily be computed by hand and will be used in the third part of this paper to compute the real type, as well as the equivalence class, of a real singularity of main type $J_{10}$.
-\begin{theorem}\label{tab:ThmJ10_equivalences}
-The structure of the equivalence classes of the $J_{10}$ singularities is as shown
-in Table~\ref{tab:J10_equivalences}, where 
-\[f_1(z)=\frac{3z}{\sqrt{d+3z^2}}\quad\textnormal{and}\quad f_2(z)=\frac{3z}{\sqrt{|d+3z^2|}}\]
-with 
-\begin{equation*}
-d=\left\{\begin{array}{ll}-\frac{1}{3}a^2+1&\textit{if $T_1=J_{10}^+$}\\-\frac{1}{3}a^2-1&\textit{if $T_1=J_{10}^-$}\end{array}\right.\qquad e=\left\{\begin{array}{ll}\frac{2}{27}a^3-\frac{1}{3}a&\textit{if $T_1=J_{10}^+$}\\\frac{2}{27}a^3+\frac{1}{3}a&\textit{if $T_1=J_{10}^-$.}\end{array}\right.
-\end{equation*}
-Furthermore, we define
-\[k(z):=z^3+dz+e.\]
-We now assign subsets of the roots of $k(z)$ to each $a\in\C':=\C\setminus\{2,-2\}$ or $a\in\R':=\R\setminus\{2,-2\}$ depending on a condition $d_a$. Let $c_1,c_2,c_3$ be the three complex roots of $k(z)$. If only one root is real, we choose $c_2$ to be that root. If $c_1,c_2,c_3\in\R$ we order the roots such that $c_1<c_2<c_3$. We define
-\[\Omega_1:=\left\{\begin{array}{ll}\{c_1,c_2,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.,\quad\Omega_2:=\left\{\begin{array}{ll}\{c_2\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else}\end{array}\right.\]\[\Omega_3:=\left\{\begin{array}{ll}\{c_1,c_3\},&\textnormal{if $d_a$ is true}\\\varnothing&\textnormal{else.}\end{array}\right.\]
-
-%for each normal form $T_1=J_{10}^+$ or $T_1=J_{10}^-$ we associate a polynomial $k(z)$, as well as three complex numbers, $\gamma_1,\gamma_2,\gamma_3$, and three real numbers, $\gamma'_1,\gamma'_2,\gamma'_3$, in case $a$ is real and $k(z)$ has three real roots, defined as follows:
-\end{theorem}
-\begin{remark}
-Note that if one of the roots of $k(z)$ in Theorem \ref{tab:ThmJ10_equivalences} is zero, we have named it in such a way that $c_2=0$. Furthermore, if $c_2=0$, then $f_1(c_1)=f_1(c_3)$ and $f_2(c_1)=f_2(c_3)$, in case $a,c_1,c_2,c_3\in\R$.
-\end{remark}
-
-%\begin{landscape}
-{\begin{table}[!htb]
-\centering
-
-\label{tab:J10_equivalences}
-\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
-\begin{tabular}{|c|c||c|c|c|}
-\hline
-$T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
-\hline\hline 
-&&&&\\
-$J_{10}^+$   & $J_{10}^+$   &
-$\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
-$\begin{array}{l}
-\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))\subset\R}(f_1,-f_1)\\\\
-\bigcup \widetilde\Gamma_{\Omega_2}^{0\not\in V(k(z))\not\subset\R}(f_1,-f_1)\\\\
-\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)
-\end{array}$
-&$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{V(k(z))\subset\R}(f_2)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{V(k(z))\not\subset{\R}}(f_2)\end{array}$
-\\&&&&\\
-\hline
-&&&&\\
-$J_{10}^+$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
-$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R }(f_1,-f_1)\\\\\bigcup\widetilde\Gamma_{\Omega_2}^{ 0\in V(k(z)) }(f_1,-f_1)\end{array}$
-&$\begin{array}{l}\widetilde\Gamma_{\Omega_2}^{V(k(z))\subset\R}(f_2)\end{array}$\\
-&&&&\\
-\hline
-&&&&\\
-$J_{10}^-$   & $J_{10}^+$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
-$\begin{array}{l}\phantom{\bigcup}\widetilde\Gamma_{\Omega_3}^{0\not\in V(k(z))}(f_1,-f_1)\\\\\bigcup \widetilde\Gamma_{\Omega_1}^{0\in V(k(z))}(f_1,-f_1)\end{array}$
-&$\widetilde\Gamma_{\Omega_3}^{a\in\R'}(f_2)$\\
-&&&&\\
-\hline
-&&&&\\
-$J_{10}^-$   & $J_{10}^-$& $\begin{array}{l}\widetilde\Gamma_{\Omega_1}^{a\in\C'}(f_1,-f_1)\end{array}$&
-$\widetilde\Gamma_{\Omega_2}^{a\in\C'}(f_1,-f_1)$
-&$\widetilde\Gamma_{\Omega_2}^{a\in\R'}(f_2)$\\
-&&&&\\
-\hline
-\end{tabular}
-\end{table}}
-%\end{landscape}
 
 \begin{theorem}\label{tab:J10_equivalences_2}\label{thm:J10}
 The structure of the equivalence classes of the $J_{10}$ singularities is as
