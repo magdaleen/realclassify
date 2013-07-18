@@ -962,12 +962,12 @@ in Table~\ref{tab:X9_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{1, i\}$, the function $f_j^{\rho, \sigma}$ is defined as
 follows:
 \begin{align*}
-f_1^{\rho, \sigma}(a) &= +\rho \sigma \cdot a \,, &
-f_3^{\rho, \sigma}(a) &= \frac{+2\sigma a+12\rho\sigma}{a-2\rho} \,, &
-f_5^{\rho, \sigma}(a) &= \frac{-2\sigma a+12\rho\sigma}{a+2\rho} \,, \\
-f_2^{\rho, \sigma}(a) &= -\rho \sigma \cdot a \,, &
-f_4^{\rho, \sigma}(a) &= \frac{+2\sigma a-12\rho\sigma}{a+2\rho} \,, &
-f_6^{\rho, \sigma}(a) &= \frac{-2\sigma a-12\rho\sigma}{a-2\rho} \,.
+f_1^{\rho, \sigma}(a) &:= +\rho \sigma \cdot a \,, &
+f_3^{\rho, \sigma}(a) &:= \frac{+2\sigma a+12\rho\sigma}{a-2\rho} \,, &
+f_5^{\rho, \sigma}(a) &:= \frac{-2\sigma a+12\rho\sigma}{a+2\rho} \,, \\
+f_2^{\rho, \sigma}(a) &:= -\rho \sigma \cdot a \,, &
+f_4^{\rho, \sigma}(a) &:= \frac{+2\sigma a-12\rho\sigma}{a+2\rho} \,, &
+f_6^{\rho, \sigma}(a) &:= \frac{-2\sigma a-12\rho\sigma}{a-2\rho} \,.
 \end{align*}
 
 Furthermore, we use the following notation:
@@ -1122,30 +1122,30 @@ shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
 follows:
 \begin{align*}
-f_1^{\rho, \sigma}(a) &= +\sqrt{\rho \sigma} \cdot a \,, \\
-f_2^{\rho, \sigma}(a) &= -\sqrt{\rho \sigma} \cdot a \,, \\
+f_1^{\rho, \sigma}(a) &:= +\sqrt{\rho \sigma} \cdot a \,, \\
+f_2^{\rho, \sigma}(a) &:= -\sqrt{\rho \sigma} \cdot a \,, \\
 f_3^{\rho, \sigma}(a)
-&= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+&:= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
 f_4^{\rho, \sigma}(a)
-&= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+&:= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
 f_5^{\rho, \sigma}(a)
-&= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+&:= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
 f_6^{\rho, \sigma}(a)
-&= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
+&:= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,.
 \end{align*}
 
 In each case, $\rho$ and $\sigma$ are given by
 \begin{align*}
-\rho &=
+\rho &:=
 \begin{cases}
     +1, &\text{if } T_1 = J_{10}^+ \,, \\
     -1, &\text{if } T_1 = J_{10}^- \,, \\
 \end{cases}
-&\sigma &=
+&\sigma &:=
 \begin{cases}
     +1, &\text{if } T_2 = J_{10}^+ \,, \\
     -1, &\text{if } T_2 = J_{10}^- \,. \\
@@ -1164,8 +1164,8 @@ I_4 &:= \left] -\infty, {\textstyle-\frac{3}{\sqrt{2}}} \right[ \subset \R \,.
 
 \begin{table}[htb]
 \centering
-\caption{$P_1$, $P_2$ and $P_3$ for the $X_9$ singularities}
-\label{tab:X9_equivalences}
+\caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
+\label{tab:J10_equivalences}
 \begin{tabular}{|c|c||c|c|c|}
 \hline
 
@@ -1242,12 +1242,12 @@ $\Gamma_{\C}\left(f_1^{\rho,\sigma}, \ldots, f_6^{\rho,\sigma}\right)$ &
 \begin{theorem}
 The structure of the equivalence classes of the $J_{10+k}$
 singularities is as shown in Table~\ref{tab:J10+k_equivalences} where in each
-case,
+case, $l$ and $s$ are given by
 \begin{align*}
-l &= \frac{6}{\gcd(6,k)}, \text{ and} \\
-s &=
+l &:= \frac{6}{\gcd(6,k)}, \text{ and} \\
+s &:=
 \begin{cases}
-  1,  &\text{if } k \equiv 2 \pmod{4}, \\
+  +1,  &\text{if } k \equiv 2 \pmod{4}, \\
   -1, &\text{else.}
 \end{cases}
 \end{align*}
@@ -1307,12 +1307,12 @@ $\varnothing$ \\
 \begin{theorem}
 The structure of the equivalence classes of the $X_{9+k}$
 singularities is as shown in Table~\ref{tab:X9+k_equivalences} where in each
-case,
+case, $l$ and $s$ are given by
 \begin{align*}
-l &= \frac{4}{\gcd(4,k)}, \text{ and} \\
-s &=
+l &:= \frac{4}{\gcd(4,k)}, \text{ and} \\
+s &:=
 \begin{cases}
-  1,  &\text{if } k \equiv 4 \pmod{8}, \\
+  +1,  &\text{if } k \equiv 4 \pmod{8}, \\
   -1, &\text{else.}
 \end{cases}
 \end{align*}
@@ -1370,17 +1370,18 @@ $\varnothing$ \\
 
 \begin{theorem}
 The structure of the equivalence classes of the $Y_{r,s}$ singularities is as
-shown in Table~\ref{tab:Yrs_equivalences} where in each case
+shown in Table~\ref{tab:Yrs_equivalences} where in each case, $l$, $s_1$ and
+$s_2$ are given by
 \begin{align*}
-l &= \frac{r}{\gcd(r,s)} \cdot \gcd(2, r+1, s+1) \,, \\
-s_1 &=
+l &:= \frac{r}{\gcd(r,s)} \cdot \gcd(2, r+1, s+1) \,, \\
+s_1 &:=
 \begin{cases}
-  1,  &\text{if } r \equiv 0 \pmod{4} \text{ or } s \equiv 0 \pmod{4}, \\
+  +1,  &\text{if } r \equiv 0 \pmod{4} \text{ or } s \equiv 0 \pmod{4}, \\
   -1, &\text{else,}
 \end{cases} \\
-s_2 &=
+s_2 &:=
 \begin{cases}
-  1,  &\text{if } r \not\equiv 0 \pmod{2}
+  +1,  &\text{if } r \not\equiv 0 \pmod{2}
       \text{ or } \frac{s}{\gcd(r,s)} \equiv 0 \pmod{2}, \\
   -1, &\text{else.}
 \end{cases}
@@ -1507,12 +1508,13 @@ $Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &
 
 \begin{theorem}
 The structure of the equivalence classes of the $\tY_r$ singularities is as
-shown in Table~\ref{tab:tYr_equivalences} where in each case
+shown in Table~\ref{tab:tYr_equivalences} where in each case, $l$ and $s$ are
+given by
 \begin{align*}
-l &= 2\cdot{\gcd(2, r+1)}, \text{ and} \\
-s &=
+l &:= 2\cdot{\gcd(2, r+1)}, \text{ and} \\
+s &:=
 \begin{cases}
-  1,  &\text{if } r \equiv 0 \pmod{4}, \\
+  +1,  &\text{if } r \equiv 0 \pmod{4}, \\
   -1, &\text{else.}
 \end{cases}
 \end{align*}
