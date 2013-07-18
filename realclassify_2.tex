@@ -1265,47 +1265,29 @@ s &:=
 $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 \hline\hline
 
-$J_{10+k}^+$ & $J_{10+k}^+$ & $C(X^l-1)$ &
-$\begin{array}{ll}
-  R(X^2-1), &\text{if } l \text{ is even} \\
-  R(X-1), &\text{if } l \text{ is odd}
-\end{array}$ &
-$\begin{array}{ll}
-  R(X^2-1), &\text{if } l \text{ is even} \\
-  R(X-1), &\text{if } l \text{ is odd}
-\end{array}$ \\
+$J_{10+k}^+$ & $J_{10+k}^+$ &
+\multirow{2}{*}{$C(X^l-1)$} &
+\multirow{2}{*}{$R(X^l-1)$} &
+\multirow{2}{*}{$R(X^l-1)$} \\
+\cline{1-2}
+
+$J_{10+k}^-$ & $J_{10+k}^-$ &&& \\
 \hline
 
-$J_{10+k}^-$ & $J_{10+k}^-$ & $C(X^l-1)$ &
-$\begin{array}{ll}
-  R(X^2-1), &\text{if } l \text{ is even} \\
-  R(X-1), &\text{if } l \text{ is odd}
-\end{array}$ &
-$\begin{array}{ll}
-  R(X^2-1), &\text{if } l \text{ is even} \\
-  R(X-1), &\text{if } l \text{ is odd}
-\end{array}$ \\
+$J_{10+k}^+$ & $J_{10+k}^-$ &
+\multirow{2}{*}{$C(X^l-s)$} &
+\multirow{2}{*}{$R(X^l-s)$} &
+\multirow{2}{*}{$\varnothing$} \\
+\cline{1-2}
+
+$J_{10+k}^-$ & $J_{10+k}^+$ &&& \\
 \hline
 
-$J_{10+k}^+$ & $J_{10+k}^-$ & $C(X^l-s)$ &
-$\begin{array}{ll}
-  \varnothing, &\text{if } l \text{ is even} \\
-  R(X-s), &\text{if } l \text{ is odd}
-\end{array}$ &
-$\varnothing$ \\
-\hline
-
-$J_{10+k}^-$ & $J_{10+k}^+$ & $C(X^l-s)$ &
-$\begin{array}{ll}
-  \varnothing, &\text{if } l \text{ is even} \\
-  R(X-s), &\text{if } l \text{ is odd}
-\end{array}$ &
-$\varnothing$ \\
-\hline
 \end{tabular}
 \end{table}
 
 \end{theorem}
+
 
 \begin{theorem}
 The structure of the equivalence classes of the $X_{9+k}$
