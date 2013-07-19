@@ -9,6 +9,8 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{enumerate}
+\usepackage{natbib}
+\usepackage{url}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -48,6 +50,7 @@
 \usepackage{tikz}
 \usetikzlibrary{matrix,arrows}
 
+\hyphenation{equiva-lence}
 \hyphenation{ne-ces-sary}
 
 \title[The classification of real singularities using \textsc{Singular}, %
@@ -81,8 +84,7 @@ Germany}
 The algorithms implemented in the library ``realclassify.lib" in
 \textsc{singular} are discussed in this paper. The purpose of this library is
 to classify the~$0$ and $1$ modal isolated hypersurface singularities at $0$ of
-corank $0$, $1$ and $2$ over the real numbers as computed by V.I.~Arnold in
-\cite{AVG1985}.
+corank $0$, $1$ and $2$ over the real numbers as computed by \citet{AVG1985}.
 \end{abstract}
 \maketitle
 
@@ -304,7 +306,7 @@ $(f_i)_{i \in I}$ as
 \section{Finite Jets of Power Series and Transformations}
 
 For background regarding the definitions in this section we refer to
-\cite{A1975}.
+\citet{A1974}.
 
 \begin{remark}
 \phantom{X}\hfill
@@ -371,7 +373,7 @@ $L_v(f)=\sum_i v_i\frac{\partial f}{\partial x_i}$.
 Throughout the paper we also use the concepts of semi-quasihomo-genious power
 series and their quasihomogenious part as well as piecewise quasihomogenious
 power series and their Newton polygons. For background regarding these concepts
-we again refer to \cite{A1975}.
+we again refer to \citet{A1974}.
 \end{remark}
 
 \section{Sufficient Sets of Transformations Between Real Normal Forms}
@@ -396,7 +398,7 @@ T_{\K}(f(u),g(v))\neq\varnothing\Leftrightarrow
 We need the following result to prove the main result of this section,
 Theorem~\ref{tab:sufficient_sets}.
 
-The following result is proven in \cite{A1975}.
+The following result is proven by \citet{A1974}.
 \begin{lemma}\label{vectorlemma}
 Let $\K$ be either $\R$ or $\C$. Let $f=f_0+f_1+f_2\in\K[[x_1,\ldots,x_n]]$,
 where $f_0\in E^w_d$, $f_1\in E^w_{>d}$ and $f_2\in E^w_{d+\delta}$, and let
@@ -456,7 +458,7 @@ S_2&:=&\left\{\phi\in\Aut({\K}[[x,y]]) \left |
 let $f=T_1(a)$, $a\in\K$. We choose a weight $w$ such that the terms on the
 diagonal defined by $f$ have the same weight. Let $\phi$ be a $\K$-algebra
 automorphism such that $\phi(f)=T_2(a')$, $a'\in\K$. Using Proposition 6 in
-\cite{MS2013}, it follows that $\phi_0(x)=\alpha x$ ($\alpha=1$ if $\K=\R$),
+\citet{MS2013}, it follows that $\phi_0(x)=\alpha x$ ($\alpha=1$ if $\K=\R$),
 $\alpha\in\K$. Hence $\phi_0^w(x)=\alpha x+cy^2$ and $\phi_0^w(y)=ty$,
 $\alpha,c,t\in\K$. Since we only consider terms on the diagonal of $\phi(f)$,
 we only need to consider $\phi_0^w(f)$.
@@ -780,7 +782,7 @@ It turns out that the ideal $J$ is quite complicated in some cases and that it
 can be difficult to determine $V_{\R}(J)$ by just computing a Gr\"obner basis
 of $J$. One way out is then to consider $J$ as a parametric ideal
 $J \subset \R(a)[b,t_1,\ldots,t_r]$ and to compute a Gr\"obner cover thereof
-by using the \Singular{} library \verb+grobcov.lib+ (\cite{grobcov}).
+by using the \Singular{} library \verb+grobcov.lib+ \citep{grobcov}.
 A~Gr\"obner cover completely describes the possible shapes of Gr\"obner bases
 of $J$ for different values of $a$. It contains a generic Gr\"obner basis of
 $J$, i.e.\@ one which is a Gr\"obner basis except for finitely many exceptional
@@ -794,7 +796,7 @@ empty.
 If some of ideals in the Gr\"obner cover of $J$ are still to complicated and if
 their vanishing set over $\R$ cannot be easily read off, another trick is to
 compute a primary decomposition of these ideals with the \Singular{} library
-\verb+primdec.lib+ (\cite{primdec}). Typically, it is then easy to see that
+\verb+primdec.lib+ \citep{primdec}. Typically, it is then easy to see that
 some of the primary components have no solutions over $\R$ whereas the real
 solutions of the remaining components can be easily determined.
 
@@ -1020,7 +1022,7 @@ be found in Example \ref{tab:counter_example_Yr}.
 We need the following prelimanary results to determine the structure of the
 equivalence classes in this case:
 
-The following result can be found in \cite{PdJ2000} for $\K=\C$. The proof for
+The following result can be found in \citet{PdJ2000} for $\K=\C$. The proof for
 the $\K=\R$ case is similar.
 
 \begin{theorem}\label{faces}
@@ -1031,8 +1033,8 @@ convenient such that the Newton Polygon of $f_i$ has only one face of slope
 $d_i$, $i=1,\ldots,r$.
 \end{theorem}
 
-The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ in
-\cite{A1975}.
+The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ by
+\citet{A1974}.
 
 \begin{lemma}\label{principalpart}
 Let $\K$ be either $\R$ or $\C$. For every nondegenerate power series
@@ -1741,61 +1743,71 @@ We would like to thank Claus Fieker, Gert-Martin Greuel, and Gerhard Pfister
 for many fruitful discussions.
 
 
+\clearpage
+
 \begin{thebibliography}{99}
-\bibitem{AVG1985} Arnold, V.I.; Gusein-Zade, S.M.; Varchenko, A.N.:
-Singularities of Differential Maps. Vol.~I, Birkh\"auser (1985).
-\bibitem{A1975} Arnold, V.I.:
-\textit{Normal form of functions near degenerate critical points.},
-Russian Mth. Surveys 29 ii (1975), 10-50.
-\bibitem{DGPS}
-Decker, W.; Greuel, G.-M.; Pfister, G.; Sch{\"o}nemann, H.:
-\newblock {\sc Singular} {3-1-5} --- {A} computer algebra system for polynomial
+
+\bibitem[{Arnold(1974)}]{A1974}
+Arnold, V.I., 1974.
+Normal forms of functions in neighbourhoods of degenerate critical points.
+Russ. Math. Surv. 29(2), 10-50.
+
+\bibitem[{Arnold et al.(1985)}]{AVG1985}
+Arnold, V.I., Gusein-Zade, S.M., Varchenko, A.N., 1985.
+Singularities of Differential Maps, Vol.~I.
+Birkh\"auser, Boston.
+
+\bibitem[{de Jong and Pfister(2000)}]{PdJ2000}
+de Jong, T., Pfister, G., 2000.
+Local Analytic Geometry.
+Vieweg, Braunschweig.
+
+\bibitem[{Decker et al.(2012a)}]{DGPS}
+Decker, W., Greuel, G.-M., Pfister, G., Sch{\"o}nemann, H., 2012.
+{\sc Singular} {3-1-6} -- {A} computer algebra system for polynomial
 computations.
-\newblock {http://www.singular.uni-kl.de} (2012).
-\bibitem{Kruger} Kr\"uger, K.: Klassifikation von
-Hyperfl\"agensingularit\"aten, Diploma Thesis (1997).
-\bibitem{GLS2007}Greuel, G.-M.; Lossen, C.; Shustin E.:
-Introduction to Singularities and Deformations, Springer, Berlin (2007).
-\bibitem{GP2008} Greuel G.-M.; Pfister G.;
-A Singular introduction to Commutative Algebra, 2nd Ed., Springer,
-Berlin (2008).
-\bibitem{classify}
-Kr\"uger, K.:
-{\tt classify.lib}. {A} {\sc Singular} {3-1-5} library for classifying isolated
-hypersurface singularities w.r.t. right equivalence, based on the determinator
-of singularities by V.I. Arnold (2012).
-\bibitem{realclassify}
-Marais, M. and Steenpass, A.:
-{\tt realclassify.lib}. {A} {\sc Singular} {3-1-5} library for classifying
-isolated hypersurface singularities over the reals w.r.t. right equivalence,
-based on the determinator of singularities by V.I. Arnold. This library is
-based on classify.lib by Kai Kr\"uger, but handles the real case, while
-classify.lib does the complex classification (2012).
+\url{http://www.singular.uni-kl.de}.
 
-\bibitem{MS2013}Marais, M.S.; Steenpa\ss, A.:
-The classification of real singularities using \textsc{Singular}. Part I:
-Splitting Lemma and Simple Singularities. (2013)
+\bibitem[{Decker et al.(2012b)}]{primdec}
+Decker, W., Laplagne, S., Pfister, G., Sch\"onemann, H., 2012.
+{\tt primdec.lib}. {A} {\sc Singular} {3-1-6} library for primary decomposition
+and radicals of ideals.
 
-\bibitem{grobcov}
-Montes, A. and Sch\"onemann, H.:
-{\tt grobcov.lib}. {A} {\sc Singular} {3-1-6} library for Gr\"obner Covers of
-of Parametric Ideals (2013).
+\bibitem[{Greuel et al.(2007)}]{GLS2007}
+Greuel, G.-M., Lossen, C., Shustin, E., 2007.
+Introduction to Singularities and Deformations.
+Springer, Berlin.
 
-\bibitem{primdec} Pfister, G.; Decker, W.; Schoenemann, H.; Laplagne, S.:
-{\tt primdec.lib}. {A} {\sc Singular} {3-1-5} library for Primary Decomposition
-and Radical of Ideals (2012).
-\bibitem{PdJ2000}
-Pfister, G.; De Jongh, T.:
-Local analytic Geometry, Amer. Math. Soc. (2000)
-\bibitem{Siersma} Siersma D.: Classification and deformation of Singularities,
-disertation, University of Amsterdam (1974).
-\bibitem{roots}
-Tobis, A.:
-{\tt rootsur.lib}. {A} {\sc Singular} {3-1-5} library for Counting number of
-real roots of univariate polynomial (2012).
-\bibitem{solve.lib} Wenk, M.: {\tt solve.lib}. Pohl, W.:
-{A} {\sc Singular} {3-1-5} library for Complex Solving of Polynomial Systems
-(2012).
+\bibitem[{Greuel and Pfister(2008)}]{GP2008}
+Greuel, G.-M., Pfister, G., 2008.
+A Singular Introduction to Commutative Algebra, second ed.
+Springer, Berlin.
+
+\bibitem[{Kr\"uger(2012)}]{classify}
+Kr\"uger, K., 2012.
+{\tt classify.lib}. {A} {\sc Singular} {3-1-6} library for classifying isolated
+hypersurface singularities w.r.t.\@ right equivalence, based on the
+determinator of singularities by V.I. Arnold.
+
+\bibitem[{Marais and Steenpa\ss(2012)}]{realclassify}
+Marais, M.S., Steenpa\ss, A., 2012.
+{\tt realclassify.lib}. {A} {\sc Singular} {3-1-6} library for classifying
+isolated hypersurface singularities over the reals w.r.t.\@ right equivalence.
+
+\bibitem[{Marais and Steenpa\ss(2013)}]{MS2013}
+Marais, M.S., Steenpa\ss, A., 2013.
+The classification of real singularities using \Singular{}. Part I: Splitting
+Lemma and Simple Singularities.
+
+\bibitem[{Montes and Sch\"onemann(2012)}]{grobcov}
+Montes, A., Sch\"onemann, H., 2012.
+{\tt grobcov.lib}. {A} {\sc Singular} {3-1-6} library for Gr\"obner covers of
+parametric ideals.
+
+\bibitem[{Siersma(1974)}]{Siersma}
+Siersma, D., 1974.
+Classification and Deformation of Singularities.
+Dissertation, University of Amsterdam.
 
 \end{thebibliography}
 
