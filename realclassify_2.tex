@@ -45,7 +45,7 @@
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\Quot}{Quot}
-\DeclareMathOperator{\dash}{\textnormal{-}}
+\DeclareMathOperator{\dash}{\!\textnormal{-}\!}
 \DeclareMathOperator{\jet}{jet}
 \usepackage{tikz}
 \usetikzlibrary{matrix,arrows}
@@ -187,10 +187,13 @@ as shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
 $\NF{E_{14}(a)} = \NF{E_{14}^+(a)}$ for the polynomial $x^3+y^8+axy^6$ and
 $\NF{E_{14}^-(a)}$ for $x^3-y^8+axy^6$.
 
+Throughout the rest of this article, let $\K$ be, in each case, either $\R$ or
+$\C$.
+
 \begin{defn}
-Let $\K$ be either $\R$ or $\C$, let $f, g \in \K[[x_1, \ldots, x_n]]$ be two
-power series, and let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a subset
-of the set of $\K$-algebra automorphisms of $\K[[x_1, \ldots, x_n]]$.
+Let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a subset of the set of
+$\K$-algebra automorphisms of $\K[[x_1, \ldots, x_n]]$ and let
+$f, g \in \K[[x_1, \ldots, x_n]]$ be two power series.
 \begin{enumerate}
 \item We denote the set of all automorphisms in $S$ which take $f$ to $g$ by
 $\T_{\K}^S(f,g)$, i.e.\@
@@ -214,7 +217,7 @@ The above definition is the key ingredient for the definition of $P_1$, $P_2$,
 and $P_3$. We also need the following notation.
 
 \begin{remark}
-Let $\K$ be either $\R$ or $\C$. As usual, we denote the quotient field
+As usual, we denote the quotient field
 $\Quot(\K[a])$ by $\K(a)$. Let $f \in \K(a)[[x_1,\ldots,x_n]]$ be a power
 series over this quotient field. Then $f$ can be written as
 $f = \sum_{\nu \in \N^n} c_\nu \boldsymbol{x}^\nu$ with coeffients
@@ -241,7 +244,7 @@ $\NF{E_{14}(a)}(b) = \NF{E_{14}(b)}$.
 We can now state the main definition of this section.
 
 \begin{defn}
-\phantom{X}\hfill
+\leavevmode
 \begin{enumerate}
 \item
 Given power series $f,g \in \C(a)[[x_1,\ldots,x_n]]$, we define the
@@ -276,7 +279,7 @@ P_3(f, g)
 \end{defn}
 
 \begin{remark}
-\phantom{X}\hfill
+\leavevmode
 \begin{enumerate}
 \item
 Note that we have $P_3(f, g) \subseteq P_2(f, g) \subseteq P_1(f, g)$ for any
@@ -304,8 +307,7 @@ $(f_i)_{i \in I}$ over $\Omega$ as
 
 It turns out that for the hyperbolic and exceptional unimodal singularities,
 $P_1$, $P_2$ and $P_3$ are just unions of sets of the form $(a, ra)_{a \in \K}$
-for some $r \in \K$ where $\K$ is either $\C$ or $\R$. For those cases we use
-the following notations.
+for some $r \in \K$. For those cases we use the following notations.
 
 \begin{defn}
 For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
@@ -317,80 +319,105 @@ R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
 \end{defn}
 
 
-\section{Finite Jets of Power Series and Transformations}
+\section{Weighted Jets and Filtrations of Power Series and Transformations}
 
-For background regarding the definitions in this section we refer to
+We briefly introduce the concepts of weighted jets and filtrations. For
+background regarding the definitions in this section, we refer to
 \citet{A1974}.
 
 \begin{remark}
-\phantom{X}\hfill
-\begin{enumerate}[(a)]
-\item Let $\K$ be either $\R$ or $\C$. Throughout this paper we choose weights
-$w$ on the variables in $\K[[x_1,\ldots,x_n]]$ such that the weighted degree of
-$x_i$, $w\dash\deg(x_i),\ \forall i$ are natural numbers.
-\item For $f,g\in\K[[x_1,\ldots,x_n]]$, we mean by $f*_wg$,
-$w\dash\deg(f)*w\dash\deg(g)$, where $*$ is any one of $<,\le,>,\ge,=$. We
-denote the weighted
-$j\dash\jet$ of a power series $f$ by $j\dash w\dash\jet(f)$.
+Let $w$ be a weight on the variables in $\K[[x_1,\ldots,x_n]]$.
+
+\begin{enumerate}
+\item Throughout this paper we always assume that the weighted degree of $x_i$,
+denoted by $w \dash \deg(x_i)$, is a natural number for each
+$i = 1, \ldots, n$.
+
+\item Let $f, g \in \K[[x_1,\ldots,x_n]]$ be two power series and let $*$ be
+any of the relations $<$, $>$, $\leq$, $\geq$, or $=$. We sometimes write
+$f *_w g$ as a shorthand notation for $w \dash \deg(f) * w \dash \deg(g)$.
 \end{enumerate}
 \end{remark}
 
 \begin{defn}
-A power series has filtration $d$ if all its monomials are of weighted degree
-$d$ or higher. The power series of filtration $d$ form a linear space $E_d^w$.
+\leavevmode
+\begin{enumerate}
+\item
+Let $f = \sum_{i = 0}^{\infty} f_{i,w}$ be the decomposition of
+$f \in \K[[x_1,\ldots,x_n]]$ into weighted homogeneous parts $f_{i,w}$ of
+$w$-degree $i$. We denote the weighted $j$-jet of $f$ by
+\[
+j \dash w \dash \jet(f) := w \dash \jet(f, j) := \sum_{i = 0}^j f_{i,w} \,.
+\]
+
+\item
+A power series in $\K[[x_1,\ldots,x_n]]$ has filtration $d \in \N$ if all its
+monomials are of weighted degree $d$ or higher. The power series of filtration
+$d$ form a vector space $E_d^w \subset \K[[x_1,\ldots,x_n]]$.
+\end{enumerate}
 \end{defn}
 
 \begin{remark}
-Note that $E_{d'}^w\subseteq E_d^w$ if $d<d'$. Since the filtration of a
-product, $E_{d'}^w\cdot E_d^w$, is the sum of the filtrations of the factors,
-$d'+d$, it follows that $E_d^w$ is an ideal in the ring of power series. We
-denote the ideal of $E_d^w$ consisting of series of filtration strictly greater
-than $d$ by $E_{>d}^w$. If the weight of all the variables are $1$ we only
-write $E_d$.
+Note that $d < d'$ implies $E_{d'}^w \subseteq E_d^w$. Since the filtration of
+the product $E_{d'}^w \cdot E_d^w$ is $d'+d$, it follows that $E_d^w$ is an
+ideal in the ring of power series. We denote the ideal consisting of power
+series of filtration strictly greater than $d$ by $E_{>d}^w$. If the weight
+of each variable is $1$, we simply write $E_d$ and $E_{>d}$, respectively.
 \end{remark}
 
+There are also similar concepts for coordinate transformations:
+
 \begin{defn}\label{phi}
-Let $\K$ be either $\R$ or $\C$. Let $\phi$ be an $\K$-algebra automorphism of
-$\K[[x_1,\ldots,x_n]]$ and let $w$ be a chosen weight on the variables.
-\begin{enumerate}[(a)]
-\item For $j > 0$ we define the
-\emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$, to be the automorphism
-given by
+Let $\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ and let
+$w \in \N^n$ be a weight on the variables.
+
+\begin{enumerate}
+\item
+For $j > 0$ we define the \emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$,
+to be the automorphism given by
 \[
 \phi_j^w(x_i) := w\dash\jet(\phi(x_i),w\dash\deg(x_i)+j) \quad
 \forall i = 1,\ldots,n \,.
 \]
-If the weight of all the variables are $1$, we only write $\phi_j$.\\
-\item $\phi$ has filtration $d$ if, $\forall\lambda$,
-\[(\phi-1)E_\lambda^w\subset E_{\lambda+d}^w.\]
+If the weight of each variable is $1$, i.e.\@ $w = (1, \ldots, 1)$, we simply
+write $\phi_j$ for $\phi_j^w$.
+
+\item\label{enum:filtration}
+$\phi$ has filtration $d$ if, for all $\lambda \in \N$,
+\[
+(\phi-\id)E_\lambda^w \subset E_{\lambda+d}^w \,.
+\]
 \end{enumerate}
 \end{defn}
 
 \begin{remark}
-Note that $\phi_0(x_i)=\jet(\phi(x_i),1)\ \forall i$. Furthermore note that
-$\phi_0^w$ has filtration $\le 0$ and, for $j>0$, if $\phi_{j-1}^w=1$, then
-$\phi_j^w$ has filtration $j$.
+Note that $\phi_0(x_i) = \jet(\phi(x_i), 1)$ for all $i = 1, \ldots, n$.
+Furthermore note that $\phi_0^w$ has filtration less than or equal to $0$ and
+that $\phi_j^w$ has filtration $j$ if $j > 0$ and $\phi_{j-1}^w = \id$.
 \end{remark}
 
-The infinitesimal analogue of Definition \ref{phi}(2) is:
+The infinitesimal analogue of Definition~\ref{phi}(\ref{enum:filtration}) is:
 
 \begin{defn}
-Let $\K$ be either $\R$ or $\C$. A formal vector field
-$v=\sum_i v_i\frac{\partial}{\partial x_i}$ over $\K[[x_1,\ldots,x_n]]$, where
-$v_i\in\K[[x_1,\ldots,x_n]]$, has filtration $d$ if the directional derivitive
-raises the filtration by not less than $d$, i.e.\@
-$L_vE^w_\lambda\subset E^w_{\lambda+d}$, where
-$L_v(f)=\sum_i v_i\frac{\partial f}{\partial x_i}$.
+Let $v = \sum_i v_i \frac{\partial}{\partial x_i}$ be a formal vector field
+over $\K[[x_1,\ldots,x_n]]$ with coefficients $v_i \in \K[[x_1,\ldots,x_n]]$
+and let $L_v$ be its directional derivitive given by
+$L_v(f) := \sum_i v_i \frac{\partial f}{\partial x_i}$ for
+$f \in \K[[x_1,\ldots,x_n]]$. Then $v$ has filtration $d$ if $L_v$ raises the
+filtration by not less than $d$, i.e.\@
+$L_v E^w_\lambda \subset E^w_{\lambda+d}$.
 \end{defn}
 
 \begin{remark}
-Throughout the paper we also use the concepts of semi-quasihomo-genious power
-series and their quasihomogenious part as well as piecewise quasihomogenious
+Throughout the paper we also use the concepts of semi-quasi\-homogeneous power
+series and their quasihomogeneous part as well as piecewise quasihomogeneous
 power series and their Newton polygons. For background regarding these concepts
 we again refer to \citet{A1974}.
 \end{remark}
 
+
 \section{Sufficient Sets of Transformations Between Real Normal Forms}
+
 The results in this section narrow down the transformations we need to consider
 between specific unimodal normal forms of the same main type, to determine
 equivalence, considerably. In fact these results are in many cases the main
