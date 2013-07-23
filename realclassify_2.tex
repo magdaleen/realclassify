@@ -173,6 +173,8 @@ corank $0$, $1$ and $2$ over the real numbers as computed by \citet{AVG1985}.
 
 \end{tabular}
 \end{table}
+
+
 \section{The Sets of Parameter Transformations
 $\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}
 
@@ -418,81 +420,99 @@ we again refer to \citet{A1974}.
 
 \section{Sufficient Sets of Transformations Between Real Normal Forms}
 
-The results in this section narrow down the transformations we need to consider
-between specific unimodal normal forms of the same main type, to determine
-equivalence, considerably. In fact these results are in many cases the main
-step in determining the structure of the equivalence classes of corank 2,
-unimodal singularities of the same main type. (See
-Section~\ref{OnTheComputationOfTheResults}.)
+The results in this section considerably narrow down the transformations we
+need to consider between specific unimodal normal forms of the same main type
+in order to determine equivalence. In fact these results are in many cases the
+main step for determining the structure of the equivalence classes of the
+unimodal singularities up to corank $2$.
 
 \begin{defn}
-Let $\mathbb L$ and $\K$ both be either $\R$ or $\C$, such that
-$\mathbb L\subset\mathbb K$, and let $f,g\in\mathbb L(a)[[x_1,\ldots,x_n]]$. We
-call $S\subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ a sufficient set of
-$\K$-transformations preserving $\mathbb L$ for $f$ and $g$, if for all
-$u,v\in\mathbb L$,
+Let $f$ and $g$ be elements in $\C(a)[[x_1,\ldots,x_n]]$ and let $S$ be a
+subset of $\Aut_{\C}(\C[[x_1,\ldots,x_n]])$. We call $S$ a sufficient set of
+coordinate transformations for $f$ and $g$ if
 \[
-T_{\K}(f(u),g(v))\neq\varnothing\Leftrightarrow
-\T_{\K}^S(f(u),g(v))\neq\varnothing\,.
+\forall u,v \in \C: \quad
+\left(T_{\C}(f(u),g(v)) \neq \varnothing
+\;\Leftrightarrow\; \T_{\C}^S(f(u),g(v)) \neq \varnothing\right) \,.
 \]
 \end{defn}
-We need the following result to prove the main result of this section,
-Theorem~\ref{tab:sufficient_sets}.
 
-The following result is proven by \citet{A1974}.
-\begin{lemma}\label{vectorlemma}
-Let $\K$ be either $\R$ or $\C$. Let $f=f_0+f_1+f_2\in\K[[x_1,\ldots,x_n]]$,
-where $f_0\in E^w_d$, $f_1\in E^w_{>d}$ and $f_2\in E^w_{d+\delta}$, and let
-$\phi$ be a $\K$-algebra automorphism defined by
-$\phi(x_i)=x_i+v_{0,i}+v_{1,i}$, where
-$v_0=\sum_iv_{0,i}\frac{\partial}{\partial x_i}$ has filtration $\delta$ and
-$v_1=\sum_iv_{1,i}\frac{\partial}{\partial x_i}$ has filtration strictly
-greater than $\delta$ where $\delta>0$. Then
+The sufficient sets which we consider here can be described using the
+following notation.
+
+\begin{defn}
+Let $M_x$ and $M_y$ be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x$ and
+$\C\! M_y$ be the $\C$-vector spaces spanned by these sets, i.e.\@
+$\C\! M_x := \bigoplus_{m \in M_x} \C \cdot m$ and analogously for $\C\! M_y$. 
+We define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
 \[
-\phi(f)=f_0+\left[ f_1+\sum_iv_{0,i}\frac{\partial f_0}{\partial x_i}\right]+R,
+S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
+\phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
 \]
-where $R\in E^w_{>d+\delta}$.
+\end{defn}
+
+We need the following result by \citet{A1974} to prove the main result of this
+section, Theorem~\ref{thm:sufficient_sets}.
+
+\begin{lemma}\label{vectorlemma}
+For $d \geq 0$ and $\delta > 0$, let $f \in \K[[x_1,\ldots,x_n]]$ be a power
+series decomposed as $f = f_0+f_1+f_2$ where $f_0 \in E^w_d$,
+$f_1 \in E^w_{>d}$ and $f_2 \in E^w_{d+\delta}$. Let
+$\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ defined by
+$\phi(x_i) := x_i+v_{0,i}+v_{1,i}$ where
+$v_0 := \sum_iv_{0,i}\frac{\partial}{\partial x_i}$ has filtration $\delta$ and
+$v_1 := \sum_iv_{1,i}\frac{\partial}{\partial x_i}$ has filtration strictly
+greater than $\delta$. Then
+\[
+\phi(f)
+= f_0 + \left[f_1 + \sum_i v_{0,i}\frac{\partial f_0}{\partial x_i}\right] + R
+\]
+for some $R\in E^w_{>d+\delta}$.
 \end{lemma}
 
 
-\begin{theorem}\label{tab:sufficient_sets}\label{thm:sufficient_sets}
-Let $\K$ and $\mathbb L$ be either $\R$ or $\C$, respectively, with
-$\mathbb L\subset \K$ and let $T_1,T_2$ be two singularity subtypes such that
-both are of one of the following main types:
-\begin{enumerate}[(a)]
-\item[(i)] $J_{10}\,,$
-\item[(ii)] $E_{12},E_{13},E_{14},Z_{11},Z_{12},Z_{13},W_{12},W_{13}\,,$
-\item[(iii)] $ J_{10+k}\,,$
-\item[(iv)] $X_{9+k}\,,$
-\item[(v)] $Y_{r,s}\,.$
-\end{enumerate}
-In the case (i) the set $S_0$, in the cases (ii), (iii) and (iv) the set $S_1$
-and in the case (v) the set $S_2$ is, respectively, a sufficient set of
-$\K$-transformations preserving $\mathbb L$ for $T_1$ and $T_2$:
-\begin{eqnarray*}
-S_0&=&\left\{\phi\in\Aut_{\K}(\K[[x,y]])\left |
-\begin{array}{l}
-\phi(x)=\alpha x+cy^2,\\
-\phi(y)=ty, \alpha,c,t\in\K\ (\textit{if $\K=\R$ then $\alpha=1$})
-\end{array}
-\right.\right\};\\\\
-S_1&:=&\{\phi\in\Aut_{\K}(\K[[x,y]])
-\mid \phi(x)=\alpha x, \phi(y)=\beta y, \alpha, \beta\in\K\};\\\\
-S_2&:=&\left\{\phi\in\Aut({\K}[[x,y]]) \left |
-\begin{array}{ll}
-\begin{array}{l}
-\phi(x)=\alpha x,\quad \phi(y)=\alpha y,\ \alpha,\beta\in\K
-\end{array}
-&, \textit{ if $r\neq s$}\\\\
-\begin{array}{ll}
-\phi(x)=\alpha x,& \phi(y)=\beta y,\ \alpha,\beta\in\K\\&\textit{or}\\
-\phi(x)=\alpha y,& \phi(y)=\beta x,\ \alpha,\beta\in\K
-\end{array}
-&,\textit{if $r=s$}
-\end{array}
-\right.\right\}.
-\end{eqnarray*}
+\begin{theorem}\label{thm:sufficient_sets}
+Let $T$ be one of the main singularity types listed in
+Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
+of monomials, and let $T_1$ and $T_2$ be two subtypes of $T$. Then
+$S(M_x, M_y)$ is a sufficient set of coordinate transformations for $\NF{T_1}$
+and $\NF{T_2}$.
+
+\begin{table}[htb]
+\centering
+\caption{Sufficient sets for some unimodal singularities}
+\label{tab:sufficient_sets}
+\begin{tabular}{|c|c|c|c|}
+\hline
+
+& $T$ & $M_x$ & $M_y$ \\
+\hline\hline
+
+
+\multirow{2}{*}{\begin{sideways}P.\end{sideways}}
+
+& $X_9$    & $\{x, y\}$   & $\{x, y\}$ \\ \cline{2-4}
+& $J_{10}$ & $\{x, y^2\}$ & $\{y\}$    \\ \hline
+
+
+\multirow{3}{*}{\begin{sideways}Hyperb.\end{sideways}}
+
+& $J_{10+k}$ & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
+& $X_{9+k}$  & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
+& $Y_{r,s}$  & $\{x, y\}$ & $\{x, y\}$ \\ \hline
+
+
+\multirow{3}{*}{\begin{sideways}Except.\end{sideways}}
+
+& $E_{12}, E_{13}, E_{14}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
+& $Z_{11}, Z_{12}, Z_{13}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
+& $W_{12}, W_{13}$         & $\{x\}$ & $\{y\}$ \\ \hline
+
+\end{tabular}
+\end{table}
+
 \end{theorem}
+
 \begin{proof}
 
 (i) Let $T_1$ and $T_2$ be (not neccesarily different) subtypes of $J_{10}$ and
@@ -941,7 +961,7 @@ form
 \begin{equation}\label{form}
 x^3+a'x^2y^2\pm |d'|xy^4,\quad a',d'\in \R.
 \end{equation}
-Taking Theorem \ref{tab:sufficient_sets} into account, we have that
+Taking Theorem \ref{thm:sufficient_sets} into account, we have that
 \begin{equation}\label{eqc}
 \phi(f)=x^3+3cx^2y^2+(3c^2+t^4d)xy^4+(c^3+t^4dc+et^6)y^6,\quad t,c\in\R.
 \end{equation}
@@ -1056,7 +1076,7 @@ not.
 \paragraph{\bf Computing the structure of the equivalences of $\widetilde Y_r$
 singularities}
 Firstly it is important to notice that the set $S_1$ or $S_2$ in Theorem
-\ref{tab:sufficient_sets} is not a sufficient set of $\C$-transformations
+\ref{thm:sufficient_sets} is not a sufficient set of $\C$-transformations
 preserving $\R$ or $\C$ for subtypes of $\widetilde Y_r$. A counter example can
 be found in Example \ref{tab:counter_example_Yr}.
 
@@ -1157,7 +1177,7 @@ structure of the equivalence classes of the $Y_{r,s}$ singularities.
 Let $T_1$ be a real subtype of $\widetilde Y_8$. Taking
 Diagram~\ref{Yr_commuting_diagram} into account it follows that
 $(a,-a)\in P_2(T_1,T_1)$, $a\in\R$. Hence $\phi(T_1(a))=T_1(-a)$. Considering
-the transformations in $S_1$ and $S_2$ in Theorem \ref{tab:sufficient_sets}, it
+the transformations in $S_1$ and $S_2$ in Theorem \ref{thm:sufficient_sets}, it
 is clear that $\phi\not\in S_1$ and $\phi\not\in S_2$, i.e.~$S_1$ and $S_2$ are
 not sufficient sets of $\C$-transformations preserving $\C$ or $\R$ for $T_1$
 and $T_1$.
