@@ -369,7 +369,7 @@ of each variable is $1$, we simply write $E_d$ and $E_{>d}$, respectively.
 
 There are also similar concepts for coordinate transformations:
 
-\begin{defn}\label{phi}
+\begin{defn}\label{def:jet_phi}
 Let $\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ and let
 $w \in \N^n$ be a weight on the variables.
 
@@ -398,7 +398,8 @@ Furthermore note that $\phi_0^w$ has filtration less than or equal to $0$ and
 that $\phi_j^w$ has filtration $j$ if $j > 0$ and $\phi_{j-1}^w = \id$.
 \end{remark}
 
-The infinitesimal analogue of Definition~\ref{phi}(\ref{enum:filtration}) is:
+The infinitesimal analogue of
+Definition~\ref{def:jet_phi}(\ref{enum:filtration}) is:
 
 \begin{defn}
 Let $v = \sum_i v_i \frac{\partial}{\partial x_i}$ be a formal vector field
@@ -454,7 +455,7 @@ S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 We need the following result by \citet{A1974} to prove the main result of this
 section, Theorem~\ref{thm:sufficient_sets}.
 
-\begin{lemma}\label{vectorlemma}
+\begin{lemma}\label{lem:filtration}
 For $d \geq 0$ and $\delta > 0$, let $f \in \K[[x_1,\ldots,x_n]]$ be a power
 series decomposed as $f = f_0+f_1+f_2$ where $f_0 \in E^w_d$,
 $f_1 \in E^w_{>d}$ and $f_2 \in E^w_{d+\delta}$. Let
@@ -537,20 +538,20 @@ Let $\phi$ be a $\K$-algebra automorphism such that $\phi(f)=T_2(a')$,
 $a'\in\K$ and $T_2$ a subtype of the same main type as $T_1$.
 
 Note that in this case
-\begin{equation}\label{c}
+\begin{equation}\label{eqn:c}
 x^2>_w xy >_w y^3>_w x>_w y^2>_w y.
 \end{equation}
 Let $k_0$ be the degree of lowest jet of $f$, i.e.~$\jet(f,k_0-1)=0$ and
 $\jet(f,k_0)\neq 0$. Since
 
-\begin{equation}
+\begin{equation}\label{eqn:lowestjet}
 \phi(f) = \phi_0(\jet(f,k_0))+\phi_0(f-\jet(f,k_0))+\phi^*(f)
-= \phi_0(\jet(f,k_0))+R,\label{lowestjet}
+= \phi_0(\jet(f,k_0))+R,
 \end{equation}
 where $\phi^*=\phi-\phi_0$ and $R\in E_{>k_0}$, it is clear that
 
-\begin{equation}
-\phi_0(x)=\alpha x,\quad 0\neq\alpha\in\K,\label{transx}
+\begin{equation}\label{eqn:transx}
+\phi_0(x)=\alpha x,\quad 0\neq\alpha\in\K,
 \end{equation}
 
 i.e~ $\phi_0^{w}(x)=\alpha x$ and $\phi_0^{w}(y)=\beta y$, $\alpha,\beta\in\K$.
@@ -564,7 +565,7 @@ defined by
 If $\alpha,\beta\neq 1$, we replace $f$ by $\phi'(f)$ and $\phi$ by $\phi''$
 for the following arguments showing that the coefficient of $y^2$ and $y^3$ in
 $\phi(x)$, or equivalently $\phi''(x)$, is zero. Taking the ordering in
-(\ref{c}) into account, we have that
+(\ref{eqn:c}) into account, we have that
 \[
 \phi_0^w(x)=x+cy^2, \quad\phi_0(y)=y,\quad c\in\K.
 \]
@@ -580,20 +581,20 @@ $R_1\in\K[[x,y]]
 \setminus E^w_{w\dash\deg\left(\frac{\partial f_0}{\partial x}y^2\right)}$,
 $R_2\in E^w_{>w_0}$ and $R_3\in E^w_{w_0}$. Therefore $c=0$ and $\phi$ has
 positive filtration.
-By (\ref{c}), it follows that
+By (\ref{eqn:c}), it follows that
 \begin{equation*}
 \frac{\partial f_0}{\partial y}x >_w\frac{\partial f_0}{\partial y}y^2
 =_w \frac{\partial f_0}{\partial x}xy>_w f_1\quad
 \textnormal{and}\quad \frac{\partial f_0}{\partial x}y^3>_w f_0.
 \end{equation*}
-Therefore, it follows from Lemma \ref{vectorlemma} that
+Therefore, it follows from Lemma~\ref{lem:filtration} that
 \begin{equation*}
 \phi(f) = f_0+c\frac{\partial f_0}{\partial x}y^3+f_1+R,\quad
 R\in E^w_{>w\dash\deg(\frac{\partial f_0}{\partial x}y^3)}
 \end{equation*}
 where $\phi(x) = x+ cy^3+R'$, $R'\in E^w_{>w\dash\deg(y^3)}$, $c\in\K$. If
 $f_1\in E^w_{>w\dash\deg(\frac{\partial f}{\partial x}y^3)}$ then it follows
-that $c=0$ and we apply Lemma \ref{vectorlemma} again, this time with
+that $c=0$ and we apply Lemma~\ref{lem:filtration} again, this time with
 $\phi(x)=x+cy^4+R'$, where $R'\in E^w_{>w\dash\deg(y^4)}$, $c\in\K$. Since
 $\gamma_0\frac{\partial f_0}{\partial x}y^n+\gamma_1f_1\neq \gamma_2f_1$ for
 any $\gamma_0,\gamma_1,\gamma_2\in\K$, $n\in\N$, $\gamma_0\neq 0$, in all three
@@ -625,11 +626,11 @@ root of $k(z)=z^3\pm z^2\beta^2$ and $k'(z)=3z^2\pm2 z\beta^2$. Hence $c=0$.
 
 Since $\phi-\phi_0^{w_1}+1$ has positive filtration with regard to $w_1$ it
 follows that
-\begin{equation}\label{transw2}
+\begin{equation}\label{eqn:transw2}
 \phi(f) = \phi_0^{w_1}(f_1) + R,\quad R\in E^{w_1}_{>k_0}.
 \end{equation}
 Note that
-\begin{equation}\label{orderw1}
+\begin{equation}\label{eqn:orderw1}
 y<_{w_2}x<_{w_2}xy^n,
 \end{equation}
 for all $n\ge 1$. We, now, consider recursively the next smallest $s>2$ such
@@ -651,10 +652,10 @@ where $R_1\in\K[[x,y]]\setminus E^{w_2}_{w_2\dash\deg(xy^{s+2})}$,
 $R_2, R_3\in E^{w_2}_{>w_2\dash\deg(xy^{s+2})}$. Therefore $c=0$ and
 $\phi_0^{w_2}(x)=x$ and $\phi_0^{w_2}(y)=\beta y$. Thus $\phi$ has non-negative
 filtration with regard to $w_2$ and
-\begin{equation}\label{transw1}
+\begin{equation}\label{eqn:transw1}
 \phi(f) = \phi_0^{w_2}(f_2)+R,\quad R\in E^{w_2}_{>k_0}.
 \end{equation}
-Now, it follows from (\ref{transw2}) and (\ref{transw1}) that
+Now, it follows from (\ref{eqn:transw2}) and (\ref{eqn:transw1}) that
 \begin{equation*}
 \phi(f) = \phi_0^{w_0}(f_0)+R,\quad R\in E^{w_0}_{>k_0}.
 \end{equation*}
@@ -672,7 +673,7 @@ exists a $\phi^T\in\T_{\K}(T_1,T_2)$ such that $\phi^T(T_1(a))=T_2(a')$.
 \end{proof}
 
 
-\section{On the Computation of the Results}\label{OnTheComputationOfTheResults}
+\section{On the Computation of the Results}\label{sec:computations}
 
 Based on the previous section, all of the results presented in
 Section~\ref{sec:results} can be computed using \Singular{}. The main tools for
@@ -700,7 +701,7 @@ the more complicated cases (cf. Theorem~\ref{thm:X9}).
 
 
 \subsection{How to compute $\boldsymbol{P_1(T_1, T_2)}$}%
-\label{sec:computing_P1}
+\label{ssec:computing_P1}
 
 Let $S \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
 $\C[[x,y]]$-automorphisms for $T_1$ and $T_2$ given in
@@ -822,7 +823,7 @@ not there is a \emph{real} coordinate transformation
 $\phi \in \Aut_{\R}(\R[[x,y]])$ which takes $T_1(a)$ to $T_2(b)$. This can be
 reduced to a finite problem as follows: Let $g_j$, $j \in \{1,\ldots,s\}$, be
 the irreducible factors of the polynomial $g$ as in
-Section~\ref{sec:computing_P1}. Then in all the cases, $P_2(T_1, T_2)$ is a
+Section~\ref{ssec:computing_P1}. Then in all the cases, $P_2(T_1, T_2)$ is a
 finite union of ``branches'' of the form $V(g_j)$ and some exceptional points.
 We can check whether a branch $V(g_j)$ or an exceptional point $(q_a, q_b)$ in
 $P_2(T_1, T_2)$ belongs $P_3(T_1, T_2)$ by simply adding appropriate relations
@@ -938,10 +939,10 @@ $f_5^{\sigma,\rho}$, and $f_6^{\sigma,\rho}$, cf.\@ Theorem~\ref{thm:J10}.
 
 \paragraph{\bf Computing the structure of the equivalences of $\widetilde Y_r$
 singularities}
-Firstly it is important to notice that the set $S_1$ or $S_2$ in Theorem
-\ref{thm:sufficient_sets} is not a sufficient set of $\C$-transformations
-preserving $\R$ or $\C$ for subtypes of $\widetilde Y_r$. A counter example can
-be found in Example \ref{tab:counter_example_Yr}.
+Firstly it is important to notice that the set $S_1$ or $S_2$ in
+Theorem~\ref{thm:sufficient_sets} is not a sufficient set of
+$\C$-transformations preserving $\R$ or $\C$ for subtypes of $\widetilde Y_r$.
+A counter example can be found in Example~\ref{ex:counter_example_Yr}.
 
 We need the following prelimanary results to determine the structure of the
 equivalence classes in this case:
@@ -949,7 +950,7 @@ equivalence classes in this case:
 The following result can be found in \citet{PdJ2000} for $\K=\C$. The proof for
 the $\K=\R$ case is similar.
 
-\begin{theorem}\label{faces}
+\begin{theorem}\label{thm:newton_polygon}
 Let $\K$ be either $\R$ or $\C$ and let $f\in\K[[x,y]]$ be convenient, let
 $\Delta_1,\ldots,\Delta_r$ be the faces of the Newton polygon of $f$ and $d_i$
 the slope of $\Delta_i$. Then $f=f_1\cdots f_r$, where $f_i\in\K[[x,y]]$ is
@@ -960,16 +961,16 @@ $d_i$, $i=1,\ldots,r$.
 The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ by
 \citet{A1974}.
 
-\begin{lemma}\label{principalpart}
+\begin{lemma}\label{lem:principalpart}
 Let $\K$ be either $\R$ or $\C$. For every nondegenerate power series
 $f\in\K[[x,y]]$ with principal part $f_0=x^a+\lambda x^2y^2+y^b$, where
 $0\neq\lambda\in\K$ and $a,b\in\N$, such that $f_0$ has two faces,
 $f\overset{\K}\sim f_0$.
 \end{lemma}
 \begin{proof}
-Using Theorem \ref{faces} and the form of $f_0=x^a+\lambda x^2y^2+y^b$, it
-follows that
-\begin{equation}\label{twofaces}
+Using Theorem~\ref{thm:newton_polygon} and the form of
+$f_0=x^a+\lambda x^2y^2+y^b$, it follows that
+\begin{equation}\label{eqn:twofaces}
 f=(c_1x^2+c_3y^{b-2}+xh_1+y^ch_3)(c_2y^2+c_4x^{a-2}+yh_2+x^dh_4),
 \end{equation}
 where $h_1,\ldots,h_4\in\K[[x,y]]$, $1=c_1c_4, \lambda=c_1c_2, 1=c_3c_2$,
@@ -977,23 +978,24 @@ $c>b-2$ and $d>a-2$. Since $f$ is finite determined, after repeatedly applying
 $x\mapsto x-\frac{1}{2c_1}h_1$, $y\mapsto y-\frac{1}{2c_2}h_2$ followed by
 $x\mapsto x-\frac{1}{c_4(a-2)}x^{a-d-2}h_4$,
 $y\mapsto y-\frac{1}{c_3(b-2)}y^{b-c-2} h_3$, writing $f$ as
-in~(\ref{twofaces}), adapting $h_1,\ldots,h_4$, $c$ and $d$ ($c_1,\ldots,c_4$
-do not change) accordingly, after each application, we have that
-\begin{equation}
+in~(\ref{eqn:twofaces}), adapting $h_1,\ldots,h_4$, $c$ and $d$
+($c_1,\ldots,c_4$ do not change) accordingly, after each application, we have
+that
+\begin{equation}\label{eqn:firsttrans}
 f\overset{\K}\sim (c_1x^2+c_3y^{b-2})(c_2y^2+c_4x^{a-2})
-=x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},\label{firsttrans}
+=x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},
 \end{equation}
 where $\lambda_1=c_3c_4$, $a\le c'\in\N$, $b\le d'\in\N$. Note that, since
 $w\dash\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application
 that $c>b-2$ and similarly that $d>a-2$, i.e. $f_0$ stays unaffected. By now
 repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$,
 $y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in
-(\ref{firsttrans}), adapting $c'$ and $d'$ accordingly, after each application,
-using the fact that $f$ is finite determined, it follows that
+(\ref{eqn:firsttrans}), adapting $c'$ and $d'$ accordingly, after each
+application, using the fact that $f$ is finite determined, it follows that
 \[f\overset{\K}\sim \lambda x^2y^2+x^a+y^b.\qedhere\]
 \end{proof}
 
-\begin{lemma}\label{equivalences}
+\begin{lemma}\label{lem:Yr_equivalences}
 Let $\sigma$ is either $+$ or $-$, and $r>4$. Let $T_{\sigma,1}$ and
 $T_{\sigma,2}$ be of real subtype $\widetilde Y_{r}^{\sigma}$ and of real
 sub-type $Y_{r,r}^{\sigma,+}$, respectively. Then
@@ -1009,17 +1011,18 @@ By applying $\phi$ defined by $\phi(x)=b\frac{1}{2}(x+y)$ and
 $\phi(y)=b\frac{1}{2}i(x-y)$ to $T_{\sigma,1}$, where $b=1$, considering
 $P_1(T_{\sigma,1},T_{\sigma,2})$, and $b=\sqrt{i}$, considering
 $P_1(T_{\sigma,1},T_{-\sigma,2})$, the result follows clearly, using
-Lemma \ref{principalpart}.
+Lemma~\ref{lem:principalpart}.
 \end{proof}
 
 Let $T_{\sigma,1}$ and $T_{\sigma,2}$ be as above and let $\sigma'=\pm\sigma$.
-Using Lemma \ref{equivalences}, considering complex transformations, we have
-Diagram \ref{Yr_commuting_diagram}, where $c=\left(\frac{1}{4}\right)^r$.
+Using Lemma~\ref{lem:Yr_equivalences}, considering complex transformations, we
+have Diagram~\ref{fig:Yr_commuting_diagram}, where
+$c=\left(\frac{1}{4}\right)^r$.
 
 \begin{figure}
 \caption{Relationship between $\widetilde Y_r$ and $Y_{r,s}$ considering
 complex transformations}
-\label{Yr_commuting_diagram}
+\label{fig:Yr_commuting_diagram}
 \begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
 \matrix (m) [matrix of math nodes, row sep=1em,column sep=2.5em,%
 text height=1.5ex, text depth=0.25ex]
@@ -1036,11 +1039,11 @@ Therefore we determined $P_1(T_1,T_2)$ and $P_2(T_1,T_2)$, where $T_1$ and
 $T_2$ are real subtypes of the the main type $\widetilde Y_r$, using the
 structure of the equivalence classes of the $Y_{r,s}$ singularities.
 
-\begin{example}\label{tab:counter_example_Yr}
+\begin{example}\label{ex:counter_example_Yr}
 Let $T_1$ be a real subtype of $\widetilde Y_8$. Taking
-Diagram~\ref{Yr_commuting_diagram} into account it follows that
+Diagram~\ref{fig:Yr_commuting_diagram} into account it follows that
 $(a,-a)\in P_2(T_1,T_1)$, $a\in\R$. Hence $\phi(T_1(a))=T_1(-a)$. Considering
-the transformations in $S_1$ and $S_2$ in Theorem \ref{thm:sufficient_sets}, it
+the transformations in $S_1$ and $S_2$ in Theorem~\ref{thm:sufficient_sets}, it
 is clear that $\phi\not\in S_1$ and $\phi\not\in S_2$, i.e.~$S_1$ and $S_2$ are
 not sufficient sets of $\C$-transformations preserving $\C$ or $\R$ for $T_1$
 and $T_1$.
@@ -1164,7 +1167,7 @@ $X_9^{-+}$ & $X_9^{--}$ &&& \\ \hline
 \end{theorem}
 
 
-\begin{theorem}\label{tab:J10_equivalences_2}\label{thm:J10}
+\begin{theorem}\label{thm:J10}
 The structure of the equivalence classes of the $J_{10}$ singularities is as
 shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
