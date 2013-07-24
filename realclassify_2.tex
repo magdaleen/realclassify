@@ -32,7 +32,6 @@
 
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
-\newcommand{\NF}[1]{\operatorname{NF}(#1)}
 \newcommand{\tY}{\widetilde{Y}}
 
 \DeclareMathOperator{\ord}{ord}
@@ -51,6 +50,7 @@
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\A}{\mathbb{A}}
+\DeclareMathOperator{\NF}{NF}
 \DeclareMathOperator{\T}{T}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\id}{id}
@@ -194,10 +194,10 @@ the name of the singularity (sub-)type if we want to refer specifically to the
 corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
 (complex or real) right-equivalence class of $x^3+y^8+3xy^6$.
 
-For any specific equivalence class $T$, we denote by $\NF{T}$ its normal form
+For any specific equivalence class $T$, we denote by $\NF(T)$ its normal form
 as shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
-$\NF{E_{14}(a)} = \NF{E_{14}^+(a)}$ for the polynomial $x^3+y^8+axy^6$ and
-$\NF{E_{14}^-(a)}$ for $x^3-y^8+axy^6$.
+$\NF\left(E_{14}(a)\right) = \NF\left(E_{14}^+(a)\right)$ for the polynomial
+$x^3+y^8+axy^6$ and $\NF\left(E_{14}^-(a)\right)$ for $x^3-y^8+axy^6$.
 
 Throughout the rest of this article, let $\K$ be, in each case, either $\R$ or
 $\C$.
@@ -250,7 +250,7 @@ $u \in \K \setminus \bigcup_{\nu \in \N^n} V(q_\nu)$.
 We will use the notation $f(u)$ throughout this paper. Note that it is
 compatible with the notations for equivalence classes and normal forms of
 unimodal singularities introduced above in the sense that, e.g.,
-$\NF{E_{14}(a)}(b) = \NF{E_{14}(b)}$.
+$\NF(E_{14}(a))(b) = \NF(E_{14}(b))$.
 \end{remark}
 
 We can now state the main definition of this section.
@@ -299,8 +299,8 @@ two power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$.
 
 \item
 For any two unimodal singularity (sub-)types $T_1, T_2$, we simply write
-$P_i(T_1,T_2)$ instead of $P_i(\NF{T_1(a)}, \NF{T_2(a)})$, e.g., we write
-$P_1(E_{14}, E_{14})$ for $P_1(\NF{E_{14}(a)}, \NF{E_{14}(a)})$.
+$P_i(T_1,T_2)$ instead of $P_i(\NF(T_1(a)), \NF(T_2(a)))$, e.g., we write
+$P_1(E_{14}, E_{14})$ for $P_1(\NF(E_{14}(a)), \NF(E_{14}(a)))$.
 \end{enumerate}
 \end{remark}
 
@@ -486,8 +486,8 @@ for some $R\in E^w_{>d+\delta}$.
 Let $T$ be one of the main singularity types listed in
 Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
 of monomials, and let $T_1$ and $T_2$ be two subtypes of $T$. Then
-$S(M_x, M_y)$ is a sufficient set of coordinate transformations for $\NF{T_1}$
-and $\NF{T_2}$.
+$S(M_x, M_y)$ is a sufficient set of coordinate transformations for $\NF(T_1)$
+and $\NF(T_2)$.
 
 \begin{table}[htb]
 \centering
@@ -979,8 +979,8 @@ For any $r > 4$ and any $a \in \C \setminus \{0\}$, we have
 \begin{proof}
 Let $\phi \in \Aut_{\C}(\C[[x,y]])$ be a coordinate transformation defined by
 $\phi(x) := \frac{1}{2}(x+y)$ and $\phi(y) := \frac{1}{2}i(x-y)$. Then the
-principal parts of $\phi(\NF{\tY_r^+}(a))$ and $\phi(\NF{\tY_r^-}(a))$ are of
-the form
+principal parts of $\phi\bigl(\NF\bigl(\tY_r^+\bigr)(a)\bigr)$ and
+$\phi\bigl(\NF\bigl(\tY_r^-\bigr)(a)\bigr)$ are of the form
 $\left(\frac{1}{2}\right)^r a \cdot x^r + \lambda x^2 y^2
 + \left(\frac{1}{2}\right)^r a \cdot y^r$
 with $\lambda = 1$ and $\lambda = -1$, respectively, so the result follows from
