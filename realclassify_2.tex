@@ -339,25 +339,40 @@ R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
 
 \section{Weighted Jets and Filtrations of Power Series and Transformations}
 
-We briefly introduce the concepts of weighted jets and filtrations. For
-background regarding the definitions in this section, we refer to
-\citet{A1974}.
+We briefly introduce the concepts of (piecewise) weighted jets and filtrations.
+For background regarding the definitions in this section, we refer to
+\citet{A1974}. We assume that the reader is familiar with the notions of
+weighted degrees, quasihomogeneous polynomials, and Newton polygons.
 
 \begin{remark}
-Let $w$ be a weight on the variables in $\K[[x_1,\ldots,x_n]]$. Throughout
-this paper we always assume that the weighted degree of $x_i$, denoted by $w
-\dash \deg(x_i)$, is a natural number for each $i = 1, \ldots, n$.
+Let $w$ be a weight on the variables $(x_1, \ldots, x_n)$. Throughout this
+paper we always assume that the weighted degree of $x_i$, denoted by
+$w\dash\deg(x_i)$, is a natural number for each $i = 1, \ldots, n$.
 \end{remark}
 
 \begin{defn}
-\leavevmode
+Let $w_0 := (w_1, \ldots, w_s) \in \left(\N^n\right)^s$ be a finite family of
+weights on the variables $(x_1, \ldots, x_n)$. For any monomial
+$m \in \K[x_1,\ldots,x_n]$, we define the piecewise weight of $m$ w.r.t.\@
+$w_0$ as
+\[
+w_0\dash\deg(m) := \min_{i = 1, \ldots, s} w_i\dash\deg(m) \,.
+\]
+A polynomial $f \in \K[x_1,\ldots,x_n]$ is called piecewise quasihomogeneous
+w.r.t.\@ $w_0$ if $w_0\dash\deg(t_1) = w_0\dash\deg(t_2)$ for any two terms
+$t_1, t_2$ of $f$.
+\end{defn}
+
+\begin{defn}
+Let $w$ be a (piecewise) weight on the variables $(x_1,\ldots,x_n)$.
+
 \begin{enumerate}
 \item
 Let $f = \sum_{i = 0}^{\infty} f_{i,w}$ be the decomposition of
 $f \in \K[[x_1,\ldots,x_n]]$ into weighted homogeneous parts $f_{i,w}$ of
-$w$-degree $i$. We denote the weighted $j$-jet of $f$ by
+$w$-degree $i$. We denote the weighted $j$-jet of $f$ w.r.t.\@ $w$ by
 \[
-j \dash w \dash \jet(f) := w \dash \jet(f, j) := \sum_{i = 0}^j f_{i,w} \,.
+w \dash \jet(f, j) := \sum_{i = 0}^j f_{i,w} \,.
 \]
 
 \item
@@ -379,12 +394,12 @@ There are also similar concepts for coordinate transformations:
 
 \begin{defn}\label{def:jet_phi}
 Let $\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ and let
-$w \in \N^n$ be a weight on the variables.
+$w$ be a (piecewise) weight on the variables.
 
 \begin{enumerate}
 \item
-For $j > 0$ we define the \emph{$j$-$w$-jet} of $\phi$, denoted by $\phi_j^w$,
-to be the automorphism given by
+For $j > 0$ we define the weighted $j$-jet of $\phi$ w.r.t.\@ $w$, denoted by
+$\phi_j^w$, to be the automorphism given by
 \[
 \phi_j^w(x_i) := w\dash\jet(\phi(x_i),w\dash\deg(x_i)+j) \quad
 \forall i = 1,\ldots,n \,.
@@ -400,17 +415,28 @@ $\phi$ has filtration $d$ if, for all $\lambda \in \N$,
 \end{enumerate}
 \end{defn}
 
-\begin{remark}
-Note that $\phi_0(x_i) = \jet(\phi(x_i), 1)$ for all $i = 1, \ldots, n$.
-Furthermore note that $\phi_0^w$ has filtration less than or equal to $0$ and
-that $\phi_j^w$ has filtration $j$ if $j > 0$ and $\phi_{j-1}^w = \id$.
-\end{remark}
+\begin{remark}\label{rem:weighted_jet}
+Let $\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$.
 
-\begin{remark}
-Throughout the paper we also use the concepts of semi-quasi\-homogeneous power
-series and their quasihomogeneous part as well as piecewise quasihomogeneous
-power series and their Newton polygons. For background regarding these concepts
-we again refer to \citet{A1974}.
+\begin{enumerate}
+\item
+Note that $\phi_0(x_i) = \jet(\phi(x_i), 1)$ for all $i = 1, \ldots, n$.
+Furthermore note that $\phi_0^w$ may have filtration less than or equal to $0$
+for any weight $w$.
+
+\item\label{enum:weighted_jet}
+Let $w_0 = (w_1, \ldots, w_s) \in \left(\N^n\right)^s$ be a piecewise weight on
+$(x_1, \ldots, x_n)$ and let $f_0 \in \K[x_1,\ldots,x_n]$ be piecewise
+quasihomogeneous of degree $d_0$ w.r.t.\@ $w_0$ and
+$f_1 \in \K[x_1,\ldots,x_n]$ quasihomogeneous of degree $d_1$ w.r.t.\@
+$w_1$. We always have
+$(\phi-\phi_\delta^{w_1})(f_1) \in E_{>d_1+\delta}^{w_1}$, but the analogon for
+$w_0$ does not hold in general: To give a counterexample, let us consider the
+case $n = s = 2$, $w_0 = ((1,4), (4,1))$, $f_0 = x_1 x_2$, and let $\phi$ be
+given by $\phi(x_1) := x_1+x_2^2$, $\phi(x_2) := x_2+x_2^2$. Then $f_0$ is of
+degree $d_0 = 5$, but $(\phi-\phi_0^{w_0})(f_0) = x_2^4$ is of degree $4$
+w.r.t.\@ $w_0$ and thus not an element of $E_5^{w_0} = E_{d_0+0}^{w_0}$.
+\end{enumerate}
 \end{remark}
 
 
@@ -535,7 +561,7 @@ whether we assume $T_1 = J_{10+k}^-$ or $T_1 = J_{10+k}^-$, the same holds for
 $T_2$. We write $\pm$ whenever the sign can be either plus or minus in order to
 prove all cases at once.
 
-The newton polygon of $f = \NF(T_1(u)) = x^3 \pm x^2 y^2 + uy^{6+k}$ has two
+The Newton polygon of $f = \NF(T_1(u)) = x^3 \pm x^2 y^2 + uy^{6+k}$ has two
 faces defined by $f_1 := x^3 \pm x^2 y^2$ and $f_2 := \pm x^2 y^2 + uy^{6+k}$.
 Let $w_0$ be the piecewise weight given by the two weights
 $w_1 := (12+2k, 6+k)$ and $w_2 := (12+3k, 6)$. Then $f$ is piecewise
@@ -588,9 +614,13 @@ For the last step, we consider the following equations:
 \phi(f) &= \phi_0^{w_2}(f)
 +\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}} \\[1ex]
 \phi(f) &= \phi_0^{w_0}(f)
-+\myunderbrace{(\phi-\phi_0^{w_0})(f)}{=}{: R_0} \\
++\myunderbrace{(\phi-\phi_0^{w_0})(f)}{=}{: R_0}
 \end{align*}
-By definition of the piecewise weight $w_0$, any term in $\phi_0^{w_0}(x)$ also
+Note that it is not a priori clear that $R_0$ lies in $E_{>d}^{w_0}$ if we only
+consider these equations, cf.\@
+Remark~\ref{rem:weighted_jet}(\ref{enum:weighted_jet}). Nevertheless, this can
+be shown if we take into account the results of the two previous steps: By
+definition of the piecewise weight $w_0$, any term in $\phi_0^{w_0}(x)$ also
 appears in $\phi_0^{w_1}(x)$ or $\phi_0^{w_2}(x)$ (or both), analogously for
 $\phi_0^{w_0}(y)$. Therefore we have $\phi_0^{w_0}(x) = \alpha x$ and
 $\phi_0^{w_0}(y) = \gamma y$, hence
@@ -933,6 +963,12 @@ the equivalence classes of $Y_{r,r}$ (cf.\@ Theorem~\ref{thm:Yrs}) to determine
 $P_1(T_1, T_2)$, $P_2(T_1, T_2)$, and $P_3(T_1, T_2)$ for
 $T_1, T_2 \in \bigl\{\tY_r^+, \tY_r^-\bigr\}$. To do so, we first cite the
 following result by \citet[Corollary~9.9]{A1974}.
+
+\begin{defn}
+Let $f \in \K[[x_1,\ldots,x_n]]$ be a power series, let $\Gamma_f$ be its
+Newton polygon, and let $f_0$ be the sum of those terms of $f$ which lie on
+$\Gamma_f$. Then we call $f_0$ the principal part of $f$.
+\end{defn}
 
 \begin{lemma}\label{lem:principalpart}
 Every power series $f \in \C[[x,y]]$ whose principal part is of the form
