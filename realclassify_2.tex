@@ -9,8 +9,10 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{enumerate}
+\usepackage{enumitem}
 \usepackage{natbib}
 \usepackage{url}
+\usepackage{calc}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -29,6 +31,10 @@
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
 \renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\newcommand{\myunderbrace}[3]{%
+\makebox[\minof{0pt}{\widthof{$#1$}/2-\widthof{$#2$}/2-\widthof{$#3$}}]{}%
+\underbrace{#1}_{\displaystyle\phantom{#3}#2 #3}}
 
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
@@ -485,8 +491,8 @@ for some $R\in E^w_{>d+\delta}$.
 \begin{theorem}\label{thm:sufficient_sets}
 Let $T$ be one of the main singularity types listed in
 Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
-of monomials, and let $T_1$ and $T_2$ be two subtypes of $T$. Then
-$S(M_x, M_y)$ is a sufficient set of coordinate transformations for $\NF(T_1)$
+of monomials, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S(M_x, M_y)$
+is a sufficient set of coordinate transformations for $\NF(T_1)$
 and $\NF(T_2)$.
 
 \begin{table}[htb]
@@ -525,6 +531,172 @@ and $\NF(T_2)$.
 \end{theorem}
 
 \begin{proof}
+We give different proofs for the parabolic, the hyperbolic, and the exceptional
+cases as indicated in Table~\ref{tab:sufficient_sets}.
+
+In each case, let $T_1$ and $T_2$ be subtypes of the same main type $T$, and
+for $u \in \C$ let $\phi \in \Aut_{\C}(\C[[x,y]])$ be a coordinate
+transformation which takes $f := \NF(T_1(u))$ to $\NF(T_2(v))$ for some
+$v \in \C$.
+
+\begin{description}[font=\normalfont\itshape,%
+leftmargin=0cm,labelindent=\parindent]
+
+\item[Parabolic cases]
+The normal forms of both $X_9$ and $J_{10}$ are
+quasihomogeneous with weights $w := (1,1)$ and $w := (2,1)$, respectively. Let
+us first consider the case $T = X_9$. We have
+\[
+\phi(f) = \phi_0^w(f)+(\phi-\phi_0^w)(f) = \phi_0^w(f)+R
+\]
+with $R \in E_{>4}^w$. This implies $\phi(f) = \phi_0^w(f)$ because
+$\phi(f) = \NF(T_2(v))$ is homogeneous of degree $4$ w.r.t.\@ the weight $w$.
+So any possible value of $v$ which can be obtained by some
+$\phi \in \Aut_{\C}(\C[[x,y]])$ can also be reached via
+$\phi_0^w \in S\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
+$S\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
+transformations for $\NF(T_1)$ and $\NF(T_2)$.
+
+Let us now consider the case $T = J_{10}$.
+Again we have $\phi(f) = \phi_0^w(f)$, but
+in this case
+$\phi_0^w$ is of the form
+$\phi_0^w(x) = \alpha x + \beta y + \gamma y^2$,
+$\phi_0^w(y) = \delta y$ with
+$\alpha, \beta, \gamma, \delta \in \C$. Comparing the coefficients of
+$\phi(f) = \NF(T_2(v))$ and
+$\phi_0^w(f) = \beta^3 y^3 + (\text{other terms})$ yields
+$\beta = 0$ and therefore $\phi_0^w \in S(\{x, y^2\}, \{y\})$
+as expected.
+
+\item[Hyperbolic cases]
+We present a proof for the main type $T = J_{10+k}$, the proofs for $X_{9+k}$
+and $Y_{r,s}$ are similar. It does not matter for the arguments which follow
+whether we assume $T_1 = J_{10+k}^-$ or $T_1 = J_{10+k}^-$, the same holds for
+$T_2$. We write $\pm$ whenever the sign can be either plus or minus in order to
+prove all cases at once.
+
+The newton polygon of $f = \NF(T_1(u)) = x^3 \pm x^2 y^2 + uy^{6+k}$ has two
+faces defined by $f_1 := x^3 \pm x^2 y^2$ and $f_2 := \pm x^2 y^2 + uy^{6+k}$.
+Let $w_0$ be the piecewise weight given by the two weights
+$w_1 := (12+2k, 6+k)$ and $w_2 := (12+3k, 6)$. Then $f$ is piecewise
+quasihomogeneous of degree $d := 36+6k$ w.r.t.\@ $w_0$.
+
+We now proceed in three steps: In the first two, we show
+$\phi_0^{w_1} \in S(\{x\}, \{y\})$ and $\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+Finally we conclude that $\phi(f)$ is equal to $\phi_0^{w_0}(f)$ and that
+$\phi_0^{w_0}$ is an element of $S(\{x\}, \{y\})$ which proves the claim.
+
+The transformation $\phi_0^{w_1}$ is generically of the form
+$\phi_0^{w_1}(x) = \alpha x + \beta_1 y + \beta_2 y^2$,
+$\phi_0^{w_1}(y) = \gamma y$ with $\alpha, \beta_1, \beta_2, \gamma \in \C$ and
+$\alpha, \gamma \neq 0$. With these notations we have
+\begin{align*}
+\phi(f)
+&= \phi_0^{w_1}(f) + (\phi-\phi_0^{w_1})(f) \\
+&= \beta_1^3 y^3 + (3\alpha\beta_2^2 \pm 2\alpha\beta_2\gamma^2) xy^4
++ (\beta_2^3 \pm \beta_2^2\gamma^2) y^6 + (\text{other terms})
+\end{align*}
+on the one hand and
+\begin{align*}
+\phi(f)
+&= \NF(T_1(v)) \\
+&= x^3 \pm x^2 y^2 + vy^{6+k}
+\end{align*}
+on the other hand. This implies $\beta_1 = \beta_2 = 0$ and hence
+$\phi_0^{w_1} \in S(\{x\}, \{y\})$.
+
+The second step is a proof by contradiction. Let $m$ be the largest integer
+which is not greater than $\frac{k}{2}+2$. Then similar as above, the
+automorphism $\phi_0^{w_2}$ is of the form
+\begin{align*}
+\phi_0^{w_2}(x)
+&= \alpha x + \beta_1 y + \beta_2 y^2 + \ldots + \beta_m y^m \,, \\
+\phi_0^{w_2}(y) &= \gamma y
+\end{align*}
+with $\alpha, \beta_1, \ldots, \beta_m, \gamma \in \C$ and
+$\alpha, \gamma \neq 0$. We have already shown $\beta_1 = \beta_2 = 0$. Assume
+$\beta_s \neq 0$ for some $s \in \{3, \ldots, m\}$ and let $s$ be minimal with
+this property. Then the coefficient of $xy^{s+2}$ in
+$\phi(f) = \phi_0^{w_2}(f) + (\phi-\phi_0^{w_2})(f)$ is $\pm 2\beta_s$ which
+implies $\beta_s = 0$ in contradiction to the assumption. Hence
+$\beta_3 = \ldots = \beta_m = 0$ and $\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+
+For the last step, we consider the following equations:
+\begin{align*}
+\phi(f) &= \phi_0^{w_1}(f)
++\myunderbrace{(\phi-\phi_0^{w_1})(f)}{=}{: R_1 \in E_{>d}^{w_1}} \\[1ex]
+\phi(f) &= \phi_0^{w_2}(f)
++\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}} \\[1ex]
+\phi(f) &= \phi_0^{w_0}(f)
++\myunderbrace{(\phi-\phi_0^{w_0})(f)}{=}{: R_0} \\
+\end{align*}
+By definition of the piecewise weight $w_0$, any term in $\phi_0^{w_0}(x)$ also
+appears in $\phi_0^{w_1}(x)$ or $\phi_0^{w_2}(x)$ (or both), analogously for
+$\phi_0^{w_0}(y)$. Therefore we have $\phi_0^{w_0}(x) = \alpha x$ and
+$\phi_0^{w_0}(y) = \gamma y$, hence
+$\phi_0^{w_0} = \phi_0^{w_1} = \phi_0^{w_2}$ and
+$\phi_0^{w_0} \in S(\{x\}, \{y\})$. This implies
+\[
+R_0 = R_1 = R_2 \in E_{>d}^{w_1} \cap E_{>d}^{w_2} = E_{>d}^{w_0} \,.
+\]
+Since $\phi(f) = \NF(T_2(v))$ is piecewise quasihomogeneous of degree $d$
+w.r.t.\@ $w_0$, we finally get $R_0 = 0$ and $\phi(f) = \phi_0^{w_0}(f)$. This
+proves the claim.
+
+\item[Exceptional cases]
+The normal forms of all the exceptional cases in
+Table~\ref{tab:sufficient_sets} are semi-quasihomogeneous polynomials, i.e., in
+these cases $f = \NF(T_1(u))$ is of the form $f = f_0+f_1$ where $f_0$ is
+quasihomogeneous of degree $d \in \N$ w.r.t.\@ some weight $w = (w_x, w_y)$,
+$f_1$ has weighted degree $d+\delta > d$, and the Milnor number $\mu(f_0)$ of
+$f_0$ is finite \citep[for the definition of the Milnor number, see][]{MS2013}.
+In all the cases, $f_1$ consists of the term which contains the parameter and
+we have
+\begin{align*}
+\phi(f) &= \phi_\delta^w(f_0) + \phi_0^w(f_1)
++ \left(\phi-\phi_\delta^w\right)(f_0) + \left(\phi-\phi_0^w\right)(f_1) \\
+&= w\dash\jet(\phi_\delta^w(f_0), d+\delta) + \phi_0^w(f_1) + R
+\end{align*}
+with $R \in E_{>d+\delta}^w$. As above, $\phi(f) = \NF(T_2(v))$ implies
+$R = 0$. If we show
+\begin{align}
+\phi_\delta^w \in S\left(\{x\}, \{y\}\right) \,, \tag{$\ast$}
+\end{align}
+then it follows that $\phi_\delta^w$ is equal to $\phi_0^w$ and therefore
+\begin{align*}
+\phi(f)
+&= w\dash\jet(\phi_0^w(f_0), d+\delta) + \phi_0^w(f_1) \\
+&= \phi_0^w(f_0)+\phi_0^w(f_1) \\
+&= \phi_\delta^w(f) \,.
+\end{align*}
+This, together with $(\ast)$, proves the claim.
+
+The statement $(\ast)$ can be shown seperately for each of the eight cases by
+some easy computations. We carry out the proof for $W_{13}$, the other cases
+follow similarly. The normal forms of the subtypes of $W_{13}$ are
+$\pm x^4+xy^4+ay^6$, so in this case we have $w = (4,3)$, $d = 16$, and
+$\delta = 2$. The $\pm$-sign does not matter for the computations which follow,
+but we carry it along in order to prove all subcases at once. The
+transformation $\phi_\delta^w$ is generically of the form
+\begin{align*}
+\phi_\delta^w(x) &= \alpha x + \beta y + \gamma y^2 \,, \\
+\phi_\delta^w(y) &= \delta y + \varepsilon x
+\end{align*}
+with $\alpha, \beta, \gamma, \delta, \varepsilon \in \C$ because any other term
+would raise the weighted degree by more than $\delta$. With these notations, we
+now successively compare the coefficients of
+$w\dash\jet(\phi_\delta^w(f), d+\delta)$ and
+$\phi(f) = \NF(T_2(v)) = \pm x^4+xy^4+vy^6$. The coefficient of $y^4$ in
+$\phi_\delta^w(f)$ is $\pm \beta^4$ and therefore we have $\beta = 0$. The
+remaining coefficients of $xy^4$, $x^2y^3$, and $x^3y^2$ are now
+$\alpha\delta^4$, $4\alpha\delta^3\varepsilon$, and
+$\pm 4\alpha^3\gamma+6\alpha\delta^2\varepsilon^2$, respectively, which shows
+that (in this order) $\alpha\delta \neq 0$, $\varepsilon = 0$, and
+$\gamma = 0$. Hence $\phi_\delta^w$ is in fact of the form
+$\phi_\delta^w(x) = \alpha x$, $\phi_\delta^w(y) = \delta y$ which proves
+$(\ast)$ for $T_1, T_2 \in \left\{W_{13}^+, W_{13}^-\right\}$.
+\end{description}
 
 (i) Let $T_1$ and $T_2$ be (not neccesarily different) subtypes of $J_{10}$ and
 let $f=T_1(a)$, $a\in\K$. We choose a weight $w$ such that the terms on the
