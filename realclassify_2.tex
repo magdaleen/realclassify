@@ -344,17 +344,9 @@ background regarding the definitions in this section, we refer to
 \citet{A1974}.
 
 \begin{remark}
-Let $w$ be a weight on the variables in $\K[[x_1,\ldots,x_n]]$.
-
-\begin{enumerate}
-\item Throughout this paper we always assume that the weighted degree of $x_i$,
-denoted by $w \dash \deg(x_i)$, is a natural number for each
-$i = 1, \ldots, n$.
-
-\item Let $f, g \in \K[[x_1,\ldots,x_n]]$ be two power series and let $*$ be
-any of the relations $<$, $>$, $\leq$, $\geq$, or $=$. We sometimes write
-$f *_w g$ as a shorthand notation for $w \dash \deg(f) * w \dash \deg(g)$.
-\end{enumerate}
+Let $w$ be a weight on the variables in $\K[[x_1,\ldots,x_n]]$. Throughout
+this paper we always assume that the weighted degree of $x_i$, denoted by $w
+\dash \deg(x_i)$, is a natural number for each $i = 1, \ldots, n$.
 \end{remark}
 
 \begin{defn}
@@ -414,19 +406,6 @@ Furthermore note that $\phi_0^w$ has filtration less than or equal to $0$ and
 that $\phi_j^w$ has filtration $j$ if $j > 0$ and $\phi_{j-1}^w = \id$.
 \end{remark}
 
-The infinitesimal analogue of
-Definition~\ref{def:jet_phi}(\ref{enum:filtration}) is:
-
-\begin{defn}
-Let $v = \sum_i v_i \frac{\partial}{\partial x_i}$ be a formal vector field
-over $\K[[x_1,\ldots,x_n]]$ with coefficients $v_i \in \K[[x_1,\ldots,x_n]]$
-and let $L_v$ be its directional derivitive given by
-$L_v(f) := \sum_i v_i \frac{\partial f}{\partial x_i}$ for
-$f \in \K[[x_1,\ldots,x_n]]$. Then $v$ has filtration $d$ if $L_v$ raises the
-filtration by not less than $d$, i.e.\@
-$L_v E^w_\lambda \subset E^w_{\lambda+d}$.
-\end{defn}
-
 \begin{remark}
 Throughout the paper we also use the concepts of semi-quasi\-homogeneous power
 series and their quasihomogeneous part as well as piecewise quasihomogeneous
@@ -467,26 +446,6 @@ S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 \phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
 \]
 \end{defn}
-
-We need the following result by \citet{A1974} to prove the main result of this
-section, Theorem~\ref{thm:sufficient_sets}.
-
-\begin{lemma}\label{lem:filtration}
-For $d \geq 0$ and $\delta > 0$, let $f \in \K[[x_1,\ldots,x_n]]$ be a power
-series decomposed as $f = f_0+f_1+f_2$ where $f_0 \in E^w_d$,
-$f_1 \in E^w_{>d}$ and $f_2 \in E^w_{d+\delta}$. Let
-$\phi$ be a $\K$-algebra automorphism of $\K[[x_1,\ldots,x_n]]$ defined by
-$\phi(x_i) := x_i+v_{0,i}+v_{1,i}$ where
-$v_0 := \sum_iv_{0,i}\frac{\partial}{\partial x_i}$ has filtration $\delta$ and
-$v_1 := \sum_iv_{1,i}\frac{\partial}{\partial x_i}$ has filtration strictly
-greater than $\delta$. Then
-\[
-\phi(f)
-= f_0 + \left[f_1 + \sum_i v_{0,i}\frac{\partial f_0}{\partial x_i}\right] + R
-\]
-for some $R\in E^w_{>d+\delta}$.
-\end{lemma}
-
 
 \begin{theorem}\label{thm:sufficient_sets}
 Let $T$ be one of the main singularity types listed in
@@ -1052,10 +1011,10 @@ We clearly have $(a, a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ for
 $a \in \R \setminus \{0\}$, and also
 $(a, -a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ if $r$ is odd. Let us now
 consider $\tY_r^+(a)$ as a function in $x$ and $y$ over $\R^2$ and let the
-parameter $a$ be positive.  Then $\tY_r^+(a) = (x^2+y^2)^2+ax^r$ takes only
+parameter $a$ be positive. Then $\tY_r^+(a) = (x^2+y^2)^2+ax^r$ takes only
 non-negative values whereas $\tY_r^+(-a) = (x^2+y^2)^2-ax^r$ attains also
-negative values.  Hence there is no real coordinate transformation which takes
-$\tY_r^+(a)$ to $\tY_r^+(-a)$.  The argument is similar for $a < 0$. To sum up,
+negative values. Hence there is no real coordinate transformation which takes
+$\tY_r^+(a)$ to $\tY_r^+(-a)$. The argument is similar for $a < 0$. To sum up,
 we have
 \[
 P_3\left(\tY_r^+, \tY_r^+\right) =
