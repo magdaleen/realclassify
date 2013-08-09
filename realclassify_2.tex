@@ -691,10 +691,11 @@ $(\ast)$ for $T_1, T_2 \in \left\{W_{13}^+, W_{13}^-\right\}$.
 
 \section{On the Computation of the Results}\label{sec:computations}
 
-Based on the previous section, all of the results presented in
-Section~\ref{sec:results} can be computed using \Singular{}. The main tools for
-these computations are elimination, Gr\"obner covers, and primary
-decomposition. For each pair of singularity subtypes~$T_1, T_2$, the
+Based on the previous section, the results presented in
+Section~\ref{sec:results} can be computed using \Singular{} for all those
+singularity types which are covered by Theorem~\ref{thm:sufficient_sets}. The
+main tools for these computations are elimination, Gr\"obner covers, and
+primary decomposition. For each pair of singularity subtypes~$T_1, T_2$, the
 computation follows the same structure: One can first compute the set
 $P_1(T_1, T_2)$ using elimination and factorization. The set $P_2(T_1, T_2)$
 can then be derived from this as the intersection of $P_1(T_1, T_2)$ with
@@ -714,6 +715,11 @@ However, writing down every detail of the computations for each case is beyond
 the scope of this section. Instead, we will present the general framework and
 give explicit \Singular{} commands for $T_1 = T_2 = X_9^{++}$ which is one of
 the more complicated cases (cf. Theorem~\ref{thm:X9}).
+
+The singularity type $\tY_r$ does not appear in Table~\ref{tab:sufficient_sets}
+and thus needs special care. The structure of the equivalence classes of this
+type can be computed on the basis of the data for the type $Y_{r,s}$, cf.\@
+Section~\ref{ssec:Yr}.
 
 
 \subsection{How to Compute $\boldsymbol{P_1(T_1, T_2)}$}%
@@ -952,7 +958,7 @@ $f_5^{\sigma,\rho}$, and $f_6^{\sigma,\rho}$, cf.\@ Theorem~\ref{thm:J10}.
 \end{remark}
 
 
-\subsection{The Special Type $\boldsymbol{\tY_r}$}
+\subsection{The Special Type $\boldsymbol{\tY_r}$}\label{ssec:Yr}
 
 Theorem~\ref{thm:sufficient_sets} does not give any sufficient set for subtypes
 of $\tY_r$ and indeed it turns out that there is no degree-bounded sufficient
