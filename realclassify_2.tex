@@ -515,7 +515,15 @@ and $\NF(T_2)$.
 
 \end{theorem}
 
-\begin{proof}
+\begin{remark}\label{rem:sufficient_sets_Yrs}
+In the theorem above, we can even assume $M_x = \{x\}$, $M_y = \{y\}$ for
+$T = Y_{r,s}$ with $r \neq s$ in analogy to the other hyperbolic cases. If $r$
+equals $s$, the variables $x$ and $y$ can also be interchanged without changing
+the singularity type, so in this case we can assume either $M_x = \{x\}$,
+$M_y = \{y\}$ or $M_x = \{y\}$, $M_y = \{x\}$.
+\end{remark}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sufficient_sets}]
 We give different proofs for the parabolic, the hyperbolic, and the exceptional
 cases as indicated in Table~\ref{tab:sufficient_sets}.
 
@@ -556,10 +564,12 @@ as expected.
 
 \item[Hyperbolic cases]
 We present a proof for the main type $T = J_{10+k}$, the proofs for $X_{9+k}$
-and $Y_{r,s}$ are similar. It does not matter for the arguments which follow
-whether we assume $T_1 = J_{10+k}^-$ or $T_1 = J_{10+k}^-$, the same holds for
-$T_2$. We write $\pm$ whenever the sign can be either plus or minus in order to
-prove all cases at once.
+and $Y_{r,s}$ are similar. For $Y_{r,s}$ we have to take
+Remark~\ref{rem:sufficient_sets_Yrs} into account.
+
+It does not matter for the arguments below whether we assume $T_1 = J_{10+k}^+$
+or $T_1 = J_{10+k}^-$, the same holds for $T_2$. We write $\pm$ whenever the
+sign can be either plus or minus in order to prove all cases at once.
 
 The Newton polygon of $f = \NF(T_1(u)) = x^3 \pm x^2 y^2 + uy^{6+k}$ has two
 faces defined by $f_1 := x^3 \pm x^2 y^2$ and $f_2 := \pm x^2 y^2 + uy^{6+k}$.
@@ -1546,7 +1556,7 @@ special case $r = s$}
 \begin{tabular}{|c|c||c|}
 \hline
 
-$T_1$ & $T_2$ & $P_3(T_1, T_2)$ \\
+$T_1$ & $T_2$ & Additional elements of $P_3(T_1, T_2)$ \\
 \hline\hline
 
 $Y_{r,s}^{++}$ & $Y_{r,s}^{+-}$ &
@@ -1573,6 +1583,15 @@ $Y_{r,s}^{--}$ & $Y_{r,s}^{-+}$ &
 \end{table}
 
 \end{theorem}
+
+\begin{remark}
+Note that there are also equivalences between subtypes of $Y_{r,s}$ and
+subtypes of $Y_{s,r}$ which can be obtained by just swapping the variables $x$
+and $y$. For $r = s$ these are exactly the additional equivalences listed in
+Table~\ref{tab:Yrr_equivalences}. But equivalences of this kind also occur for
+$r \neq s$, e.g.\@ we have $R(X-1) \subset P_1(Y_{5,7}^{++}, Y_{7,5}^{++})$,
+but we do not consider those cases in Theorem~\ref{thm:Yrs}.
+\end{remark}
 
 
 \begin{theorem}
