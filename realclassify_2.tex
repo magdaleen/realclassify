@@ -13,6 +13,9 @@
 \usepackage{natbib}
 \usepackage{url}
 \usepackage{calc}
+\usepackage[T1]{fontenc}   % for bold \Singular
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -42,9 +45,6 @@
 
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\requiv}{\overset{r}{\sim}}
-\DeclareMathOperator{\csim}{\mathrel{\smash{\overset{\C}{\sim}}}}
-\DeclareMathOperator{\rsim}{\mathrel{\smash{\overset{\R}{\sim}}}}
-\DeclareMathOperator{\ksim}{\mathrel{\smash{\overset{\K}{\sim}}}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jt}{jet}
 \DeclareMathOperator{\supp}{supp}
@@ -63,8 +63,27 @@
 \DeclareMathOperator{\Quot}{Quot}
 \DeclareMathOperator{\dash}{\!\textnormal{-}\!}
 \DeclareMathOperator{\jet}{jet}
-\usepackage{tikz}
-\usetikzlibrary{matrix,arrows}
+\DeclareMathOperator{\csim}{%
+  \mathrel{%
+    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\C}{\sim}$}]{%
+      $\overset{\C}{\sim}$
+    }
+  }
+}
+\DeclareMathOperator{\rsim}{%
+  \mathrel{%
+    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\R}{\sim}$}]{%
+      $\overset{\R}{\sim}$
+    }
+  }
+}
+\DeclareMathOperator{\ksim}{%
+  \mathrel{%
+    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\K}{\sim}$}]{%
+      $\overset{\K}{\sim}$
+    }
+  }
+}
 
 \hyphenation{equiva-lence}
 \hyphenation{ne-ces-sary}
@@ -269,9 +288,9 @@ Given power series $f,g \in \C(a)[[x_1,\ldots,x_n]]$, we define the
 first set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_1(f, g)
-:= \{ (u, v) \in \C^2 \mid
+:= \bigl\{ (u, v) \in \C^2 \mid
 &f(u) \text{ and } g(v) \text{ are well-defined and } \\
-&\T_{\C}(f(u), g(v)) \neq \varnothing \} \,.
+&\T_{\C}(f(u), g(v)) \neq \varnothing \bigr\} \,.
 \end{align*}
 
 \item
@@ -279,9 +298,9 @@ Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
 second set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_2(f, g)
-:= \{ (u, v) \in \R^2 \mid
+:= \bigl\{ (u, v) \in \R^2 \mid
 &f(u) \text{ and } g(v) \text{ are well-defined and } \\
-&\T_{\C}(f(u), g(v)) \neq \varnothing \} \,.
+&\T_{\C}(f(u), g(v)) \neq \varnothing \bigr\} \,.
 \end{align*}
 
 \item
@@ -289,9 +308,9 @@ Given power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$, we define the
 third set of parameter transformations of $f$ and $g$ as
 \begin{align*}
 P_3(f, g)
-:= \{ (u, v) \in \R^2 \mid
+:= \bigl\{ (u, v) \in \R^2 \mid
 &f(u) \text{ and } g(v) \text{ are well-defined and } \\
-&\T_{\R}(f(u), g(v)) \neq \varnothing \} \,.
+&\T_{\R}(f(u), g(v)) \neq \varnothing \bigr\} \,.
 \end{align*}
 \end{enumerate}
 \end{defn}
@@ -305,8 +324,9 @@ two power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$.
 
 \item
 For any two unimodal singularity (sub-)types $T_1, T_2$, we simply write
-$P_i(T_1,T_2)$ instead of $P_i(\NF(T_1(a)), \NF(T_2(a)))$, e.g., we write
-$P_1(E_{14}, E_{14})$ for $P_1(\NF(E_{14}(a)), \NF(E_{14}(a)))$.
+$P_i(T_1,T_2)$ instead of $P_i(\NF(T_1(a)), \NF(T_2(a)))$, e.g. we write
+$P_1\left(E_{14}^+, E_{14}^+\right)$ for
+$P_1\left(\NF\left(E_{14}^+(a)\right), \NF\left(E_{14}^+(a)\right)\right)$.
 \end{enumerate}
 \end{remark}
 
@@ -368,11 +388,11 @@ Let $w$ be a (piecewise) weight on the variables $(x_1,\ldots,x_n)$.
 
 \begin{enumerate}
 \item
-Let $f = \sum_{i = 0}^{\infty} f_{i,w}$ be the decomposition of
-$f \in \K[[x_1,\ldots,x_n]]$ into weighted homogeneous parts $f_{i,w}$ of
+Let $f = \sum_{i = 0}^{\infty} f_i$ be the decomposition of
+$f \in \K[[x_1,\ldots,x_n]]$ into weighted homogeneous parts $f_i$ of
 $w$-degree $i$. We denote the weighted $j$-jet of $f$ w.r.t.\@ $w$ by
 \[
-w \dash \jet(f, j) := \sum_{i = 0}^j f_{i,w} \,.
+w \dash \jet(f, j) := \sum_{i = 0}^j f_i \,.
 \]
 
 \item
@@ -399,7 +419,7 @@ $w$ be a (piecewise) weight on the variables.
 \begin{enumerate}
 \item
 For $j > 0$ we define the weighted $j$-jet of $\phi$ w.r.t.\@ $w$, denoted by
-$\phi_j^w$, to be the automorphism given by
+$\phi_j^w$, to be the map given by
 \[
 \phi_j^w(x_i) := w\dash\jet(\phi(x_i),w\dash\deg(x_i)+j) \quad
 \forall i = 1,\ldots,n \,.
@@ -426,7 +446,7 @@ for any weight $w$.
 
 \item\label{enum:weighted_jet}
 Let $w_0 = (w_1, \ldots, w_s) \in \left(\N^n\right)^s$ be a piecewise weight on
-$(x_1, \ldots, x_n)$ and let $f_0 \in \K[x_1,\ldots,x_n]$ be piecewise
+$(x_1, \ldots, x_n)$, let $f_0 \in \K[x_1,\ldots,x_n]$ be piecewise
 quasihomogeneous of degree $d_0$ w.r.t.\@ $w_0$ and
 $f_1 \in \K[x_1,\ldots,x_n]$ quasihomogeneous of degree $d_1$ w.r.t.\@
 $w_1$. We always have
@@ -440,18 +460,18 @@ w.r.t.\@ $w_0$ and thus not an element of $E_5^{w_0} = E_{d_0+0}^{w_0}$.
 \end{remark}
 
 
-\section{Sufficient Sets of Transformations Between Real Normal Forms}
+\section{Sufficient Sets of Transformations}
 
 The results in this section considerably narrow down the transformations we
 need to consider between specific unimodal normal forms of the same main type
-in order to determine equivalence. In fact these results are in many cases the
-main step for determining the structure of the equivalence classes of the
-unimodal singularities up to corank $2$.
+in order to check if they are equivalent or not. In fact these results are in
+many cases the main step for determining the structure of the equivalence
+classes of the unimodal singularities up to corank $2$.
 
 \begin{defn}
 Let $f$ and $g$ be elements in $\C(a)[[x_1,\ldots,x_n]]$ and let $S$ be a
 subset of $\Aut_{\C}(\C[[x_1,\ldots,x_n]])$. We call $S$ a sufficient set of
-coordinate transformations for $f$ and $g$ if
+coordinate transformations for the pair $(f, g)$ if
 \[
 \forall u,v \in \C: \quad
 \left(T_{\C}(f(u),g(v)) \neq \varnothing
@@ -465,8 +485,8 @@ following notation.
 \begin{defn}
 Let $M_x$ and $M_y$ be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x$ and
 $\C\! M_y$ be the $\C$-vector spaces spanned by these sets, i.e.\@
-$\C\! M_x := \bigoplus_{m \in M_x} \C \cdot m$ and analogously for $\C\! M_y$. 
-We define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
+$\C\! M_x := \bigoplus_{m \in M_x} \C m$ and analogously for $\C\! M_y$. We
+define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
 \[
 S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 \phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
@@ -477,12 +497,12 @@ S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 Let $T$ be one of the main singularity types listed in
 Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
 of monomials, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S(M_x, M_y)$
-is a sufficient set of coordinate transformations for $\NF(T_1)$
-and $\NF(T_2)$.
+is a sufficient set of coordinate transformations for the pair
+$\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 
 \begin{table}[htb]
 \centering
-\caption{Sufficient sets for some unimodal singularities}
+\caption{Sufficient sets for unimodal singularities of corank~2}
 \label{tab:sufficient_sets}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -516,11 +536,12 @@ and $\NF(T_2)$.
 \end{theorem}
 
 \begin{remark}\label{rem:sufficient_sets_Yrs}
-In the theorem above, we can even assume $M_x = \{x\}$, $M_y = \{y\}$ for
+In the theorem above, we may even assume $M_x = \{x\}$, $M_y = \{y\}$ for
 $T = Y_{r,s}$ with $r \neq s$ in analogy to the other hyperbolic cases. If $r$
 equals $s$, the variables $x$ and $y$ can also be interchanged without changing
-the singularity type, so in this case we can assume either $M_x = \{x\}$,
-$M_y = \{y\}$ or $M_x = \{y\}$, $M_y = \{x\}$.
+the singularity type, so in this case we may assume that either $M_x = \{x\}$,
+$M_y = \{y\}$ or $M_x = \{y\}$, $M_y = \{x\}$. The theorem includes both cases
+at once for the sake of simplicity.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sufficient_sets}]
@@ -544,11 +565,11 @@ us first consider the case $T = X_9$. We have
 \]
 with $R \in E_{>4}^w$. This implies $\phi(f) = \phi_0^w(f)$ because
 $\phi(f) = \NF(T_2(v))$ is homogeneous of degree $4$ w.r.t.\@ the weight $w$.
-So any possible value of $v$ which can be obtained by some
-$\phi \in \Aut_{\C}(\C[[x,y]])$ can also be reached via
+So any possible value of $v$ which can be reached via some
+$\phi \in \Aut_{\C}(\C[[x,y]])$ can also be obtained by
 $\phi_0^w \in S\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
 $S\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
-transformations for $\NF(T_1)$ and $\NF(T_2)$.
+transformations for the pair $\left(\NF(T_1(a)), \NF(T_2(a))\right)$.
 
 Let us now consider the case $T = J_{10}$.
 Again we have $\phi(f) = \phi_0^w(f)$, but
@@ -584,8 +605,8 @@ $\phi_0^{w_0}$ is an element of $S(\{x\}, \{y\})$ which proves the claim.
 
 The transformation $\phi_0^{w_1}$ is generically of the form
 $\phi_0^{w_1}(x) = \alpha x + \beta_1 y + \beta_2 y^2$,
-$\phi_0^{w_1}(y) = \gamma y$ with $\alpha, \beta_1, \beta_2, \gamma \in \C$ and
-$\alpha, \gamma \neq 0$. With these notations we have
+$\phi_0^{w_1}(y) = \gamma y$ with coefficients
+$\alpha, \beta_1, \beta_2, \gamma \in \C$. With these notations we have
 \begin{align*}
 \phi(f)
 &= \phi_0^{w_1}(f) + (\phi-\phi_0^{w_1})(f) \\
@@ -598,8 +619,8 @@ on the one hand and
 &= \NF(T_1(v)) \\
 &= x^3 \pm x^2 y^2 + vy^{6+k}
 \end{align*}
-on the other hand. This implies $\beta_1 = \beta_2 = 0$ and hence
-$\phi_0^{w_1} \in S(\{x\}, \{y\})$.
+on the other hand. This implies (in this order) $\beta_1 = 0$, $\alpha \neq 0$,
+$\beta_2 = 0$ and hence $\phi_0^{w_1} \in S(\{x\}, \{y\})$.
 
 The second step is a proof by contradiction. Let $m$ be the largest integer
 which is not greater than $\frac{k}{2}+2$. Then similar as above, the
@@ -613,9 +634,10 @@ with $\alpha, \beta_1, \ldots, \beta_m, \gamma \in \C$ and
 $\alpha, \gamma \neq 0$. We have already shown $\beta_1 = \beta_2 = 0$. Assume
 $\beta_s \neq 0$ for some $s \in \{3, \ldots, m\}$ and let $s$ be minimal with
 this property. Then the coefficient of $xy^{s+2}$ in
-$\phi(f) = \phi_0^{w_2}(f) + (\phi-\phi_0^{w_2})(f)$ is $\pm 2\beta_s$ which
-implies $\beta_s = 0$ in contradiction to the assumption. Hence
-$\beta_3 = \ldots = \beta_m = 0$ and $\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+$\phi(f) = \phi_0^{w_2}(f) + (\phi-\phi_0^{w_2})(f)$ is
+$\pm 2\alpha\beta_s\gamma^2$ which implies $\beta_s = 0$ in contradiction to
+the assumption. Hence $\beta_3 = \ldots = \beta_m = 0$ and
+$\phi_0^{w_2} \in S(\{x\}, \{y\})$.
 
 For the last step, we consider the following equations:
 \begin{align*}
@@ -680,20 +702,20 @@ but we carry it along in order to prove all subcases at once. The
 transformation $\phi_\delta^w$ is generically of the form
 \begin{align*}
 \phi_\delta^w(x) &= \alpha x + \beta y + \gamma y^2 \,, \\
-\phi_\delta^w(y) &= \delta y + \varepsilon x
+\phi_\delta^w(y) &= \varepsilon x + \zeta y
 \end{align*}
-with $\alpha, \beta, \gamma, \delta, \varepsilon \in \C$ because any other term
+with $\alpha, \beta, \gamma, \varepsilon, \zeta \in \C$ because any other term
 would raise the weighted degree by more than $\delta$. With these notations, we
 now successively compare the coefficients of
 $w\dash\jet(\phi_\delta^w(f), d+\delta)$ and
 $\phi(f) = \NF(T_2(v)) = \pm x^4+xy^4+vy^6$. The coefficient of $y^4$ in
-$\phi_\delta^w(f)$ is $\pm \beta^4$ and therefore we have $\beta = 0$. The
+$\phi_\delta^w(f)$ is $\pm \beta^4$, therefore we have $\beta = 0$. The
 remaining coefficients of $xy^4$, $x^2y^3$, and $x^3y^2$ are now
-$\alpha\delta^4$, $4\alpha\delta^3\varepsilon$, and
-$\pm 4\alpha^3\gamma+6\alpha\delta^2\varepsilon^2$, respectively, which shows
-that (in this order) $\alpha\delta \neq 0$, $\varepsilon = 0$, and
-$\gamma = 0$. Hence $\phi_\delta^w$ is in fact of the form
-$\phi_\delta^w(x) = \alpha x$, $\phi_\delta^w(y) = \delta y$ which proves
+$\alpha\zeta^4$, $4\alpha\varepsilon\zeta^3$, and
+$\pm 4\alpha^3\gamma+6\alpha\varepsilon^2\zeta^2$, respectively, which shows
+that (in this order) $\alpha\zeta \neq 0$, $\varepsilon = 0$, and $\gamma = 0$.
+Hence $\phi_\delta^w$ is in fact of the form
+$\phi_\delta^w(x) = \alpha x$, $\phi_\delta^w(y) = \zeta y$ which proves
 $(\ast)$ for $T_1, T_2 \in \left\{W_{13}^+, W_{13}^-\right\}$.
 \end{description}
 \end{proof}
@@ -735,17 +757,16 @@ Section~\ref{ssec:Yr}.
 \subsection{How to Compute $\boldsymbol{P_1(T_1, T_2)}$}%
 \label{ssec:computing_P1}
 
-Let $S \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
-$\C[[x,y]]$-automorphisms for $T_1$ and $T_2$ given in
-Theorem~\ref{thm:sufficient_sets}. Then $S$ can be covered by an automorphism
-$\phi \in \Aut_{\C}(\C[[x,y]])$ with generic coefficients $t_1, \ldots, t_r$,
-i.e.\@ by a $\phi$ of the form $\phi(x) = t_1 \cdot x + (\text{other terms})$
-where for any element $\psi \in S$, one can plug in specific values for
-$t_1, \ldots, t_r$ such that $\psi = \phi$.
+Let $S = S(M_x, M_y) \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
+$\C[[x,y]]$-automorphisms for $(T_1(a), T_2(a))$ given in
+Theorem~\ref{thm:sufficient_sets}. Let $t_1, \ldots, t_r$ be coefficients for
+the monomials in $M_x$ and $M_y$ and let $\phi$ be a generic element of $S$
+with these coefficients, i.e.\@ let $\phi$ be of the form
+$\phi(x) = t_1 \cdot x + (\text{other terms})$.
 
-Let us denote the parameter occurring in $T_1$ by $a$ and the one in $T_2$ by
-$b$. By comparing the coefficients in $\phi(T_1(a))$ and $T_2(b)$, we get a set
-of equations in $a, b, t_1, \ldots, t_r$ which is equivalent to
+We denote the parameter occurring in $T_1$ by $a$ and the one in $T_2$ by $b$.
+By comparing the coefficients in $\phi(T_1(a))$ and $T_2(b)$, we get a set of
+equations in $a, b, t_1, \ldots, t_r$ which is equivalent to
 $\phi(T_1(a)) = T_2(b)$. Let $I \subset \C[a,b,t_1,\ldots,t_r]$ be the ideal
 generated by these equations. Then the vanishing set $V(I)$ describes
 completely which transformations take $T_1(a)$ to $T_2(b)$ for which values of
@@ -763,17 +784,17 @@ possible values of $b$ for each given $a$ and their joint graph is exactly
 $P_1(T_1, T_2)$.
 
 \begin{example}\label{ex:P1}
-We compute $P_1(X_9^{++}, X_9^{++})$ with Singular. For convenience we work
-over $\Q(a,b,t_1,t_2,t_3,t_4)[x,y]$:
+We compute $P_1\left(X_9^{++}, X_9^{++}\right)$ with Singular. For convenience
+we work over $\Q(a,b,t_1,t_2,t_3,t_4)[x,y]$:
 \begin{verbatim}
 > ring R = (0,a,b,t1,t2,t3,t4), (x,y), dp;
 > poly f = x^4+a*x^2*y^2+y^4;
 \end{verbatim}
 According to Theorem~\ref{thm:sufficient_sets},
 \[
-S = \{ \phi \in \Aut_{\C}(\C[[x,y]])
+S = \bigl\{ \phi \in \Aut_{\C}(\C[[x,y]])
 \mid \phi(x) = t_1 x + t_2 y,\; \phi(y) = t_3 x + t_4 y,\;
-t_1, \ldots, t_4 \in \C \}
+t_1, \ldots, t_4 \in \C \bigr\}
 \]
 is a sufficient set of automorphisms for $X_9$:
 \begin{verbatim}
@@ -786,8 +807,8 @@ C[2,1],C[2,2],C[2,3], C[2,4],C[2,5]
 (a*t1^2*t3^2+t1^4+t3^4)
 \end{verbatim}
 Now the second row of the matrix \verb+C+ contains the coefficients of
-$\verb+phi+(X_9^{++}(a))$, e.g.\@ \verb+C[2, 1]+ is the one belonging to $x^4$.
-Using the corresponding coefficients of
+$\verb+phi+\left(X_9^{++}(a)\right)$, \verb+C[2, 1]+ for instance is the one
+belonging to $x^4$. Using the corresponding coefficients of
 $X_9^{++}(b) = x^4 + b \cdot x^2 y^2 + y^4$, we can define the ideal $I$ as
 above:
 \begin{verbatim}
@@ -832,8 +853,8 @@ because we have $P_2(T_1, T_2) = P_1(T_1, T_2) \cap (\R \times \R)$.
 \begin{example}\label{ex:P2}
 Continuing the example above, the values of
 $f_1^{1,1}(a), \ldots, f_6^{1,1}(a)$ are clearly real for $a \in \R$, cf.\@
-Theorem~\ref{thm:X9}. The set $P_2(X_9^{++}, X_9^{++})$ is thus the joint graph
-of these functions over $\R \setminus \{-2, 2\}$.
+Theorem~\ref{thm:X9}. The set $P_2\left(X_9^{++}, X_9^{++}\right)$ is thus the
+joint graph of these functions over $\R \setminus \{-2, 2\}$.
 
 To give another example, for $T_1 = T_2 = X_9^{+-}$ the set $P_1(T_1, T_2)$ is
 the joint graph of $f_1^{i,i}, \ldots, f_6^{i,i}$ over
@@ -842,7 +863,8 @@ clearly real for $a \in \R$, but those of $f_2^{i,i}(a), \ldots, f_6^{i,i}(a)$
 are not except at some exceptional points which are already covered by
 $f_1^{i,i}$ and $f_2^{i,i}$. So in this case we have
 \[
-P_2(X_9^{+-}, X_9^{+-}) = \Gamma_{\R} \left(f_1^{i,i}, f_2^{i,i}\right)
+P_2\left(X_9^{+-}, X_9^{+-}\right)
+= \Gamma_{\R} \left(f_1^{i,i}, f_2^{i,i}\right)
 = \Gamma_{\R} \left(f_1^{1,1}, f_2^{1,1}\right) \,.
 \]
 \end{example}
@@ -867,8 +889,8 @@ $J := I+\langle a-q_a, b-q_b \rangle$, respectively, and investigate
 $V_{\R}(J)$. Note that we have $I \subset \R[a,b,t_1,\ldots,t_r]$ and
 $g_j \in \R[a,b]$ and thus $J \subset \R[a,b,t_1,\ldots,t_r]$ in all the cases.
 
-The set $P_3(T_1, T_2)$ is then the image of $V_{\R}(J) \subset \A_{\R}^{2+r}$
-under the projection $\A_{\R}^{2+r} \rightarrow \A_{\R}^2$, i.e.\@ we have
+$P_3(T_1, T_2)$ is the image of $V_{\R}(J) \subset \A_{\R}^{2+r}$ under the
+projection $\A_{\R}^{2+r} \rightarrow \A_{\R}^2$, i.e.\@ we have
 $(p_a, p_b) \in P_3(T_1, T_2)$ if and only if there is a coordinate
 transformation with real coefficients $(p_{t_1}, \ldots, p_{t_r})$ such that
 $(p_a, p_b, p_{t_1}, \ldots, p_{t_r})$ is an element of
@@ -889,19 +911,19 @@ determine their real solutions. We will often find generators such as
 $(t_j)^4+1$, indicating that the vanishing set over $\R$ of this ideal is
 empty.
 
-If some of ideals in the Gr\"obner cover of $J$ are still to complicated and if
-their vanishing set over $\R$ cannot be easily read off, another trick is to
+If any of the ideals in the Gr\"obner cover of $J$ are still to complicated and
+if their vanishing set over $\R$ cannot be easily read off, another trick is to
 compute a primary decomposition of these ideals with the \Singular{} library
-\verb+primdec.lib+ \citep{primdec}. Typically, it is then easy to see that
-some of the primary components have no solutions over $\R$ whereas the real
+\verb+primdec.lib+ \citep{primdec}. Typically, it is then easy to see that some
+of the primary components have no solutions over $\R$ whereas the real
 solutions of the remaining components can be easily determined.
 
 \begin{example}
 We have already seen in Example~\ref{ex:P2} that
-$P_2(X_9^{++}, X_9^{++})$ is the joint graph of
+$P_2\left(X_9^{++}, X_9^{++}\right)$ is the joint graph of
 $f_1^{1,1}, \ldots, f_6^{1,1}$ over $\R \setminus \{-2, 2\}$. We now have to
 check for each of these functions whether their graph is also contained in
-$P_3(X_9^{++}, X_9^{++})$.
+$P_3\left(X_9^{++}, X_9^{++}\right)$.
 
 This is clearly the case for $f_1^{1,1} = \id$. To check this for $f_3^{1,1}$,
 we continue the \Singular{} session from Example~\ref{ex:P1}, add the
@@ -918,7 +940,7 @@ $(t_2)^2+(t_4)^2$ and $(t_3)^2+(t_4)^2$ which imply $t_2 = t_3 = t_4 = 0$ for
 any real solution of this ideal. But this is a contradiction to
 $\verb+phi+ \in \Aut_{\R}(\R[[x,y]])$. The exceptional cases for the
 parameter~$a$ are $a+2=0$, $a-2=0$, $a^2+12=0$, $a+6=0$, $a-6=0$, and $a=0$.
-The first two cases are excluded by the definition of the equivalence class
+The first two cases are excluded by the definition of the singularity type
 $X_9^{++}$, $a^2+12=0$ would imply $a \not\in \R$, for $a+6=0$ and $a=0$ the
 corresponding Gr\"obner bases of $J$ contain generators similar to those
 mentioned above, and finally $a-6=0$ implies $b-6=0$ such that this case is
@@ -939,27 +961,27 @@ already covered by $f_1^{1,1}$. Finally,
 $t_1 = t_2 = t_3 = \frac{1}{\sqrt[4]{2}}$, $t_4 = -\frac{1}{\sqrt[4]{2}}$ and
 $t_1 = t_2 = t_3 = \frac{1}{\sqrt[4]{8}}$, $t_4 = -\frac{1}{\sqrt[4]{8}}$ are
 real solutions for the cases $a=0$ and $a-6=0$, respectively. To sum up,
-the graph of $f_5^{1,1}$ over $\R^{>-2}$ belongs to $P_3(X_9^{++}, X_9^{++})$,
-but not the part over $\R^{<-2}$.
+the graph of $f_5^{1,1}$ over $\R^{>-2}$ belongs to
+$P_3\left(X_9^{++}, X_9^{++}\right)$, but not the part over $\R^{<-2}$.
 
 Continuing in this manner, one can show that $f_2^{1,1}$, $f_4^{1,1}$, and
 $f_6^{1,1}$, do not contribute any additional points, so we get
 \[
-P_3(X_9^{++}, X_9^{++}) = \Gamma_{\R'} \left(f_1^{1,1}\right)
+P_3\left(X_9^{++}, X_9^{++}\right) = \Gamma_{\R'} \left(f_1^{1,1}\right)
 \cup \Gamma_{\R^{>-2}} \left(f_5^{1,1}\right)
 \]
 where $\R' := \R \setminus \{-2, 2\}$.
 \end{example}
 
 \begin{remark}
-With the above notations, the irreducible factors $g_j$,
-$j \in \{1,\ldots,s\}$, of the polynomial $g$ are luckily of degree $1$ in $b$
-in almost all cases. If one of those factors, say $g_1$, has degree in $b$
-greater than $1$, and if additionally the corresponding ideal $J = I + \langle
-g_1 \rangle$ has both real and complex solutions, then an extra calculation is
-needed: Let $f_1(a), \ldots, f_k(a)$ be the roots of $g_1$ in $b$ as above,
-i.e.\@ $g_1 = (b-f_1(a)) \ldots (b-f_k(a))$ (over $\C(a)$ or over a suitable
-extension thereof if necessary). Then we have to check which of these roots
+With the above notations, the irreducible factors $g_j$, $j = 1, \ldots, s$, of
+the polynomial $g$ are luckily of degree $1$ in $b$ in almost all cases. If one
+of those factors, say $g_1$, has degree in $b$ greater than $1$, and if
+additionally the corresponding ideal $J = I + \langle g_1 \rangle$ has both
+real and complex solutions, then an extra calculation is needed: Let
+$f_1(a), \ldots, f_k(a)$ be the roots of $g_1$ in $b$ as above, i.e.\@
+$g_1 = (b-f_1(a)) \ldots (b-f_k(a))$ (over $\C(a)$ or over a suitable extension
+thereof if necessary). Then we have to check which of these roots
 $f_1(a), \ldots, f_k(a)$ belong to the real solutions of $J$ and which of them
 can only reached via complex transformations.
 
@@ -992,8 +1014,8 @@ set for this case, cf.\@ Remark~\ref{rem:sufficient_sets_for_Yr}.
 But since $\tY_r$ is $\C$-equivalent to $Y_{r,r}$, we can use the structure of
 the equivalence classes of $Y_{r,r}$ (cf.\@ Theorem~\ref{thm:Yrs}) to determine
 $P_1(T_1, T_2)$, $P_2(T_1, T_2)$, and $P_3(T_1, T_2)$ for
-$T_1, T_2 \in \bigl\{\tY_r^+, \tY_r^-\bigr\}$. To do so, we first cite the
-following result by \citet[Corollary~9.9]{A1974}.
+$T_1, T_2 \in \bigl\{\tY_r^+, \tY_r^-\bigr\}$. To do so, let us first define
+the principal part of a power series.
 
 \begin{defn}
 Let $f \in \K[[x_1,\ldots,x_n]]$ be a power series, let $\Gamma_f$ be its
@@ -1001,10 +1023,13 @@ Newton polygon, and let $f_0$ be the sum of those terms of $f$ which lie on
 $\Gamma_f$. Then we call $f_0$ the principal part of $f$.
 \end{defn}
 
+The following result is due to \citet[Corollary~9.9]{A1974}.
+
 \begin{lemma}\label{lem:principalpart}
-Every power series $f \in \C[[x,y]]$ whose principal part is of the form
+Let $f \in \C[[x,y]]$ be a power series whose principal part is of the form
 $f_0 = x^a+\lambda x^2y^2+y^b$, where $0 \neq \lambda \in \C$, $a \geq 4$, and
-$b \geq 5$, is $\C$-equivalent to its principal part, i.e.\@ $f \csim f_0$.
+$b \geq 5$. Then $f$ and its principal part $f_0$ are $\C$-equivalent, i.e.\@
+$f \csim f_0$.
 \end{lemma}
 
 Based upon this lemma, we can now specify an explicit equivalence between
@@ -1020,7 +1045,7 @@ For any $r > 4$ and any $a \in \C \setminus \{0\}$, we have
 \end{lemma}
 
 \begin{proof}
-Let $\phi \in \Aut_{\C}(\C[[x,y]])$ be a coordinate transformation defined by
+Let $\phi \in \Aut_{\C}(\C[[x,y]])$ be the coordinate transformation defined by
 $\phi(x) := \frac{1}{2}(x+y)$ and $\phi(y) := \frac{1}{2}i(x-y)$. Then the
 principal parts of $\phi\bigl(\NF\bigl(\tY_r^+\bigr)(a)\bigr)$ and
 $\phi\bigl(\NF\bigl(\tY_r^-\bigr)(a)\bigr)$ are of the form
@@ -1036,13 +1061,14 @@ can use this data and the above lemma to compute $P_1(T_1, T_2)$ for
 $T_1, T_2 \in \bigl\{\tY_r^+, \tY_r^-\bigr\}$. Let us consider the case
 $P_1\bigl(\tY_r^+, \tY_r^+\bigr)$, the other cases follow similarly. According
 to Lemma~\ref{lem:Yr_equivalences}, $\tY_r^+(a)$ is $\C$-equivalent to
-$Y_{r,r}^{++}(ca^2)$ with $c := \left(\frac{1}{4}\right)^r$ for any $r > 4$ and
-any $a \in \C \setminus \{0\}$. This in turn is $\C$-equivalent to
-$Y_{r,r}^{++}(\zeta ca^2)$ for any $\zeta$ satisfying $\zeta^l-1 = 0$ where
-$l = \gcd(2, r+1)$, cf.\@ Theorem~\ref{thm:Yrs}. Applying
+$Y_{r,r}^{++}\left(ca^2\right)$ with $c := \left(\frac{1}{4}\right)^r$ for any
+$r > 4$ and any $a \in \C \setminus \{0\}$. This in turn is $\C$-equivalent to
+$Y_{r,r}^{++}\left(\zeta ca^2\right)$ for any $\zeta$ satisfying
+$\zeta^l-1 = 0$ where $l = \gcd(2, r+1)$, cf.\@ Theorem~\ref{thm:Yrs}. Applying
 Lemma~\ref{lem:Yr_equivalences} once again leads to
-$Y_{r,r}^{++}(\zeta ca^2) \csim \tY_r^+(\pm \sqrt{\zeta}a)$, and we thus get
-the diagram shown in Figure~\ref{fig:Yr}.
+$Y_{r,r}^{++}\left(\zeta ca^2\right)
+\csim \tY_r^+\left(\pm \sqrt{\zeta}a\right)$, and we thus get the diagram shown
+in Figure~\ref{fig:Yr}.
 
 \begin{figure}
 \caption{Equivalences between $\tY_r^+$ and $Y_{r,r}^{++}$%
@@ -1051,9 +1077,9 @@ the diagram shown in Figure~\ref{fig:Yr}.
 \begin{tikzpicture}
 \matrix (m) [matrix of math nodes, row sep=1.5ex, column sep=2ex]
 {
-\tY_r^+(a)         &                     & \tY_r^+(\pm \sqrt{\zeta} a) \\
-        & \text{\huge$\circlearrowleft$} &                             \\
-Y_{r,r}^{++}(ca^2) &                     & Y_{r,r}^{++}(\zeta ca^2)    \\
+\tY_r^+\left(a\right)         &       & \tY_r^+\left(\pm\sqrt{\zeta}a\right) \\
+                 & \text{\huge$\circlearrowleft$} &                          \\
+Y_{r,r}^{++}\left(ca^2\right) &       & Y_{r,r}^{++}\left(\zeta ca^2\right)  \\
 };
 \draw[<->] (m-1-1) -- (m-1-3);
 \draw[<->] (m-1-3) -- (m-3-3);
@@ -1062,9 +1088,9 @@ Y_{r,r}^{++}(ca^2) &                     & Y_{r,r}^{++}(\zeta ca^2)    \\
 \end{tikzpicture}
 \end{figure}
 
-This proves $\tY_r^+(a) \csim \tY_r^+(\pm \sqrt{\zeta}a)$ for $\zeta$ as above,
-and since the diagram is commutative, there are no equivalences for other
-values of the parameters than these. Hence
+This proves $\tY_r^+(a) \csim \tY_r^+\left(\pm \sqrt{\zeta}a\right)$ for
+$\zeta$ as above, and since the diagram is commutative, there are no
+equivalences for other values of the parameters than these. Hence
 \[
 P_1\left(\tY_r^+, \tY_r^+\right) = C\left(X^{2l}-1\right)
 \]
@@ -1076,13 +1102,14 @@ P_2\left(\tY_r^+, \tY_r^+\right) = R\left(X^2-1\right) \,.
 \]
 We clearly have $(a, a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ for
 $a \in \R \setminus \{0\}$, and also
-$(a, -a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ if $r$ is odd. Let us now
+$(a, -a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ if $r$ is odd. For the case where
+$r$ is even, let us
 consider $\tY_r^+(a)$ as a function in $x$ and $y$ over $\R^2$ and let the
-parameter $a$ be positive. Then $\tY_r^+(a) = (x^2+y^2)^2+ax^r$ takes only
-non-negative values whereas $\tY_r^+(-a) = (x^2+y^2)^2-ax^r$ attains also
-negative values. Hence there is no real coordinate transformation which takes
-$\tY_r^+(a)$ to $\tY_r^+(-a)$. The argument is similar for $a < 0$. To sum up,
-we have
+parameter $a$ be positive. Then $\tY_r^+(a) = \left(x^2+y^2\right)^2+ax^r$
+takes only non-negative values whereas
+$\tY_r^+(-a) = \left(x^2+y^2\right)^2-ax^r$ attains also negative values. Hence
+there is no real coordinate transformation which takes $\tY_r^+(a)$ to
+$\tY_r^+(-a)$. The argument is similar for $a < 0$. To sum up, we have
 \[
 P_3\left(\tY_r^+, \tY_r^+\right) =
 \begin{cases}
@@ -1092,11 +1119,27 @@ R(X-1),   &\text{if } r \text{ is even}.
 \]
 
 \begin{remark}\label{rem:sufficient_sets_for_Yr}
-For each even $r > 4$, let $\phi_r \in \Aut_{\C}(\C[[x,y]])$ be a coordinate
-transformation which takes $\tY_r^+(a)$ to $\tY_r^+(-a)$. Then the degree of
-either $\phi_r(x)$ or $\phi_r(y)$ must at least $\frac{r}{4}$. This shows that
-there is no degree-bounded sufficient set of coordinate transformations for
-$\bigl(\tY_r^+(a), \tY_r^+(a)\bigr)$ and for arbitrarily high $r$.
+Let $r \geq 8$ be a multiple of $4$ and let $\phi_r \in \Aut_{\C}(\C[[x,y]])$
+be a coordinate transformation which takes $f := \NF\bigl(\tY_r^+(a)\bigr)$ to
+$\NF\bigl(\tY_r^+(-a)\bigr)$. Assume that the degree of both $\phi_r(x)$ and
+$\phi_r(y)$ is less than $\frac{r}{4}$ and let $f = f_0 + f_1$ be decomposed
+into its principal part $f_0 := \left(x^2+y^2\right)^2$ and $f_1 = ax^r$. Then
+we have
+\[
+\phi(f) = \phi(f_0) + \phi(f_1) = \left(x^2+y^2\right)^2 - ax^r
+\]
+where the degree of $\phi(f_0)$ is less than $r$. Therefore
+$\phi(f_0) = \phi_0(f_0) = \left(x^2+y^2\right)^2$ and
+$\phi(f_1) = \phi_0(f_1) = -ax^r$. If $\phi_0$ is given by
+$\phi_0(x) = \alpha x + \beta y$, $\phi_0(y) = \gamma x + \delta y$ with
+$\alpha, \beta, \gamma, \delta \in \C$, the second of these two equations
+implies $\beta = 0$ and $\alpha^r = -1$, but the first one in turn implies
+$\gamma = 0$ and $\alpha^4 = 1$ which is a contradiction.
+
+So the degree of either $\phi_r(x)$ or $\phi_r(y)$ must at least $\frac{r}{4}$.
+This shows that there is no degree-bounded sufficient set of coordinate
+transformations for $\bigl(\tY_r^+(a), \tY_r^+(a)\bigr)$ and for arbitrarily
+high $r$.
 \end{remark}
 
 
@@ -1127,7 +1170,7 @@ Furthermore, we use the following notations:
 \end{align*}
 
 \newcommand{\specialvrule}{\rule[-1.8ex]{0pt}{5ex}}
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $X_9$ singularities}
 \label{tab:X9_equivalences}
@@ -1209,13 +1252,14 @@ $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
 follows:
 \begin{align*}
 f_1^{\rho, \sigma}(a) &:= +\sqrt{\rho \sigma} \cdot a \,, \\
-f_2^{\rho, \sigma}(a) &:= -\sqrt{\rho \sigma} \cdot a \,, \\
+f_2^{\rho, \sigma}(a) &:= -\sqrt{\rho \sigma} \cdot a \,, \displaybreak[0] \\
 f_3^{\rho, \sigma}(a)
 &:= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
 f_4^{\rho, \sigma}(a)
 &:= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
-    + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
+    + a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,,
+    \displaybreak[0] \\
 f_5^{\rho, \sigma}(a)
 &:= + \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,, \\
@@ -1249,7 +1293,7 @@ I_4 &:= \left] -\infty, {\textstyle-\frac{3}{\sqrt{2}}} \right[ \subset \R \,.
 \end{align*}
 
 \newcommand{\specialvrule}{\rule[-1.9ex]{0pt}{4.8ex}}
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $J_{10}$ singularities}
 \label{tab:J10_equivalences}
@@ -1341,7 +1385,7 @@ s &:=
 \end{cases}
 \end{align*}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $J_{10+k}$ singularities}
 \label{tab:J10+k_equivalences}
@@ -1388,7 +1432,7 @@ s &:=
 \end{cases}
 \end{align*}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $X_{9+k}$ singularities}
 \label{tab:X9+k_equivalences}
@@ -1452,7 +1496,7 @@ The structure of the equivalence classes of the $Y_{r,s}$ singularities is as
 shown in Table~\ref{tab:Yrs_equivalences} where in each case, $l$, $s_1$ and
 $s_2$ are given by
 \begin{align*}
-l &:= \frac{r}{\gcd(r,s)} \cdot \gcd(2, r+1, s+1) \,, \\
+l &:= \frac{r}{\gcd(r,s)} \cdot \gcd(2, r+1, s+1) \,, \displaybreak[0] \\
 s_1 &:=
 \begin{cases}
   +1, &\text{if } r \equiv 0 \pmod{4} \text{ or } s \equiv 0 \pmod{4}, \\
@@ -1469,7 +1513,7 @@ s_2 &:=
 In the special case where $r = s$, additional equivalences occur. They are
 listed in Table~\ref{tab:Yrr_equivalences}.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $Y_{r,s}$ singularities}
 \label{tab:Yrs_equivalences}
@@ -1548,7 +1592,7 @@ $Y_{r,s}^{--}$ & $Y_{r,s}^{++}$ &&&
 \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{Additional equivalences for the $Y_{r,s}$ singularities in the
 special case $r = s$}
@@ -1607,7 +1651,7 @@ s &:=
 \end{cases}
 \end{align*}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the $\tY_r$ singularities}
 \label{tab:tYr_equivalences}
@@ -1654,7 +1698,7 @@ $\tY_r^-$ & $\tY_r^+$ &
 The structure of the equivalence classes of the exceptional unimodal
 singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{$P_1$, $P_2$ and $P_3$ for the exceptional unimodal singularities}
 \label{tab:exceptional_equivalences}
