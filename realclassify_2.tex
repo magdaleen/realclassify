@@ -347,7 +347,7 @@ It turns out that for the hyperbolic and exceptional unimodal singularities,
 $P_1$, $P_2$ and $P_3$ are just unions of sets of the form $(a, ra)_{a \in \K}$
 for some $r \in \K$. For those cases we use the following notations.
 
-\begin{defn}
+\begin{defn}\label{def:C_R}
 For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
 as
 \begin{align*}
@@ -1648,7 +1648,7 @@ but we do not consider those cases in Theorem~\ref{thm:Yrs}.
 \end{remark}
 
 
-\begin{theorem}
+\begin{theorem}\label{thm:tYr}
 The structure of the equivalence classes of the $\tY_r$ singularities is as
 shown in Table~\ref{tab:tYr_equivalences} where in each case, $l$ and $s$ are
 given by
@@ -1704,7 +1704,7 @@ $\tY_r^-$ & $\tY_r^+$ &
 \end{theorem}
 
 
-\begin{theorem}
+\begin{theorem}\label{thm:exceptional}
 The structure of the equivalence classes of the exceptional unimodal
 singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
 
@@ -1764,11 +1764,115 @@ $W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 
 \section{Interpretation of the Results}
 
-\begin{remark}
-Note that the $J_{10}^-$ normal form is redundant. Also note that although
-$J_{10}^+$ covers the $\mu$-constant stratum in the real case $J_{10}^-$ does
+Looking more closely at Theorem~\ref{thm:sufficient_sets} and
+Section~\ref{sec:results}, it turns out that the structure of the equivalence
+classes is quite simple for some singularity types whereas it is very involved
+for others.
+
+To describe this in more detail, let us first consider the \emph{sufficient
+sets} given in Theorem~\ref{thm:sufficient_sets}:
+\begin{itemize}
+\item
+It suffices to work with scalings of the form $\phi(x) = \alpha x$,
+$\phi(y) = \beta y$ as coordinate transformations to figure out the structure
+of the equivalence classes of the hyperbolic and exceptional unimodal
+singularities. (To be precise, for $Y_{r,s}$ we also have to take into account
+transformations of the form $\phi(x) = \beta y$, $\phi(y) = \alpha x$ where the
+variables are swapped, cf.\@ Remark~\ref{rem:sufficient_sets_Yrs}.)
+\item
+For the two parabolic types $X_9$ and $J_{10}$, scalings are not sufficient.
+Instead, we have to consider more complicated transformations which involve
+more terms.
+\item
+One can see from the proof of Theorem~\ref{thm:sufficient_sets} that these
+differences reflect the different shapes of the normal forms: The normal forms
+of the hyperbolic singularity types listed in Table~\ref{tab:sufficient_sets}
+are weighted quasihomogeneous, those of the exceptional singularity types are
+semi-quasihomogeneous. Both shapes turn out to be very restrictive w.r.t.\@
+possible coordinate transformations. In contrast to this, the normal forms of
+the parabolic types are quasihomogeneous and thus allow for more freedom in
+this regard.
+\item
+The singularity type $\tY_r$ is an exception. It is complex equivalent to
+$Y_{r,r}$, but it appears as a separate singularity type over $\R$. There is no
+degree-bounded sufficient set for the normal form of this type (cf.\@
+Remark~\ref{rem:sufficient_sets_for_Yr}), so the computational methods
+described in Sections~\ref{ssec:computing_P1} and \ref{ssec:computing_P3} do
+not work. Instead, we have to use other methods, cf.\@ Section~\ref{ssec:Yr}.
+\end{itemize}
+
+As a consequence of the differences w.r.t.\@ sufficient sets described above,
+there are two \emph{general forms of equivalences} as presented in
+Section~\ref{sec:results}:
+\begin{itemize}
+\item
+For the hyperbolic and the exceptional singularities, the equivalences between
+different subtypes can be described by constant factors. More precisely, if
+$T_1$ and $T_2$ are subtypes of the same hyperbolic or exceptional main
+singularity type, then there exists a finite set of constants
+$r_1, \ldots, r_m \in \C$ such that the equivalences between the normal forms
+of $T_1$ and $T_2$ are exactly those of the form
+$\NF(T_1(a)) \sim \NF(T_2(r_i a))$ with $a \in \C$ or $a \in \R$ as
+appropriate. Therefore we use the notations $C(p(X))$ and $R(p(X))$ with
+$p(X) \in \C[X]$ (see Definition~\ref{def:C_R}) in these cases, cf.\@
+Theorems~\ref{thm:J10+k} to \ref{thm:exceptional}.
+\item
+The equivalences which occur among subtypes of the two parabolic singularity
+types $X_9$ and $J_{10}$ are much more involved and cannot be written down in
+terms of constant factors. We describe them as joint graphs of certain
+functions, cf.\@ Theorems~\ref{thm:X9} and \ref{thm:J10}.
+\end{itemize}
+
+The results presented in Section~\ref{sec:results} have \emph{consequences for
+the algorithmic classification of the unimodal singularities of corank $2$ over
+$\R$}. They are indeed intended to be the first step in this direction. Once
+again, we can distinguish between different cases. Note that the following
+remarks apply to the classification over $\R$ and therefore only deal with real
+coordinate transformations and real values of the involved parameters:
+\begin{itemize}
+\item
+In the exceptional cases, there are no equivalences between different subtypes
+of the same main type and the value of the parameter is uniquely determined,
+cf.\@ Theorem~\ref{thm:exceptional}.
+\item
+For the singularity types $J_{10+k}$, $X_{9+k}$, and $\tY_r$, there are no
+equivalences between different subtypes of the same main type, but the
+parameter can in some cases change its sign within the same subtype, cf.\@
+Theorems~\ref{thm:J10+k}, \ref{thm:X9+k}, and \ref{thm:tYr}.
+\item
+For $Y_{r,s}$, there are equivalences even between different subtypes.
+Therefore the question which real subtype a given singularity of main type
+$Y_{r,s}$ belongs to is not always well-posed, e.g., a singularity can be both
+of type $Y_{5,7}^{++}$ and of type $Y_{5,7}^{+-}$. However, the first of the
+two signs is always uniquely determined. The parameter can change its sign, but
+its absolute value is uniquely determined, cf.\@ Theorem~\ref{thm:Yrs}.
+\item
+The structures of the equivalence classes of the two parabolic cases $X_9$ and
+$J_{10}$ are the most complicated among all the cases discussed here. There are
+equivalences between different subtypes and the parameter may change in
+non-trivial ways. For $X_9$, the possible values which a given parameter can be
+transformed to can be expressed as rational functions of this parameter (cf.\@
+Theorem~\ref{thm:X9}), whereas the corresponding functions for $J_{10}$ involve
+radical expressions (cf.\@ Theorem~\ref{thm:J10}). Note that there are,
+however, no equivalences between the subtypes $X_9^{++}$, $X_9^{--}$ on the one
+hand and $X_9^{+-}$, $X_9^{-+}$ on the other hand, i.e.\@ the product of the
+two signs which occur in the subtypes of $X_9$ is uniquely determined.
+\item
+It is a remarkable result that for any value of $a \in \R$, the normal form of
+$J_{10}^-(a)$ is $\R$-equivalent to the normal form of $J_{10}^+(a')$ for some
+$a' \in \R$ while the converse is not true, cf.\@ Theorem~\ref{thm:J10}. In
+other words, the real subtype $J_{10}^-$ is redundant whereas $J_{10}^+$ is
 not.
-\end{remark}
+\end{itemize}
+
+To sum up, the results in this article show that the classifications of the
+unimodal singularitities over $\C$ and over $\R$ in \citet{AVG1985} are not
+meant to be complete sets of normal forms which represent disjoint equivalence
+classes for every single value of the parameter. The normal forms which are
+listed in these classifications only cover the whole space of unimodal
+singularities, but some of them are equivalent. There are equivalences between
+normal forms for different values of the parameter and also between different
+subtypes, to an extend that the subtype $J_{10}^-$ is even redundant.
 
 
 \section{Acknowledgements}
