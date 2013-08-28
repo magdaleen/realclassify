@@ -8,6 +8,7 @@
 \usepackage{algorithmic}
 \usepackage{multirow}
 \usepackage{rotating}
+\usepackage{arydshln}
 \usepackage{enumerate}
 \usepackage{enumitem}
 \usepackage{natbib}
@@ -63,27 +64,21 @@
 \DeclareMathOperator{\Quot}{Quot}
 \DeclareMathOperator{\dash}{\!\textnormal{-}\!}
 \DeclareMathOperator{\jet}{jet}
-\DeclareMathOperator{\csim}{%
-  \mathrel{%
-    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\C}{\sim}$}]{%
-      $\overset{\C}{\sim}$
-    }
-  }
-}
-\DeclareMathOperator{\rsim}{%
-  \mathrel{%
-    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\R}{\sim}$}]{%
-      $\overset{\R}{\sim}$
-    }
-  }
-}
-\DeclareMathOperator{\ksim}{%
-  \mathrel{%
-    \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\K}{\sim}$}]{%
-      $\overset{\K}{\sim}$
-    }
-  }
-}
+\newcommand{\csim}{\ensuremath{\mathrel{%
+  \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\C}{\sim}$}]{%
+    $\overset{\C}{\sim}$%
+  }%
+}}}
+\newcommand{\rsim}{\ensuremath{\mathrel{%
+  \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\R}{\sim}$}]{%
+    $\overset{\R}{\sim}$%
+  }%
+}}}
+\newcommand{\ksim}{\ensuremath{\mathrel{%
+  \raisebox{0pt}[\heightof{$\overset{\scriptscriptstyle\K}{\sim}$}]{%
+    $\overset{\K}{\sim}$%
+  }%
+}}}
 
 \hyphenation{equiva-lence}
 \hyphenation{ne-ces-sary}
@@ -92,7 +87,7 @@
 Part II]%
 {The Classification of Real Singularities Using \textsc{Singular}\\
 Part II: The Structure of the Equivalence Classes of the Unimodal %
-Singularities}
+Singularities of Corank 2}
 
 \author{Magdaleen S. Marais}
 \address{Magdaleen S. Marais\\
@@ -125,6 +120,32 @@ corank $0$, $1$ and $2$ over the real numbers as computed by \citet{AVG1985}.
 
 
 \section{Introduction}
+
+This article is the second part of a series of articles on the algorithmic
+classification of real singularities up to modality $1$ and corank $2$. The
+first part \citep{MS2013} covers the splitting lemma and the simple
+singularities. All the algorithms presented there have been implemented in the
+computer algebra system \Singular{} \citep{DGPS} as a library called
+\realclassify{} \citep{realclassify}.
+
+Our work is based on the classifications of complex and real singularities of
+small modality up to stable equivalence by \citet{AVG1985}. Two power series
+$f, g \in \K[[x_1,\ldots,x_n]]$ with a critical point at the origin and
+critical value $0$ are complex (if $\K = \C$) or real (if $\K = \R$)
+equivalent, denoted by $f \ksim g$, if there exists a $\K$-algebra automorphism
+$\phi$ of $\K[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$. They are stable
+(complex or real) equivalent if they become (complex or real) equivalent after
+the direct addition of non-degenerate quadratic terms.
+
+In this article, we focus on the unimodal singularities of corank 2. Their
+complex and real normal forms can be found in Table~\ref{tab:normal_forms}.
+Just as for the simple singularities \citep[cf.][]{MS2013}, it turns out that
+the complex singularity types split up into one or several real subtypes and
+that the normal forms of the real subtypes belonging to the same complex type
+differ from each other only in the signs of some terms. We therefore sometimes
+refer to the comlex singularity types as ``main types''. The hyperbolic type
+$\tY_r$ is an exception because it is complex equivalent to $Y_{r,s}$ with
+$r = s$ and only occurs as a type on its own in the real classification.
 
 \begin{table}[tp]
 \centering
@@ -172,7 +193,7 @@ corank $0$, $1$ and $2$ over the real numbers as computed by \citet{AVG1985}.
       & \multirow{4}{*}{$a \neq 0,\; r,s > 4$} \\ \cline{4-4}
 &&& $-x^2y^2-x^r+ay^s$ $(Y_{r,s}^{--})$ &      \\ \cline{4-4}
 &&& $+x^2y^2-x^r+ay^s$ $(Y_{r,s}^{+-})$ &      \\ \cline{4-4}
-&&& $-x^2y^2+x^r+ay^s$ $(Y_{r,s}^{-+})$ &      \\ \cline{2-5}
+&&& $-x^2y^2+x^r+ay^s$ $(Y_{r,s}^{-+})$ &      \\ \cdashline{2-3}\cline{4-5}
 
 & \multirow{2}{*}{$\tY_r$} & \multirow{2}{*}{$(x^2+y^2)^2+ax^r$}
   & $+(x^2+y^2)^2+ax^r$ $(\tY_r^+)$
@@ -209,9 +230,64 @@ corank $0$, $1$ and $2$ over the real numbers as computed by \citet{AVG1985}.
 \end{tabular}
 \end{table}
 
+The normal forms in Table~\ref{tab:normal_forms} are meant to cover the
+equivalence classes of the unimodal singularities of corank $2$, but some of
+them are equivalent to others. Such equivalences occur both between different
+real subtypes and between normal forms with different values of the parameter
+$a$. However, there are no equivalences between different main types. To give
+an example, $x^4-4x^2y^2+y^4$, the normal form of $X_9^{++}$ with $a = -4$, is
+equivalent to $-x^4+10x^2y^2-y^4$, the normal form of $X_9^{--}$ with $a = 10$,
+via the coordinate transformation $x \mapsto c(x+y)$, $y \mapsto c(x-y)$ with
+$c = \frac{1}{\sqrt[4]{2}}$. Examples like this one have consequences for the
+algorithmic classification of real singularities. The question if the
+singularity in the example is of real type $X_9^{++}$ or of real type
+$X_9^{--}$ is not well-posed and the value of the parameter is not uniquely
+determined. Note that this problem does not occur for the simple singularities:
+By definition, their normal forms do not admit parameters, and there are no
+equivalences between different real subtypes except for the main types $A_k$
+where $k$ is even, cf.\@ \citet{MS2013}.
+
+The goal of this article is to determine the complete structure of the
+equivalence classes for the unimodal real singularities of corank $2$. Based on
+these results, we will present algorithms to determine the equivalence class of
+a given unimodal real singularity of corank $2$ in a subsequent part of this
+series of articles. If $T_1$ and $T_2$ are subtypes of the same singularity
+main type $T$ and if $g_1(a)$ and $g_2(a)$ are the normal forms of $T_1$ and
+$T_2$, respectively, where $a$ denotes the value of the parameter, then we are
+interested in the set of all pairs $(u, v)$ such that $g_1(u)$ is equivalent to
+$g_2(v)$. This question can be asked in three different ways: If we consider
+complex values of $u$ and $v$ and complex coordinate transformations, we denote
+the corresponding set by $P_1(T_1, T_2)$, for real values of $u$ and $v$, but
+still complex transformations by $P_2(T_1, T_2)$, and finally by
+$P_3(T_1, T_2)$ if we consider only real values of $u$ and $v$ and real
+transformations, cf.\@ Definition~\ref{def:Psets}.
+
+The formal definitions of these sets and other basic notations are introduced
+in Section~\ref{sec:Psets}, along with different ways how $P_1(T_1, T_2)$,
+$P_2(T_1, T_2)$, and $P_3(T_1, T_2)$ can be conveniently written down in
+concrete cases. The following sections are devoted to the computation of these
+sets for any two real subtypes $T_1$ and $T_2$ listed in
+Table~\ref{tab:normal_forms}. We first recall the definitions of (piecewise)
+weighted jets and filtrations in Section~\ref{sec:weights}. They play a major
+role in the proof of Theorem~\ref{thm:sufficient_sets}, the main result of
+Section~\ref{sec:sufficient_sets}. This theorem allows us to restrict ourselves
+to a small subset of coordinate transformations, which we call a sufficient
+set, if we want to determine $P_1(T_1, T_2)$. It is thus the theoretic basis
+for Section~\ref{sec:computations} where we explain how $P_1(T_1, T_2)$,
+$P_2(T_1, T_2)$, and $P_3(T_1, T_2)$ can be computed using \Singular{}. We also
+give an example with explicit \Singular{} commands. These methods do not apply
+for the singularity type $\tY_r$ which is treated separately in
+Section~\ref{ssec:Yr}. Section~\ref{sec:results} contains the results of these
+computations in a concise form. Finally, we point out some remarkable aspects
+of the results in this article as well as their consequences for the
+algorithmic classficiation of the unimodal real singularities of corank $2$ in
+Section~\ref{sec:interpretation}. The maybe most surprinsing outcome is that
+the real subtype $J_{10}^-$ is actually redundant whereas $J_{10}^+$ is not.
+
 
 \section{The Sets of Parameter Transformations
-$\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}
+$\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}%
+\label{sec:Psets}
 
 For the unimodal singularities, we add the value of the parameter which occurs
 in the normal form as given in Table~\ref{tab:normal_forms} in parentheses to
@@ -280,7 +356,7 @@ $\NF(E_{14}(a))(b) = \NF(E_{14}(b))$.
 
 We can now state the main definition of this section.
 
-\begin{defn}
+\begin{defn}\label{def:Psets}
 \leavevmode
 \begin{enumerate}
 \item
@@ -367,7 +443,8 @@ tables and we therefore stick to the shorthand notation.
 \end{remark}
 
 
-\section{Weighted Jets and Filtrations of Power Series and Transformations}
+\section{Weighted Jets and Filtrations of Power Series and Transformations}%
+\label{sec:weights}
 
 We briefly introduce the concepts of (piecewise) weighted jets and filtrations.
 For background regarding the definitions in this section, we refer to
@@ -470,7 +547,7 @@ w.r.t.\@ $w_0$ and thus not an element of $E_5^{w_0} = E_{d_0+0}^{w_0}$.
 \end{remark}
 
 
-\section{Sufficient Sets of Transformations}
+\section{Sufficient Sets of Transformations}\label{sec:sufficient_sets}
 
 The results in this section considerably narrow down the transformations we
 need to consider between specific unimodal normal forms of the same main type
@@ -1762,7 +1839,7 @@ $W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \end{theorem}
 
 
-\section{Interpretation of the Results}
+\section{Interpretation of the Results}\label{sec:interpretation}
 
 Looking more closely at Theorem~\ref{thm:sufficient_sets} and
 Section~\ref{sec:results}, it turns out that the structure of the equivalence
