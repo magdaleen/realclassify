@@ -332,13 +332,12 @@ The above definition is the key ingredient for the definition of $P_1$, $P_2$,
 and $P_3$. We also need the following notation.
 
 \begin{remark}
-As usual, we denote the quotient field
-$\Quot(\K[a])$ by $\K(a)$. Let $f \in \K(a)[[x_1,\ldots,x_n]]$ be a power
-series over this quotient field. Then $f$ can be written as
-$f = \sum_{\nu \in \N^n} c_\nu \boldsymbol{x}^\nu$ with coeffients
-$c_\nu = \frac{p_\nu}{q_\nu} \in \K(a)$ where $p_\nu, q_\nu \in \K[a]$ are
-polynomials of minimal degree with this property and $q_\nu \neq 0$ for all
-$\nu \in \N^n$.
+As usual, we denote the field of quotients $\Quot(\K[a])$ by $\K(a)$. Let
+$f \in \K(a)[[x_1,\ldots,x_n]]$ be a power series over this quotient field.
+Then $f$ can be written as $f = \sum_{\nu \in \N^n} c_\nu \boldsymbol{x}^\nu$
+with coeffients $c_\nu = \frac{p_\nu}{q_\nu} \in \K(a)$ where
+$p_\nu, q_\nu \in \K[a]$ are polynomials of minimal degree with this property
+and $q_\nu \neq 0$ for all $\nu \in \N^n$.
 
 If we consider the polynomials $p_\nu, q_\nu$ as polynomial functions
 $p_\nu, q_\nu: \; \K \rightarrow \K$, then we may also consider the
@@ -401,9 +400,9 @@ Note that we have $P_3(f, g) \subseteq P_2(f, g) \subseteq P_1(f, g)$ for any
 two power series $f,g \in \R(a)[[x_1,\ldots,x_n]]$.
 
 \item
-For any two unimodal singularity (sub-)types $T_1, T_2$, we simply write
-$P_i(T_1,T_2)$ instead of $P_i(\NF(T_1(a)), \NF(T_2(a)))$, e.g. we write
-$P_1\left(E_{14}^+, E_{14}^+\right)$ for
+For any two unimodal singularity (sub-)types $T_1, T_2$ and $i \in \{1,2,3\}$,
+we simply write $P_i(T_1,T_2)$ instead of $P_i(\NF(T_1(a)), \NF(T_2(a)))$,
+e.g.\@ we write $P_1\left(E_{14}^+, E_{14}^+\right)$ for
 $P_1\left(\NF\left(E_{14}^+(a)\right), \NF\left(E_{14}^+(a)\right)\right)$.
 \end{enumerate}
 \end{remark}
@@ -467,9 +466,8 @@ $w_0$ as
 \[
 w_0\dash\deg(m) := \min_{i = 1, \ldots, s} w_i\dash\deg(m) \,.
 \]
-A polynomial $f \in \K[x_1,\ldots,x_n]$ is called piecewise quasihomogeneous
-w.r.t.\@ $w_0$ if $w_0\dash\deg(t_1) = w_0\dash\deg(t_2)$ for any two terms
-$t_1, t_2$ of $f$.
+A polynomial $f \in \K[x_1,\ldots,x_n]$ is called piecewise quasihomogeneous of
+degree $d$ w.r.t.\@ $w_0$ if $w_0\dash\deg(t) = d$ for any term $t$ of $f$.
 \end{defn}
 
 \begin{defn}
@@ -538,7 +536,7 @@ Let $w_0 = (w_1, \ldots, w_s) \in \left(\N^n\right)^s$ be a piecewise weight on
 $(x_1, \ldots, x_n)$, let $f_0 \in \K[x_1,\ldots,x_n]$ be piecewise
 quasihomogeneous of degree $d_0$ w.r.t.\@ $w_0$ and
 $f_1 \in \K[x_1,\ldots,x_n]$ quasihomogeneous of degree $d_1$ w.r.t.\@
-$w_1$. We always have
+$w_1$. For any $\delta \geq 0$, we always have
 $(\phi-\phi_\delta^{w_1})(f_1) \in E_{>d_1+\delta}^{w_1}$, but the analogon for
 $w_0$ does not hold in general: To give a counterexample, let us consider the
 case $n = s = 2$, $w_0 = ((1,4), (4,1))$, $f_0 = x_1 x_2$, and let $\phi$ be
@@ -586,7 +584,7 @@ S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 Let $T$ be one of the main singularity types listed in
 Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
 of monomials, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S(M_x, M_y)$
-is a sufficient set of coordinate transformations for the pair
+is a sufficient set of coordinate transformations for
 $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 
 \begin{table}[htb]
@@ -693,9 +691,12 @@ Finally we conclude that $\phi(f)$ is equal to $\phi_0^{w_0}(f)$ and that
 $\phi_0^{w_0}$ is an element of $S(\{x\}, \{y\})$ which proves the claim.
 
 The transformation $\phi_0^{w_1}$ is generically of the form
-$\phi_0^{w_1}(x) = \alpha x + \beta_1 y + \beta_2 y^2$,
-$\phi_0^{w_1}(y) = \gamma y$ with coefficients
-$\alpha, \beta_1, \beta_2, \gamma \in \C$. With these notations we have
+\begin{align*}
+\phi_0^{w_1}(x) &= \alpha x + \beta_1 y + \beta_2 y^2 \,, \\
+\phi_0^{w_1}(y) &= \gamma y
+\end{align*}
+with coefficients $\alpha, \beta_1, \beta_2, \gamma \in \C$. With these
+notations we have
 \begin{align*}
 \phi(f)
 &= \phi_0^{w_1}(f) + (\phi-\phi_0^{w_1})(f) \\
@@ -795,17 +796,16 @@ transformation $\phi_\delta^w$ is generically of the form
 \end{align*}
 with $\alpha, \beta, \gamma, \varepsilon, \zeta \in \C$ because any other term
 would raise the weighted degree by more than $\delta$. With these notations, we
-now successively compare the coefficients of
-$w\dash\jet(\phi_\delta^w(f), d+\delta)$ and
+now successively compare the coefficients of $\phi_\delta^w(f)$ and
 $\phi(f) = \NF(T_2(v)) = \pm x^4+xy^4+vy^6$. The coefficient of $y^4$ in
 $\phi_\delta^w(f)$ is $\pm \beta^4$, therefore we have $\beta = 0$. The
 remaining coefficients of $xy^4$, $x^2y^3$, and $x^3y^2$ are now
 $\alpha\zeta^4$, $4\alpha\varepsilon\zeta^3$, and
 $\pm 4\alpha^3\gamma+6\alpha\varepsilon^2\zeta^2$, respectively, which shows
 that (in this order) $\alpha\zeta \neq 0$, $\varepsilon = 0$, and $\gamma = 0$.
-Hence $\phi_\delta^w$ is in fact of the form
-$\phi_\delta^w(x) = \alpha x$, $\phi_\delta^w(y) = \zeta y$ which proves
-$(\ast)$ for $T_1, T_2 \in \left\{W_{13}^+, W_{13}^-\right\}$.
+Hence $\phi_\delta^w$ is in fact of the form $\phi_\delta^w(x) = \alpha x$,
+$\phi_\delta^w(y) = \zeta y$ which proves $(\ast)$ for
+$T_1, T_2 \in \left\{W_{13}^+, W_{13}^-\right\}$.
 \end{description}
 \end{proof}
 
@@ -937,7 +937,10 @@ $a^2 \neq 4$.
 \label{ssec:computing_P2}
 
 Given $P_1(T_1, T_2)$, it is easy to compute $P_2(T_1, T_2)$ even ``by hand''
-because we have $P_2(T_1, T_2) = P_1(T_1, T_2) \cap (\R \times \R)$.
+because we have
+\[
+P_2(T_1, T_2) = P_1(T_1, T_2) \cap (\R \times \R) \,.
+\]
 
 \begin{example}\label{ex:P2}
 Continuing the example above, the values of
