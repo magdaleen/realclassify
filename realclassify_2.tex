@@ -32,6 +32,7 @@
 \makebox[\minof{0pt}{\widthof{$#1$}/2-\widthof{$#2$}/2-\widthof{$#3$}}]{}%
 \underbrace{#1}_{\displaystyle\phantom{#3}#2 #3}}
 
+\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\cup}}
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\tY}{\widetilde{Y}}
@@ -99,8 +100,8 @@ Germany}
 \email{steenpass@mathematik.uni-kl.de}
 
 \thanks{This research project was supported by the African Institute for
-Mathematical Sciences, the German National Academic Foundation, and a grant
-awarded by Gert-Martin Greuel. We are thankful to all of them.}
+Mathematical Sciences, the German National Academic Foundation, and grants
+awarded by Gert-Martin Greuel and Wolfram Decker. We are thankful to all of them.}
 
 \keywords{%
 hypersurface singularities, algorithmic classification, real geometry%
@@ -109,10 +110,9 @@ hypersurface singularities, algorithmic classification, real geometry%
 \begin{document}
 
 \begin{abstract}
-In the classification of real singularities by \citet{AVG1985}, the normal form
-is not always uniquely determined. We present the complete structure of the
+In \citet{AVG1985} singularities is classified using normal forms. Using this classification equivalence classes of singularities are not always uniquely determined. We present the complete structure of the
 equivalence classes of the unimodal real singularities of corank~$2$, i.e.\@ we
-explicitly answer the question which of their normal forms are equivalent and
+explicitly answer the question when the images of two parameters under two normal forms are equivalent and
 how the value of the parameter can be transformed within the same equivalence
 class. This provides new theoretical insights into these singularities and has
 important consequences for their algorithmic classification.
@@ -232,13 +232,9 @@ $r = s$ and only occurs as a type on its own in the real classification.
 \end{tabular}
 \end{table}
 
-The normal forms in Table~\ref{tab:normal_forms} are meant to cover the
-equivalence classes of the unimodal singularities of corank $2$, but some of
-them are equivalent to others. Such equivalences occur both between different
-real subtypes and between normal forms with different values of the parameter
-$a$. However, there are no equivalences between different main types. To give
-an example, $x^4-4x^2y^2+y^4$, the normal form of $X_9^{++}$ with $a = -4$, is
-equivalent to $-x^4+10x^2y^2-y^4$, the normal form of $X_9^{--}$ with $a = 10$,
+Recall \citep[cf.][]{AVG1985} that a normal form is a smooth map of a finite dimensional linear space of parameters $\bf B$ into the space of polynomials such that, among other conditions, the inverse image in $\bf B$ of each orbit is finite. This is indeed the case for the normal forms in Table~\ref{tab:normal_forms}, as is clear from the results in this paper. The question is in which cases do the inverse image of an orbit have more than one element, i.e. when are two polynomials for two different values of the parameter in the image of a normal form equivalent. Similarly the question can be ask when the images of two parameters under two normal forms, respectively, are equivalent. Such equivalences occur only if the two normal forms are of the same main type. However, there are no equivalences between different main types. To give
+an example, $x^4-4x^2y^2+y^4$, the normal form of $X_9^{++}$ putting $a = -4$, is
+equivalent to $-x^4+10x^2y^2-y^4$, the normal form of $X_9^{--}$ putting $a = 10$,
 via the coordinate transformation $x \mapsto c(x+y)$, $y \mapsto c(x-y)$ with
 $c = \frac{1}{\sqrt[4]{2}}$. Examples like this one have consequences for the
 algorithmic classification of real singularities. The question if the
@@ -255,8 +251,8 @@ these results, we will present algorithms to determine the equivalence class of
 a given unimodal real singularity of corank $2$ in a subsequent part of this
 series of articles. If $T_1$ and $T_2$ are subtypes of the same singularity
 main type $T$ and if $g_1(a)$ and $g_2(a)$ are the normal forms of $T_1$ and
-$T_2$, respectively, where $a$ denotes the value of the parameter, then we are
-interested in the set of all pairs $(u, v)$ such that $g_1(u)$ is equivalent to
+$T_2$, respectively, where $a$ denotes the parameter, then we are
+interested in the set of all pairs of values $(u, v)$ such that $g_1(u)$ is equivalent to
 $g_2(v)$. This question can be asked in three different ways: If we consider
 complex values of $u$ and $v$ and complex coordinate transformations, we denote
 the corresponding set by $P_1(T_1, T_2)$, for real values of $u$ and $v$, but
@@ -352,7 +348,7 @@ $u \in \K \setminus \bigcup_{\nu \in \N^n} V(q_\nu)$.
 We will use the notation $f(u)$ throughout this paper. Note that it is
 compatible with the notations for equivalence classes and normal forms of
 unimodal singularities introduced above in the sense that, e.g.,
-$\NF(E_{14}(a))(b) = \NF(E_{14}(b))$.
+$\NF(E_{14}(a))(b) = \NF(E_{14}(b))$, $b\in\K$.
 \end{remark}
 
 We can now state the main definition of this section.
@@ -570,14 +566,15 @@ The sufficient sets which we consider here can be described using the
 following notation.
 
 \begin{defn}
-Let $M_x$ and $M_y$ be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x$ and
-$\C\! M_y$ be the $\C$-vector spaces spanned by these sets, i.e.\@
-$\C\! M_x := \bigoplus_{m \in M_x} \C m$ and analogously for $\C\! M_y$. We
-define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
+Let $M_x^i$ and $M_y^j$, $i,j=1,2$, be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x^i$ and
+$\C\! M_y^i$ be the $\C$-vector spaces spanned by these sets, i.e.\@
+$\C\! M_x^i := \bigoplus_{m \in M_x^i} \C m$ and analogously for $\C\! M_y^j$. We
+define the set of coordinate transformations spanned by $M_x=M_x^1\cupdot M_x^2$ and $M_y=M_y^1\cupdot M_y^2$ as
 \[
 S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
-\phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
+\phi(x) \in \C\! M^i_x,\; \phi(y) \in \C\! M^j_y, \; i,j\in\{1,2\}\} \,.
 \]
+If $M_x^2=\varnothing$ we only write $M_x=M_x^1$. Similarly we only write $M_y=M_y^1$ if $M_y^2=\varnothing$.
 \end{defn}
 
 \begin{theorem}\label{thm:sufficient_sets}
@@ -608,8 +605,8 @@ $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 
 & $J_{10+k}$ & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
 & $X_{9+k}$  & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
-& $Y_{r,s}$  & $\{x, y\}$ & $\{x, y\}$ \\ \hline
-
+& $Y_{r,s}$, $r\neq s$  & $\{x\}$ & $\{ y\}$ \\  \cline{2-4}
+& $Y_{r,s}$, $r= s$  & $\{x\}\cupdot\{y\}$ & $\{x\}\cupdot\{ y\}$ \\ \hline
 
 \multirow{3}{*}{\begin{sideways}Except.\end{sideways}}
 
@@ -623,12 +620,8 @@ $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 \end{theorem}
 
 \begin{remark}\label{rem:sufficient_sets_Yrs}
-In the theorem above, we may even assume $M_x = \{x\}$, $M_y = \{y\}$ for
-$T = Y_{r,s}$ with $r \neq s$ in analogy to the other hyperbolic cases. If $r$
-equals $s$, the variables $x$ and $y$ can also be interchanged without changing
-the singularity type, so in this case we may assume that either $M_x = \{x\}$,
-$M_y = \{y\}$ or $M_x = \{y\}$, $M_y = \{x\}$. The theorem includes both cases
-at once for the sake of simplicity.
+Note that in the case for $T=Y_{r,s}$, $r=s$, the variables $x$ and $y$ can be interchanged without changing
+the singularity type. This makes this case unique to the other hyperbolic cases, in the sense that this is the only case in which $M_x^2\neq\varnothing$ and $M_y^2\neq\varnothing$.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sufficient_sets}]
@@ -851,7 +844,7 @@ $\C[[x,y]]$-automorphisms for $(T_1(a), T_2(a))$ given in
 Theorem~\ref{thm:sufficient_sets}. Let $t_1, \ldots, t_r$ be coefficients for
 the monomials in $M_x$ and $M_y$ and let $\phi$ be a generic element of $S$
 with these coefficients, i.e.\@ let $\phi$ be of the form
-$\phi(x) = t_1 \cdot x + (\text{other terms})$.
+$\phi(x) = t_1 \cdot x + (\text{other terms})$ (or of the form $\phi(x)=t_1 \cdot y+(\text{other terms})$ in case $T=Y_{r,s}$, $r=s$).
 
 We denote the parameter occurring in $T_1$ by $a$ and the one in $T_2$ by $b$.
 By comparing the coefficients in $\phi(T_1(a))$ and $T_2(b)$, we get a set of
@@ -998,7 +991,7 @@ of $J$ for different values of $a$. It contains a generic Gr\"obner basis of
 $J$, i.e.\@ one which is a Gr\"obner basis except for finitely many exceptional
 values of $a$, and additionally Gr\"obner bases of $J$ for each of these
 exceptional values. The ideals in a Gr\"obner cover of $J$ typically have a
-much easier structure then $J$ itself. We can thus treat them one by one and
+much easier structure than $J$ itself. We can thus treat them one by one and
 determine their real solutions. We will often find generators such as
 $(t_j)^4+1$, indicating that the vanishing set over $\R$ of this ideal is
 empty.
@@ -1855,7 +1848,7 @@ sets} given in Theorem~\ref{thm:sufficient_sets}:
 It suffices to work with scalings of the form $\phi(x) = \alpha x$,
 $\phi(y) = \beta y$ as coordinate transformations to figure out the structure
 of the equivalence classes of the hyperbolic and exceptional unimodal
-singularities. (To be precise, for $Y_{r,s}$ we also have to take into account
+singularities. (To be precise, for $Y_{r,s}$, $r=s$, we also have to take into account
 transformations of the form $\phi(x) = \beta y$, $\phi(y) = \alpha x$ where the
 variables are swapped, cf.\@ Remark~\ref{rem:sufficient_sets_Yrs}.)
 \item
