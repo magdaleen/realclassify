@@ -50,6 +50,7 @@
 \DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\NF}{NF}
+\DeclareMathOperator{\s}{S}
 \DeclareMathOperator{\T}{T}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\id}{id}
@@ -576,16 +577,16 @@ $\C\! M_y$ be the $\C$-vector spaces spanned by these sets, i.e.\@
 $\C\! M_x := \bigoplus_{m \in M_x} \C m$ and analogously for $\C\! M_y$. We
 define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
 \[
-S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
+\s(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
 \phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
 \]
 \end{defn}
 
 \begin{theorem}\label{thm:sufficient_sets}
 Let $T$ be one of the main singularity types listed in
-Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
-of monomials, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S(M_x, M_y)$
-is a sufficient set of coordinate transformations for
+Table~\ref{tab:sufficient_sets}, let $S$ be the corresponding set of
+automorphisms, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S$ is a
+sufficient set of coordinate transformations for
 $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 
 \begin{table}[htb]
@@ -595,42 +596,39 @@ $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 \begin{tabular}{|c|c|c|c|}
 \hline
 
-& $T$ & $M_x$ & $M_y$ \\
+& \multicolumn{2}{|c|}{$T$} & $S$ \\
 \hline\hline
 
 
 \multirow{2}{*}{\begin{sideways}P.\end{sideways}}
 
-& $X_9$    & $\{x, y\}$   & $\{x, y\}$ \\ \cline{2-4}
-& $J_{10}$ & $\{x, y^2\}$ & $\{y\}$    \\ \hline
+& \multicolumn{2}{|c|}{$X_9$}    & $\s(\{x, y\}, \{x, y\})$ \\ \cline{2-4}
+& \multicolumn{2}{|c|}{$J_{10}$} & $\s(\{x, y^2\}, \{y\})$  \\ \hline
 
 
-\multirow{3}{*}{\begin{sideways}Hyperb.\end{sideways}}
+\multirow{4}{*}{\begin{sideways}Hyperbolic\end{sideways}}
 
-& $J_{10+k}$ & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
-& $X_{9+k}$  & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
-& $Y_{r,s}$  & $\{x, y\}$ & $\{x, y\}$ \\ \hline
+& \multicolumn{2}{|c|}{$J_{10+k}$} & $\s(\{x\}, \{y\})$ \\ \cline{2-4}
+& \multicolumn{2}{|c|}{$X_{9+k}$}  & $\s(\{x\}, \{y\})$ \\ \cline{2-4}
+
+& \multirow{2}{*}{$Y_{r,s}$}
+    & $r \neq s$ & $\s(\{x\}, \{y\})$                       \\ \cline{3-4}
+&   & $r = s$    & $\s(\{x\}, \{y\}) \cup \s(\{y\}, \{x\})$ \\ \hline
 
 
 \multirow{3}{*}{\begin{sideways}Except.\end{sideways}}
 
-& $E_{12}, E_{13}, E_{14}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
-& $Z_{11}, Z_{12}, Z_{13}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
-& $W_{12}, W_{13}$         & $\{x\}$ & $\{y\}$ \\ \hline
+& \multicolumn{2}{|c|}{$E_{12}, E_{13}, E_{14}$} & $\s(\{x\}, \{y\})$
+\\ \cline{2-4}
+& \multicolumn{2}{|c|}{$Z_{11}, Z_{12}, Z_{13}$} & $\s(\{x\}, \{y\})$
+\\ \cline{2-4}
+& \multicolumn{2}{|c|}{$W_{12}, W_{13}$}         & $\s(\{x\}, \{y\})$
+\\ \hline
 
 \end{tabular}
 \end{table}
 
 \end{theorem}
-
-\begin{remark}\label{rem:sufficient_sets_Yrs}
-In the theorem above, we may even assume $M_x = \{x\}$, $M_y = \{y\}$ for
-$T = Y_{r,s}$ with $r \neq s$ in analogy to the other hyperbolic cases. If $r$
-equals $s$, the variables $x$ and $y$ can also be interchanged without changing
-the singularity type, so in this case we may assume that either $M_x = \{x\}$,
-$M_y = \{y\}$ or $M_x = \{y\}$, $M_y = \{x\}$. The theorem includes both cases
-at once for the sake of simplicity.
-\end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sufficient_sets}]
 We give different proofs for the parabolic, the hyperbolic, and the exceptional
@@ -655,8 +653,8 @@ with $R \in E_{>4}^w$. This implies $\phi(f) = \phi_0^w(f)$ because
 $\phi(f) = \NF(T_2(v))$ is homogeneous of degree $4$ w.r.t.\@ the weight $w$.
 So any possible value of $v$ which can be reached via some
 $\phi \in \Aut_{\C}(\C[[x,y]])$ can also be obtained by
-$\phi_0^w \in S\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
-$S\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
+$\phi_0^w \in \s\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
+$\s\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
 transformations for the pair $\left(\NF(T_1(a)), \NF(T_2(a))\right)$.
 
 Let us now consider the case $T = J_{10}$.
@@ -668,13 +666,13 @@ $\phi_0^w(y) = \delta y$ with
 $\alpha, \beta, \gamma, \delta \in \C$. Comparing the coefficients of
 $\phi(f) = \NF(T_2(v))$ and
 $\phi_0^w(f) = \beta^3 y^3 + (\text{other terms})$ yields
-$\beta = 0$ and therefore $\phi_0^w \in S(\{x, y^2\}, \{y\})$
+$\beta = 0$ and therefore $\phi_0^w \in \s(\{x, y^2\}, \{y\})$
 as expected.
 
 \item[Hyperbolic cases]
 We present a proof for the main type $T = J_{10+k}$, the proofs for $X_{9+k}$
-and $Y_{r,s}$ are similar. For $Y_{r,s}$ we have to take
-Remark~\ref{rem:sufficient_sets_Yrs} into account.
+and $Y_{r,s}$ are similar. For $Y_{r,s}$ with $r = s$, we have to take the
+special shape of $S$ into account, cf.\@ Table~\ref{tab:sufficient_sets}.
 
 It does not matter for the arguments below whether we assume $T_1 = J_{10+k}^+$
 or $T_1 = J_{10+k}^-$, the same holds for $T_2$. We write $\pm$ whenever the
@@ -687,9 +685,9 @@ $w_1 := (12+2k, 6+k)$ and $w_2 := (12+3k, 6)$. Then $f$ is piecewise
 quasihomogeneous of degree $d := 36+6k$ w.r.t.\@ $w_0$.
 
 We now proceed in three steps: In the first two, we show
-$\phi_0^{w_1} \in S(\{x\}, \{y\})$ and $\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+$\phi_0^{w_1} \in \s(\{x\}, \{y\})$ and $\phi_0^{w_2} \in \s(\{x\}, \{y\})$.
 Finally we conclude that $\phi(f)$ is equal to $\phi_0^{w_0}(f)$ and that
-$\phi_0^{w_0}$ is an element of $S(\{x\}, \{y\})$ which proves the claim.
+$\phi_0^{w_0}$ is an element of $\s(\{x\}, \{y\})$ which proves the claim.
 
 The transformation $\phi_0^{w_1}$ is generically of the form
 \begin{align*}
@@ -707,11 +705,11 @@ notations we have
 on the one hand and
 \begin{align*}
 \phi(f)
-&= \NF(T_1(v)) \\
-&= x^3 \pm x^2 y^2 + vy^{6+k}
+= \NF(T_1(v))
+= x^3 \pm x^2 y^2 + vy^{6+k}
 \end{align*}
 on the other hand. This implies (in this order) $\beta_1 = 0$, $\alpha \neq 0$,
-$\beta_2 = 0$ and hence $\phi_0^{w_1} \in S(\{x\}, \{y\})$.
+$\beta_2 = 0$ and hence $\phi_0^{w_1} \in \s(\{x\}, \{y\})$.
 
 The second step is a proof by contradiction. Let $m$ be the largest integer
 which is not greater than $\frac{k}{2}+2$. Then similar as above, the
@@ -728,14 +726,15 @@ this property. Then the coefficient of $xy^{s+2}$ in
 $\phi(f) = \phi_0^{w_2}(f) + (\phi-\phi_0^{w_2})(f)$ is
 $\pm 2\alpha\beta_s\gamma^2$ which implies $\beta_s = 0$ in contradiction to
 the assumption. Hence $\beta_3 = \ldots = \beta_m = 0$ and
-$\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+$\phi_0^{w_2} \in \s(\{x\}, \{y\})$.
 
 For the last step, we consider the following equations:
 \begin{align*}
 \phi(f) &= \phi_0^{w_1}(f)
 +\myunderbrace{(\phi-\phi_0^{w_1})(f)}{=}{: R_1 \in E_{>d}^{w_1}} \\[.5ex]
 \phi(f) &= \phi_0^{w_2}(f)
-+\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}} \\[.5ex]
++\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}}
+\displaybreak[0] \\[.5ex]
 \phi(f) &= \phi_0^{w_0}(f)
 +\myunderbrace{(\phi-\phi_0^{w_0})(f)}{=}{: R_0}
 \end{align*}
@@ -748,7 +747,7 @@ appears in $\phi_0^{w_1}(x)$ or $\phi_0^{w_2}(x)$ (or both), analogously for
 $\phi_0^{w_0}(y)$. Therefore we have $\phi_0^{w_0}(x) = \alpha x$ and
 $\phi_0^{w_0}(y) = \gamma y$, hence
 $\phi_0^{w_0} = \phi_0^{w_1} = \phi_0^{w_2}$ and
-$\phi_0^{w_0} \in S(\{x\}, \{y\})$. This implies
+$\phi_0^{w_0} \in \s(\{x\}, \{y\})$. This implies
 \[
 R_0 = R_1 = R_2 \in E_{>d}^{w_1} \cap E_{>d}^{w_2} = E_{>d}^{w_0} \,.
 \]
@@ -773,7 +772,7 @@ we have
 with $R \in E_{>d+\delta}^w$. As above, $\phi(f) = \NF(T_2(v))$ implies
 $R = 0$. If we show
 \begin{align}
-\phi_\delta^w \in S\left(\{x\}, \{y\}\right) \,, \tag{$\ast$}
+\phi_\delta^w \in \s\left(\{x\}, \{y\}\right) \,, \tag{$\ast$}
 \end{align}
 then it follows that $\phi_\delta^w$ is equal to $\phi_0^w$ and therefore
 \begin{align*}
@@ -847,7 +846,7 @@ Section~\ref{ssec:Yr}.
 \subsection{How to Compute $\boldsymbol{P_1(T_1, T_2)}$}%
 \label{ssec:computing_P1}
 
-Let $S = S(M_x, M_y) \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
+Let $S = \s(M_x, M_y) \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
 $\C[[x,y]]$-automorphisms for $(\NF(T_1(a)), \NF(T_2(a)))$ given in
 Theorem~\ref{thm:sufficient_sets}. Let $t_1, \ldots, t_r$ be coefficients for
 the monomials in $M_x$ and $M_y$ and let $\phi$ be a generic element of $S$
@@ -1284,8 +1283,8 @@ $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 \hline\hline
 
 $X_9^{++}$ & $X_9^{++}$ &
-\multirow{6}{*}{$\Gamma_{\C'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
-\multirow{6}{*}{$\Gamma_{\R'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
+\multirow{4}{*}{$\Gamma_{\C'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
+\multirow{4}{*}{$\Gamma_{\R'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
 \begin{tabular}[x]{@{}l@{}}
     $\phantom{\cup}\; \Gamma_{\R'}\bigl(f_1^{1,1}\bigr)$ \\
     $\cup\; \Gamma_{\R^{>-2}}\bigl(f_5^{1,1}\bigr)$
@@ -1353,6 +1352,7 @@ The structure of the equivalence classes of the $J_{10}$ singularities is as
 shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
 follows:
+{\setlength{\jot}{5pt}   % manually adjusted
 \begin{align*}
 f_1^{\rho, \sigma}(a) &:= +\sqrt{\rho \sigma} \cdot a \,, \\
 f_2^{\rho, \sigma}(a) &:= -\sqrt{\rho \sigma} \cdot a \,, \displaybreak[0] \\
@@ -1369,7 +1369,7 @@ f_5^{\rho, \sigma}(a)
 f_6^{\rho, \sigma}(a)
 &:= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,.
-\end{align*}
+\end{align*}}
 
 In each case, $\rho$ and $\sigma$ are given by
 \begin{align*}
@@ -1868,7 +1868,7 @@ of the equivalence classes of the hyperbolic and exceptional unimodal
 singularities. (To be precise, for $Y_{r,s}$ with $r = s$ we also have to take
 into account transformations of the form $\phi(x) = \beta y$,
 $\phi(y) = \alpha x$ where the variables are swapped, cf.\@
-Remark~\ref{rem:sufficient_sets_Yrs}.)
+Table~\ref{tab:sufficient_sets}.)
 \item
 For the two parabolic types $X_9$ and $J_{10}$, scalings are not sufficient.
 Instead, we have to consider more complicated transformations which involve
