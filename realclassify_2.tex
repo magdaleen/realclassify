@@ -110,10 +110,10 @@ hypersurface singularities, algorithmic classification, real geometry%
 \begin{document}
 
 \begin{abstract}
-In \citet{AVG1985} singularities is classified using normal forms. Using this classification equivalence classes of singularities are not always uniquely determined. We present the complete structure of the
+In \citet{AVG1985} singularities are classified using normal forms. Using this classification normal form polynomials\footnote{\ref{normalform}} (see Introduction) as representatives of equivalence classes are not always uniquely determined. We present the complete structure of the
 equivalence classes of the unimodal real singularities of corank~$2$, i.e.\@ we
-explicitly answer the question when the images of two parameters under two normal forms are equivalent and
-how the value of the parameter can be transformed within the same equivalence
+explicitly answer the question when two normal form polynomials of different type are equivalent and
+how the value of the parameter in a normal form can be transformed within the same equivalence
 class. This provides new theoretical insights into these singularities and has
 important consequences for their algorithmic classification.
 \end{abstract}
@@ -145,7 +145,7 @@ Just as for the simple singularities \citep[cf.][]{MS2013}, it turns out that
 the complex singularity types split up into one or several real subtypes and
 that the normal forms of the real subtypes belonging to the same complex type
 differ from each other only in the signs of some terms. We therefore sometimes
-refer to the comlex singularity types as ``main types''. The hyperbolic type
+refer to the complex singularity types as ``main types''. The hyperbolic type
 $\tY_r$ is an exception because it is complex equivalent to $Y_{r,s}$ with
 $r = s$ and only occurs as a type on its own in the real classification.
 
@@ -232,9 +232,9 @@ $r = s$ and only occurs as a type on its own in the real classification.
 \end{tabular}
 \end{table}
 
-Recall \citep[cf.][]{AVG1985} that a normal form is a smooth map of a finite dimensional linear space of parameters $\bf B$ into the space of polynomials such that, among other conditions, the inverse image in $\bf B$ of each orbit is finite. This is indeed the case for the normal forms in Table~\ref{tab:normal_forms}, as is clear from the results in this paper. The question is in which cases do the inverse image of an orbit have more than one element, i.e. when are two polynomials for two different values of the parameter in the image of a normal form equivalent. Similarly the question can be ask when the images of two parameters under two normal forms, respectively, are equivalent. Such equivalences occur only if the two normal forms are of the same main type. However, there are no equivalences between different main types. To give
-an example, $x^4-4x^2y^2+y^4$, the normal form of $X_9^{++}$ putting $a = -4$, is
-equivalent to $-x^4+10x^2y^2-y^4$, the normal form of $X_9^{--}$ putting $a = 10$,
+Recall \citep[cf.][]{AVG1985} that a normal form, regarding the classification of singularities, is a smooth map of a finite dimensional linear space of parameters $\bf B$ into the space of polynomials such that the image of $\bf B$ intersects all the orbits of the $\mu$-constant stratum $\bf K$ under consideration; the inverse image in $\bf B$ of each orbit is finite; and the inverse image of the whole complement to $\bf K$ is contained in some proper hypersurface in $\bf B$. It hence follows that for each equivalence class covering $\bf K$ there is at least one and are at most finitely many representatives in the image of $\bf B$, as is confirmed for the normal forms in Table~\ref{tab:normal_forms} by the results in this paper. Throughout this paper, for the sake of simplicity, we call the polynomials in the image of $\bf B$ under the normal form of type $T$ the normal form polynomials\footnote{In some literature normal form polynomials are also refered to as normal forms.}\label{normalform} of type $T$. The question is in which cases do the inverse image of an orbit have more than one element, i.e.~when are two normal form polynomials of the same type equivalent. Similarly the question can be ask when two polynomial normal forms of different types are equivalent. Such equivalences occur only if the two normal form polynomials are of the same main type. However, there are no equivalences between different main types. To give
+an example, the normal form polynomial $x^4-4x^2y^2+y^4$ of type $X_9^{++}$, i.e.~the image of $-4$ under the normal form of type $X_9^{++}$, is
+equivalent to the normal form polynomial $-x^4+10x^2y^2-y^4$ of type $X_9^{--}$
 via the coordinate transformation $x \mapsto c(x+y)$, $y \mapsto c(x-y)$ with
 $c = \frac{1}{\sqrt[4]{2}}$. Examples like this one have consequences for the
 algorithmic classification of real singularities. The question if the
@@ -252,8 +252,8 @@ a given unimodal real singularity of corank $2$ in a subsequent part of this
 series of articles. If $T_1$ and $T_2$ are subtypes of the same singularity
 main type $T$ and if $g_1(a)$ and $g_2(a)$ are the normal forms of $T_1$ and
 $T_2$, respectively, where $a$ denotes the parameter, then we are
-interested in the set of all pairs of values $(u, v)$ such that $g_1(u)$ is equivalent to
-$g_2(v)$. This question can be asked in three different ways: If we consider
+interested in the set of all pairs of values $(u, v)$ such that the normal form polynomials $g_1(u)$ and
+$g_2(v)$ are equivalent. This question can be asked in three different ways: If we consider
 complex values of $u$ and $v$ and complex coordinate transformations, we denote
 the corresponding set by $P_1(T_1, T_2)$, for real values of $u$ and $v$, but
 still complex transformations by $P_2(T_1, T_2)$, and finally by
@@ -287,10 +287,9 @@ the real subtype $J_{10}^-$ is actually redundant whereas $J_{10}^+$ is not.
 $\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}%
 \label{sec:Psets}
 
-For the unimodal singularities, we add the value of the parameter which occurs
+For the unimodal singularities, we add the value that we assign to the parameter which occurs
 in the normal form as given in Table~\ref{tab:normal_forms} in parentheses to
-the name of the singularity (sub-)type if we want to refer specifically to the
-corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
+the name of the singularity (sub-)type if we want to refer to the specifically to the corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
 (complex or real) right-equivalence class of $x^3+y^8+3xy^6$.
 
 For any specific equivalence class $T$, we denote by $\NF(T)$ its normal form
