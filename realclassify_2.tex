@@ -293,19 +293,48 @@ the real subtype $J_{10}^-$ is actually redundant whereas $J_{10}^+$ is not.
 $\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}%
 \label{sec:Psets}
 
-For the unimodal singularities, we add the value of the parameter which occurs
-in the normal form as given in Table~\ref{tab:normal_forms} in parentheses to
-the name of the singularity (sub-)type if we want to refer specifically to the
-corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
-(complex or real) right-equivalence class of $x^3+y^8+3xy^6$.
+Let us start with some basic definitions. Throughout the rest of this article,
+let $\K$ be, in each case, either $\R$ or $\C$.
 
-For any specific singularity type $T$, we denote by $\NF(T)$ its normal form as
-shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
-$\NF\left(E_{14}(a)\right) = \NF\left(E_{14}^+(a)\right)$ for the polynomial
-$x^3+y^8+axy^6$ and $\NF\left(E_{14}^-(a)\right)$ for $x^3-y^8+axy^6$.
+\begin{defn}
+Two power series $f, g \in \K[[x_1,\ldots,x_n]]$ are called $\K$-equivalent,
+denoted by $f \ksim g$, if there exists a $\K$-algebra automorphism
+$\phi$ of $\K[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
+\end{defn}
 
-Throughout the rest of this article, let $\K$ be, in each case, either $\R$ or
-$\C$.
+Note that $\ksim$ is an equivalence relation on $ \K[[x_1,\ldots,x_n]]$.
+\citet{AVG1985} give the following formal definition for normal forms w.r.t.\@
+the relation $\ksim$:
+
+\begin{defn}
+Let $K \subset \K[[x_1,\ldots,x_n]]$ be a union of equivalence classes w.r.t.\@
+the relation $\ksim$. A \emph{normal form} for $K$ is given by a smooth map
+\[
+\Phi: B \longrightarrow \K[x_1,\ldots,x_n] \subset \K[[x_1,\ldots,x_n]]
+\]
+of a finite-dimensional $\K$-linear \emph{space of parameters} $B$ into the
+space of polynomials for which the following three conditions hold:
+
+\begin{enumerate}
+\item $\Phi(B)$ intersects all the equivalence classes of K;
+
+\item the inverse image in $B$ of each equivalence class is finite;
+
+\item the inverse image of the whole complement to $K$ is contained in some
+proper hypersurface in $B$.
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+Note that the term \emph{normal form} is subtly ambiguous. According to the
+above definition, a normal form is a smooth map where the inverse image of each
+equivalence class may contain more than one element, whereas the common meaning
+of this term rather refers to the polynomials which are the images under this
+map and whose inverse images are assumed to be unique. We could be more precise
+and avoid this ambiguity by introducing a new term for either of the two
+meanings. However, we stay with the common usage of the term \emph{normal form}
+in order to prevent confusion.
+\end{remark}
 
 \begin{defn}
 Let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a subset of the set of
@@ -324,9 +353,6 @@ $\T_{\K}(f,g)$ for $\T_{\K}^S(f,g)$, i.e.\@
 \T_{\K}(f,g)
 := \{\phi \in \Aut_{\K}(\K[[x_1, \ldots, x_n]]) \mid \phi(f) = g \} \,.
 \]
-
-\item $f$ and $g$ are called $\K$-equivalent, denoted by
-$f \ksim g$, if $\T_{\K}(f,g) \neq \varnothing$.
 \end{enumerate}
 \end{defn}
 
@@ -350,12 +376,19 @@ series
 $f(u) := \sum_{\nu \in \N^n} c_\nu(u) \boldsymbol{x}^\nu
 \in \K[[x_1,\ldots,x_n]]$ for each value
 $u \in \K \setminus \bigcup_{\nu \in \N^n} V(q_\nu)$.
-
-We will use the notation $f(u)$ throughout this paper. Note that it is
-compatible with the notations for equivalence classes and normal forms of
-unimodal singularities introduced above in the sense that, e.g.,
-$\NF(E_{14}(a))(b) = \NF(E_{14}(b))$ for $b \in \K$.
 \end{remark}
+
+We use the notation $f(u)$ throughout this paper. Likewise, we add the
+value of the parameter which occurs in the normal form as given in
+Table~\ref{tab:normal_forms} in parentheses to the name of the singularity
+(sub-)type if we want to refer specifically to the corresponding equivalence
+class. For instance, we denote by $E_{14}(3)$ the (complex or real)
+right-equivalence class of $x^3+y^8+3xy^6$.
+
+For any specific singularity type $T$, we denote by $\NF(T)$ its normal form as
+shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
+$\NF\left(E_{14}(a)\right) = \NF\left(E_{14}^+(a)\right)$ for the polynomial
+$x^3+y^8+axy^6$ and $\NF\left(E_{14}^-(5)\right)$ for $x^3-y^8+5xy^6$.
 
 We can now state the main definition of this section.
 
@@ -833,9 +866,9 @@ rather straighforward in some cases whereas it requires careful considerations
 in other cases.
 
 However, writing down every detail of the computations for each case is beyond
-the scope of this section. Instead, we will present the general framework and
-give explicit \Singular{} commands for $T_1 = T_2 = X_9^{++}$ which is one of
-the more complicated cases (cf. Theorem~\ref{thm:X9}).
+the scope of this section. Instead, we present the general framework and give
+explicit \Singular{} commands for $T_1 = T_2 = X_9^{++}$ which is one of the
+more complicated cases (cf. Theorem~\ref{thm:X9}).
 
 The singularity type $\tY_r$ does not appear in Table~\ref{tab:sufficient_sets}
 and thus needs special care. The structure of the equivalence classes of this
