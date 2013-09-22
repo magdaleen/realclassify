@@ -12,6 +12,7 @@
 \usepackage{calc}
 \usepackage[T1]{fontenc}   % for bold \Singular
 \usepackage{tikz}
+\usepackage{todonotes}
 \usetikzlibrary{matrix}
 
 \newtheorem{theorem}{Theorem}
@@ -32,7 +33,6 @@
 \makebox[\minof{0pt}{\widthof{$#1$}/2-\widthof{$#2$}/2-\widthof{$#3$}}]{}%
 \underbrace{#1}_{\displaystyle\phantom{#3}#2 #3}}
 
-\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\cup}}
 \newcommand{\Singular}{\textsc{Singular}}
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\tY}{\widetilde{Y}}
@@ -51,6 +51,7 @@
 \DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\NF}{NF}
+\DeclareMathOperator{\s}{S}
 \DeclareMathOperator{\T}{T}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\id}{id}
@@ -101,7 +102,8 @@ Germany}
 
 \thanks{This research project was supported by the African Institute for
 Mathematical Sciences, the German National Academic Foundation, and grants
-awarded by Gert-Martin Greuel and Wolfram Decker. We are thankful to all of them.}
+awarded by Wolfram Decker and Gert-Martin Greuel. We are thankful to all of
+them.}
 
 \keywords{%
 hypersurface singularities, algorithmic classification, real geometry%
@@ -110,11 +112,9 @@ hypersurface singularities, algorithmic classification, real geometry%
 \begin{document}
 
 \begin{abstract}
-In \citet{AVG1985} singularities are classified using normal forms. Using this classification normal form polynomials\footnote{\ref{normalform}} (see Introduction) as representatives of equivalence classes are not always uniquely determined. We present the complete structure of the
-equivalence classes of the unimodal real singularities of corank~$2$, i.e.\@ we
-explicitly answer the question when two normal form polynomials of different type are equivalent and
-how the value of the parameter in a normal form can be transformed within the same equivalence
-class. This provides new theoretical insights into these singularities and has
+In the classification of real singularities by \citet{AVG1985} normal forms, as representatives of equivalence classes under right equivalence,
+are not always uniquely determined. We describe the complete structure of the
+equivalence classes of the unimodal real singularities of corank~$2$. That is, we explicitly answer the question when equivalences between normal forms of different type occur, and how a normal form can be transformed within the same equivalence class, by only changing the value of the parameter. This provides new theoretical insights into these singularities and has
 important consequences for their algorithmic classification.
 \end{abstract}
 
@@ -232,9 +232,13 @@ $r = s$ and only occurs as a type on its own in the real classification.
 \end{tabular}
 \end{table}
 
-Recall \citep[cf.][]{AVG1985} that a normal form, regarding the classification of singularities, is a smooth map of a finite dimensional linear space of parameters $\bf B$ into the space of polynomials such that the image of $\bf B$ intersects all the orbits of the $\mu$-constant stratum $\bf K$ under consideration; the inverse image in $\bf B$ of each orbit is finite; and the inverse image of the whole complement to $\bf K$ is contained in some proper hypersurface in $\bf B$. It hence follows that for each equivalence class covering $\bf K$ there is at least one and are at most finitely many representatives in the image of $\bf B$, as is confirmed for the normal forms in Table~\ref{tab:normal_forms} by the results in this paper. Throughout this paper, for the sake of simplicity, we call the polynomials in the image of $\bf B$ under the normal form of type $T$ the normal form polynomials\footnote{In some literature normal form polynomials are also refered to as normal forms.}\label{normalform} of type $T$. The question is in which cases do the inverse image of an orbit have more than one element, i.e.~when are two normal form polynomials of the same type equivalent. Similarly the question can be ask when two polynomial normal forms of different types are equivalent. Such equivalences occur only if the two normal form polynomials are of the same main type. However, there are no equivalences between different main types. To give
-an example, the normal form polynomial $x^4-4x^2y^2+y^4$ of type $X_9^{++}$, i.e.~the image of $-4$ under the normal form of type $X_9^{++}$, is
-equivalent to the normal form polynomial $-x^4+10x^2y^2-y^4$ of type $X_9^{--}$
+The normal forms in Table~\ref{tab:normal_forms} cover the
+equivalence classes of the unimodal singularities of corank $2$, but some of
+them are equivalent to others. Such equivalences occur both between different
+real subtypes and between normal forms with different values of the parameter
+$a$. However, there are no equivalences between different main types. To give
+an example, $x^4-4x^2y^2+y^4$, the normal form of $X_9^{++}$ with $a = -4$, is
+equivalent to $-x^4+10x^2y^2-y^4$, the normal form of $X_9^{--}$ with $a = 10$,
 via the coordinate transformation $x \mapsto c(x+y)$, $y \mapsto c(x-y)$ with
 $c = \frac{1}{\sqrt[4]{2}}$. Examples like this one have consequences for the
 algorithmic classification of real singularities. The question if the
@@ -251,9 +255,9 @@ these results, we will present algorithms to determine the equivalence class of
 a given unimodal real singularity of corank $2$ in a subsequent part of this
 series of articles. If $T_1$ and $T_2$ are subtypes of the same singularity
 main type $T$ and if $g_1(a)$ and $g_2(a)$ are the normal forms of $T_1$ and
-$T_2$, respectively, where $a$ denotes the parameter, then we are
-interested in the set of all pairs of values $(u, v)$ such that the normal form polynomials $g_1(u)$ and
-$g_2(v)$ are equivalent. This question can be asked in three different ways: If we consider
+$T_2$, respectively, where $a$ denotes the value of the parameter, then we are
+interested in the set of all pairs $(u, v)$ such that $g_1(u)$ is equivalent to
+$g_2(v)$. This question can be asked in three different ways: If we consider
 complex values of $u$ and $v$ and complex coordinate transformations, we denote
 the corresponding set by $P_1(T_1, T_2)$, for real values of $u$ and $v$, but
 still complex transformations by $P_2(T_1, T_2)$, and finally by
@@ -287,18 +291,48 @@ the real subtype $J_{10}^-$ is actually redundant whereas $J_{10}^+$ is not.
 $\boldsymbol{P_1}$, $\boldsymbol{P_2}$, and $\boldsymbol{P_3}$}%
 \label{sec:Psets}
 
-For the unimodal singularities, we add the value that we assign to the parameter which occurs
-in the normal form as given in Table~\ref{tab:normal_forms} in parentheses to
-the name of the singularity (sub-)type if we want to refer to the specifically to the corresponding equivalence class. For instance, we denote by $E_{14}(3)$ the
-(complex or real) right-equivalence class of $x^3+y^8+3xy^6$.
+Let us start with some basic definitions. Throughout the rest of this article,
+let $\K$ be, in each case, either $\R$ or $\C$.
 
-For any specific equivalence class $T$, we denote by $\NF(T)$ its normal form
-as shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
-$\NF\left(E_{14}(a)\right) = \NF\left(E_{14}^+(a)\right)$ for the polynomial
-$x^3+y^8+axy^6$ and $\NF\left(E_{14}^-(a)\right)$ for $x^3-y^8+axy^6$.
+\begin{defn}
+Two power series $f, g \in \K[[x_1,\ldots,x_n]]$ are called $\K$-equivalent,
+denoted by $f \ksim g$, if there exists a $\K$-algebra automorphism
+$\phi$ of $\K[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
+\end{defn}
 
-Throughout the rest of this article, let $\K$ be, in each case, either $\R$ or
-$\C$.
+Note that $\ksim$ is an equivalence relation on $ \K[[x_1,\ldots,x_n]]$.
+\citet{AVG1985} give the following formal definition for normal forms w.r.t.\@
+the relation $\ksim$:
+
+\begin{defn}
+Let $K \subset \K[[x_1,\ldots,x_n]]$ be a union of equivalence classes w.r.t.\@
+the relation $\ksim$. A \emph{normal form} for $K$ is given by a smooth map
+\[
+\Phi: B \longrightarrow \K[x_1,\ldots,x_n] \subset \K[[x_1,\ldots,x_n]]
+\]
+of a finite-dimensional $\K$-linear \emph{space of parameters} $B$ into the
+space of polynomials for which the following three conditions hold:
+
+\begin{enumerate}
+\item $\Phi(B)$ intersects all the equivalence classes of K;
+
+\item the inverse image in $B$ of each equivalence class is finite;
+
+\item the inverse image of the whole complement to $K$ is contained in some
+proper hypersurface in $B$.
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+Note that the term \emph{normal form} is subtly ambiguous. According to the
+above definition, a normal form is a smooth map where the inverse image of each
+equivalence class may contain more than one element, whereas the common meaning
+of this term rather refers to the polynomials which are the images under this
+map. We could be more precise
+and avoid this ambiguity by introducing a new term for either of the two
+meanings. However, we stay with the common usage of the term \emph{normal form}
+in order to prevent confusion.
+\end{remark}
 
 \begin{defn}
 Let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a subset of the set of
@@ -317,9 +351,6 @@ $\T_{\K}(f,g)$ for $\T_{\K}^S(f,g)$, i.e.\@
 \T_{\K}(f,g)
 := \{\phi \in \Aut_{\K}(\K[[x_1, \ldots, x_n]]) \mid \phi(f) = g \} \,.
 \]
-
-\item $f$ and $g$ are called $\K$-equivalent, denoted by
-$f \ksim g$, if $\T_{\K}(f,g) \neq \varnothing$.
 \end{enumerate}
 \end{defn}
 
@@ -343,12 +374,19 @@ series
 $f(u) := \sum_{\nu \in \N^n} c_\nu(u) \boldsymbol{x}^\nu
 \in \K[[x_1,\ldots,x_n]]$ for each value
 $u \in \K \setminus \bigcup_{\nu \in \N^n} V(q_\nu)$.
-
-We will use the notation $f(u)$ throughout this paper. Note that it is
-compatible with the notations for equivalence classes and normal forms of
-unimodal singularities introduced above in the sense that, e.g.,
-$\NF(E_{14}(a))(b) = \NF(E_{14}(b))$, $b\in\K$.
 \end{remark}
+
+We use the notation $f(u)$ throughout this paper. Likewise, we add the
+value of the parameter which occurs in the normal form as given in
+Table~\ref{tab:normal_forms} in parentheses to the name of the singularity
+(sub-)type if we want to refer specifically to the corresponding equivalence
+class. For instance, we denote by $E_{14}(3)$ the (complex or real)
+right-equivalence class of $x^3+y^8+3xy^6$.
+
+For any specific singularity type $T$, we denote by $\NF(T)$ its normal form as
+shown in Table~\ref{tab:normal_forms}, i.e.\@ we write
+$\NF\left(E_{14}(a)\right) = \NF\left(E_{14}^+(a)\right)$ for the polynomial
+$x^3+y^8+axy^6$ and $\NF\left(E_{14}^-(5)\right)$ for $x^3-y^8+5xy^6$.
 
 We can now state the main definition of this section.
 
@@ -420,11 +458,16 @@ $P_1$, $P_2$ and $P_3$ are just unions of sets of the form $(a, ra)_{a \in \K}$
 for some $r \in \K$. For those cases we use the following notations.
 
 \begin{defn}\label{def:C_R}
-For any polynomial $p(X) \in \C[X]$, we define the sets $C(p(X))$ and $R(p(X))$
-as
+For any polynomial $p(X) \in \C[X]$, we define the sets $C_0(p(X))$ and
+$R_0(p(X))$ as
 \begin{align*}
-C(p(X)) &:= \{ (a, ra) \in \C^2 \mid a, r \in \C, \; p(r) = 0 \} \,, \\
-R(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
+C_0(p(X)) &:= \{ (a, ra) \in \C^2 \mid a, r \in \C, \; p(r) = 0 \} \,, \\
+R_0(p(X)) &:= \{ (a, ra) \in \R^2 \mid a, r \in \R, \; p(r) = 0 \} \,.
+\end{align*}
+Additionally, we define $C(p(X))$ and $R(p(X))$ as
+\begin{align*}
+C(p(X)) &:= C_0(p(X)) \setminus \{(0, 0)\} \,, \\
+R(p(X)) &:= R_0(p(X)) \setminus \{(0, 0)\} \,.
 \end{align*}
 \end{defn}
 
@@ -556,7 +599,7 @@ subset of $\Aut_{\C}(\C[[x_1,\ldots,x_n]])$. We call $S$ a sufficient set of
 coordinate transformations for the pair $(f, g)$ if
 \[
 \forall u,v \in \C: \quad
-\left(T_{\C}(f(u),g(v)) \neq \varnothing
+\left(\T_{\C}(f(u),g(v)) \neq \varnothing
 \;\Leftrightarrow\; \T_{\C}^S(f(u),g(v)) \neq \varnothing\right) \,.
 \]
 \end{defn}
@@ -565,22 +608,21 @@ The sufficient sets which we consider here can be described using the
 following notation.
 
 \begin{defn}
-Let $M_x^i$ and $M_y^j$, $i,j=1,2$, be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x^i$ and
-$\C\! M_y^i$ be the $\C$-vector spaces spanned by these sets, i.e.\@
-$\C\! M_x^i := \bigoplus_{m \in M_x^i} \C m$ and analogously for $\C\! M_y^j$. We
-define the set of coordinate transformations spanned by $M_x=M_x^1\cupdot M_x^2$ and $M_y=M_y^1\cupdot M_y^2$ as
+Let $M_x$ and $M_y$ be sets of monomials in $\C[[x,y]]$ and let $\C\! M_x$ and
+$\C\! M_y$ be the $\C$-vector spaces spanned by these sets, i.e.\@
+$\C\! M_x := \bigoplus_{m \in M_x} \C m$ and analogously for $\C\! M_y$. We
+define the set of coordinate transformations spanned by $M_x$ and $M_y$ as
 \[
-S(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
-\phi(x) \in \C\! M^i_x,\; \phi(y) \in \C\! M^j_y, \; i,j\in\{1,2\}\} \,.
+\s(M_x, M_y) := \{ \phi \in \Aut_{\C}(\C[[x,y]]) \mid
+\phi(x) \in \C\! M_x,\; \phi(y) \in \C\! M_y \} \,.
 \]
-If $M_x^2=\varnothing$ we only write $M_x=M_x^1$. Similarly we only write $M_y=M_y^1$ if $M_y^2=\varnothing$.
 \end{defn}
 
 \begin{theorem}\label{thm:sufficient_sets}
 Let $T$ be one of the main singularity types listed in
-Table~\ref{tab:sufficient_sets}, let $M_x$ and $M_y$ be the corresponding sets
-of monomials, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S(M_x, M_y)$
-is a sufficient set of coordinate transformations for
+Table~\ref{tab:sufficient_sets}, let $S$ be the corresponding set of
+automorphisms, and let $T_1$ and $T_2$ be subtypes of $T$. Then $S$ is a
+sufficient set of coordinate transformations for
 $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 
 \begin{table}[htb]
@@ -590,38 +632,39 @@ $\bigl(\NF(T_1(a)), \NF(T_2(a)\bigr)$.
 \begin{tabular}{|c|c|c|c|}
 \hline
 
-& $T$ & $M_x$ & $M_y$ \\
+& \multicolumn{2}{|c|}{$T$} & $S$ \\
 \hline\hline
 
 
 \multirow{2}{*}{\begin{sideways}P.\end{sideways}}
 
-& $X_9$    & $\{x, y\}$   & $\{x, y\}$ \\ \cline{2-4}
-& $J_{10}$ & $\{x, y^2\}$ & $\{y\}$    \\ \hline
+& \multicolumn{2}{|c|}{$X_9$}    & $\s(\{x, y\}, \{x, y\})$ \\ \cline{2-4}
+& \multicolumn{2}{|c|}{$J_{10}$} & $\s(\{x, y^2\}, \{y\})$  \\ \hline
 
 
-\multirow{3}{*}{\begin{sideways}Hyperb.\end{sideways}}
+\multirow{4}{*}{\begin{sideways}Hyperbolic\end{sideways}}
 
-& $J_{10+k}$ & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
-& $X_{9+k}$  & $\{x\}$    & $\{y\}$    \\ \cline{2-4}
-& $Y_{r,s}$, $r\neq s$  & $\{x\}$ & $\{ y\}$ \\  \cline{2-4}
-& $Y_{r,s}$, $r= s$  & $\{x\}\cupdot\{y\}$ & $\{x\}\cupdot\{ y\}$ \\ \hline
+& \multicolumn{2}{|c|}{$J_{10+k}$} & $\s(\{x\}, \{y\})$ \\ \cline{2-4}
+& \multicolumn{2}{|c|}{$X_{9+k}$}  & $\s(\{x\}, \{y\})$ \\ \cline{2-4}
+
+& \multirow{2}{*}{$Y_{r,s}$}
+    & $r \neq s$ & $\s(\{x\}, \{y\})$                       \\ \cline{3-4}
+&   & $r = s$    & $\s(\{x\}, \{y\}) \cup \s(\{y\}, \{x\})$ \\ \hline
+
 
 \multirow{3}{*}{\begin{sideways}Except.\end{sideways}}
 
-& $E_{12}, E_{13}, E_{14}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
-& $Z_{11}, Z_{12}, Z_{13}$ & $\{x\}$ & $\{y\}$ \\ \cline{2-4}
-& $W_{12}, W_{13}$         & $\{x\}$ & $\{y\}$ \\ \hline
+& \multicolumn{2}{|c|}{$E_{12}, E_{13}, E_{14}$} & $\s(\{x\}, \{y\})$
+\\ \cline{2-4}
+& \multicolumn{2}{|c|}{$Z_{11}, Z_{12}, Z_{13}$} & $\s(\{x\}, \{y\})$
+\\ \cline{2-4}
+& \multicolumn{2}{|c|}{$W_{12}, W_{13}$}         & $\s(\{x\}, \{y\})$
+\\ \hline
 
 \end{tabular}
 \end{table}
 
 \end{theorem}
-
-\begin{remark}\label{rem:sufficient_sets_Yrs}
-Note that in the case for $T=Y_{r,s}$, $r=s$, the variables $x$ and $y$ can be interchanged without changing
-the singularity type. This makes this case unique to the other hyperbolic cases, in the sense that this is the only case in which $M_x^2\neq\varnothing$ and $M_y^2\neq\varnothing$.
-\end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sufficient_sets}]
 We give different proofs for the parabolic, the hyperbolic, and the exceptional
@@ -646,8 +689,8 @@ with $R \in E_{>4}^w$. This implies $\phi(f) = \phi_0^w(f)$ because
 $\phi(f) = \NF(T_2(v))$ is homogeneous of degree $4$ w.r.t.\@ the weight $w$.
 So any possible value of $v$ which can be reached via some
 $\phi \in \Aut_{\C}(\C[[x,y]])$ can also be obtained by
-$\phi_0^w \in S\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
-$S\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
+$\phi_0^w \in \s\left(\{x,y\}, \{x,y\}\right)$, i.e.\@,
+$\s\left(\{x,y\}, \{x,y\}\right)$ is a sufficient set of coordinate
 transformations for the pair $\left(\NF(T_1(a)), \NF(T_2(a))\right)$.
 
 Let us now consider the case $T = J_{10}$.
@@ -659,13 +702,13 @@ $\phi_0^w(y) = \delta y$ with
 $\alpha, \beta, \gamma, \delta \in \C$. Comparing the coefficients of
 $\phi(f) = \NF(T_2(v))$ and
 $\phi_0^w(f) = \beta^3 y^3 + (\text{other terms})$ yields
-$\beta = 0$ and therefore $\phi_0^w \in S(\{x, y^2\}, \{y\})$
+$\beta = 0$ and therefore $\phi_0^w \in \s(\{x, y^2\}, \{y\})$
 as expected.
 
 \item[Hyperbolic cases]
 We present a proof for the main type $T = J_{10+k}$, the proofs for $X_{9+k}$
-and $Y_{r,s}$ are similar. For $Y_{r,s}$ we have to take
-Remark~\ref{rem:sufficient_sets_Yrs} into account.
+and $Y_{r,s}$ are similar. For $Y_{r,s}$ with $r = s$, we have to take the
+special shape of $S$ into account, cf.\@ Table~\ref{tab:sufficient_sets}.
 
 It does not matter for the arguments below whether we assume $T_1 = J_{10+k}^+$
 or $T_1 = J_{10+k}^-$, the same holds for $T_2$. We write $\pm$ whenever the
@@ -678,9 +721,9 @@ $w_1 := (12+2k, 6+k)$ and $w_2 := (12+3k, 6)$. Then $f$ is piecewise
 quasihomogeneous of degree $d := 36+6k$ w.r.t.\@ $w_0$.
 
 We now proceed in three steps: In the first two, we show
-$\phi_0^{w_1} \in S(\{x\}, \{y\})$ and $\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+$\phi_0^{w_1} \in \s(\{x\}, \{y\})$ and $\phi_0^{w_2} \in \s(\{x\}, \{y\})$.
 Finally we conclude that $\phi(f)$ is equal to $\phi_0^{w_0}(f)$ and that
-$\phi_0^{w_0}$ is an element of $S(\{x\}, \{y\})$ which proves the claim.
+$\phi_0^{w_0}$ is an element of $\s(\{x\}, \{y\})$ which proves the claim.
 
 The transformation $\phi_0^{w_1}$ is generically of the form
 \begin{align*}
@@ -698,11 +741,11 @@ notations we have
 on the one hand and
 \begin{align*}
 \phi(f)
-&= \NF(T_1(v)) \\
-&= x^3 \pm x^2 y^2 + vy^{6+k}
+= \NF(T_1(v))
+= x^3 \pm x^2 y^2 + vy^{6+k}
 \end{align*}
 on the other hand. This implies (in this order) $\beta_1 = 0$, $\alpha \neq 0$,
-$\beta_2 = 0$ and hence $\phi_0^{w_1} \in S(\{x\}, \{y\})$.
+$\beta_2 = 0$ and hence $\phi_0^{w_1} \in \s(\{x\}, \{y\})$.
 
 The second step is a proof by contradiction. Let $m$ be the largest integer
 which is not greater than $\frac{k}{2}+2$. Then similar as above, the
@@ -719,14 +762,15 @@ this property. Then the coefficient of $xy^{s+2}$ in
 $\phi(f) = \phi_0^{w_2}(f) + (\phi-\phi_0^{w_2})(f)$ is
 $\pm 2\alpha\beta_s\gamma^2$ which implies $\beta_s = 0$ in contradiction to
 the assumption. Hence $\beta_3 = \ldots = \beta_m = 0$ and
-$\phi_0^{w_2} \in S(\{x\}, \{y\})$.
+$\phi_0^{w_2} \in \s(\{x\}, \{y\})$.
 
 For the last step, we consider the following equations:
 \begin{align*}
 \phi(f) &= \phi_0^{w_1}(f)
 +\myunderbrace{(\phi-\phi_0^{w_1})(f)}{=}{: R_1 \in E_{>d}^{w_1}} \\[.5ex]
 \phi(f) &= \phi_0^{w_2}(f)
-+\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}} \\[.5ex]
++\myunderbrace{(\phi-\phi_0^{w_2})(f)}{=}{: R_2 \in E_{>d}^{w_2}}
+\displaybreak[0] \\[.5ex]
 \phi(f) &= \phi_0^{w_0}(f)
 +\myunderbrace{(\phi-\phi_0^{w_0})(f)}{=}{: R_0}
 \end{align*}
@@ -739,7 +783,7 @@ appears in $\phi_0^{w_1}(x)$ or $\phi_0^{w_2}(x)$ (or both), analogously for
 $\phi_0^{w_0}(y)$. Therefore we have $\phi_0^{w_0}(x) = \alpha x$ and
 $\phi_0^{w_0}(y) = \gamma y$, hence
 $\phi_0^{w_0} = \phi_0^{w_1} = \phi_0^{w_2}$ and
-$\phi_0^{w_0} \in S(\{x\}, \{y\})$. This implies
+$\phi_0^{w_0} \in \s(\{x\}, \{y\})$. This implies
 \[
 R_0 = R_1 = R_2 \in E_{>d}^{w_1} \cap E_{>d}^{w_2} = E_{>d}^{w_0} \,.
 \]
@@ -764,7 +808,7 @@ we have
 with $R \in E_{>d+\delta}^w$. As above, $\phi(f) = \NF(T_2(v))$ implies
 $R = 0$. If we show
 \begin{align}
-\phi_\delta^w \in S\left(\{x\}, \{y\}\right) \,, \tag{$\ast$}
+\phi_\delta^w \in \s\left(\{x\}, \{y\}\right) \,, \tag{$\ast$}
 \end{align}
 then it follows that $\phi_\delta^w$ is equal to $\phi_0^w$ and therefore
 \begin{align*}
@@ -825,9 +869,9 @@ rather straighforward in some cases whereas it requires careful considerations
 in other cases.
 
 However, writing down every detail of the computations for each case is beyond
-the scope of this section. Instead, we will present the general framework and
-give explicit \Singular{} commands for $T_1 = T_2 = X_9^{++}$ which is one of
-the more complicated cases (cf. Theorem~\ref{thm:X9}).
+the scope of this section. Instead, we present the general framework and give
+explicit \Singular{} commands for $T_1 = T_2 = X_9^{++}$ which is one of the
+more complicated cases (cf. Theorem~\ref{thm:X9}).
 
 The singularity type $\tY_r$ does not appear in Table~\ref{tab:sufficient_sets}
 and thus needs special care. The structure of the equivalence classes of this
@@ -838,20 +882,22 @@ Section~\ref{ssec:Yr}.
 \subsection{How to Compute $\boldsymbol{P_1(T_1, T_2)}$}%
 \label{ssec:computing_P1}
 
-Let $S = S(M_x, M_y) \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
-$\C[[x,y]]$-automorphisms for $(T_1(a), T_2(a))$ given in
+Let $S = \s(M_x, M_y) \subset \Aut_{\C}(\C[[x,y]])$ be the sufficient set of
+$\C[[x,y]]$-automorphisms for $(\NF(T_1(a)), \NF(T_2(a)))$ given in
 Theorem~\ref{thm:sufficient_sets}. Let $t_1, \ldots, t_r$ be coefficients for
 the monomials in $M_x$ and $M_y$ and let $\phi$ be a generic element of $S$
 with these coefficients, i.e.\@ let $\phi$ be of the form
-$\phi(x) = t_1 \cdot x + (\text{other terms})$ (or of the form $\phi(x)=t_1 \cdot y+(\text{other terms})$ in case $T=Y_{r,s}$, $r=s$).
+$\phi(x) = t_1 \cdot x + (\text{other terms})$ (or of the form
+$\phi(x) = t_1 \cdot y + (\text{other terms})$ in case $T_1$ and $T_2$ are
+subtypes of $Y_{r,s}$ with $r = s$).
 
-We denote the parameter occurring in $T_1$ by $a$ and the one in $T_2$ by $b$.
-By comparing the coefficients in $\phi(T_1(a))$ and $T_2(b)$, we get a set of
-equations in $a, b, t_1, \ldots, t_r$ which is equivalent to
-$\phi(T_1(a)) = T_2(b)$. Let $I \subset \C[a,b,t_1,\ldots,t_r]$ be the ideal
-generated by these equations. Then the vanishing set $V(I)$ describes
-completely which transformations take $T_1(a)$ to $T_2(b)$ for which values of
-$a$ and $b$.
+We denote the parameter occurring in $\NF(T_1)$ by $a$ and the one in
+$\NF(T_2)$ by $b$.  By comparing the coefficients in $\phi(\NF(T_1(a)))$ and
+$\NF(T_2(b))$, we get a set of equations in $a, b, t_1, \ldots, t_r$ which is
+equivalent to $\phi(\NF(T_1(a))) = \NF(T_2(b))$. Let
+$I \subset \C[a,b,t_1,\ldots,t_r]$ be the ideal generated by these equations.
+Then the vanishing set $V(I)$ describes completely which transformations take
+$\NF(T_1(a))$ to $\NF(T_2(b))$ for which values of $a$ and $b$.
 
 We can now eliminate the variables $t_1, \ldots, t_r$ from $I$ and thus obtain
 an ideal $I' \subset \C[a,b]$ which is in all cases generated by one polynomial
@@ -960,9 +1006,9 @@ P_2\left(X_9^{+-}, X_9^{+-}\right)
 Since $P_3(T_1, T_2) \subset P_2(T_1, T_2)$ by definition, we can determine
 $P_3(T_1, T_2)$ by checking for each pair $(a,b) \in P_2(T_1, T_2)$ whether or
 not there is a \emph{real} coordinate transformation
-$\phi \in \Aut_{\R}(\R[[x,y]])$ which takes $T_1(a)$ to $T_2(b)$. This can be
-reduced to a finite problem as follows: Let $g_j$, $j \in \{1,\ldots,s\}$, be
-the irreducible factors of the polynomial $g$ as in
+$\phi \in \Aut_{\R}(\R[[x,y]])$ which takes $\NF(T_1(a))$ to $\NF(T_2(b))$.
+This can be reduced to a finite problem as follows: Let $g_j$, $j \in
+\{1,\ldots,s\}$, be the irreducible factors of the polynomial $g$ as in
 Section~\ref{ssec:computing_P1}. Then in all the cases, $P_2(T_1, T_2)$ is a
 finite union of ``branches'' of the form $V(g_j)$ and some exceptional points.
 We can check whether a branch $V(g_j)$ or an exceptional point $(q_a, q_b)$ in
@@ -1117,7 +1163,7 @@ $f \csim f_0$.
 \end{lemma}
 
 Based upon this lemma, we can now specify an explicit equivalence between
-$\tY_r$ and $Y_{r,r}$.
+normal forms of type $\tY_r$ and type $Y_{r,r}$.
 
 \begin{lemma}\label{lem:Yr_equivalences}
 For any $r > 4$ and any $a \in \C \setminus \{0\}$, we have
@@ -1131,8 +1177,8 @@ For any $r > 4$ and any $a \in \C \setminus \{0\}$, we have
 \begin{proof}
 Let $\phi \in \Aut_{\C}(\C[[x,y]])$ be the coordinate transformation defined by
 $\phi(x) := \frac{1}{2}(x+y)$ and $\phi(y) := \frac{1}{2}i(x-y)$. Then the
-principal parts of $\phi\bigl(\NF\bigl(\tY_r^+\bigr)(a)\bigr)$ and
-$\phi\bigl(\NF\bigl(\tY_r^-\bigr)(a)\bigr)$ are of the form
+principal parts of $\phi\bigl(\NF\bigl(\tY_r^+(a)\bigr)\bigr)$ and
+$\phi\bigl(\NF\bigl(\tY_r^-(a)\bigr)\bigr)$ are of the form
 $\left(\frac{1}{2}\right)^r a \cdot x^r + \lambda x^2 y^2
 + \left(\frac{1}{2}\right)^r a \cdot y^r$
 with $\lambda = 1$ and $\lambda = -1$, respectively, so the result follows from
@@ -1144,27 +1190,30 @@ $T_1, T_2 \in \{Y_{r,r}^{++}, Y_{r,r}^{-+}\}$, cf.\@ Theorem~\ref{thm:Yrs}. We
 can use this data and the above lemma to compute $P_1(T_1, T_2)$ for
 $T_1, T_2 \in \bigl\{\tY_r^+, \tY_r^-\bigr\}$. Let us consider the case
 $P_1\bigl(\tY_r^+, \tY_r^+\bigr)$, the other cases follow similarly. According
-to Lemma~\ref{lem:Yr_equivalences}, $\tY_r^+(a)$ is $\C$-equivalent to
-$Y_{r,r}^{++}\left(ca^2\right)$ with $c := \left(\frac{1}{4}\right)^r$ for any
-$r > 4$ and any $a \in \C \setminus \{0\}$. This in turn is $\C$-equivalent to
-$Y_{r,r}^{++}\left(\zeta ca^2\right)$ for any $\zeta$ satisfying
+to Lemma~\ref{lem:Yr_equivalences}, $\NF\bigl(\tY_r^+(a)\bigr)$ is
+$\C$-equivalent to $\NF\bigl(Y_{r,r}^{++}\left(ca^2\right)\bigr)$ with
+$c := \left(\frac{1}{4}\right)^r$ for any $r > 4$ and any
+$a \in \C \setminus \{0\}$. This in turn is $\C$-equivalent to
+$\NF\bigl(Y_{r,r}^{++}\left(\zeta ca^2\right)\bigr)$ for any $\zeta$ satisfying
 $\zeta^l-1 = 0$ where $l = \gcd(2, r+1)$, cf.\@ Theorem~\ref{thm:Yrs}. Applying
-Lemma~\ref{lem:Yr_equivalences} once again leads to
-$Y_{r,r}^{++}\left(\zeta ca^2\right)
-\csim \tY_r^+\left(\pm \sqrt{\zeta}a\right)$, and we thus get the diagram shown
-in Figure~\ref{fig:Yr}.
+Lemma~\ref{lem:Yr_equivalences} again leads to
+$\NF\bigl(Y_{r,r}^{++}\left(\zeta ca^2\right)\bigr)
+\csim \NF\bigl(\tY_r^+\left(\pm \sqrt{\zeta}a\right)\bigr)$,
+and we thus get the diagram shown in Figure~\ref{fig:Yr}.
 
 \begin{figure}
-\caption{Equivalences between $\tY_r^+$ and $Y_{r,r}^{++}$%
+\caption{Equivalences between $NF(\tY_r^+)$ and $NF(Y_{r,r}^{++})$%
 \quad$\left(c := \left(\frac{1}{4}\right)^r\right)$}%
 \label{fig:Yr}
 \begin{center}
 \begin{tikzpicture}
 \matrix (m) [matrix of math nodes, row sep=1.5ex, column sep=2ex]
 {
-\tY_r^+\left(a\right)         &       & \tY_r^+\left(\pm\sqrt{\zeta}a\right) \\
-                 & \text{\huge$\circlearrowleft$} &                          \\
-Y_{r,r}^{++}\left(ca^2\right) &       & Y_{r,r}^{++}\left(\zeta ca^2\right)  \\
+\NF\left(\tY_r^+\left(a\right)\right)                &&
+\NF\left(\tY_r^+\left(\pm\sqrt{\zeta}a\right)\right) \\
+& \text{\huge$\circlearrowleft$} &                   \\
+\NF\left(Y_{r,r}^{++}\left(ca^2\right)\right)        &&
+\NF\left(Y_{r,r}^{++}\left(\zeta ca^2\right)\right)  \\
 };
 \draw[<->] (m-1-1) -- (m-1-3);
 \draw[<->] (m-1-3) -- (m-3-3);
@@ -1174,8 +1223,10 @@ Y_{r,r}^{++}\left(ca^2\right) &       & Y_{r,r}^{++}\left(\zeta ca^2\right)  \\
 \end{center}
 \end{figure}
 
-This proves $\tY_r^+(a) \csim \tY_r^+\left(\pm \sqrt{\zeta}a\right)$ for
-$\zeta$ as above, and since the diagram is commutative, there are no
+This proves
+$\NF\bigl(\tY_r^+(a)\bigr)
+\csim \NF\bigl(\tY_r^+\left(\pm\sqrt{\zeta}a\right)\bigr)$
+for $\zeta$ as above, and since the diagram is commutative, there are no
 equivalences for other values of the parameters than these. Hence
 \[
 P_1\left(\tY_r^+, \tY_r^+\right) = C\left(X^{2l}-1\right)
@@ -1189,13 +1240,14 @@ P_2\left(\tY_r^+, \tY_r^+\right) = R\left(X^2-1\right) \,.
 We clearly have $(a, a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ for
 $a \in \R \setminus \{0\}$, and also
 $(a, -a) \in P_3\bigl(\tY_r^+, \tY_r^+\bigr)$ if $r$ is odd. For the case where
-$r$ is even, let us
-consider $\tY_r^+(a)$ as a function in $x$ and $y$ over $\R^2$ and let the
-parameter $a$ be positive. Then $\tY_r^+(a) = \left(x^2+y^2\right)^2+ax^r$
-takes only non-negative values whereas
-$\tY_r^+(-a) = \left(x^2+y^2\right)^2-ax^r$ attains also negative values. Hence
-there is no real coordinate transformation which takes $\tY_r^+(a)$ to
-$\tY_r^+(-a)$. The argument is similar for $a < 0$. To sum up, we have
+$r$ is even, let us consider $\NF\bigl(\tY_r^+(a)\bigr)$ as a function in $x$
+and $y$ over $\R^2$ and let the parameter $a$ be positive. In this case the
+function $\NF\bigl(\tY_r^+(a)\bigr) = \left(x^2+y^2\right)^2+ax^r$ takes only
+non-negative values whereas
+$\NF\bigl(\tY_r^+(-a)\bigr) = \left(x^2+y^2\right)^2-ax^r$ attains also
+negative values. Hence there is no real coordinate transformation which takes
+$\NF\bigl(\tY_r^+(a)\bigr)$ to $\NF\bigl(\tY_r^+(-a)\bigr)$. The argument is
+similar for $a < 0$. To sum up, we have
 \[
 P_3\left(\tY_r^+, \tY_r^+\right) =
 \begin{cases}
@@ -1224,8 +1276,9 @@ $\gamma = 0$ and $\alpha^4 = 1$ which is a contradiction.
 
 So the degree of either $\phi_r(x)$ or $\phi_r(y)$ must at least $\frac{r}{4}$.
 This shows that there is no degree-bounded sufficient set of coordinate
-transformations for $\bigl(\tY_r^+(a), \tY_r^+(a)\bigr)$ and for arbitrarily
-high $r$.
+transformations for the pair
+$\bigl(\NF\bigl(\tY_r^+(a)\bigr), \NF\bigl(\tY_r^+(a)\bigr)\bigr)$ and for
+arbitrarily high $r$.
 \end{remark}
 
 
@@ -1266,8 +1319,8 @@ $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 \hline\hline
 
 $X_9^{++}$ & $X_9^{++}$ &
-\multirow{6}{*}{$\Gamma_{\C'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
-\multirow{6}{*}{$\Gamma_{\R'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
+\multirow{4}{*}{$\Gamma_{\C'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
+\multirow{4}{*}{$\Gamma_{\R'}\bigl(f_1^{1,1}, \ldots, f_6^{1,1}\bigr)$} &
 \begin{tabular}[x]{@{}l@{}}
     $\phantom{\cup}\; \Gamma_{\R'}\bigl(f_1^{1,1}\bigr)$ \\
     $\cup\; \Gamma_{\R^{>-2}}\bigl(f_5^{1,1}\bigr)$
@@ -1335,6 +1388,7 @@ The structure of the equivalence classes of the $J_{10}$ singularities is as
 shown in Table~\ref{tab:J10_equivalences} where for $j = 1, \ldots, 6$ and
 $\rho, \sigma \in \{-1, +1\}$, the function $f_j^{\rho, \sigma}$ is defined as
 follows:
+{\setlength{\jot}{5pt}   % manually adjusted
 \begin{align*}
 f_1^{\rho, \sigma}(a) &:= +\sqrt{\rho \sigma} \cdot a \,, \\
 f_2^{\rho, \sigma}(a) &:= -\sqrt{\rho \sigma} \cdot a \,, \displaybreak[0] \\
@@ -1351,7 +1405,7 @@ f_5^{\rho, \sigma}(a)
 f_6^{\rho, \sigma}(a)
 &:= - \sqrt{\frac{-\rho \sigma (a^2-\rho \cdot 4) (a^2-\rho \cdot 9)
     - a (a^2-\rho \cdot 3) \sqrt{a^2-\rho \cdot 4}}{2(a^2-\rho \cdot 4)}}\,.
-\end{align*}
+\end{align*}}
 
 In each case, $\rho$ and $\sigma$ are given by
 \begin{align*}
@@ -1787,45 +1841,45 @@ singularities is as shown in Table~\ref{tab:exceptional_equivalences}.
 \hline
 $T_1$ & $T_2$ & $P_1(T_1, T_2)$ & $P_2(T_1, T_2)$ & $P_3(T_1, T_2)$ \\
 \hline\hline
-$E_{12}$   & $E_{12}$   & $C(X^{21}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+$E_{12}$   & $E_{12}$   & $C_0(X^{21}-1)$ & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$E_{13}$   & $E_{13}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+$E_{13}$   & $E_{13}$   & $C_0(X^{15}-1)$ & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$E_{14}^+$ & $E_{14}^+$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+$E_{14}^+$ & $E_{14}^+$ & $C_0(X^{12}-1)$ & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$E_{14}^-$ & $E_{14}^-$ & $C(X^{12}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+$E_{14}^-$ & $E_{14}^-$ & $C_0(X^{12}-1)$ & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$E_{14}^+$ & $E_{14}^-$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
+$E_{14}^+$ & $E_{14}^-$ & $C_0(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$E_{14}^-$ & $E_{14}^+$ & $C(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
+$E_{14}^-$ & $E_{14}^+$ & $C_0(X^{12}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$Z_{11}$   & $Z_{11}$   & $C(X^{15}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+$Z_{11}$   & $Z_{11}$   & $C_0(X^{15}-1)$ & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$Z_{12}$   & $Z_{12}$   & $C(X^{11}-1)$ & $R(X-1)$      & $R(X-1)$ \\
+$Z_{12}$   & $Z_{12}$   & $C_0(X^{11}-1)$ & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$Z_{13}^+$ & $Z_{13}^+$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
+$Z_{13}^+$ & $Z_{13}^+$ & $C_0(X^9-1)$    & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$Z_{13}^-$ & $Z_{13}^-$ & $C(X^9-1)$    & $R(X-1)$      & $R(X-1)$ \\
+$Z_{13}^-$ & $Z_{13}^-$ & $C_0(X^9-1)$    & $R_0(X-1)$    & $R_0(X-1)$ \\
 \hline
-$Z_{13}^+$ & $Z_{13}^-$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
+$Z_{13}^+$ & $Z_{13}^-$ & $C_0(X^9+1)$    & $R_0(X+1)$    & $\varnothing$ \\
 \hline
-$Z_{13}^-$ & $Z_{13}^+$ & $C(X^9+1)$    & $R(X+1)$      & $\varnothing$ \\
+$Z_{13}^-$ & $Z_{13}^+$ & $C_0(X^9+1)$    & $R_0(X+1)$    & $\varnothing$ \\
 \hline
-$W_{12}^+$ & $W_{12}^+$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+$W_{12}^+$ & $W_{12}^+$ & $C_0(X^{10}-1)$ & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$W_{12}^-$ & $W_{12}^-$ & $C(X^{10}-1)$ & $R(X^2-1)$    & $R(X-1)$ \\
+$W_{12}^-$ & $W_{12}^-$ & $C_0(X^{10}-1)$ & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$W_{12}^+$ & $W_{12}^-$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
+$W_{12}^+$ & $W_{12}^-$ & $C_0(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{12}^-$ & $W_{12}^+$ & $C(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
+$W_{12}^-$ & $W_{12}^+$ & $C_0(X^{10}+1)$ & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{13}^+$ & $W_{13}^+$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
+$W_{13}^+$ & $W_{13}^+$ & $C_0(X^8-1)$    & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$W_{13}^-$ & $W_{13}^-$ & $C(X^8-1)$    & $R(X^2-1)$    & $R(X-1)$ \\
+$W_{13}^-$ & $W_{13}^-$ & $C_0(X^8-1)$    & $R_0(X^2-1)$  & $R_0(X-1)$ \\
 \hline
-$W_{13}^+$ & $W_{13}^-$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
+$W_{13}^+$ & $W_{13}^-$ & $C_0(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \hline
-$W_{13}^-$ & $W_{13}^+$ & $C(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
+$W_{13}^-$ & $W_{13}^+$ & $C_0(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -1847,9 +1901,10 @@ sets} given in Theorem~\ref{thm:sufficient_sets}:
 It suffices to work with scalings of the form $\phi(x) = \alpha x$,
 $\phi(y) = \beta y$ as coordinate transformations to figure out the structure
 of the equivalence classes of the hyperbolic and exceptional unimodal
-singularities. (To be precise, for $Y_{r,s}$, $r=s$, we also have to take into account
-transformations of the form $\phi(x) = \beta y$, $\phi(y) = \alpha x$ where the
-variables are swapped, cf.\@ Remark~\ref{rem:sufficient_sets_Yrs}.)
+singularities. (To be precise, for $Y_{r,s}$ with $r = s$ we also have to take
+into account transformations of the form $\phi(x) = \beta y$,
+$\phi(y) = \alpha x$ where the variables are swapped, cf.\@
+Table~\ref{tab:sufficient_sets}.)
 \item
 For the two parabolic types $X_9$ and $J_{10}$, scalings are not sufficient.
 Instead, we have to consider more complicated transformations which involve
@@ -1936,11 +1991,8 @@ other words, the real subtype $J_{10}^-$ is redundant whereas $J_{10}^+$ is
 not.
 \end{itemize}
 
-To sum up, the results in this article show that the classifications of the
-unimodal singularitities over $\C$ and over $\R$ in \citet{AVG1985} are not
-meant to be complete sets of normal forms which represent disjoint equivalence
-classes for every single value of the parameter. The normal forms which are
-listed in these classifications only cover the whole space of unimodal
+To sum up, the normal forms in \citet{AVG1985} which are
+listed in these classifications cover the whole space of unimodal
 singularities, but some of them are equivalent. There are equivalences between
 normal forms for different values of the parameter and also between different
 subtypes, to an extend that the subtype $J_{10}^-$ is even redundant.
