@@ -111,12 +111,12 @@ hypersurface singularities, algorithmic classification, real geometry%
 \begin{document}
 
 \begin{abstract}
-In the classification of real singularities by \citet{AVG1985} normal forms, as
-representatives of equivalence classes under right equivalence, are not always
-uniquely determined. We describe the complete structure of the equivalence
-classes of the unimodal real singularities of corank~$2$. In other words, we
-explicitly answer the question which normal forms of different type are
-equivalent, and how a normal form can be transformed within the same
+In the classification of real singularities by \citet{AVG1985}, normal forms,
+as representatives of equivalence classes under right equivalence, are not
+always uniquely determined. We describe the complete structure of the
+equivalence classes of the unimodal real singularities of corank~$2$. In other
+words, we explicitly answer the question which normal forms of different type
+are equivalent, and how a normal form can be transformed within the same
 equivalence class by changing the value of the parameter. This provides new
 theoretical insights into these singularities and has important consequences
 for their algorithmic classification.
@@ -145,14 +145,6 @@ the direct addition of non-degenerate quadratic terms.
 
 In this article, we focus on the unimodal singularities of corank 2. Their
 complex and real normal forms can be found in Table~\ref{tab:normal_forms}.
-Just as for the simple singularities \citep[cf.][]{MS2013}, it turns out that
-the complex singularity types split up into one or several real subtypes and
-that the normal forms of the real subtypes belonging to the same complex type
-differ from each other only in the signs of some terms. We therefore sometimes
-refer to the complex singularity types as ``main types''. The hyperbolic type
-$\tY_r$ is an exception because it is complex equivalent to $Y_{r,s}$ with
-$r = s$ and only occurs as a type on its own in the real classification.
-
 \begin{table}[tp]
 \centering
 \caption{Normal forms of singularities of modality $1$ and corank $2$}
@@ -235,6 +227,13 @@ $r = s$ and only occurs as a type on its own in the real classification.
 
 \end{tabular}
 \end{table}
+Just as for the simple singularities \citep[cf.][]{MS2013}, it turns out that
+the complex singularity types split up into one or several real subtypes and
+that the normal forms of the real subtypes belonging to the same complex type
+differ from each other only in the signs of some terms. We therefore sometimes
+refer to the complex singularity types as main types. The hyperbolic type
+$\tY_r$ is an exception because it is complex equivalent to $Y_{r,r}$ and only
+occurs as a type on its own in the real classification.
 
 The normal forms in Table~\ref{tab:normal_forms} cover the
 equivalence classes of the unimodal singularities of corank $2$, but some of
@@ -306,7 +305,7 @@ $\phi$ of $\K[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
 
 Note that $\ksim$ is an equivalence relation on $ \K[[x_1,\ldots,x_n]]$.
 \citet{AVG1985} give the following formal definition for normal forms w.r.t.\@
-the relation $\ksim$:
+this relation:
 
 \begin{defn}
 Let $K \subset \K[[x_1,\ldots,x_n]]$ be a union of equivalence classes w.r.t.\@
@@ -339,8 +338,8 @@ in order to prevent confusion.
 \end{remark}
 
 \begin{defn}
-Let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a subset of the set of
-$\K$-algebra automorphisms of $\K[[x_1, \ldots, x_n]]$ and let
+Let $S \subset \Aut_{\K}(\K[[x_1,\ldots,x_n]])$ be a set of $\K$-algebra
+automorphisms of $\K[[x_1, \ldots, x_n]]$ and let
 $f, g \in \K[[x_1, \ldots, x_n]]$ be two power series.
 \begin{enumerate}
 \item We denote the set of all automorphisms in $S$ which take $f$ to $g$ by
@@ -502,11 +501,11 @@ $w\dash\deg(x_i)$, is a natural number for each $i = 1, \ldots, n$.
 
 \begin{defn}
 Let $w_0 := (w_1, \ldots, w_s) \in \left(\N^n\right)^s$ be a finite family of
-weights on the variables $(x_1, \ldots, x_n)$. For any monomial
-$m \in \K[x_1,\ldots,x_n]$, we define the piecewise weight of $m$ w.r.t.\@
+weights on the variables $(x_1, \ldots, x_n)$. For any term
+$t \in \K[x_1,\ldots,x_n]$, we define the piecewise weight of $t$ w.r.t.\@
 $w_0$ as
 \[
-w_0\dash\deg(m) := \min_{i = 1, \ldots, s} w_i\dash\deg(m) \,.
+w_0\dash\deg(t) := \min_{i = 1, \ldots, s} w_i\dash\deg(t) \,.
 \]
 A polynomial $f \in \K[x_1,\ldots,x_n]$ is called piecewise quasihomogeneous of
 degree $d$ w.r.t.\@ $w_0$ if $w_0\dash\deg(t) = d$ for any term $t$ of $f$.
@@ -526,8 +525,8 @@ w \dash \jet(f, j) := \sum_{i = 0}^j f_i \,.
 
 \item
 A power series in $\K[[x_1,\ldots,x_n]]$ has filtration $d \in \N$ if all its
-monomials are of weighted degree $d$ or higher. The power series of filtration
-$d$ form a vector space $E_d^w \subset \K[[x_1,\ldots,x_n]]$.
+terms are of weighted degree $d$ or higher. The power series of filtration $d$
+form a vector space $E_d^w \subset \K[[x_1,\ldots,x_n]]$.
 \end{enumerate}
 \end{defn}
 
@@ -993,7 +992,7 @@ joint graph of these functions over $\R \setminus \{-2, 2\}$.
 To give another example, for $T_1 = T_2 = X_9^{+-}$ the set $P_1(T_1, T_2)$ is
 the joint graph of $f_1^{i,i}, \ldots, f_6^{i,i}$ over
 $\C \setminus \{-2i, 2i\}$. The values of $f_1^{i,i}(a)$ and $f_2^{i,i}(a)$ are
-clearly real for $a \in \R$, but those of $f_2^{i,i}(a), \ldots, f_6^{i,i}(a)$
+clearly real for $a \in \R$, but those of $f_3^{i,i}(a), \ldots, f_6^{i,i}(a)$
 are not except at some exceptional points which are already covered by
 $f_1^{i,i}$ and $f_2^{i,i}$. So in this case we have
 \[
@@ -1098,8 +1097,8 @@ real solutions for the cases $a=0$ and $a-6=0$, respectively. To sum up,
 the graph of $f_5^{1,1}$ over $\R^{>-2}$ belongs to
 $P_3\left(X_9^{++}, X_9^{++}\right)$, but not the part over $\R^{<-2}$.
 
-Continuing in this manner, one can show that $f_2^{1,1}$, $f_4^{1,1}$, and
-$f_6^{1,1}$, do not contribute any additional points, so we get
+Continuing in this manner, one can show that $f_2^{1,1}$, $f_4^{1,1}$ and
+$f_6^{1,1}$ do not contribute any additional points, so we get
 \[
 P_3\left(X_9^{++}, X_9^{++}\right) = \Gamma_{\R'} \left(f_1^{1,1}\right)
 \cup \Gamma_{\R^{>-2}} \left(f_5^{1,1}\right)
@@ -1206,7 +1205,7 @@ $\NF\bigl(Y_{r,r}^{++}\left(\zeta ca^2\right)\bigr)
 and we thus get the diagram shown in Figure~\ref{fig:Yr}.
 
 \begin{figure}
-\caption{Equivalences between $\NF\bigl(\tY_r^+\bigr)$ and%
+\caption{Equivalences between $\NF\bigl(\tY_r^+\bigr)$ and %
 $\NF\left(Y_{r,r}^{++}\right)$\quad%
 $\left(c := \left(\frac{1}{4}\right)^r\right)$}%
 \label{fig:Yr}
@@ -1280,10 +1279,10 @@ implies $\beta = 0$ and $\alpha^r = -1$, but the first one in turn implies
 $\gamma = 0$ and $\alpha^4 = 1$ which is a contradiction.
 
 So the degree of either $\phi_r(x)$ or $\phi_r(y)$ must at least $\frac{r}{4}$.
-This shows that there is no degree-bounded sufficient set of coordinate
-transformations for the pair
+This shows that a degree-bounded sufficient set of coordinate
+transformations for
 $\bigl(\NF\bigl(\tY_r^+(a)\bigr), \NF\bigl(\tY_r^+(a)\bigr)\bigr)$ and for
-arbitrarily high $r$.
+arbitrarily high $r$ does not exist.
 \end{remark}
 
 
@@ -1641,7 +1640,7 @@ s_1 &:=
 \begin{cases}
   +1, &\text{if } r \equiv 0 \pmod{4} \text{ or } s \equiv 0 \pmod{4}, \\
   -1, &\text{else,}
-\end{cases} \\
+\end{cases} \displaybreak[0] \\
 s_2 &:=
 \begin{cases}
   +1, &\text{if } r \not\equiv 0 \pmod{2}
@@ -1897,10 +1896,8 @@ $W_{13}^-$ & $W_{13}^+$ & $C_0(X^8+1)$    & $\varnothing$ & $\varnothing$ \\
 Looking more closely at Theorem~\ref{thm:sufficient_sets} and
 Section~\ref{sec:results}, it turns out that the structure of the equivalence
 classes is quite simple for some singularity types whereas it is very involved
-for others.
-
-To describe this in more detail, let us first consider the \emph{sufficient
-sets} given in Theorem~\ref{thm:sufficient_sets}:
+for others. To describe this in more detail, let us first consider the
+\emph{sufficient sets} given in Theorem~\ref{thm:sufficient_sets}:
 \begin{itemize}
 \item
 It suffices to work with scalings of the form $\phi(x) = \alpha x$,
@@ -1944,8 +1941,9 @@ singularity type, then there exists a finite set of constants
 $r_1, \ldots, r_m \in \C$ such that the equivalences between the normal forms
 of $T_1$ and $T_2$ are exactly those of the form
 $\NF(T_1(a)) \sim \NF(T_2(r_i a))$ with $a \in \C$ or $a \in \R$ as
-appropriate. Therefore we use the notations $C(p(X))$ and $R(p(X))$ with
-$p(X) \in \C[X]$ (see Definition~\ref{def:C_R}) in these cases, cf.\@
+appropriate. Therefore we use the notations $C(p(X))$, $R(p(X))$ and
+$C_0(p(X))$, $R_0(p(X))$ with $p(X) \in \C[X]$ (see Definition~\ref{def:C_R})
+for the hyperbolic and the exceptional cases, respectively, cf.\@
 Theorems~\ref{thm:J10+k} to \ref{thm:exceptional}.
 \item
 The equivalences which occur among subtypes of the two parabolic singularity
