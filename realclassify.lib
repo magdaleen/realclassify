@@ -1550,7 +1550,7 @@ static proc BlowUpO(poly f)
   list L;
   int n = nvars(basering);
   int i;
-  def T = changeord("lp");
+  def T = changeord(list(list("lp", 1:nvars(basering))));
   setring T;
   poly f = imap(T(0),f);
   map phi;
