@@ -914,7 +914,6 @@ EXAMPLE:  example realclassify; shows an example"
   }
 }
 example
-
 {
   "EXAMPLE:";
   echo = 2;
@@ -1529,6 +1528,7 @@ example
   poly f = x3+xy3;
   determinacy(f);
 }
+
 //////////////////////////////////////////////////////////////////////////
 /*
 Blow the singularities of main real type Y[1,r,s] up and give as output
@@ -1544,32 +1544,108 @@ var(1)^(mu(1)+1) of the resulting singularity with the lowest milnor
 number (floating numbers are used in case the resulting singularities
 occured at irrational points.)
 */
-
 static proc BlowUpO(poly f)
 {
-   def T(0) = basering;
-   list L;
-   int n = nvars(basering);
-   int i;
-   def T = changeord("lp");
-   setring T;
-   poly f = imap(T(0),f);
-   map phi;
-   ideal mphi, sing;
-   poly p,q;
-   /*blow up*/
-   for(i = 1; i <= n; i++)
-   {
+  def T(0) = basering;
+  list L;
+  int n = nvars(basering);
+  int i;
+  def T = changeord("lp");
+  setring T;
+  poly f = imap(T(0),f);
+  map phi;
+  ideal mphi, sing;
+  poly p,q;
+  /*blow up*/
+  for(i = 1; i <= n; i++)
+  {
+    mphi = var(i)*maxideal(1);
+    mphi[i] = var(i);
+    phi = T,mphi;
+    poly f1 = phi(f);
+    p = phi(f);
+    q = p/var(i);
+    while(size(p) == size(q))
+    {
+      p = q;
+      q = q/var(i);
+    }
+    /* p is the strict transform var(i) exceptional divisor */
+    /* analysis of singularities */
+    sing = jacob(p),p, var(i);
+    sing = radical(sing);
+    option(redSB);
+    sing = std(sing);
+    sing = simplify(sing,1);
+    list Excep = primdecGTZ(sing);
+    int l = size(Excep);
+    int m = 0;
+    for(int j = 1; j <= l;j++)
+    {
+      for(int k = 1; k <= size(Excep[j][2]); k++)
+      {
+        if(deg(Excep[j][2][k])>1)
+        {
+          m = 1;
+          break;
+        }
+      }
+      if(m==1)
+      {
+        break;
+      }
+    }
+    if(m==0)
+    {
+      for(int j = 1; j <= l; j++)
+      {
+        if(Excep[j][2][1] == 1)
+        {
+          setring T(0);
+          L[size(L)+1] = var(1);
+          setring T;
+        }
+        else
+        {
+          if(size(Excep[j][2]) > 1)
+          {
+            Excep[j][2] = std(Excep[j][2]);
+            if(size(Excep[j][2]) != n)
+            {
+              ERROR("blow up does not give a nondegenerate form");
+            }
+            ideal mpsi = std(maxideal(1));
+            for(int k = 1; k <= n; k++)
+            {
+              mpsi[k] = var(k)
+                -(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
+            }
+            map psi = T,mpsi;
+            poly g = psi(p);
+            setring T(0);
+            poly g = imap(T,g);
+            L[size(L)+1] = g;
+            setring T;
+          }
+        }
+      }
+    }
+    else
+    {
+      poly s = jet(sing[1],1)/var(2);
+      map alpha = T, var(1), var(2)-(s/2)*var(1);
+      p = alpha(f);
+      p;
+      jet(p,4);
       mphi = var(i)*maxideal(1);
       mphi[i] = var(i);
       phi = T,mphi;
-      poly f1 = phi(f);
-      p = phi(f);
+      p = phi(p);
       q = p/var(i);
       while(size(p) == size(q))
       {
-         p = q;
-         q = q/var(i);
+        p = q;
+        q = q/var(i);
       }
       /* p is the strict transform var(i) exceptional divisor */
       /* analysis of singularities */
@@ -1578,207 +1654,131 @@ static proc BlowUpO(poly f)
       option(redSB);
       sing = std(sing);
       sing = simplify(sing,1);
-      list Excep = primdecGTZ(sing);
-      int l = size(Excep);
-      int m = 0;
-      for(int j = 1; j <= l;j++)
+      def S(0) = absPrimdecGTZ(sing);
+      setring S(0);
+      poly p = imap(T,p);
+      map phi = S(0),x,y-var(3);
+      poly p(1) = phi(p);
+      poly min = absolute_primes[1][1][1];
+      ring S1 = (0,a),(x,y),ds;
+      map phi = S(0),x,y,a;
+      number min = number(phi(min));
+      minpoly = min;
+      poly p = fetch(T,p);
+      map phi = S1,x,y-a;
+      poly p(2) = phi(p);
+      int mu(1) = milnornumber(p(2))+4;
+      ring S(3) = (complex,10,10),(x,y,a),lp;
+      map alpha = S(0),x,y,a;
+      poly min = alpha(min);
+      poly p(1) = imap(S(0),p(1));
+      list M = laguerre_solve(min,9);
+      p(1) = subst(p(1),var(3),M[1]);
+      ring S(4) = (real,10),(x,y),ds;
+      poly p(1) = fetch(S(3),p(1));
+      list morse = realmorsesplit(p(1));
+      poly p(3) = morse[4];
+      int lambda = morse[2];
+      poly p(4) = jet(p(3),mu(1)-3);
+      poly s1 = p(3)/var(1)^(mu(1)-3);
+      poly s2 = p(3)/var(2)^(mu(1)-3);
+      if(s2 != 0 && s1 == 0)
       {
-        for(int k = 1; k <= size(Excep[j][2]); k++)
-        {
-          if(deg(Excep[j][2][k])>1)
-          {
-            m = 1;
-            break;
-          }
-        }
-        if(m==1)
-        {
-          break;
-        }
+        phi = S(4), var(2), var(1);
+        p(3) = phi(p(3));
       }
-      if(m==0)
+      number t = number(p(4)/(var(1)^(mu(1)-3)));
+      if(t > 0)
       {
-        for(int j = 1; j <= l; j++)
-        {
-          if(Excep[j][2][1] == 1)
-          {
-            setring T(0);
-            L[size(L)+1] = var(1);
-            setring T;
-          }
-          else
-          {
-            if(size(Excep[j][2]) > 1)
-            {
-              Excep[j][2] = std(Excep[j][2]);
-              if(size(Excep[j][2]) != n)
-              {
-                ERROR("blow up does not give a nondegenerate form");
-              }
-              ideal mpsi = std(maxideal(1));
-              for(int k = 1; k <= n; k++)
-              {
-                mpsi[k] = var(k)
-                  -(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
-              }
-              map psi = T,mpsi;
-              poly g = psi(p);
-              setring T(0);
-              poly g = imap(T,g);
-              L[size(L)+1] = g;
-              setring T;
-            }
-          }
-        }
+        int teken = 1;
       }
       else
       {
-         poly s = jet(sing[1],1)/var(2);
-         map alpha = T, var(1), var(2)-(s/2)*var(1);
-         p = alpha(f);
-         p;
-         jet(p,4);
-         mphi = var(i)*maxideal(1);
-         mphi[i] = var(i);
-         phi = T,mphi;
-         p = phi(p);
-         q = p/var(i);
-         while(size(p) == size(q))
-         {
-           p = q;
-           q = q/var(i);
-         }
-         /* p is the strict transform var(i) exceptional divisor */
-         /* analysis of singularities */
-         sing = jacob(p),p, var(i);
-         sing = radical(sing);
-         option(redSB);
-         sing = std(sing);
-         sing = simplify(sing,1);
-         def S(0) = absPrimdecGTZ(sing);
-         setring S(0);
-         poly p = imap(T,p);
-         map phi = S(0),x,y-var(3);
-         poly p(1) = phi(p);
-         poly min = absolute_primes[1][1][1];
-         ring S1 = (0,a),(x,y),ds;
-         map phi = S(0),x,y,a;
-         number min = number(phi(min));
-         minpoly = min;
-         poly p = fetch(T,p);
-         map phi = S1,x,y-a;
-         poly p(2) = phi(p);
-         int mu(1) = milnornumber(p(2))+4;
-         ring S(3) = (complex,10,10),(x,y,a),lp;
-         map alpha = S(0),x,y,a;
-         poly min = alpha(min);
-         poly p(1) = imap(S(0),p(1));
-         list M = laguerre_solve(min,9);
-         p(1) = subst(p(1),var(3),M[1]);
-         ring S(4) = (real,10),(x,y),ds;
-         poly p(1) = fetch(S(3),p(1));
-         list morse = realmorsesplit(p(1));
-         poly p(3) = morse[4];
-         int lambda = morse[2];
-         poly p(4) = jet(p(3),mu(1)-3);
-         poly s1 = p(3)/var(1)^(mu(1)-3);
-         poly s2 = p(3)/var(2)^(mu(1)-3);
-         if(s2 != 0 && s1 == 0)
-         {
-           phi = S(4), var(2), var(1);
-           p(3) = phi(p(3));
-         }
-         number t = number(p(4)/(var(1)^(mu(1)-3)));
-         if(t > 0)
-         {
-           int teken = 1;
-         }
-         else
-         {
-            int teken = -1;
-         }
-         setring T(0);
-         list L1;
-         L1[1] = m;
-         L1[2] = mu(1);
-         L1[3] = mu(1);
-         L1[4] = lambda;
-         L1[5] = teken;
-         break;
-       }
-     }
-     if(m == 0)
-     {
-       setring T(0);
-        int l = size(L);
-        for(i = 1; i <= size(L); i++)
+        int teken = -1;
+      }
+      setring T(0);
+      list L1;
+      L1[1] = m;
+      L1[2] = mu(1);
+      L1[3] = mu(1);
+      L1[4] = lambda;
+      L1[5] = teken;
+      break;
+    }
+  }
+  if(m == 0)
+  {
+    setring T(0);
+    int l = size(L);
+    for(i = 1; i <= size(L); i++)
+    {
+      if(L[i] == var(1))
+      {
+        int mu(i) = 4;
+      }
+      else
+      {
+        int mu(i) = milnornumber(L[i])+4;
+      }
+      for(j = i+1; j <= size(L); j++)
+      {
+        if(L[j] == var(1))
         {
-          if(L[i] == var(1))
-          {
-            int mu(i) = 4;
-          }
-          else
-          {
-            int mu(i) = milnornumber(L[i])+4;
-          }
-          for(j = i+1; j <= size(L); j++)
-          {
-            if(L[j] == var(1))
-            {
-              int mu(j) = 4;
-            }
-            else
-            {
-              int mu(j) = milnornumber(L[j])+4;
-            }
-            if(mu(i) == mu(j))
-            {
-              L = delete(L,i);
-              i = i-1;
-              break;
-            }
-            if(mu(i) > mu(j))
-            {
-              poly p(i) = L[i];
-              L[i] = L[j];
-              L[j] = p(i);
-              i = i-1;
-              break;
-            }
-          }
-        }
-        if(L[1] != var(1))
-        {
-          list morse = realmorsesplit(L[1]);
-          L[1] = morse[4];
-          int lambda = morse[2];
-          poly rf = jet(L[1],mu(1)-3);
-          poly s1 = rf/var(1)^(mu(1)-3);
-          poly s2 = rf/var(2)^(mu(1)-3);
-          if(s2 != 0 && s1 == 0)
-          {
-            phi = T(0), var(2), var(1);
-            rf = phi(rf);
-          }
-          number t = number(rf/(var(1)^(mu(1)-3)));
-          if(t > 0)
-          {
-            int teken = 1;
-          }
-          else
-          {
-            int teken = -1;
-          }
+          int mu(j) = 4;
         }
         else
         {
-          int lambda = 0;
-          int teken = 0;
+          int mu(j) = milnornumber(L[j])+4;
         }
-        list L1 = m,mu(1),mu(2),lambda,teken,L;
-        return(L1);
-     }
-     return(L1);
-   }
+        if(mu(i) == mu(j))
+        {
+          L = delete(L,i);
+          i = i-1;
+          break;
+        }
+        if(mu(i) > mu(j))
+        {
+          poly p(i) = L[i];
+          L[i] = L[j];
+          L[j] = p(i);
+          i = i-1;
+          break;
+        }
+      }
+    }
+    if(L[1] != var(1))
+    {
+      list morse = realmorsesplit(L[1]);
+      L[1] = morse[4];
+      int lambda = morse[2];
+      poly rf = jet(L[1],mu(1)-3);
+      poly s1 = rf/var(1)^(mu(1)-3);
+      poly s2 = rf/var(2)^(mu(1)-3);
+      if(s2 != 0 && s1 == 0)
+      {
+        phi = T(0), var(2), var(1);
+        rf = phi(rf);
+      }
+      number t = number(rf/(var(1)^(mu(1)-3)));
+      if(t > 0)
+      {
+        int teken = 1;
+      }
+      else
+      {
+        int teken = -1;
+      }
+    }
+    else
+    {
+      int lambda = 0;
+      int teken = 0;
+    }
+    list L1 = m,mu(1),mu(2),lambda,teken,L;
+    return(L1);
+  }
+  return(L1);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
