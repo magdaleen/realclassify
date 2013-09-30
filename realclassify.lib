@@ -562,8 +562,10 @@ EXAMPLE:  example realclassify; shows an example"
             typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
             nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
             monparam = var(2)^(mu(2)+1);
-            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
-            nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+              +"]--";
+            nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+              +var(2)^(mu(2)+1);
           }
           if(teken == -1)
           {
@@ -571,15 +573,18 @@ EXAMPLE:  example realclassify; shows an example"
             typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
             nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
             monparam = var(2)^(mu(2)+1);
-            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-            nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+              +"]+-";
+            nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+              +var(2)^(mu(2)+1);
           }
         }
         else
         {
           if(M[1] == 1)
           {
-            "WARNING: Floating numbers are used to determine the sign of the term "+string(var(1)^(mu(1)+1))+" and thus may be wrong.";
+            "WARNING: Floating numbers are used to determine the sign of the"
+              +"term "+string(var(1)^(mu(1)+1))+" and thus may be wrong.";
           }
           int lambda(1) = M[4];
           if(mu(1) == 5)
@@ -599,32 +604,40 @@ EXAMPLE:  example realclassify; shows an example"
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
               nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+" ;
-              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","
+                +string(mu(2)+1)+"]-+";
+              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
             if(m > 0 && teken < 0)
             {
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
               nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++" ;
-              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","
+                +string(mu(2)+1)+"]++";
+              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
             if(m == 0 && teken > 0)
             {
                typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
                nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
                monparam = var(2)^(mu(2)+1);
-               typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--" ;
-               nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+               typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","
+                 +string(mu(2)+1)+"]--";
+               nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+                 +var(2)^(mu(2)+1);
             }
             if(m == 0 && teken < 0)
             {
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
               nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+                +"]+-";
+              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
           }
           else
@@ -636,32 +649,40 @@ EXAMPLE:  example realclassify; shows an example"
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
               nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
-              nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+                +"]--";
+              nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
             if(teken > 0 && teken1 < 0)
             {
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
               nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]-+" ;
-              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+                +"]-+";
+              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
             if(teken < 0 && teken1 > 0)
             {
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
               nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+                +"]+-";
+              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
             if(teken < 0 && teken1 < 0)
             {
               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
               nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
               monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]++" ;
-              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))
+                +"]++";
+              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)
+                +var(2)^(mu(2)+1);
             }
           }
         }
@@ -1510,7 +1531,18 @@ example
 }
 //////////////////////////////////////////////////////////////////////////
 /*
-Blow the singularities of main real type Y[1,r,s] up and give as output a list with entries: [1] 1: if the resulting singularities occured at irrational points on the exceptional devisor or 0: if the resulting germs intersects the exceptional divisor smoothly or if the resulting singularities occured at rational points on the exceptional divisor; [2] and [3] the milnor numbers of the two resulting two germs, mu(1) and mu(2); [4] the inertia index of the resulting germ with lowest milnor number, if the resulting germ does not intersct the exceptional divisor smoothly, and 0 otherwise [5] the sign in front of the term var(1)^(mu(1)+1) of the resulting singularity with the lowest milnor number (floating numbers are used in case the resulting singularities occured at irrational points.)
+Blow the singularities of main real type Y[1,r,s] up and give as output
+a list with entries: [1] 1: if the resulting singularities occured at
+irrational points on the exceptional devisor or 0: if the resulting
+germs intersects the exceptional divisor smoothly or if the resulting
+singularities occured at rational points on the exceptional divisor; [2]
+and [3] the milnor numbers of the two resulting two germs, mu(1) and
+mu(2); [4] the inertia index of the resulting germ with lowest milnor
+number, if the resulting germ does not intersct the exceptional divisor
+smoothly, and 0 otherwise [5] the sign in front of the term
+var(1)^(mu(1)+1) of the resulting singularity with the lowest milnor
+number (floating numbers are used in case the resulting singularities
+occured at irrational points.)
 */
 
 static proc BlowUpO(poly f)
@@ -1586,7 +1618,8 @@ static proc BlowUpO(poly f)
               ideal mpsi = std(maxideal(1));
               for(int k = 1; k <= n; k++)
               {
-                mpsi[k] = var(k)-(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
+                mpsi[k] = var(k)
+                  -(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
               }
               map psi = T,mpsi;
               poly g = psi(p);
@@ -1747,5 +1780,5 @@ static proc BlowUpO(poly f)
      }
      return(L1);
    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
