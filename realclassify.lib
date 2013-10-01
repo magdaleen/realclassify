@@ -355,11 +355,14 @@ static proc caseD4(poly rf)
     number t2 = number(rf/(var(2)^2*var(1)));
     if(t1+t2 == 0)
     {
-      phi = br, var(1), 2*var(2);
+      phi = br, var(1)+2*var(2), var(2);
       rf = phi(rf);
     }
-    phi = br, var(1)+var(2), var(2);
-    rf = phi(rf);
+    else
+    {
+      phi = br, var(1)+var(2), var(2);
+      rf = phi(rf);
+    }
   }
   ring R = 0, y, dp;
   map phi = br, 1, y;
