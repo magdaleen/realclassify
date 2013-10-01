@@ -288,18 +288,8 @@ example
 ///////////////////////////////////////////////////////////////////////////////
 static proc caseA1(poly rf, int lambda, int n)
 {
-  /* preliminaries */
-  string typeofsing;
-  poly nf;
-
-  if(lambda < n)
-  {
-    typeofsing = "A[1]+";
-  }
-  else
-  {
-    typeofsing = "A[1]-";
-  }
+  string typeofsing = "A[1]";
+  poly nf = 0;
   return(typeofsing, nf);
 }
 
