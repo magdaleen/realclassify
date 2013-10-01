@@ -160,7 +160,7 @@ EXAMPLE:  example realclassify; shows an example"
       }
       else   // case D[k], k > 4
       {
-        typeofsing, nf = caseDk(rf, d, mu);
+        typeofsing, nf = caseDk(rf, mu);
       }
     }
     if(complextype == "E[6]")   // case E[6]
@@ -380,7 +380,7 @@ static proc caseD4(poly rf)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-static proc caseDk(poly rf, int d, int mu)
+static proc caseDk(poly rf, int mu)
 {
   /* preliminaries */
   string typeofsing;
@@ -388,7 +388,7 @@ static proc caseDk(poly rf, int d, int mu)
   def br = basering;
   map phi;
 
-  rf = jet(rf, d);
+  rf = jet(rf, mu-1);
   list factorization = factorize(jet(rf, 3));
   list factors = factorization[1][2];
   if(factorization[2][2] == 2)
@@ -404,7 +404,7 @@ static proc caseDk(poly rf, int d, int mu)
          factors[2]/var(1), factors[2]/var(2);
   phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
   rf = phi(rf);
-  rf = jet(rf, d);
+  rf = jet(rf, mu-1);
   poly g;
   int i;
   for(i = 4; i < mu; i++)
@@ -415,7 +415,7 @@ static proc caseDk(poly rf, int d, int mu)
       phi = br, var(1)-(g/(var(1)*var(2)))/2,
           var(2)-(g/var(1)^i)*var(1)^(i-2);
       rf = phi(rf);
-      rf = jet(rf, d);
+      rf = jet(rf, mu-1);
     }
   }
   number a = number(rf/var(2)^(mu-1));
