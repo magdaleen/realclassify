@@ -832,9 +832,9 @@ static proc caseJ10(poly rf)
   number a = number((g-var(1)^3)/(var(1)^2*var(2)^2));
   phi = br, var(1)-(a/3)*var(2)^2, var(2);
   rf = phi(rf);
-  poly g1 = jet(rf,5);
+  g1 = jet(rf,5);
   g = rf-g1;
-  number a = number(g/(var(2)^6));
+  a = number(g/(var(2)^6));
   if(a>0)
   {
     signforJ10 = 1;
@@ -1011,12 +1011,10 @@ static proc caseYrs(poly rf)
   if(t > 0)
   {
     int teken = 1;
-    teken;
   }
   else
   {
     int teken = -1;
-    teken;
   }
   ring R = 0, x, dp;
   map phi = br, x, 1;
@@ -1792,19 +1790,25 @@ static proc BlowUpO(poly f)
   list L;
   int n = nvars(basering);
   int i;
+  int j;
+  int k;
+  int l;
+  int m;
   def T = changeord(list(list("lp", 1:nvars(basering))));
   setring T;
   poly f = imap(T(0),f);
   map phi;
   ideal mphi, sing;
   poly p,q;
+  poly f1;
+  list Excep;
   /*blow up*/
   for(i = 1; i <= n; i++)
   {
     mphi = var(i)*maxideal(1);
     mphi[i] = var(i);
     phi = T,mphi;
-    poly f1 = phi(f);
+    f1 = phi(f);
     p = phi(f);
     q = p/var(i);
     while(size(p) == size(q))
@@ -1819,12 +1823,12 @@ static proc BlowUpO(poly f)
     option(redSB);
     sing = std(sing);
     sing = simplify(sing,1);
-    list Excep = primdecGTZ(sing);
-    int l = size(Excep);
-    int m = 0;
-    for(int j = 1; j <= l;j++)
+    Excep = primdecGTZ(sing);
+    l = size(Excep);
+    m = 0;
+    for(j = 1; j <= l;j++)
     {
-      for(int k = 1; k <= size(Excep[j][2]); k++)
+      for(k = 1; k <= size(Excep[j][2]); k++)
       {
         if(deg(Excep[j][2][k])>1)
         {
@@ -1839,7 +1843,7 @@ static proc BlowUpO(poly f)
     }
     if(m==0)
     {
-      for(int j = 1; j <= l; j++)
+      for(j = 1; j <= l; j++)
       {
         if(Excep[j][2][1] == 1)
         {
@@ -1857,7 +1861,7 @@ static proc BlowUpO(poly f)
               ERROR("blow up does not give a nondegenerate form");
             }
             ideal mpsi = std(maxideal(1));
-            for(int k = 1; k <= n; k++)
+            for(k = 1; k <= n; k++)
             {
               mpsi[k] = var(k)
                 -(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
@@ -1951,9 +1955,13 @@ static proc BlowUpO(poly f)
   if(m == 0)
   {
     setring T(0);
-    int l = size(L);
+    l = size(L);
     for(i = 1; i <= size(L); i++)
     {
+      if(defined(mu(i)))
+      {
+        kill mu(i);
+      }
       if(L[i] == var(1))
       {
         int mu(i) = 4;
