@@ -37,7 +37,7 @@ LIB "solve.lib";
 ///////////////////////////////////////////////////////////////////////////////
 proc realclassify(poly f, list #)
 "
-USAGE:    realclassify(f[, printcomments]); f poly, printcomments int
+USAGE:    realclassify(f[, format]); f poly, format string
 RETURN:   A list containing (in this order)
           @* - the type of the singularity as a string,
           @* - the normal form,
@@ -48,11 +48,10 @@ RETURN:   A list containing (in this order)
              in most of the cases. If the value of the parameter is unknown,
              the normal form is given as a string with an \"a\" as the
              parameter. Otherwise, it is given as a polynomial.
-          @* An optional integer printcomments can be provided. If its value
-             is non-zero, a string will be added at the end of the returned
-             list, containing the result in more readable form and in some
-             cases also more comments on how to interpret the result. The
-             default is zero.
+          @* An optional string @code{format} can be provided. Its default
+             value is \"short\" in which case the return value is the list
+             described above. If set to \"nice\", a string is added at the end
+             of this list, containing the result in a more readable form.
 NOTE:     The classification is done over the real numbers, so in contrast to
           classify.lib, the signs of coefficients of monomials where even
           exponents occur matter.
@@ -76,11 +75,18 @@ EXAMPLE:  example realclassify; shows an example"
   int printcomments;
   if(size(#) > 0)
   {
-    if(size(#) > 1 || typeof(#[1]) != "int")
+    if(size(#) > 1 || typeof(#[1]) != "string")
     {
       ERROR("Wrong optional parameters.");
     }
-    printcomments = #[1];
+    if(#[1] != "short" && #[1] != "nice")
+    {
+      ERROR("Wrong optional parameters.");
+    }
+    if(#[1] == "nice")
+    {
+      printcomments = 1;
+    }
   }
 
   /* error check */
@@ -171,6 +177,8 @@ EXAMPLE:  example realclassify; shows an example"
     }
     if(complextype[1,4] == "X[9]")   // case X[9]
     {
+      // TODO: include infos given in 'morecomments' in the list returned by
+      //       realclassify(..., "short");
       typeofsing, nf, monparam, morecomments = caseX9(rf);
     }
     if(complextype == "J[2,0]")   // case J[10]
