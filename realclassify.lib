@@ -135,7 +135,7 @@ EXAMPLE:  example realclassify; shows an example"
   poly monparam;   // the monomial whose coefficient is the parameter
                    // in the modality 1 cases, 0 otherwise
   string morecomments = newline;
-  map phi;
+
   if(cr == 0)   // case A[1]
   {
     typeofsing, typeofsing_alternative = caseA1(rf, lambda, n);
@@ -1339,15 +1339,12 @@ static proc caseW12(poly rf)
   string typeofsing_alternative;
   poly nf_alternative;
   def br = basering;
-  map phi;
 
   poly g = jet(rf, 4);
   number s = number(g/(var(1)^4));
   if(s == 0)
   {
     s = number(g/(var(2)^4));
-    phi = br, var(2), var(1);   // maybe we'll need this transformation
-    rf = phi(rf);               // later
   }
   if(s > 0)
   {
@@ -1377,15 +1374,12 @@ static proc caseW13(poly rf)
   string typeofsing_alternative;
   poly nf_alternative;
   def br = basering;
-  map phi;
 
   poly g = jet(rf, 4);
   number s = number(g/(var(1)^4));
   if(s == 0)
   {
     s = number(g/(var(2)^4));
-    phi = br, var(2), var(1);   // maybe we'll need this transformation
-    rf = phi(rf);               // later
   }
   if(s > 0)
   {
