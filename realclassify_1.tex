@@ -660,30 +660,26 @@ Algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c = 0$ or
 $c = 1$.
 
 \begin{algorithm}[ht]
-\caption{\label{alg:A_k} Algorithm for the case $A_k$}
+\caption{Algorithm for the case $A_k$}%
+\label{alg:A_k}
 \begin{algorithmic}[1]
 
-\Require{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
-the output polynomial $g$ after applying
-Algorithm \ref{alg:splitting_lemma}, the corank $c$ of $f$ and the inertia
-index $\lambda$ of $f$}
+\Require{$f \in \Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$, the
+output polynomial $g$ after applying Algorithm~\ref{alg:splitting_lemma}, and
+the corank $c$ of $f$}
 
-\Ensure{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
+\Ensure{the real singularity type of $f$, i.e.\@ $A_k$, $A_k^+$ or $A_k^-$,
 $k\in\mathbb N$}
 
 \If{$c=0$}
-\If{$\lambda<n$}
-\State type $:=A_1^+$
-\Else
-\State type $:=A_1^-$
-\EndIf
+\State type $:=A_1$
 \EndIf
 \If{$c=1$}
 \State $k:= \ord(g)-1$
 \If{$k$ is even}
-\State type $:=A_k^+$
+\State type $:=A_k$
 \Else
-\State $s:=$ coefficient of $x^{k+1}$
+\State $s:=$ coefficient of $x^{k+1}$ in $g$
 \If{$s > 0$}
 \State type $:=A_k^+$
 \Else
