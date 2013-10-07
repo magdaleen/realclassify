@@ -37,7 +37,7 @@ LIB "solve.lib";
 ///////////////////////////////////////////////////////////////////////////////
 proc realclassify(poly f, list #)
 "
-USAGE:    realclassify(f[, printcomments]); f poly, printcomments int
+USAGE:    realclassify(f[, format]); f poly, format string
 RETURN:   A list containing (in this order)
           @* - the type of the singularity as a string,
           @* - the normal form,
@@ -48,11 +48,10 @@ RETURN:   A list containing (in this order)
              in most of the cases. If the value of the parameter is unknown,
              the normal form is given as a string with an \"a\" as the
              parameter. Otherwise, it is given as a polynomial.
-          @* An optional integer printcomments can be provided. If its value
-             is non-zero, a string will be added at the end of the returned
-             list, containing the result in more readable form and in some
-             cases also more comments on how to interpret the result. The
-             default is zero.
+          @* An optional string @code{format} can be provided. Its default
+             value is \"short\" in which case the return value is the list
+             described above. If set to \"nice\", a string is added at the end
+             of this list, containing the result in a more readable form.
 NOTE:     The classification is done over the real numbers, so in contrast to
           classify.lib, the signs of coefficients of monomials where even
           exponents occur matter.
@@ -76,11 +75,18 @@ EXAMPLE:  example realclassify; shows an example"
   int printcomments;
   if(size(#) > 0)
   {
-    if(size(#) > 1 || typeof(#[1]) != "int")
+    if(size(#) > 1 || typeof(#[1]) != "string")
     {
       ERROR("Wrong optional parameters.");
     }
-    printcomments = #[1];
+    if(#[1] != "short" && #[1] != "nice")
+    {
+      ERROR("Wrong optional parameters.");
+    }
+    if(#[1] == "nice")
+    {
+      printcomments = 1;
+    }
   }
 
   /* error check */
@@ -130,51 +136,19 @@ EXAMPLE:  example realclassify; shows an example"
   poly rf = morse[4];
 
   /* determine the type */
-  string typeofsing, typeofsing_alternative;
-  poly nf, nf_alternative;
+  string typeofsing;
+  poly nf;
   poly monparam;   // the monomial whose coefficient is the parameter
                    // in the modality 1 cases, 0 otherwise
   string morecomments = newline;
-  map phi;
+
   if(cr == 0)   // case A[1]
   {
-    if(lambda < n)
-    {
-      typeofsing = "A[1]+";
-      typeofsing_alternative = "A[1]-";
-    }
-    else
-    {
-      typeofsing = "A[1]-";
-      typeofsing_alternative = "A[1]+";
-    }
+    typeofsing, nf = caseA1(rf, lambda, n);
   }
   if(cr == 1)   // case A[k], k > 1
   {
-    int k = deg(lead(rf), 1:n)-1;
-    if(k%2 == 0)
-    {
-      nf = var(1)^(k+1);
-      nf_alternative = nf;
-      typeofsing = "A["+string(k)+"]";
-      typeofsing_alternative = typeofsing;
-    }
-    else
-    {
-      if(leadcoef(rf) > 0)
-      {
-        nf = var(1)^(k+1);
-        typeofsing = "A["+string(k)+"]+";
-        typeofsing_alternative = "A["+string(k)+"]-";
-      }
-      else
-      {
-        nf = -var(1)^(k+1);
-        typeofsing = "A["+string(k)+"]-";
-        typeofsing_alternative = "A["+string(k)+"]+";
-      }
-      nf_alternative = -nf;
-    }
+    typeofsing, nf = caseAk(rf, n);
   }
   if(cr == 2)
   {
@@ -182,654 +156,78 @@ EXAMPLE:  example realclassify; shows an example"
     {
       if(mu == 4)   // case D[4]
       {
-        rf = jet(rf, 3);
-        number s1 = number(rf/(var(1)^3));
-        number s2 = number(rf/(var(2)^3));
-        if(s2 == 0 && s1 != 0)
-        {
-          phi = br, var(2), var(1);
-          rf = phi(rf);
-        }
-        if(s1 == 0 && s2 == 0)
-        {
-          number t1 = number(rf/(var(1)^2*var(2)));
-          number t2 = number(rf/(var(2)^2*var(1)));
-          if(t1+t2 == 0)
-          {
-            phi = br, var(1), 2*var(2);
-            rf = phi(rf);
-          }
-          phi = br, var(1)+var(2), var(2);
-          rf = phi(rf);
-        }
-        ring R = 0, y, dp;
-        map phi = br, 1, y;
-        poly rf = phi(rf);
-        int k = nrroots(rf);
-        setring(br);
-        if(k == 3)
-        {
-          nf = var(1)^2*var(2)-var(2)^3;
-          typeofsing = "D[4]-";
-        }
-        else
-        {
-          nf = var(1)^2*var(2)+var(2)^3;
-          typeofsing = "D[4]+";
-        }
-        typeofsing_alternative = typeofsing;
-        nf_alternative = nf;
+        typeofsing, nf = caseD4(rf);
       }
       else   // case D[k], k > 4
       {
-        rf = jet(rf, d);
-        list factorization = factorize(jet(rf, 3));
-        list factors = factorization[1][2];
-        if(factorization[2][2] == 2)
-        {
-          factors = insert(factors, factorization[1][3], 1);
-        }
-        else
-        {
-          factors = insert(factors, factorization[1][3]);
-        }
-        factors[2] = factorization[1][1]*factors[2];
-        matrix T[2][2] = factors[1]/var(1), factors[1]/var(2),
-                         factors[2]/var(1), factors[2]/var(2);
-        phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
-        rf = phi(rf);
-        rf = jet(rf, d);
-        poly g;
-        for(i = 4; i < mu; i++)
-        {
-          g = jet(rf, i) - var(1)^2*var(2);
-          if(g != 0)
-          {
-            phi = br, var(1)-(g/(var(1)*var(2)))/2,
-                      var(2)-(g/var(1)^i)*var(1)^(i-2);
-            rf = phi(rf);
-            rf = jet(rf, d);
-          }
-        }
-        number a = number(rf/var(2)^(mu-1));
-        if(a > 0)
-        {
-          typeofsing = "D["+string(mu)+"]+";
-          nf = var(1)^2*var(2)+var(2)^(mu-1);
-          if(mu%2 == 0)
-          {
-            nf_alternative = nf;
-            typeofsing_alternative = typeofsing;
-          }
-          else
-          {
-            nf_alternative = var(1)^2*var(2)-var(2)^(mu-1);
-            typeofsing_alternative = "D["+string(mu)+"]-";
-          }
-        }
-        else
-        {
-          typeofsing = "D["+string(mu)+"]-";
-          nf = var(1)^2*var(2)-var(2)^(mu-1);
-          if(mu%2 == 0)
-          {
-            nf_alternative = nf;
-            typeofsing_alternative = typeofsing;
-          }
-          else
-          {
-            nf_alternative = var(1)^2*var(2)+var(2)^(mu-1);
-            typeofsing_alternative = "D["+string(mu)+"]+";
-          }
-        }
+        typeofsing, nf = caseDk(rf, mu);
       }
     }
-    if(complextype == "E[6]")  // case E[6] ;
+    if(complextype == "E[6]")   // case E[6]
     {
-      poly g = jet(rf,3);
-      number s = number(g/(var(1)^3));
-      if(s == 0)
-      {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-        g = jet(rf,3);
-      }
-      list Factors = factorize(g);
-      poly g1 = Factors[1][2];
-      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
-      rf = phi(rf);
-      rf = jet(rf,4);
-      number w = number(rf/(var(2)^4));
-      if(w > 0)
-      {
-        typeofsing = "E[6]+";
-        nf = var(1)^3+var(2)^4;
-        typeofsing_alternative = "E[6]-";
-        nf_alternative = var(1)^3-var(2)^4;
-      }
-      else
-      {
-        typeofsing = "E[6]-";
-        nf = var(1)^3-var(2)^4;
-        typeofsing_alternative = "E[6]+";
-        nf_alternative = var(1)^3+var(2)^4;
-      }
+      typeofsing, nf = caseE6(rf);
     }
     if(complextype == "E[7]")   // case E[7]
     {
-      typeofsing = "E[7]";
-      nf = var(1)^3+var(1)*var(2)^3;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf = caseE7();
     }
     if(complextype == "E[8]")   // case E[8]
     {
-      typeofsing = "E[8]";
-      nf = var(1)^3+var(2)^5;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf = caseE8();
     }
-    if(complextype[1,4] == "X[9]")  // case X[9]
+    if(complextype[1,4] == "X[9]")   // case X[9]
     {
-      typeofsing, nf, monparam,
-        typeofsing_alternative, nf_alternative, morecomments = caseX9(rf);
+      // TODO: include infos given in 'morecomments' in the list returned by
+      //       realclassify(..., "short");
+      typeofsing, nf, monparam, morecomments = caseX9(rf);
     }
-    if(complextype == "J[2,0]")  // case J[10]
+    if(complextype == "J[2,0]")   // case J[10]
     {
-      int signforJ10;
-      poly g = jet(rf,3);
-      poly s1 = g/(var(1)^3);
-      poly s2 = g/(var(2)^3);
-      if(s1 == 0 && s2 != 0)
-      {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-        g = jet(rf,3);
-      }
-      list Factors = factorize(g);
-      poly g1 = Factors[1][2];
-      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
-      rf = phi(rf);
-      g = jet(rf,3);
-      number s = number(g/(var(1)^3));
-      if (s<0)
-      {
-        phi = br, -var(1), var(2);
-        rf = phi(rf);
-      }
-      intvec iv = 2,1;
-      rf = jet(rf,6,iv);
-      g = jet(rf,3);
-      number b = number(g/(var(1)^3));
-      rf = rf/b;
-      g = jet(rf,4);
-      number a = number((g-var(1)^3)/(var(1)^2*var(2)^2));
-      phi = br, var(1)-(a/3)*var(2)^2, var(2);
-      rf = phi(rf);
-      poly g1 = jet(rf,5);
-      g = rf-g1;
-      number a = number(g/(var(2)^6));
-      if(a>0)
-      {
-        signforJ10 = 1;
-        typeofsing = "J[10]+";
-        typeofsing_alternative = "J[10]-";
-      }
-      else
-      {
-        signforJ10 = -1;
-        typeofsing = "J[10]-";
-        typeofsing_alternative = "J[10]+";
-      }
-      nf = var(1)^3+var(1)^2*var(2)^2+signforJ10*var(2)^6;
-      monparam = var(1)^2*var(2)^2;
-      nf_alternative = var(1)^3+var(1)^2*var(2)^2+(-1)*signforJ10*var(2)^6;
+      typeofsing, nf, monparam = caseJ10(rf);
     }
-    if(complextype[1,3] == "J[2" && mu >10) //case J[10+k]
+    if(complextype[1,3] == "J[2" && mu > 10)   // case J[10+k]
     {
-       typeofsing = "J["+string(mu)+"]";
-       nf = var(1)^3+var(1)*var(2)^4+var(2)^(6+(mu-10));
-       monparam = var(2)^(6+(mu-10));
-       typeofsing_alternative = typeofsing;
-       nf_alternative = nf;
+      typeofsing, nf, monparam = caseJk(mu);
     }
-    if(complextype[1,3] == "X[1") //case X[1,k]
+    if(complextype[1,3] == "X[1")   // case X[9+k]
     {
-      if(mu > 9)
-      {
-        rf = jet(rf,4);
-        number s1 = number(rf/(var(1)^4));
-        number s2 = number(rf/(var(2)^4));
-        if(s2 != 0 && s1 == 0)
-        {
-          phi = br, var(2), var(1);
-          rf = phi(rf);
-        }
-        if(s2 == 0 && s1 == 0)
-        {
-          number t1 = number(rf/(var(1)^3*var(2)));
-          number t2 = number(rf/(var(1)^2*var(2)^2));
-          number t3 = number(rf/(var(1)*var(2)^3));
-          if(t1+t2+t3 == 0)
-          {
-            if(2*t1+4*t2+8*t3 != 0)
-            {
-              phi = br, var(1), 2*var(2);
-              rf = phi(rf);
-            }
-            else
-            {
-              phi = br, var(1), 3*var(2);
-              rf = phi(rf);
-            }
-          }
-          phi = br, var(1), var(1)+var(2);
-          rf = phi(rf);
-        }
-        ring R = 0, x, dp;
-        map phi = br, x, 1;
-        int k = nrroots(phi(rf));
-        setring(br);
-        if(k == 1)
-        {
-          number w = number(rf/(var(1)^4));
-          if(w > 0)
-          {
-            typeofsing = "X["+string(mu)+"]++";
-            nf = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]--";
-            nf_alternative = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-          }
-          else
-          {
-            typeofsing = "X["+string(mu)+"]--";
-            nf = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]++";
-            nf_alternative = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-          }
-        }
-        if(k == 3)
-        {
-          list Factors = factorize(rf);
-          for(i = 2; i <= size(Factors[1]); i++)
-          {
-            if(Factors[2][i] == 2)
-            {
-              poly g1 = Factors[1][i];
-              break;
-            }
-          }
-          map phi = br, (var(1)-(g1/(var(2))*var(2)))/(g1/var(1)), var(2);
-          rf = phi(rf);
-          number w = number(rf/(var(1)^2*var(2)^2));
-          if(w > 0)
-          {
-            typeofsing = "X["+string(mu)+"]-+";
-            nf = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]+-";
-            nf_alternative = var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-          }
-          else
-          {
-            typeofsing = "X["+string(mu)+"]+-";
-            nf = var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-            typeofsing_alternative = "X["+string(mu)+"]-+";
-            nf_alternative = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
-          }
-        }
-        monparam = var(2)^(4+(mu-9));
-      }
+      typeofsing, nf, monparam = caseXk(rf, mu);
     }
-    if(complextype[1,3] == "Y[1")  // Case Y[1,r,s]
+    if(complextype[1,3] == "Y[1")   // case Y[r,s]
     {
-      poly g = jet(rf,4);
-      poly s1 = g/(var(1)^4);
-      poly s2 = g/(var(2)^4);
-      if(s1 == 0 && s2 != 0)
-      {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-      }
-      if(s1 == 0 && s2 == 0)
-      {
-        poly t1 = g/(var(1)^3*var(2));
-        poly t2 = g/(var(1)^2*var(2)^2);
-        poly t3 = g/(var(1)*var(2)^3);
-        if(t1+t2+t3 == 0)
-        {
-          if(2t1+4t2+8t3 != 0)
-          {
-            phi = br, var(1), 2*var(2);
-            rf = phi(rf);
-            g = jet(rf,4);
-          }
-          else
-          {
-            phi = br, var(1), 3*var(2);
-            rf = phi(rf);
-            g = jet(rf,4);
-          }
-        }
-        phi = br, var(1), var(1)+var(2);
-        rf = phi(rf);
-        g = jet(rf,4);
-      }
-      number t = number(g/(var(1)^4));
-      if(t > 0)
-      {
-        int teken = 1;
-        teken;
-      }
-      else
-      {
-        int teken = -1;
-        teken;
-      }
-      ring R = 0, x, dp;
-      map phi = br, x, 1;
-      poly g = phi(g);
-      int r = nrroots(g);
-      setring(br);
-      if(r == 0)   //case Y'[1,r,r]
-      {
-        int r' = (mu-9)/2+4;
-        if (teken == 1)
-        {
-          typeofsing = "Y'[1,"+string(r')+","+string(r')+"]+";
-          typeofsing_alternative = "Y'[1,"+string(r')+","+string(r')+"]-";
-        }
-        else
-        {
-          typeofsing = "Y'[1,"+string(r')+","+string(r')+"]-";
-          typeofsing_alternative = "Y'[1,"+string(r')+","+string(r')+"]-";
-        }
-        nf = teken*(var(1)^2+var(2)^2)^2+var(1)^r';
-        nf_alternative = -1*teken*(var(1)^2+var(2)^2)^2+var(1)^r';
-        monparam = var(1)^r';
-      }
-      else    //Case Y[1,r,s]
-      {
-        ring T(0) = 0,(x,y),ds;
-        poly rf = fetch(br,rf);
-        list M  = BlowUpO(rf);
-        int mu(1) = M[2];
-        int mu(2) = M[3];
-        if((mu(1)+1) mod 2)
-        {
-          if(teken == 1)
-          {
-            setring br;
-            typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
-            nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            monparam = var(2)^(mu(2)+1);
-            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
-            nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-          }
-          if(teken == -1)
-          {
-            setring br;
-            typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
-            nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            monparam = var(2)^(mu(2)+1);
-            typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-            nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-          }
-        }
-        else
-        {
-          if(M[1] == 1)
-          {
-            "WARNING: Floating numbers are used to determine the sign of the term "+string(var(1)^(mu(1)+1))+" and thus may be wrong.";
-          }
-          int lambda(1) = M[4];
-          if(mu(1) == 5)
-          {
-            int m;
-            if(teken == -1)
-            {
-              m = lambda(1)-1;
-            }
-            else
-            {
-              m = lambda(1);
-            }
-            setring br;
-            if(m > 0 && teken > 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
-              nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+" ;
-              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(m > 0 && teken < 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
-              nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++" ;
-              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(m == 0 && teken > 0)
-            {
-               typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
-               nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-               monparam = var(2)^(mu(2)+1);
-               typeofsing_alternative = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--" ;
-               nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(m == 0 && teken < 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
-              nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-          }
-          else
-          {
-            int teken1 = M[5];
-            setring br;
-            if(teken > 0 && teken1 > 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
-              nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]--" ;
-              nf_alternative = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(teken > 0 && teken1 < 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
-              nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]-+" ;
-              nf_alternative = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(teken < 0 && teken1 > 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
-              nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]+-" ;
-              nf_alternative = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-            if(teken < 0 && teken1 < 0)
-            {
-              typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
-              nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-              monparam = var(2)^(mu(2)+1);
-              typeofsing_alternative = "Y[1,"+string(mu(1))+","+string(mu(2))+"]++" ;
-              nf_alternative = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
-            }
-          }
-        }
-      }
+      typeofsing, nf, monparam = caseYrs(rf);
     }
     if(complextype == "E[12]")   // case E[12]
     {
-      typeofsing = "E[12]";
-      nf = var(1)^3+var(2)^7+var(1)*var(2)^5;
-      monparam = var(1)*var(2)^5;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf, monparam = caseE12();
     }
     if(complextype == "E[13]")   // case E[13]
     {
-      typeofsing = "E[13]";
-      nf = var(1)^3+var(1)*var(2)^5+var(2)^8;
-      monparam = var(2)^8;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf, monparam = caseE13();
     }
-    if(complextype == "E[14]") //case E[14]
+    if(complextype == "E[14]")   // case E[14]
     {
-      poly g = jet(rf,3);
-      number s = number(g/(var(1)^3));
-      if(s == 0)
-      {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-        g = jet(rf,3);
-        s = number(g/(var(1)^3));
-      }
-      rf = rf/s;
-      list Factors = factorize(g);
-      poly g1 = Factors[1][2];
-      phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
-      rf = phi(rf);
-      g = jet(rf,3);
-      number w0 = number(g/(var(1)^3));
-      phi = br, var(1)-((jet(rf,4)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
-      rf = phi(rf);
-      phi = br, var(1)-((jet(rf,5)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
-      rf = phi(rf);
-      rf = s*rf;
-      rf = jet(rf,8);
-      number w = number(rf/(var(2)^8));
-      if(w > 0)
-      {
-        typeofsing = "E[14]+";
-        nf = var(1)^3+var(2)^8+var(1)*var(2)^6;
-        typeofsing_alternative = "E[14]-";
-        nf_alternative = var(1)^3-var(2)^8+var(1)*var(2)^6;
-      }
-      if(w < 0)
-      {
-        typeofsing = "E[14]-";
-        nf = var(1)^3-var(2)^8+var(1)*var(2)^6;
-        typeofsing_alternative = "E[14]+";
-        nf_alternative = var(1)^3+var(2)^8+var(1)*var(2)^6;
-      }
-      monparam = var(1)*var(2)^6;
+      typeofsing, nf, monparam = caseE14(rf);
     }
     if(complextype == "Z[11]")   // case Z[11]
     {
-      typeofsing = "Z[11]";
-      nf = var(1)^3*var(2)+var(2)^5+var(1)*var(2)^4;
-      monparam = var(1)*var(2)^4;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf, monparam = caseZ11();
     }
     if(complextype == "Z[12]")   // case Z[12]
     {
-      typeofsing = "Z[12]";
-      nf = var(1)^3*var(2)+var(1)*var(2)^4+var(1)^2*var(2)^3;
-      monparam = var(1)^2*var(2)^3;
-      typeofsing_alternative = typeofsing;
-      nf_alternative = nf;
+      typeofsing, nf, monparam = caseZ12();
     }
     if(complextype == "Z[13]")   // case Z[13]
     {
-      poly g = jet(rf,4);
-      number s = number(g/var(1)^3*var(2));
-      if(s == 0)
-      {
-        phi = br, var(2), var(1);
-        rf = phi(rf);
-        g = jet(rf,4);
-      }
-      list Factors = factorize(g);
-      if(Factors[2][2] == 3)
-      {
-        poly g1 = Factors[1][2];
-      }
-      else
-      {
-        poly g1 = Factors[1][3];
-      }
-      phi = br, var(1)-(g1/var(2))*var(2), var(2);
-      rf = phi(rf);
-      rf = jet(rf,6);
-      number w = number(rf/var(2)^6);
-      if(w > 0)
-      {
-        typeofsing = "Z[13]+";
-        nf = var(1)^3*var(2)+var(2)^6+var(1)*var(2)^5;
-        typeofsing_alternative = "Z[13]-";
-        nf_alternative = var(1)^3*var(2)-var(2)^6+var(1)*var(2)^5;
-      }
-      else
-      {
-        typeofsing = "Z[13]-";
-        nf = var(1)^3*var(2)-var(2)^6+var(1)*var(2)^5;
-        typeofsing_alternative = "Z[13]+";
-        nf_alternative = var(1)^3*var(2)+var(2)^6+var(1)*var(2)^5;
-      }
-      monparam = var(1)*var(2)^5;
+      typeofsing, nf, monparam = caseZ13(rf);
     }
-    if(complextype == "W[12]") //case W[12]
+    if(complextype == "W[12]")   // case W[12]
     {
-      poly g = jet(rf, 4);
-      number s = number(g/(var(1)^4));
-      if(s == 0)
-      {
-        s = number(g/(var(2)^4));
-        phi = br, var(2), var(1);   // maybe we'll need this transformation
-        rf = phi(rf);               // later
-      }
-      if(s > 0)
-      {
-        typeofsing = "W[12]+";
-        nf = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
-        typeofsing_alternative = "W[12]-";
-        nf_alternative = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
-      }
-      else
-      {
-        typeofsing = "W[12]-";
-        nf = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
-        typeofsing_alternative = "W[12]+";
-        nf_alternative = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
-      }
-      monparam = var(1)^2*var(2)^3;
+      typeofsing, nf, monparam = caseW12(rf);
     }
-    if(complextype == "W[13]")   //case W[13]
+    if(complextype == "W[13]")   // case W[13]
     {
-      poly g = jet(rf, 4);
-      number s = number(g/(var(1)^4));
-      if(s == 0)
-      {
-        s = number(g/(var(2)^4));
-        phi = br, var(2), var(1);   // maybe we'll need this transformation
-        rf = phi(rf);               // later
-      }
-      if(s > 0)
-      {
-        typeofsing = "W[13]+";
-        nf = var(1)^4+var(1)*var(2)^4+var(2)^6;
-        typeofsing_alternative = "W[13]-";
-        nf_alternative = -var(1)^4+var(1)*var(2)^4+var(2)^6;
-      }
-      else
-      {
-        typeofsing = "W[13]-";
-        nf = -var(1)^4+var(1)*var(2)^4+var(2)^6;
-        typeofsing_alternative = "W[13]+";
-        nf_alternative = var(1)^4+var(1)*var(2)^4+var(2)^6;
-      }
-      monparam = var(2)^6;
+      typeofsing, nf, monparam = caseW13(rf);
     }
     if(typeofsing == "")
     {
@@ -843,17 +241,13 @@ EXAMPLE:  example realclassify; shows an example"
 
   /* add the non-corank variables to the normal forms */
   nf = addnondegeneratevariables(nf, lambda, cr);
-  nf_alternative = addnondegeneratevariables(nf_alternative, n-cr-lambda, cr);
 
   /* write normal form as a string in the cases with modality greater than 0 */
   if(monparam != 0)
   {
     poly nf_tmp = nf;
-    poly nf_alternative_tmp = nf_alternative;
     kill nf;
-    kill nf_alternative;
     def nf = modality1NF(nf_tmp, monparam);
-    def nf_alternative = modality1NF(nf_alternative_tmp, monparam);
   }
 
   /* write comments */
@@ -866,16 +260,6 @@ EXAMPLE:  example realclassify; shows an example"
                        +"Milnor number:       "   +string(mu)    +newline
                        +"Inertia index:       "   +string(lambda)+newline
                        +"Determinacy:         <= "+string(d)     +newline;
-    if(typeofsing != typeofsing_alternative || nf != nf_alternative
-       || lambda != n-cr-lambda)
-    {
-      comments = comments+newline
-        +"Note: By multiplying the input polynomial with -1,"+newline
-        +"      it can also be regarded as of the following case:"+newline
-        +"Type of singularity: "+typeofsing_alternative+newline
-        +"Normal form:         "+string(nf_alternative)+newline
-        +"Inertia index:       "+string(n-cr-lambda)   +newline;
-    }
     if(morecomments != newline)
     {
       comments = comments+morecomments;
@@ -893,13 +277,204 @@ EXAMPLE:  example realclassify; shows an example"
   }
 }
 example
-
 {
   "EXAMPLE:";
   echo = 2;
   ring r = 0, (x,y,z), ds;
   poly f = (x2+3y-2z)^2+xyz-(x-y3+x2z3)^3;
-  realclassify(f, 1);
+  realclassify(f, "nice");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseA1(poly rf, int lambda, int n)
+{
+  string typeofsing = "A[1]";
+  poly nf = 0;
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseAk(poly rf, int n)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+
+  int k = deg(lead(rf), 1:n)-1;
+  if(k%2 == 0)
+  {
+    nf = var(1)^(k+1);
+    typeofsing = "A["+string(k)+"]";
+  }
+  else
+  {
+    if(leadcoef(rf) > 0)
+    {
+      nf = var(1)^(k+1);
+      typeofsing = "A["+string(k)+"]+";
+    }
+    else
+    {
+      nf = -var(1)^(k+1);
+      typeofsing = "A["+string(k)+"]-";
+    }
+  }
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseD4(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  def br = basering;
+  map phi;
+
+  rf = jet(rf, 3);
+  number s1 = number(rf/(var(1)^3));
+  number s2 = number(rf/(var(2)^3));
+  if(s2 == 0 && s1 != 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+  }
+  if(s1 == 0 && s2 == 0)
+  {
+    number t1 = number(rf/(var(1)^2*var(2)));
+    number t2 = number(rf/(var(2)^2*var(1)));
+    if(t1+t2 == 0)
+    {
+      phi = br, var(1)+2*var(2), var(2);
+      rf = phi(rf);
+    }
+    else
+    {
+      phi = br, var(1)+var(2), var(2);
+      rf = phi(rf);
+    }
+  }
+  ring R = 0, y, dp;
+  map phi = br, 1, y;
+  poly rf = phi(rf);
+  int k = nrroots(rf);
+  setring(br);
+  if(k == 3)
+  {
+    nf = var(1)^2*var(2)-var(2)^3;
+    typeofsing = "D[4]-";
+  }
+  else
+  {
+    nf = var(1)^2*var(2)+var(2)^3;
+    typeofsing = "D[4]+";
+  }
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseDk(poly rf, int mu)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  def br = basering;
+  map phi;
+
+  rf = jet(rf, mu-1);
+  list factorization = factorize(jet(rf, 3));
+  list factors = factorization[1][2];
+  if(factorization[2][2] == 2)
+  {
+    factors = insert(factors, factorization[1][3], 1);
+  }
+  else
+  {
+    factors = insert(factors, factorization[1][3]);
+  }
+  factors[2] = factorization[1][1]*factors[2];
+  matrix T[2][2] = factors[1]/var(1), factors[1]/var(2),
+         factors[2]/var(1), factors[2]/var(2);
+  phi = br, luinverse(T)[2]*matrix(ideal(var(1), var(2)), 2, 1);
+  rf = phi(rf);
+  rf = jet(rf, mu-1);
+  poly g;
+  int i;
+  for(i = 4; i < mu; i++)
+  {
+    g = jet(rf, i) - var(1)^2*var(2);
+    if(g != 0)
+    {
+      phi = br, var(1)-(g/(var(1)*var(2)))/2,
+          var(2)-(g/var(1)^i)*var(1)^(i-2);
+      rf = phi(rf);
+      rf = jet(rf, mu-1);
+    }
+  }
+  number a = number(rf/var(2)^(mu-1));
+  if(a > 0)
+  {
+    typeofsing = "D["+string(mu)+"]+";
+    nf = var(1)^2*var(2)+var(2)^(mu-1);
+  }
+  else
+  {
+    typeofsing = "D["+string(mu)+"]-";
+    nf = var(1)^2*var(2)-var(2)^(mu-1);
+  }
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE6(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  def br = basering;
+  map phi;
+
+  poly g = jet(rf,3);
+  number s = number(g/(var(1)^3));
+  if(s == 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+    g = jet(rf,3);
+  }
+  list Factors = factorize(g);
+  poly g1 = Factors[1][2];
+  phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+  rf = phi(rf);
+  rf = jet(rf,4);
+  number w = number(rf/(var(2)^4));
+  if(w > 0)
+  {
+    typeofsing = "E[6]+";
+    nf = var(1)^3+var(2)^4;
+  }
+  else
+  {
+    typeofsing = "E[6]-";
+    nf = var(1)^3-var(2)^4;
+  }
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE7()
+{
+  string typeofsing = "E[7]";
+  poly nf = var(1)^3+var(1)*var(2)^3;
+  return(typeofsing, nf);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE8()
+{
+  string typeofsing = "E[8]";
+  poly nf = var(1)^3+var(2)^5;
+  return(typeofsing, nf);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -909,8 +484,6 @@ static proc caseX9(poly rf)
   string typeofsing;
   poly nf;
   poly monparam;
-  string typeofsing_alternative;
-  poly nf_alternative;
   string morecomments = newline+"For the parameter a, it holds:"+newline;
   def br = basering;
   int case;   // internal number of the subcase
@@ -963,8 +536,6 @@ static proc caseX9(poly rf)
   {
     typeofsing = "X[9]++";
     nf = var(1)^4+var(1)^2*var(2)^2+var(2)^4;
-    typeofsing_alternative = "X[9]--";
-    nf_alternative = -var(1)^4+var(1)^2*var(2)^2-var(2)^4;
     morecomments = morecomments+"(*) a < -2"+newline;
     case = 1;
     s = 1;
@@ -973,8 +544,6 @@ static proc caseX9(poly rf)
   {
     typeofsing = "X[9]+-";
     nf = var(1)^4+var(1)^2*var(2)^2-var(2)^4;
-    typeofsing_alternative = typeofsing;
-    nf_alternative = nf;
     case = 2;
     s = -1;
   }
@@ -985,8 +554,6 @@ static proc caseX9(poly rf)
     {
       typeofsing = "X[9]++";
       nf = var(1)^4+var(1)^2*var(2)^2+var(2)^4;
-      typeofsing_alternative = "X[9]--";
-      nf_alternative = -var(1)^4+var(1)^2*var(2)^2-var(2)^4;
       morecomments = morecomments+"(*) a > -2"+newline;
       case = 3;
     }
@@ -994,8 +561,6 @@ static proc caseX9(poly rf)
     {
       typeofsing = "X[9]--";
       nf = -var(1)^4+var(1)^2*var(2)^2-var(2)^4;
-      typeofsing_alternative = "X[9]++";
-      nf_alternative = var(1)^4+var(1)^2*var(2)^2+var(2)^4;
       morecomments = morecomments+"(*) a < 2"+newline;
       case = 4;
     }
@@ -1141,8 +706,522 @@ static proc caseX9(poly rf)
       +"      it can also be regarded as of the case X[9]-+."+newline
   }
   setring(br);
-  return(typeofsing, nf, monparam, typeofsing_alternative, nf_alternative,
-    morecomments);
+  return(typeofsing, nf, monparam, morecomments);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseJ10(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+  map phi;
+
+  int signforJ10;
+  poly g = jet(rf,3);
+  poly s1 = g/(var(1)^3);
+  poly s2 = g/(var(2)^3);
+  if(s1 == 0 && s2 != 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+    g = jet(rf,3);
+  }
+  list Factors = factorize(g);
+  poly g1 = Factors[1][2];
+  phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+  rf = phi(rf);
+  g = jet(rf,3);
+  number s = number(g/(var(1)^3));
+  if (s<0)
+  {
+    phi = br, -var(1), var(2);
+    rf = phi(rf);
+  }
+  intvec iv = 2,1;
+  rf = jet(rf,6,iv);
+  g = jet(rf,3);
+  number b = number(g/(var(1)^3));
+  rf = rf/b;
+  g = jet(rf,4);
+  number a = number((g-var(1)^3)/(var(1)^2*var(2)^2));
+  phi = br, var(1)-(a/3)*var(2)^2, var(2);
+  rf = phi(rf);
+  g1 = jet(rf,5);
+  g = rf-g1;
+  a = number(g/(var(2)^6));
+  if(a>0)
+  {
+    signforJ10 = 1;
+    typeofsing = "J[10]+";
+  }
+  else
+  {
+    signforJ10 = -1;
+    typeofsing = "J[10]-";
+  }
+  nf = var(1)^3+var(1)^2*var(2)^2+signforJ10*var(2)^6;
+  monparam = var(1)^2*var(2)^2;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseJk(int mu)
+{
+  string typeofsing = "J["+string(mu)+"]";
+  poly nf = var(1)^3+var(1)*var(2)^4+var(2)^(6+(mu-10));
+  poly monparam = var(2)^(6+(mu-10));
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseXk(poly rf, int mu)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+  map phi;
+
+  if(mu > 9)
+  {
+    rf = jet(rf,4);
+    number s1 = number(rf/(var(1)^4));
+    number s2 = number(rf/(var(2)^4));
+    if(s2 != 0 && s1 == 0)
+    {
+      phi = br, var(2), var(1);
+      rf = phi(rf);
+    }
+    if(s2 == 0 && s1 == 0)
+    {
+      number t1 = number(rf/(var(1)^3*var(2)));
+      number t2 = number(rf/(var(1)^2*var(2)^2));
+      number t3 = number(rf/(var(1)*var(2)^3));
+      if(t1+t2+t3 == 0)
+      {
+        if(2*t1+4*t2+8*t3 != 0)
+        {
+          phi = br, var(1), 2*var(2);
+          rf = phi(rf);
+        }
+        else
+        {
+          phi = br, var(1), 3*var(2);
+          rf = phi(rf);
+        }
+      }
+      phi = br, var(1), var(1)+var(2);
+      rf = phi(rf);
+    }
+    ring R = 0, x, dp;
+    map phi = br, x, 1;
+    int k = nrroots(phi(rf));
+    setring(br);
+    if(k == 1)
+    {
+      number w = number(rf/(var(1)^4));
+      if(w > 0)
+      {
+        typeofsing = "X["+string(mu)+"]++";
+        nf = var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+      }
+      else
+      {
+        typeofsing = "X["+string(mu)+"]--";
+        nf = -var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+      }
+    }
+    if(k == 3)
+    {
+      list Factors = factorize(rf);
+      for(i = 2; i <= size(Factors[1]); i++)
+      {
+        if(Factors[2][i] == 2)
+        {
+          poly g1 = Factors[1][i];
+          break;
+        }
+      }
+      map phi = br, (var(1)-(g1/(var(2))*var(2)))/(g1/var(1)), var(2);
+      rf = phi(rf);
+      number w = number(rf/(var(1)^2*var(2)^2));
+      if(w > 0)
+      {
+        typeofsing = "X["+string(mu)+"]-+";
+        nf = -var(1)^4+var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+      }
+      else
+      {
+        typeofsing = "X["+string(mu)+"]+-";
+        nf = var(1)^4-var(1)^2*var(2)^2+var(2)^(4+(mu-9));
+      }
+    }
+    monparam = var(2)^(4+(mu-9));
+  }
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseYrs(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+  map phi;
+
+  poly g = jet(rf,4);
+  poly s1 = g/(var(1)^4);
+  poly s2 = g/(var(2)^4);
+  if(s1 == 0 && s2 != 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+  }
+  if(s1 == 0 && s2 == 0)
+  {
+    poly t1 = g/(var(1)^3*var(2));
+    poly t2 = g/(var(1)^2*var(2)^2);
+    poly t3 = g/(var(1)*var(2)^3);
+    if(t1+t2+t3 == 0)
+    {
+      if(2t1+4t2+8t3 != 0)
+      {
+        phi = br, var(1), 2*var(2);
+        rf = phi(rf);
+        g = jet(rf,4);
+      }
+      else
+      {
+        phi = br, var(1), 3*var(2);
+        rf = phi(rf);
+        g = jet(rf,4);
+      }
+    }
+    phi = br, var(1), var(1)+var(2);
+    rf = phi(rf);
+    g = jet(rf,4);
+  }
+  number t = number(g/(var(1)^4));
+  if(t > 0)
+  {
+    int teken = 1;
+  }
+  else
+  {
+    int teken = -1;
+  }
+  ring R = 0, x, dp;
+  map phi = br, x, 1;
+  poly g = phi(g);
+  int r = nrroots(g);
+  setring(br);
+  if(r == 0)   //case Y'[1,r,r]
+  {
+    int r' = (mu-9)/2+4;
+    if (teken == 1)
+    {
+      typeofsing = "Y'[1,"+string(r')+","+string(r')+"]+";
+    }
+    else
+    {
+      typeofsing = "Y'[1,"+string(r')+","+string(r')+"]-";
+    }
+    nf = teken*(var(1)^2+var(2)^2)^2+var(1)^r';
+    monparam = var(1)^r';
+  }
+  else    //Case Y[1,r,s]
+  {
+    ring T(0) = 0,(x,y),ds;
+    poly rf = fetch(br,rf);
+    list M  = BlowUpO(rf);
+    int mu(1) = M[2];
+    int mu(2) = M[3];
+    if((mu(1)+1) mod 2)
+    {
+      if(teken == 1)
+      {
+        setring br;
+        typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+        nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+        monparam = var(2)^(mu(2)+1);
+      }
+      if(teken == -1)
+      {
+        setring br;
+        typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+        nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+        monparam = var(2)^(mu(2)+1);
+      }
+    }
+    else
+    {
+      if(M[1] == 1)
+      {
+        "WARNING: Floating numbers are used to determine the sign of the"
+          +"term "+string(var(1)^(mu(1)+1))+" and thus may be wrong.";
+      }
+      int lambda(1) = M[4];
+      if(mu(1) == 5)
+      {
+        int m;
+        if(teken == -1)
+        {
+          m = lambda(1)-1;
+        }
+        else
+        {
+          m = lambda(1);
+        }
+        setring br;
+        if(m > 0 && teken > 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
+          nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(m > 0 && teken < 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
+          nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(m == 0 && teken > 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+          nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(m == 0 && teken < 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+          nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+      }
+      else
+      {
+        int teken1 = M[5];
+        setring br;
+        if(teken > 0 && teken1 > 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]++";
+          nf = var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(teken > 0 && teken1 < 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]+-";
+          nf = var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(teken < 0 && teken1 > 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]-+";
+          nf = -var(1)^2*var(2)^2+var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+        if(teken < 0 && teken1 < 0)
+        {
+          typeofsing = "Y[1,"+string(mu(1)+1)+","+string(mu(2)+1)+"]--";
+          nf = -var(1)^2*var(2)^2-var(1)^(mu(1)+1)+var(2)^(mu(2)+1);
+          monparam = var(2)^(mu(2)+1);
+        }
+      }
+    }
+  }
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE12()
+{
+  string typeofsing = "E[12]";
+  poly nf = var(1)^3+var(2)^7+var(1)*var(2)^5;
+  poly monparam = var(1)*var(2)^5;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE13()
+{
+  string typeofsing = "E[13]";
+  poly nf = var(1)^3+var(1)*var(2)^5+var(2)^8;
+  poly monparam = var(2)^8;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseE14(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+  map phi;
+
+  poly g = jet(rf,3);
+  number s = number(g/(var(1)^3));
+  if(s == 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+    g = jet(rf,3);
+    s = number(g/(var(1)^3));
+  }
+  rf = rf/s;
+  list Factors = factorize(g);
+  poly g1 = Factors[1][2];
+  phi = br, (var(1)-(g1/var(2))*var(2))/(g1/var(1)), var(2);
+  rf = phi(rf);
+  g = jet(rf,3);
+  number w0 = number(g/(var(1)^3));
+  phi = br, var(1)-((jet(rf,4)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+  rf = phi(rf);
+  phi = br, var(1)-((jet(rf,5)-(w0*var(1)^3))/(3*var(1)^2)), var(2);
+  rf = phi(rf);
+  rf = s*rf;
+  rf = jet(rf,8);
+  number w = number(rf/(var(2)^8));
+  if(w > 0)
+  {
+    typeofsing = "E[14]+";
+    nf = var(1)^3+var(2)^8+var(1)*var(2)^6;
+  }
+  if(w < 0)
+  {
+    typeofsing = "E[14]-";
+    nf = var(1)^3-var(2)^8+var(1)*var(2)^6;
+  }
+  monparam = var(1)*var(2)^6;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseZ11()
+{
+  string typeofsing = "Z[11]";
+  poly nf = var(1)^3*var(2)+var(2)^5+var(1)*var(2)^4;
+  poly monparam = var(1)*var(2)^4;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseZ12()
+{
+  string typeofsing = "Z[12]";
+  poly nf = var(1)^3*var(2)+var(1)*var(2)^4+var(1)^2*var(2)^3;
+  poly monparam = var(1)^2*var(2)^3;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseZ13(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+  map phi;
+
+  poly g = jet(rf,4);
+  number s = number(g/var(1)^3*var(2));
+  if(s == 0)
+  {
+    phi = br, var(2), var(1);
+    rf = phi(rf);
+    g = jet(rf,4);
+  }
+  list Factors = factorize(g);
+  if(Factors[2][2] == 3)
+  {
+    poly g1 = Factors[1][2];
+  }
+  else
+  {
+    poly g1 = Factors[1][3];
+  }
+  phi = br, var(1)-(g1/var(2))*var(2), var(2);
+  rf = phi(rf);
+  rf = jet(rf,6);
+  number w = number(rf/var(2)^6);
+  if(w > 0)
+  {
+    typeofsing = "Z[13]+";
+    nf = var(1)^3*var(2)+var(2)^6+var(1)*var(2)^5;
+  }
+  else
+  {
+    typeofsing = "Z[13]-";
+    nf = var(1)^3*var(2)-var(2)^6+var(1)*var(2)^5;
+  }
+  monparam = var(1)*var(2)^5;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseW12(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+
+  poly g = jet(rf, 4);
+  number s = number(g/(var(1)^4));
+  if(s == 0)
+  {
+    s = number(g/(var(2)^4));
+  }
+  if(s > 0)
+  {
+    typeofsing = "W[12]+";
+    nf = var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+  }
+  else
+  {
+    typeofsing = "W[12]-";
+    nf = -var(1)^4+var(2)^5+var(1)^2*var(2)^3;
+  }
+  monparam = var(1)^2*var(2)^3;
+  return(typeofsing, nf, monparam);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static proc caseW13(poly rf)
+{
+  /* preliminaries */
+  string typeofsing;
+  poly nf;
+  poly monparam;
+  def br = basering;
+
+  poly g = jet(rf, 4);
+  number s = number(g/(var(1)^4));
+  if(s == 0)
+  {
+    s = number(g/(var(2)^4));
+  }
+  if(s > 0)
+  {
+    typeofsing = "W[13]+";
+    nf = var(1)^4+var(1)*var(2)^4+var(2)^6;
+  }
+  else
+  {
+    typeofsing = "W[13]-";
+    nf = -var(1)^4+var(1)*var(2)^4+var(2)^6;
+  }
+  monparam = var(2)^6;
+  return(typeofsing, nf, monparam);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1508,37 +1587,131 @@ example
   poly f = x3+xy3;
   determinacy(f);
 }
+
 //////////////////////////////////////////////////////////////////////////
 /*
-Blow the singularities of main real type Y[1,r,s] up and give as output a list with entries: [1] 1: if the resulting singularities occured at irrational points on the exceptional devisor or 0: if the resulting germs intersects the exceptional divisor smoothly or if the resulting singularities occured at rational points on the exceptional divisor; [2] and [3] the milnor numbers of the two resulting two germs, mu(1) and mu(2); [4] the inertia index of the resulting germ with lowest milnor number, if the resulting germ does not intersct the exceptional divisor smoothly, and 0 otherwise [5] the sign in front of the term var(1)^(mu(1)+1) of the resulting singularity with the lowest milnor number (floating numbers are used in case the resulting singularities occured at irrational points.) 
+Blow the singularities of main real type Y[1,r,s] up and give as output
+a list with entries: [1] 1: if the resulting singularities occured at
+irrational points on the exceptional devisor or 0: if the resulting
+germs intersects the exceptional divisor smoothly or if the resulting
+singularities occured at rational points on the exceptional divisor; [2]
+and [3] the milnor numbers of the two resulting two germs, mu(1) and
+mu(2); [4] the inertia index of the resulting germ with lowest milnor
+number, if the resulting germ does not intersct the exceptional divisor
+smoothly, and 0 otherwise [5] the sign in front of the term
+var(1)^(mu(1)+1) of the resulting singularity with the lowest milnor
+number (floating numbers are used in case the resulting singularities
+occured at irrational points.)
 */
-
 static proc BlowUpO(poly f)
 {
-   def T(0) = basering;
-   list L;
-   int n = nvars(basering);
-   int i;
-   def T = changeord("lp");
-   setring T;
-   poly f = imap(T(0),f);
-   map phi;
-   ideal mphi, sing;
-   poly p,q;    
-   /*blow up*/
-   for(i = 1; i <= n; i++)
-   {
+  def T(0) = basering;
+  list L;
+  int n = nvars(basering);
+  int i;
+  int j;
+  int k;
+  int l;
+  int m;
+  def T = changeord(list(list("lp", 1:nvars(basering))));
+  setring T;
+  poly f = imap(T(0),f);
+  map phi;
+  ideal mphi, sing;
+  poly p,q;
+  poly f1;
+  list Excep;
+  /*blow up*/
+  for(i = 1; i <= n; i++)
+  {
+    mphi = var(i)*maxideal(1);
+    mphi[i] = var(i);
+    phi = T,mphi;
+    f1 = phi(f);
+    p = phi(f);
+    q = p/var(i);
+    while(size(p) == size(q))
+    {
+      p = q;
+      q = q/var(i);
+    }
+    /* p is the strict transform var(i) exceptional divisor */
+    /* analysis of singularities */
+    sing = jacob(p),p, var(i);
+    sing = radical(sing);
+    option(redSB);
+    sing = std(sing);
+    sing = simplify(sing,1);
+    Excep = primdecGTZ(sing);
+    l = size(Excep);
+    m = 0;
+    for(j = 1; j <= l;j++)
+    {
+      for(k = 1; k <= size(Excep[j][2]); k++)
+      {
+        if(deg(Excep[j][2][k])>1)
+        {
+          m = 1;
+          break;
+        }
+      }
+      if(m==1)
+      {
+        break;
+      }
+    }
+    if(m==0)
+    {
+      for(j = 1; j <= l; j++)
+      {
+        if(Excep[j][2][1] == 1)
+        {
+          setring T(0);
+          L[size(L)+1] = var(1);
+          setring T;
+        }
+        else
+        {
+          if(size(Excep[j][2]) > 1)
+          {
+            Excep[j][2] = std(Excep[j][2]);
+            if(size(Excep[j][2]) != n)
+            {
+              ERROR("blow up does not give a nondegenerate form");
+            }
+            ideal mpsi = std(maxideal(1));
+            for(k = 1; k <= n; k++)
+            {
+              mpsi[k] = var(k)
+                -(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
+            }
+            map psi = T,mpsi;
+            poly g = psi(p);
+            setring T(0);
+            poly g = imap(T,g);
+            L[size(L)+1] = g;
+            setring T;
+          }
+        }
+      }
+    }
+    else
+    {
+      poly s = jet(sing[1],1)/var(2);
+      map alpha = T, var(1), var(2)-(s/2)*var(1);
+      p = alpha(f);
+      p;
+      jet(p,4);
       mphi = var(i)*maxideal(1);
       mphi[i] = var(i);
       phi = T,mphi;
-      poly f1 = phi(f);
-      p = phi(f);
+      p = phi(p);
       q = p/var(i);
       while(size(p) == size(q))
       {
-         p = q;
-         q = q/var(i);
-      }      
+        p = q;
+        q = q/var(i);
+      }
       /* p is the strict transform var(i) exceptional divisor */
       /* analysis of singularities */
       sing = jacob(p),p, var(i);
@@ -1546,206 +1719,135 @@ static proc BlowUpO(poly f)
       option(redSB);
       sing = std(sing);
       sing = simplify(sing,1);
-      list Excep = primdecGTZ(sing);
-      int l = size(Excep);
-      int m = 0;
-      for(int j = 1; j <= l;j++)
-      { 
-        for(int k = 1; k <= size(Excep[j][2]); k++)
-        {
-          if(deg(Excep[j][2][k])>1)
-          {
-            m = 1;
-            break;
-          }
-        }  
-        if(m==1)
-        {
-          break;
-        }
+      def S(0) = absPrimdecGTZ(sing);
+      setring S(0);
+      poly p = imap(T,p);
+      map phi = S(0),x,y-var(3);
+      poly p(1) = phi(p);
+      poly min = absolute_primes[1][1][1];
+      ring S1 = (0,a),(x,y),ds;
+      map phi = S(0),x,y,a;
+      number min = number(phi(min));
+      minpoly = min;
+      poly p = fetch(T,p);
+      map phi = S1,x,y-a;
+      poly p(2) = phi(p);
+      int mu(1) = milnornumber(p(2))+4;
+      ring S(3) = (complex,10,10),(x,y,a),lp;
+      map alpha = S(0),x,y,a;
+      poly min = alpha(min);
+      poly p(1) = imap(S(0),p(1));
+      list M = laguerre_solve(min,9);
+      p(1) = subst(p(1),var(3),M[1]);
+      ring S(4) = (real,10),(x,y),ds;
+      poly p(1) = fetch(S(3),p(1));
+      list morse = realmorsesplit(p(1));
+      poly p(3) = morse[4];
+      int lambda = morse[2];
+      poly p(4) = jet(p(3),mu(1)-3);
+      poly s1 = p(3)/var(1)^(mu(1)-3);
+      poly s2 = p(3)/var(2)^(mu(1)-3);
+      if(s2 != 0 && s1 == 0)
+      {
+        phi = S(4), var(2), var(1);
+        p(3) = phi(p(3));
       }
-      if(m==0)
-      { 
-        for(int j = 1; j <= l; j++)
-        {
-          if(Excep[j][2][1] == 1)
-          {
-            setring T(0);
-            L[size(L)+1] = var(1);
-            setring T;
-          }
-          else
-          {
-            if(size(Excep[j][2]) > 1)
-            {
-              Excep[j][2] = std(Excep[j][2]);
-              if(size(Excep[j][2]) != n)
-              {
-                ERROR("blow up does not give a nondegenerate form");
-              }
-              ideal mpsi = std(maxideal(1));
-              for(int k = 1; k <= n; k++)
-              {
-                mpsi[k] = var(k)-(var(k)/(Excep[j][2][n-k+1][1]))*Excep[j][2][n-k+1][2];
-              }
-              map psi = T,mpsi;
-              poly g = psi(p);
-              setring T(0);
-              poly g = imap(T,g);
-              L[size(L)+1] = g;
-              setring T;
-            }
-          }
-        }    
+      number t = number(p(4)/(var(1)^(mu(1)-3)));
+      if(t > 0)
+      {
+        int teken = 1;
       }
       else
       {
-         poly s = jet(sing[1],1)/var(2);
-         map alpha = T, var(1), var(2)-(s/2)*var(1);
-         p = alpha(f);
-         p;
-         jet(p,4);
-         mphi = var(i)*maxideal(1);
-         mphi[i] = var(i);
-         phi = T,mphi;
-         p = phi(p);
-         q = p/var(i);
-         while(size(p) == size(q))
-         {
-           p = q;
-           q = q/var(i);
-         }  
-         /* p is the strict transform var(i) exceptional divisor */
-         /* analysis of singularities */
-         sing = jacob(p),p, var(i);
-         sing = radical(sing);
-         option(redSB);
-         sing = std(sing);
-         sing = simplify(sing,1);
-         def S(0) = absPrimdecGTZ(sing);
-         setring S(0);
-         poly p = imap(T,p);
-         map phi = S(0),x,y-var(3);
-         poly p(1) = phi(p);
-         poly min = absolute_primes[1][1][1];
-         ring S1 = (0,a),(x,y),ds;
-         map phi = S(0),x,y,a;
-         number min = number(phi(min));
-         minpoly = min;
-         poly p = fetch(T,p);
-         map phi = S1,x,y-a;
-         poly p(2) = phi(p);
-         int mu(1) = milnornumber(p(2))+4;
-         ring S(3) = (complex,10,10),(x,y,a),lp;
-         map alpha = S(0),x,y,a;
-         poly min = alpha(min);
-         poly p(1) = imap(S(0),p(1));
-         list M = laguerre_solve(min,9);
-         p(1) = subst(p(1),var(3),M[1]); 
-         ring S(4) = (real,10),(x,y),ds;
-         poly p(1) = fetch(S(3),p(1));
-         list morse = realmorsesplit(p(1));
-         poly p(3) = morse[4];
-         int lambda = morse[2];
-         poly p(4) = jet(p(3),mu(1)-3);
-         poly s1 = p(3)/var(1)^(mu(1)-3);
-         poly s2 = p(3)/var(2)^(mu(1)-3);
-         if(s2 != 0 && s1 == 0)
-         {
-           phi = S(4), var(2), var(1);
-           p(3) = phi(p(3));
-         }
-         number t = number(p(4)/(var(1)^(mu(1)-3)));
-         if(t > 0)
-         {
-           int teken = 1;
-         }
-         else
-         {
-            int teken = -1;
-         }
-         setring T(0);      
-         list L1;
-         L1[1] = m;
-         L1[2] = mu(1);
-         L1[3] = mu(1);
-         L1[4] = lambda;
-         L1[5] = teken;
-         break;
-       }
-     }
-     if(m == 0)
-     {
-       setring T(0);
-        int l = size(L);
-        for(i = 1; i <= size(L); i++)
+        int teken = -1;
+      }
+      setring T(0);
+      list L1;
+      L1[1] = m;
+      L1[2] = mu(1);
+      L1[3] = mu(1);
+      L1[4] = lambda;
+      L1[5] = teken;
+      break;
+    }
+  }
+  if(m == 0)
+  {
+    setring T(0);
+    l = size(L);
+    for(i = 1; i <= size(L); i++)
+    {
+      if(defined(mu(i)))
+      {
+        kill mu(i);
+      }
+      if(L[i] == var(1))
+      {
+        int mu(i) = 4;
+      }
+      else
+      {
+        int mu(i) = milnornumber(L[i])+4;
+      }
+      for(j = i+1; j <= size(L); j++)
+      {
+        if(L[j] == var(1))
         {
-          if(L[i] == var(1))
-          {
-            int mu(i) = 4;
-          }
-          else
-          {
-            int mu(i) = milnornumber(L[i])+4;
-          }
-          for(j = i+1; j <= size(L); j++)
-          {
-            if(L[j] == var(1))
-            {
-              int mu(j) = 4;
-            }
-            else
-            {
-              int mu(j) = milnornumber(L[j])+4;
-            }
-            if(mu(i) == mu(j))
-            {
-              L = delete(L,i);
-              i = i-1;
-              break;
-            }
-            if(mu(i) > mu(j))
-            {
-              poly p(i) = L[i];
-              L[i] = L[j];
-              L[j] = p(i);
-              i = i-1;
-              break;
-            }
-          }
-        }
-        if(L[1] != var(1))
-        {
-          list morse = realmorsesplit(L[1]); 
-          L[1] = morse[4];
-          int lambda = morse[2];
-          poly rf = jet(L[1],mu(1)-3);
-          poly s1 = rf/var(1)^(mu(1)-3);
-          poly s2 = rf/var(2)^(mu(1)-3);
-          if(s2 != 0 && s1 == 0)
-          {
-            phi = T(0), var(2), var(1);
-            rf = phi(rf);
-          }
-          number t = number(rf/(var(1)^(mu(1)-3)));
-          if(t > 0)
-          {
-            int teken = 1;
-          } 
-          else
-          {
-            int teken = -1;
-          }
+          int mu(j) = 4;
         }
         else
         {
-          int lambda = 0;
-          int teken = 0;
-        }  
-        list L1 = m,mu(1),mu(2),lambda,teken,L;
-        return(L1);
-     }
-     return(L1);
-   }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
-        
+          int mu(j) = milnornumber(L[j])+4;
+        }
+        if(mu(i) == mu(j))
+        {
+          L = delete(L,i);
+          i = i-1;
+          break;
+        }
+        if(mu(i) > mu(j))
+        {
+          poly p(i) = L[i];
+          L[i] = L[j];
+          L[j] = p(i);
+          i = i-1;
+          break;
+        }
+      }
+    }
+    if(L[1] != var(1))
+    {
+      list morse = realmorsesplit(L[1]);
+      L[1] = morse[4];
+      int lambda = morse[2];
+      poly rf = jet(L[1],mu(1)-3);
+      poly s1 = rf/var(1)^(mu(1)-3);
+      poly s2 = rf/var(2)^(mu(1)-3);
+      if(s2 != 0 && s1 == 0)
+      {
+        phi = T(0), var(2), var(1);
+        rf = phi(rf);
+      }
+      number t = number(rf/(var(1)^(mu(1)-3)));
+      if(t > 0)
+      {
+        int teken = 1;
+      }
+      else
+      {
+        int teken = -1;
+      }
+    }
+    else
+    {
+      int lambda = 0;
+      int teken = 0;
+    }
+    list L1 = m,mu(1),mu(2),lambda,teken,L;
+    return(L1);
+  }
+  return(L1);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
