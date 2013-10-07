@@ -27,8 +27,11 @@
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\classify}{\texttt{classify.lib}}
 
+\newcommand{\requiv}{\ensuremath{\mathrel{\overset{r}{\sim}}}}
+\newcommand{\cequiv}{\ensuremath{\mathrel{\overset{c}{\sim}}}}
+\newcommand{\sequiv}{\ensuremath{\mathrel{\overset{s}{\sim}}}}
+
 \DeclareMathOperator{\ord}{ord}
-\DeclareMathOperator{\requiv}{\overset{r}{\sim}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jet}{jet}
 \DeclareMathOperator{\corank}{corank}
@@ -43,6 +46,8 @@
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\Pj}{\mathbb{P}}
 \DeclareMathOperator{\boldzero}{\mathbf{0}}
+
+\hyphenation{equiva-lence}
 
 \title[The Classification of Real Singularities Using \textsc{Singular}, %
 Part I]%
@@ -126,16 +131,16 @@ over $\R$ (section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also
 show that in some cases, this factorization can even be carried out over $\Q$
 which is important for the algorithmic aspect (Lemma~\ref{x^3}).
 
-Using the Splitting Lemma (Theorem~\ref{SplittingLemma}), any function germ $f$
-over the real numbers with an isolated singularity at the origin can be
-written, after choosing a suitable coordinate system, as the sum of two
+Using the Splitting Lemma (Theorem~\ref{thm:splitting_lemma}), any function
+germ $f$ over the real numbers with an isolated singularity at the origin can
+be written, after choosing a suitable coordinate system, as the sum of two
 functions of which the variables are disjoint. One of the functions, called the
 nondegenerate part of $f$, is a nondegenerate quadratic form and the other
 function, called the residual part of $f$, is an element of $\m^3$. The number
 of variables in the residual part is equal to the corank of $f$, denoted by
 $\corank(f)$. In this paper we only consider germs with corank $0$, $1$
 and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
-corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
+corresponding algorithm are discussed in section \ref{sec:splitting_lemma}.
 
 In \citet{AVG1985}, the real singularities of modality $0$ and $1$ are
 classified up to stable equivalence into main types which split up into more
@@ -156,6 +161,74 @@ explicit algorithms for each singularity type.
 
 \section{Prerequisites}%
 \label{sec:prerequisites}
+
+\subsection{Equivalence}%
+\label{subsec:equivalence}
+
+There are different notions for the equivalence of two power series in
+singularity theory:
+
+\begin{defn}
+Let $f, g \in \R[[x_1, \ldots, x_n]]$ be two power series.
+
+\begin{enumerate}
+\item
+$f$ and $g$ are called \emph{right equivalent}, denoted by $f \requiv g$, if
+there exists an $\R$-algebra autmorphism $\phi$ of $\R[[x_1, \ldots, x_n]]$
+such that
+\[
+\phi(f) = g \,.
+\]
+
+\item
+$f$ and $g$ are called \emph{contact equivalent}, denoted by $f \cequiv g$, if
+there exist an $\R$-algebra autmorphism $\phi$ of $\R[[x_1, \ldots, x_n]]$ and
+a unit $u \in \R[[x_1, \ldots, x_n]]^*$ such that
+\[
+\phi(f) = u \cdot g \,.
+\]
+
+\item
+$f$ and $g$ are called \emph{stably equivalent}, denoted by $f \sequiv g$, if
+there exist indices $k, l \in \{1, \ldots ,n\}$ such that
+$f \in \R[[x_1, \ldots, x_k]]$, $g \in \R[[x_1, \ldots, x_l]]$, and the two
+power series become right equivalent after the addition of nondegenerate
+quadratic forms in the additional variables, i.e.
+\begin{alignat*}{4}
+& f(x_1, \ldots, x_k) &{}\pm{}& x_{k+1}^2 &{}\pm{}& \ldots &{}\pm{}& x_n^2 \\
+\requiv{} \,
+& g(x_1, \ldots, x_l) &{}\pm{}& x_{l+1}^2 &{}\pm{}& \ldots &{}\pm{}& x_n^2 \,.
+\end{alignat*}
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+Note that right equivalence implies both contact and stable equivalence, but
+the converse statements are not true in general. For instance, $x_1^2+x_2^2$
+and $-x_1^2-x_2^2$ are contact, but not right equivalent.
+\end{remark}
+
+This article and the \Singular{} library \realclassify{} both deal with the
+classification of the simple singularities w.r.t.\@ \emph{right} equivalence.
+We first use the Splitting Lemma and Algorithm~\ref{alg:splitting_lemma} from
+Section~\ref{sec:splitting_lemma} to get rid of the nondegenerate part. We can
+then apply the classification by \citet{AVG1985} w.r.t.\@ stable equivalence to
+the residual part in Section~\ref{sec:residual_part}.
+
+From the point of view of real algebraic geometry, a classification w.r.t.\@
+contact rather than right equivalence might be more interesting because it
+better reflects the local real geometry of a singularity. In the example form
+the remark above, $x_1^2+x_2^2$ and $-x_1^2-x_2^2$ both define a solitary point
+in the plane, as opposed to the two intersecting lines defined by
+$-x_1^2+x_2^2$ and $x_1^2-x_2^2$. But note that a classification w.r.t.\@ right
+equivalence is only finer than one based on contact equivalence. Hence the
+shape of the local real geometry of a singularity can always be read off from
+its right equivalence class, given by its stable equivalence class together
+with the inertia index introduced in Theorem~\ref{thm:splitting_lemma}; the
+\Singular{} library \realclassify{} indeed also serves this purpose. For the
+simple singularities, it is moreover easy to see which of the right equivalence
+classes are contact equivalent.
+
 
 \subsection{The Milnor Number}%
 \label{subsec:milnor_number}
@@ -368,7 +441,8 @@ $g_2' := (x+\frac{a_4}{a_3}y) \in \Q[x,y]$.
 \end{proof}
 
 
-\section{The Splitting Lemma}\label{TheSplittingLemma}
+\section{The Splitting Lemma}%
+\label{sec:splitting_lemma}
 
 \begin{defn}
 For $f \in \R[[x_1,\ldots,x_n]]$, we define the corank of $f$, denoted by
@@ -384,7 +458,7 @@ a polynomial contained in $\m^3 \cap \R[x_1,\ldots,x_c]$ for a given input
 polynomial of corank $c$. We present a version for singularities over the real
 numbers, taking into account the signs of the squares.
 
-\begin{theorem}\label{SplittingLemma}
+\begin{theorem}\label{thm:splitting_lemma}
 If $f \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ has an isolated singularity and if
 its corank is $c$, then
 \[
@@ -442,10 +516,11 @@ singularity.
 \end{proof}
 
 Since this proof is constructive, we can immediately derive Algorithm
-\ref{AlgorithmSplittingLemma} from it.
+\ref{alg:splitting_lemma} from it.
 
 \begin{algorithm}[ht]
-\caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
+\caption{Algorithm for the Splitting Lemma}%
+\label{alg:splitting_lemma}
 \begin{algorithmic}[1]
 
 \Require{$f \in \m^2 \subset \Q[x_1,\ldots,x_n]$ and $k \in \N$ such that $f$
@@ -590,7 +665,7 @@ $c=1$.
 
 \Require{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
 the output polynomial $g$ after applying
-Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
+Algorithm \ref{alg:splitting_lemma}, the corank $c$ of $f$ and the inertia
 index $\lambda$ of $f$}
 
 \Ensure{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
