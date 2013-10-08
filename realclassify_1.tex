@@ -43,6 +43,7 @@
 \DeclareMathOperator{\Q}{\mathbb{Q}}
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\Pj}{\mathbb{P}}
 \DeclareMathOperator{\boldzero}{\mathbf{0}}
@@ -169,12 +170,13 @@ There are different notions for the equivalence of two power series in
 singularity theory:
 
 \begin{defn}
-Let $f, g \in \R[[x_1, \ldots, x_n]]$ be two power series.
+Let $\K$ be either $\R$ or $\C$ and let $f, g \in \K[[x_1, \ldots, x_n]]$ be
+two power series.
 
 \begin{enumerate}
 \item
 $f$ and $g$ are called \emph{right equivalent}, denoted by $f \requiv g$, if
-there exists an $\R$-algebra autmorphism $\phi$ of $\R[[x_1, \ldots, x_n]]$
+there exists an $\K$-algebra autmorphism $\phi$ of $\K[[x_1, \ldots, x_n]]$
 such that
 \[
 \phi(f) = g \,.
@@ -182,8 +184,8 @@ such that
 
 \item
 $f$ and $g$ are called \emph{contact equivalent}, denoted by $f \cequiv g$, if
-there exist an $\R$-algebra autmorphism $\phi$ of $\R[[x_1, \ldots, x_n]]$ and
-a unit $u \in \R[[x_1, \ldots, x_n]]^*$ such that
+there exist an $\K$-algebra autmorphism $\phi$ of $\K[[x_1, \ldots, x_n]]$ and
+a unit $u \in \K[[x_1, \ldots, x_n]]^*$ such that
 \[
 \phi(f) = u \cdot g \,.
 \]
@@ -191,7 +193,7 @@ a unit $u \in \R[[x_1, \ldots, x_n]]^*$ such that
 \item
 $f$ and $g$ are called \emph{stably equivalent}, denoted by $f \sequiv g$, if
 there exist indices $k, l \in \{1, \ldots ,n\}$ such that
-$f \in \R[[x_1, \ldots, x_k]]$, $g \in \R[[x_1, \ldots, x_l]]$, and the two
+$f \in \K[[x_1, \ldots, x_k]]$, $g \in \K[[x_1, \ldots, x_l]]$, and the two
 power series become right equivalent after the addition of nondegenerate
 quadratic forms in the additional variables, i.e.
 \begin{alignat*}{4}
@@ -209,11 +211,12 @@ and $-x_1^2-x_2^2$ are contact, but not right equivalent.
 \end{remark}
 
 This article and the \Singular{} library \realclassify{} both deal with the
-classification of the simple singularities w.r.t.\@ \emph{right} equivalence.
-We first use the Splitting Lemma and Algorithm~\ref{alg:splitting_lemma} from
-Section~\ref{sec:splitting_lemma} to get rid of the nondegenerate part. We can
-then apply the classification by \citet{AVG1985} w.r.t.\@ stable equivalence to
-the residual part in Section~\ref{sec:residual_part}.
+classification of the simple singularities w.r.t.\@ \emph{right} equivalence
+over $\K = \R$. We first use the Splitting Lemma and
+Algorithm~\ref{alg:splitting_lemma} from Section~\ref{sec:splitting_lemma} to
+get rid of the nondegenerate part. We can then apply the classification by
+\citet{AVG1985} w.r.t.\@ stable equivalence to the residual part in
+Section~\ref{sec:residual_part}.
 
 From the point of view of real algebraic geometry, a classification w.r.t.\@
 contact rather than right equivalence might be more interesting because it
