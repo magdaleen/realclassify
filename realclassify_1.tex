@@ -808,21 +808,26 @@ y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
 \end{eqnarray*}
 \end{lemma}
 
-By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of main
+By Lemma \ref{kDeterminacyD[k]k>4}, the determinacy of a singularity of main
 type $D_k$ is $k-1$. Therefore we only need to consider the $(k-1)$-jet of $g$
-in this case. Using Proposition~\ref{kjet} and Lemma~\ref{x^3}, we can
-transform $g$ into a polynomial of the form \[x^2y+\textnormal{terms of degree
-higher than $3$}\] by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and
-$g_2$ of degree $1$, and then applying the automorphism defined by
-$g_1\mapsto x$, $g_2\mapsto y$ to $g$. We now systematically consider the terms
-of each degree $3<j<k$. By applying the transformations in
-Lemma~\ref{transformationD[k]}, for each $j$, the only term of total degree $j$
-which possibly remains is $a_jy^j$. This term vanishes for $j<k-1$ and it does
-not vanish for $j=k-1$, otherwise $g$ is not of complex type $D_k$. Thus, after
-applying these transformations, we can write $g$ as $g=x^2y+\alpha y^{k-1}$
-with $\alpha \neq 0$. Clearly if $\alpha>0$ then
-$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if
-$\alpha<0$ then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
+in this case. By Proposition~\ref{kjet}, the $3$-jet of $g$ factorizes as
+$\jet(g, 3) = g_1^2g_2$ over $\R$, where $g_1$ and $g_2$ are homogeneous
+polynomials of degree $1$. Note that Lemma~\ref{x^3} ensures that this
+factorization can be carried out even over $\Q$. We can thus transform $g$ into
+a polynomial of the form
+\[
+x^2y + \text{terms of degree higher than $3$}
+\]
+by applying the automorphism defined by $g_1\mapsto x$, $g_2\mapsto y$ to $g$.
+
+We now systematically consider the terms of each degree $3<j<k$. By applying
+the transformations in Lemma~\ref{transformationD[k]}, for each $j$, the only
+term of total degree $j$ which possibly remains is $a_jy^j$. This term vanishes
+for $j<k-1$ and it does not vanish for $j=k-1$, otherwise $g$ is not of complex
+type $D_k$. Thus, after applying these transformations, we can write $g$ as
+$g=x^2y+\alpha y^{k-1}$ with $\alpha \neq 0$. Clearly if $\alpha>0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
 \begin{algorithm}[ht]
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
