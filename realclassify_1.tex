@@ -169,7 +169,8 @@ explicit algorithms for each singularity type.
 There are different notions for the equivalence of two power series in
 singularity theory:
 
-\begin{defn}
+\begin{defn}%
+\label{def:equivalence}
 Let $\K$ be either $\R$ or $\C$ and let $f, g \in \K[[x_1, \ldots, x_n]]$ be
 two power series.
 
@@ -190,7 +191,7 @@ a unit $u \in \K[[x_1, \ldots, x_n]]^*$ such that
 \phi(f) = u \cdot g \,.
 \]
 
-\item
+\item\label{enum:stable_equivalence}
 $f$ and $g$ are called \emph{stably equivalent}, denoted by $f \sequiv g$, if
 there exist indices $k, l \in \{1, \ldots ,n\}$ such that
 $f \in \K[[x_1, \ldots, x_k]]$, $g \in \K[[x_1, \ldots, x_l]]$, and the two
@@ -574,22 +575,30 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 \section{The Real Classification of the Residual Part}%
 \label{TheRealClassificationOfTheResidualPart}\label{sec:residual_part}
 
-In \citet{AVG1985}, the real singularities of modality $0$ are divided, using
-stable equivalence, into main types which split up into more subtypes by
-changing the sign in front of certain terms. It is known that the modality does
-not decrease under complexification \citep[cf.\@][pp.~273-274]{AVG1985}. So by
-applying the algorithms for the complex classification to the real normal
-forms, it is easy to see that in modality $0$, there is a one-to-one
-correspondence between the complex types and the real main types. As we will
-see in the second part of this paper, the same holds true also in modality $1$,
-but in both cases, this is not clear a priori and can only be deduced from the
-independently derived complex and real classifications. In fact, it is not
-known whether the modality is preserved under complexification in general.
+\citet{AVG1985} present independent classifications of the simple singularities
+over the complex and the real numbers, using stable equivalence. We refer to
+the equivalence classes of the complex classification as \emph{complex types}.
+In the classification over the real numbers, the simple singularities are
+divided into \emph{main types} which split up into one or more \emph{subtypes}
+which differ from each other only in the sign of certain terms.
+
+It is known that the modality does not decrease under complexification
+\citep[pp.~273-274]{AVG1985}. So by applying the algorithms for the complex
+classification to the real normal forms, it is easy to see that in
+modality~$0$, there is a one-to-one correspondence between the complex types
+and the real main types. The real classification can thus be seen as a
+refinement of the complex one. As we will see in the subsequent parts of this
+paper, the same holds true also in modality~$1$, but in both cases, this is not
+clear a priori and can only be deduced from the independently derived complex
+and real classifications. In fact, it is not known whether the modality is
+preserved under complexification in general \citep[pp.~273-274]{AVG1985}.
 
 Both the real and complex normal forms of the simple singularities are listed
 in Table~\ref{tab:normal_forms}. From here onwards we will work with stable
-equivalence. For all degenerate forms it is thus only necessary, after
-applying the Splitting Lemma, to consider their residual parts, i.e.\@ germs in $\m^3$.
+equivalence, cf.\@
+Definition~\ref{def:equivalence}(\ref{enum:stable_equivalence}). For all
+degenerate forms it is thus only necessary, after applying the Splitting Lemma,
+to consider their residual parts, i.e.\@ germs in $\m^3$.
 
 \begin{table}[!htb]
 \centering
