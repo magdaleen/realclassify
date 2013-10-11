@@ -869,42 +869,38 @@ $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \end{algorithmic}
 \end{algorithm}
 
+
 \subsection{$\boldsymbol{E_6}$}
 
 In this case, whose complex normal form is $x^3+y^4$, we have that either
-$g\requiv x^3+y^4$ ($E_6^+$) or $g\requiv x^3-y^4$ ($E_6^-$).
-Therefore there exists an $\mathbb
-R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
-$\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
-$\phi(g)=(\phi(x))^3-(\phi(y))^4$.
-Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
-ensure that the coefficient of
-$x^3$ is non-zero by swapping the variables if necessary. Now, using
-Proposition~\ref{kjet} and Lemma~\ref{x^3}, $\jet(g,3)$ factorizes as
-$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
-Q[x,y]$. Again,
-using Proposition~\ref{kjet}, it follows that by applying
-$x\mapsto\frac{x-b_1y}{b_0},\
-y\mapsto y$ to $g$, $\phi$ is transformed such that $\phi_1(x)=c'x$,
-$c'\in\mathbb
-R$. Since $\phi$ is an automorphism, $\phi_1(y)=d_0x+d_1y$,
-$d_0,d_1\in\mathbb R$,
-with $d_1\neq 0$. Hence
-\begin{equation*}
-(\phi(y))^4=d_1^4y^4+\textnormal{terms of degree 4 and higher, not of the
-form $\alpha y^4$, $\alpha\in\mathbb R$.}
-\end{equation*}
+$g \requiv x^3+y^4$ ($E_6^+$) or $g \requiv x^3-y^4$ ($E_6^-$). Therefore there
+exists an $\R$-algebra automorphism $\phi$ of $\R[[x,y]]$ such that
+$\phi(g) = (\phi(x))^3+(\phi(y))^4$ or such that
+$\phi(g) = (\phi(x))^3-(\phi(y))^4$. Since the coefficients of $x^3$ and $y^3$
+in $g$ cannot both be zero, we can ensure that the coefficient of $x^3$ is
+non-zero by swapping the variables if necessary. Now, by Proposition~\ref{kjet}
+and Lemma~\ref{x^3}, the $3$-jet of $g$ factorizes as $c(g_1)^3$ with
+$c \in \Q$ and $g_1 = b_0x+b_1y \in \Q[x,y]$, $b_0 \neq 0$. By applying
+$x \mapsto \frac{x-b_1y}{b_0}$, $y \mapsto y$ to $g$, we can thus assume
+without loss of generality that $\phi_1$ is of the form $\phi_1(x) = c'x$,
+$\phi_1(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
+automorphism, we have that $d_1 \neq 0$. Hence
+\[
+(\phi(y))^4 = d_1^4 y^4
++ (\text{terms of degree 4 and higher, not of the form $\alpha y^4$,
+$\alpha \in \R$}) \,.
+\]
 If we can show that $(\phi(x))^3$ does not contain a term of the form
-$\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $g$
-is of type $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of
-the monomial $y^4$. Now
-\begin{eqnarray*}
-\textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)
-&=&3(\phi_1(x)^2)(\phi_2(x)-\phi_1(x))\\
-&=&3(c'x)^2(\phi_2(x)-\phi_1(x)),
-\end{eqnarray*}
- which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
- $\alpha\in\mathbb R$ .
+$\alpha y^4$, $\alpha \in \R$, then we can determine whether $g$ is of type
+$E_6^-$ or $E_6^+$ by considering the sign of the coefficient of the monomial
+$y^4$. A simple calculation yields
+\begin{align*}
+\jet((\phi(x))^3, 4) - \jet((\phi(x))^3, 3)
+&= 3 (\phi_1(x)^2) (\phi_2(x)-\phi_1(x)) \\
+&= 3 (c'x)^2 (\phi_2(x)-\phi_1(x)) \,,
+\end{align*}
+which means that $(\phi(x))^3$ does not have any term of the form $\alpha y^4$,
+$\alpha \in \R$.
 
 \begin{algorithm}[ht]
 \caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
