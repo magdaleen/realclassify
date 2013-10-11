@@ -158,9 +158,9 @@ residual part in order to compute the correct subtype. It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
 same name as its corresponding real main singularity type (see
 Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
-types of modality $0$ and $1$ and the main real types. Thus, if we can
+types of modality $0$ and $1$ and the real main types. Thus, if we can
 determine the complex type of a function germ, we only need to determine the
-correct subtype of the corresponding main real type. The classification of the
+correct subtype of the corresponding real main type. The classification of the
 residual part is given in section~\ref{sec:residual_part}, together with
 explicit algorithms for each singularity type.
 
@@ -636,7 +636,7 @@ $E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 \end{table}
 
 Using the \textsc{Singular} library \classify{} \citep{classify} for the
-complex classification and the one-to-one correspondence between the main real
+complex classification and the one-to-one correspondence between the real main
 singularity types and the complex types, the algorithmic classification of a
 real germ boils down to determining to which of the corresponding subtypes the
 germ is equivalent. For the singularity types $E_7$ and $E_8$, there is nothing
@@ -715,7 +715,7 @@ $k\in\mathbb N$}
 For the rest of the paper we turn our attention to singularities of corank $2$.
 In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
 $g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib},
-we determine the complex singularity type and thus the main real singularity
+we determine the complex singularity type and thus the real main singularity
 type of $g$, or equivalently $f$. The purpose of the remaining algorithms in
 the paper is to determine the correct real subtype of $g$, or equivalently $f$.
 We now consider each complex type, or equivalently every real main type,
