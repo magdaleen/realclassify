@@ -506,8 +506,9 @@ coordinate change $\varphi^{(3)}$ defined by
 \[
 \varphi^{(3)}(x_i) :=
 \begin{cases}
-x_i, &i \leq c, \\
-x_i-\frac{1}{2}h_i^{(3)}, &i > c.
+x_i,                      &i = 1, \ldots, c, \\
+x_i+\frac{1}{2}h_i^{(3)}, &i = c+1, \ldots, c+\lambda, \\
+x_i-\frac{1}{2}h_i^{(3)}, &i = c+\lambda+1, \ldots, n.
 \end{cases}
 \]
 yields
@@ -549,7 +550,7 @@ T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
 \]
 \State $c :=$ number of zeroes on the diagonal of $N$
 \State $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
-\State $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
+\State $f^{(3)} (x_1,\ldots,x_n) := f((x_1,\ldots,x_n) \cdot T^t)$
 \For{$(l = 3, \ldots, k)$}
 \State write $f^{(l)}$ as
 \[
@@ -557,15 +558,16 @@ f^{(l)} = \sum_{j=3}^l g_j
   -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
   +\sum_{i=c+1}^n x_i\cdot h_i^{(l)}
 \]
-with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
+\hspace{\algorithmicindent}with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
 $h_i^{(l)} \in \m^{l-1}$
 \State $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
 by
 \[
 \varphi^{(l)}(x_i) :=
 \begin{cases}
-x_i, &i \leq c, \\
-x_i-\frac{1}{2}h_i^{(l)}, &i > c.
+x_i,                      &i = 1, \ldots, c, \\
+x_i+\frac{1}{2}h_i^{(l)}, &i = c+1, \ldots, c+\lambda, \\
+x_i-\frac{1}{2}h_i^{(l)}, &i = c+\lambda+1, \ldots, n.
 \end{cases}
 \]
 \EndFor
