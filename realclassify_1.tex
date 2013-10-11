@@ -801,17 +801,19 @@ A singularity of type $D_k^+$ or $D_k^-$ is $(k-1)$-determined.
 \end{lemma}
 
 \begin{lemma}\label{transformationD[k]}
-Let $j\ge 4$. Then
+Let $j \geq 4$. Then there exists a polynomial
+$R \in \m^{j+1} \subset \R[[x, y]]$ such that
 \[
-x^2y+a_0x^j+a_1x^{j-1}y+\cdots+a_jy^j\requiv x^2y+a_j y^j,
-\quad a_0,\ldots,a_j\in\mathbb R,
+x^2y + a_0 x^j + a_1 x^{j-1}y + \ldots + a_j y^j \requiv x^2y + a_j y^j + R,
+\quad a_0, \ldots, a_j \in \R,
 \]
-using the $\mathbb R$-algebra automorphisms
-\begin{eqnarray*}
-x&\mapsto&x+p_1,\textnormal{ where }
-p_1=-\frac{1}{2}(a_1x^{j-2}+\cdots+a_{j-1}y^{j-2})\,,\\
-y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
-\end{eqnarray*}
+using the $\R$-algebra automorphism
+\begin{align*}
+x &\mapsto x + p_1, \text{ where }
+p_1 = -\frac{1}{2} (a_1 x^{j-2} + \ldots + a_{j-1} y^{j-2}) \,, \\
+y &\mapsto y + p_2, \text{ where }
+p_2 = -a_0 x^{j-2} \,.
+\end{align*}
 \end{lemma}
 
 By Lemma \ref{kDeterminacyD[k]k>4}, the determinacy of a singularity of main
