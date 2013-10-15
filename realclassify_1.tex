@@ -543,10 +543,11 @@ f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 \]
 }
 
-\State compute a transformation matrix $T \in \Q^{n \times n}$ such that
+\State compute a transformation matrix $T \in \R^{n \times n}$ such that
 \[
-T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
-=:N
+T^t \cdot {\textstyle\frac{1}{2}} H(f)(\boldzero) \cdot T
+= \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+=: N
 \]
 \State $c :=$ number of zeroes on the diagonal of $N$
 \State $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
