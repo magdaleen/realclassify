@@ -8,6 +8,9 @@
 \usepackage[T1]{fontenc}   % for bold \Singular
 \usepackage{multirow}
 \usepackage{natbib}
+\usepackage{url}
+
+\def\UrlFont{\fontfamily{lmtt}\selectfont}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}[theorem]{Definition}
@@ -27,8 +30,11 @@
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\classify}{\texttt{classify.lib}}
 
+\newcommand{\requiv}{\ensuremath{\mathrel{\overset{r}{\sim}}}}
+\newcommand{\cequiv}{\ensuremath{\mathrel{\overset{c}{\sim}}}}
+\newcommand{\sequiv}{\ensuremath{\mathrel{\overset{s}{\sim}}}}
+
 \DeclareMathOperator{\ord}{ord}
-\DeclareMathOperator{\requiv}{\overset{r}{\sim}}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jet}{jet}
 \DeclareMathOperator{\corank}{corank}
@@ -40,9 +46,13 @@
 \DeclareMathOperator{\Q}{\mathbb{Q}}
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\K}{\mathbb{K}}
 \DeclareMathOperator{\A}{\mathbb{A}}
 \DeclareMathOperator{\Pj}{\mathbb{P}}
 \DeclareMathOperator{\boldzero}{\mathbf{0}}
+
+\hyphenation{equiva-lence}
+\hyphenation{sin-gu-lar-ities}
 
 \title[The Classification of Real Singularities Using \textsc{Singular}, %
 Part I]%
@@ -80,25 +90,25 @@ hypersurface singularities, algorithmic classification, real geometry%
 We present algorithms to classify isolated hypersurface singularities over the
 real numbers according to the classification by V.I.~Arnold \citep{AVG1985}.
 This first part covers the splitting lemma and the simple singularities; a
-second part will be devoted to the unimodal singularities up to corank~2.
-All algorithms are implemented in the \Singular{} library \realclassify{}
-\citep{realclassify}.
+second and a third part will be devoted to the unimodal singularities up to
+corank~2. All algorithms are implemented in the \Singular{} library
+\realclassify{} \citep{realclassify}.
 \end{abstract}
 
 \maketitle
 
 
 \section{Introduction}
-\citet{AVG1985} present classification theorems for
-singularities over the complex numbers up to modality~2 and for singularities
-over the real numbers up to modality~1, including complete sets of normal
-forms. For the complex case, he also gives an algorithm how the type of a given
-singularity can be computed, called the ``determinator of singularities''
+\citet{AVG1985} present classification theorems for singularities over the
+complex numbers up to modality~2 and for singularities over the real numbers up
+to modality~1, including complete sets of normal forms. For the complex case,
+they also give an algorithm how the type of a given singularity can be
+computed, called the ``determinator of singularities''
 \citep[cf.\@][ch.~16]{AVG1985}, but this question is left open for the real
-case.
-The goal of this paper, together with its second part, is to present algorithms
-for the classification of isolated hypersurface singularities up to modality~1
-and corank 2 over the real numbers with respect to right equivalence.
+case. The goal of this paper, together with its subsequent parts, is to present
+algorithms for the classification of isolated hypersurface singularities up to
+modality~1 and corank 2 over the real numbers with respect to right
+equivalence.
 
 We consider real functions with a critical point at the origin and critical
 value~$0$, i.e.\@ functions in $\m^2$, where $\m$ denotes the ideal of function
@@ -115,27 +125,29 @@ classification over the complex numbers. The methods used in \classify{} will
 not be discussed in this paper. For more information in this regard,
 \citet{Kruger} can be studied.
 
-In section~\ref{sec:prerequisites}, we introduce basic invariants and methods
+In Section~\ref{sec:prerequisites}, we introduce basic notions and methods
 which are frequently used for the algorithmic classification in the subsequent
-sections. We first recall some basic results on the Milnor number and the
-determinacy in subsections~\ref{subsec:milnor_number}
-and~\ref{subsec:determinacy}, and we also recall how these invariants
-can be computed. As a further prerequisite, we show that the homogeneous parts
-of lowest degree of two right equivalent functions factorize in the same way
-over $\R$ (section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also
-show that in some cases, this factorization can even be carried out over $\Q$
-which is important for the algorithmic aspect (Lemma~\ref{x^3}).
+sections. We first give an overview of the different notions of equivalence in
+singularity theory and how they are related in
+Subsection~\ref{subsec:equivalence}. Thereafter we recall some basic results on
+the Milnor number and the determinacy in Subsections~\ref{subsec:milnor_number}
+and~\ref{subsec:determinacy}, and we also recall how these invariants can be
+computed. As a further prerequisite, we show that the homogeneous parts of
+lowest degree of two right equivalent functions factorize in the same way over
+$\R$ (Section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also show
+that in some cases, this factorization can even be carried out over $\Q$ which
+is important for the algorithmic aspect (Lemma~\ref{x^3}).
 
-Using the Splitting Lemma (Theorem~\ref{SplittingLemma}), any function germ $f$
-over the real numbers with an isolated singularity at the origin can be
-written, after choosing a suitable coordinate system, as the sum of two
+Using the Splitting Lemma (Theorem~\ref{thm:splitting_lemma}), any function
+germ $f$ over the real numbers with an isolated singularity at the origin can
+be written, after choosing a suitable coordinate system, as the sum of two
 functions of which the variables are disjoint. One of the functions, called the
 nondegenerate part of $f$, is a nondegenerate quadratic form and the other
 function, called the residual part of $f$, is an element of $\m^3$. The number
 of variables in the residual part is equal to the corank of $f$, denoted by
 $\corank(f)$. In this paper we only consider germs with corank $0$, $1$
 and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
-corresponding algorithm are discussed in section \ref{TheSplittingLemma}.
+corresponding algorithm are discussed in Section~\ref{sec:splitting_lemma}.
 
 In \citet{AVG1985}, the real singularities of modality $0$ and $1$ are
 classified up to stable equivalence into main types which split up into more
@@ -147,15 +159,86 @@ residual part in order to compute the correct subtype. It can be easily seen
 that the subtypes are complex equivalent to a complex singularity type of the
 same name as its corresponding real main singularity type (see
 Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
-types of modality $0$ and $1$ and the main real types. Thus, if we can
+types of modality $0$ and $1$ and the real main types. Thus, if we can
 determine the complex type of a function germ, we only need to determine the
-correct subtype of the corresponding main real type. The classification of the
-residual part is given in section~\ref{sec:residual_part}, together with
+correct subtype of the corresponding real main type. The classification of the
+residual part is given in Section~\ref{sec:residual_part}, together with
 explicit algorithms for each singularity type.
 
 
 \section{Prerequisites}%
 \label{sec:prerequisites}
+
+\subsection{Equivalence}%
+\label{subsec:equivalence}
+
+There are different notions for the equivalence of two power series in
+singularity theory:
+
+\begin{defn}%
+\label{def:equivalence}
+Let $\K$ be either $\R$ or $\C$ and let $f, g \in \K[[x_1, \ldots, x_n]]$ be
+two power series.
+
+\begin{enumerate}
+\item
+$f$ and $g$ are called \emph{right equivalent}, denoted by $f \requiv g$, if
+there exists a $\K$-algebra autmorphism $\phi$ of $\K[[x_1, \ldots, x_n]]$ such
+that
+\[
+\phi(f) = g \,.
+\]
+
+\item
+$f$ and $g$ are called \emph{contact equivalent}, denoted by $f \cequiv g$, if
+there exist a $\K$-algebra autmorphism $\phi$ of $\K[[x_1, \ldots, x_n]]$ and a
+unit $u \in \K[[x_1, \ldots, x_n]]^*$ such that
+\[
+\phi(f) = u \cdot g \,.
+\]
+
+\item\label{enum:stable_equivalence}
+$f$ and $g$ are called \emph{stably equivalent}, denoted by $f \sequiv g$, if
+there exist indices $k, l \in \{1, \ldots ,n\}$ such that
+$f \in \K[[x_1, \ldots, x_k]]$, $g \in \K[[x_1, \ldots, x_l]]$, and the two
+power series become right equivalent after the addition of nondegenerate
+quadratic forms in the additional variables, i.e.
+\begin{alignat*}{4}
+& f(x_1, \ldots, x_k) &{}\pm{}& x_{k+1}^2 &{}\pm{}& \ldots &{}\pm{}& x_n^2 \\
+\requiv{} \,
+& g(x_1, \ldots, x_l) &{}\pm{}& x_{l+1}^2 &{}\pm{}& \ldots &{}\pm{}& x_n^2 \,.
+\end{alignat*}
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+Note that right equivalence implies both contact and stable equivalence, but
+the converse statements are not true in general. For instance, $x_1^2+x_2^2$
+and $-x_1^2-x_2^2$ are contact, but not right equivalent over $\R$.
+\end{remark}
+
+This article and the \Singular{} library \realclassify{} both deal with the
+classification of the simple singularities w.r.t.\@ \emph{right} equivalence
+over $\K = \R$. We first use the Splitting Lemma and
+Algorithm~\ref{alg:splitting_lemma} from Section~\ref{sec:splitting_lemma} to
+get rid of the nondegenerate part. We can then apply the classification by
+\citet{AVG1985} w.r.t.\@ stable equivalence to the residual part in
+Section~\ref{sec:residual_part}.
+
+From the point of view of real algebraic geometry, a classification w.r.t.\@
+contact rather than right equivalence might be more interesting because it
+better reflects the local real geometry of a singularity. In the example from
+the remark above, $x_1^2+x_2^2$ and $-x_1^2-x_2^2$ both define a solitary point
+in the plane, as opposed to the two intersecting lines defined by
+$-x_1^2+x_2^2$ and $x_1^2-x_2^2$. But note that a classification w.r.t.\@ right
+equivalence is only finer than one based on contact equivalence. Hence the
+shape of the local real geometry of a singularity can always be read off from
+its right equivalence class, given by its stable equivalence class together
+with the inertia index introduced in Theorem~\ref{thm:splitting_lemma}; the
+\Singular{} library \realclassify{} indeed also serves this purpose. For the
+simple singularities, it is moreover easy to see which of the right equivalence
+classes are contact equivalent.
+
 
 \subsection{The Milnor Number}%
 \label{subsec:milnor_number}
@@ -277,7 +360,6 @@ algorithms presented here.
 
 \subsection{Results Regarding the Factorization of Homogeneous Polynomials
 over $\R$ and $\Q$}%
-\label{ResultsRegardingTheFactorizationOfHomogeneousPolynomialsOverRAndQ}%
 \label{subsec:factorization}
 
 \begin{defn}
@@ -290,7 +372,7 @@ For $j > 0$ we define the
 \end{defn}
 
 The next result is in many cases a starting point for the algorithmic
-classification of the residual part, see section~\ref{sec:residual_part}. Given
+classification of the residual part, see Section~\ref{sec:residual_part}. Given
 $f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_1$ for some
 automorphism $\phi$ such that $\phi(f) = g$.
 
@@ -368,7 +450,8 @@ $g_2' := (x+\frac{a_4}{a_3}y) \in \Q[x,y]$.
 \end{proof}
 
 
-\section{The Splitting Lemma}\label{TheSplittingLemma}
+\section{The Splitting Lemma}%
+\label{sec:splitting_lemma}
 
 \begin{defn}
 For $f \in \R[[x_1,\ldots,x_n]]$, we define the corank of $f$, denoted by
@@ -384,7 +467,7 @@ a polynomial contained in $\m^3 \cap \R[x_1,\ldots,x_c]$ for a given input
 polynomial of corank $c$. We present a version for singularities over the real
 numbers, taking into account the signs of the squares.
 
-\begin{theorem}\label{SplittingLemma}
+\begin{theorem}\label{thm:splitting_lemma}
 If $f \in \m^2 \subset \R[[x_1,\ldots,x_n]]$ has an isolated singularity and if
 its corank is $c$, then
 \[
@@ -392,7 +475,7 @@ f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 \]
 with $g \in \m^3 \cap \R[[x_1,\ldots,x_c]]$. $g$ is called the residual part of
 $f$ and $\lambda$ is called the inertia index of~$f$. Both $\lambda$ and the
-right-equivalence class of $g$ are uniquely determined by $f$.
+right equivalence class of $g$ are uniquely determined by $f$.
 \end{theorem}
 
 The following proof is based upon the proofs of the Theorems 2.46 and 2.47 in
@@ -423,8 +506,9 @@ coordinate change $\varphi^{(3)}$ defined by
 \[
 \varphi^{(3)}(x_i) :=
 \begin{cases}
-x_i, &i \leq c, \\
-x_i-\frac{1}{2}h_i^{(3)}, &i > c.
+x_i,                      &i = 1, \ldots, c, \\
+x_i+\frac{1}{2}h_i^{(3)}, &i = c+1, \ldots, c+\lambda, \\
+x_i-\frac{1}{2}h_i^{(3)}, &i = c+\lambda+1, \ldots, n.
 \end{cases}
 \]
 yields
@@ -442,10 +526,11 @@ singularity.
 \end{proof}
 
 Since this proof is constructive, we can immediately derive Algorithm
-\ref{AlgorithmSplittingLemma} from it.
+\ref{alg:splitting_lemma} from it.
 
 \begin{algorithm}[ht]
-\caption{\label{AlgorithmSplittingLemma} Algorithm for the Splitting Lemma}
+\caption{Algorithm for the Splitting Lemma}%
+\label{alg:splitting_lemma}
 \begin{algorithmic}[1]
 
 \Require{$f \in \m^2 \subset \Q[x_1,\ldots,x_n]$ and $k \in \N$ such that $f$
@@ -458,14 +543,15 @@ f \requiv g -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
 \]
 }
 
-\State compute a transformation matrix $T \in \Q^{n \times n}$ such that
+\State compute a transformation matrix $T \in \R^{n \times n}$ such that
 \[
-T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
-=:N
+T^t \cdot {\textstyle\frac{1}{2}} H(f)(\boldzero) \cdot T
+= \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
+=: N
 \]
 \State $c :=$ number of zeroes on the diagonal of $N$
 \State $\lambda :=$ number of entries equal to $-1$ on the diagonal of $N$
-\State $f^{(3)} (x_1,\ldots,x_n) := f(T \cdot (x_1,\ldots,x_n)^t)$
+\State $f^{(3)} (x_1,\ldots,x_n) := f((x_1,\ldots,x_n) \cdot T^t)$
 \For{$(l = 3, \ldots, k)$}
 \State write $f^{(l)}$ as
 \[
@@ -473,15 +559,16 @@ f^{(l)} = \sum_{j=3}^l g_j
   -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
   +\sum_{i=c+1}^n x_i\cdot h_i^{(l)}
 \]
-with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
+\hspace{\algorithmicindent}with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
 $h_i^{(l)} \in \m^{l-1}$
 \State $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
 by
 \[
 \varphi^{(l)}(x_i) :=
 \begin{cases}
-x_i, &i \leq c, \\
-x_i-\frac{1}{2}h_i^{(l)}, &i > c.
+x_i,                      &i = 1, \ldots, c, \\
+x_i+\frac{1}{2}h_i^{(l)}, &i = c+1, \ldots, c+\lambda, \\
+x_i-\frac{1}{2}h_i^{(l)}, &i = c+\lambda+1, \ldots, n.
 \end{cases}
 \]
 \EndFor
@@ -496,22 +583,30 @@ x_i-\frac{1}{2}h_i^{(l)}, &i > c.
 \section{The Real Classification of the Residual Part}%
 \label{TheRealClassificationOfTheResidualPart}\label{sec:residual_part}
 
-In \citet{AVG1985}, the real singularities of modality $0$ are divided, using
-stable equivalence, into main types which split up into more subtypes by
-changing the sign in front of certain terms. It is known that the modality does
-not decrease under complexification \citep[cf.\@][pp.~273-274]{AVG1985}. So by
-applying the algorithms for the complex classification to the real normal
-forms, it is easy to see that in modality $0$, there is a one-to-one
-correspondence between the complex types and the real main types. As we will
-see in the second part of this paper, the same holds true also in modality $1$,
-but in both cases, this is not clear a priori and can only be deduced from the
-independently derived complex and real classifications. In fact, it is not
-known whether the modality is preserved under complexification in general.
+\citet{AVG1985} present independent classifications of the simple singularities
+over the complex and the real numbers, using stable equivalence. We refer to
+the equivalence classes of the complex classification as \emph{complex types}.
+In the classification over the real numbers, the simple singularities are
+divided into \emph{main types} which split up into one or more \emph{subtypes}.
+These subtypes differ from each other only in the sign of certain terms.
+
+It is known that the modality does not decrease under complexification
+\citep[pp.~273-274]{AVG1985}. So by applying the algorithms for the complex
+classification to the real normal forms, it is easy to see that in
+modality~$0$, there is a one-to-one correspondence between the complex types
+and the real main types. The real classification can thus be seen as a
+refinement of the complex one. As we will see in the subsequent parts of this
+paper, the same holds true also in modality~$1$, but in both cases, this is not
+clear a priori and can only be deduced from the independently derived complex
+and real classifications. In fact, it is not known whether the modality is
+preserved under complexification in general \citep[pp.~273-274]{AVG1985}.
 
 Both the real and complex normal forms of the simple singularities are listed
 in Table~\ref{tab:normal_forms}. From here onwards we will work with stable
-equivalence. For all degenerate forms it is thus only necessary, after
-applying the Splitting Lemma, to consider their residual parts, i.e.\@ germs in $\m^3$.
+equivalence, cf.\@
+Definition~\ref{def:equivalence}(\ref{enum:stable_equivalence}). For all
+degenerate forms it is thus only necessary, after applying the Splitting Lemma,
+to consider their residual parts, i.e.\@ germs in $\m^3$.
 
 \begin{table}[!htb]
 \centering
@@ -524,16 +619,16 @@ applying the Splitting Lemma, to consider their residual parts, i.e.\@ germs in 
 & normal form & of real subtypes & & \\
 \hline
 \multirow{2}{*}{$A_k$} & \multirow{2}{*}{$x^{k+1}$} & $+x^{k+1}$ $(A_k^+)$ &
-$A_k^+ \requiv A_k^-$ & \multirow{2}{*}{$k \geq 1$} \\
+$A_k^+ \requiv A_k^-$ & \multirow{2}{*}{$k \geq 1$} \\ \cline{3-3}
 & & $-x^{k+1}$ $(A_k^-)$ & for~even $k$ & \\
 \hline
 \multirow{2}{*}{$D_k$} & \multirow{2}{*}{$x^2y+y^{k-1}$} &
 $x^2y+y^{k-1}$ $(D_k^+)$ & \multirow{2}{*}{-} &
-\multirow{2}{*}{$k \geq 4$} \\
+\multirow{2}{*}{$k \geq 4$} \\ \cline{3-3}
 & & $x^2y-y^{k-1}$ $(D_k^-)$ & & \\
 \hline
 \multirow{2}{*}{$E_6$} & \multirow{2}{*}{$x^3+y^4$} & $x^3+y^4$ $(E_6^+)$ &
-\multirow{2}{*}{-} & \multirow{2}{*}{-} \\
+\multirow{2}{*}{-} & \multirow{2}{*}{-} \\ \cline{3-3}
 & & $x^3-y^4$ $(E_6^-)$ & & \\
 \hline
 $E_7$ & $x^3+xy^3$ & $x^3+xy^3$ & - & - \\
@@ -544,7 +639,7 @@ $E_8$ & $x^3+y^5$ & $x^3+y^5$ & - & - \\
 \end{table}
 
 Using the \textsc{Singular} library \classify{} \citep{classify} for the
-complex classification and the one-to-one correspondence between the main real
+complex classification and the one-to-one correspondence between the real main
 singularity types and the complex types, the algorithmic classification of a
 real germ boils down to determining to which of the corresponding subtypes the
 germ is equivalent. For the singularity types $E_7$ and $E_8$, there is nothing
@@ -557,58 +652,57 @@ Splitting Lemma, and $c$ for the corank of $f$. We also assume that $f$, and
 thus $g$, is a polynomial over $\mathbb Q$. With these notations, $g$ is a
 polynomial in $c$ variables.
 
+
 \subsection{$\boldsymbol{A_1}$}
-If $c = 0$, then it follows that $f$ is of type $A_1^+$ or of type $A_1^-$
-depending on the inertia index $\lambda$ of $f$. If the inertia index of $f$ is
-nonzero and less than the number of variables in the base ring, then $f$ is
-both of type $A_1^+$ and $A_1^-$, depending on how one chooses to order the
-variables. We treat those cases as $A_1^+$. If the inertia index is equal to
-the number of variables in the base ring, $f$ is of type $A_1^-$. Lastly, if
-the inertia index is $0$, then $f$ is of type $A_1^+$.
+
+If $c = 0$, then $f$ is of complex type $A_1$. The residual part in this case
+is $g = 0$, even though Table~\ref{tab:normal_forms} assigns the normal form
+$x^2$ to this type for formal reasons. As a consequence, all the real
+singularities of main type $A_1$ are stably equivalent and their right
+equivalence class is completely determined by their inertia index $\lambda$.
+
 
 \subsection{$\boldsymbol{A_k, k > 1}$}
-If $c=1$, then the singularity is of type $A_k^+$ or of type $A_k^-$ for some
-$k>1$. Furthermore $g$ is a univariate polynomial in this case, say
-$g\in\mathbb Q[x]$. The value of $k$ is given by the order of $g$ minus $1$.
-This follows since $\pm x^{k+1}$ and $g$ are right-equivalent and thus have the
-same order.
 
-Note that if $k$ is even, then $A_k^+\requiv A_k^-$. Again, we consider those
-cases as $A_k^+$ for the sake of simplicity. Let $k$ be odd. Then the sign of
-the singularity type is determined by the sign of the coefficient of $x^{k+1}$.
-This follows since it follows from Proposition~\ref{kjet} that
-$\jet(g, k+1)=\pm(\phi_1(x))^{k+1}=\pm(\alpha x)^{k+1}$, where
-$\phi(\pm x^{k+1})=g$, $\alpha\in\mathbb R$, and the sign depends on the
-singularity type. Since $k+1$ is even and $\alpha\in\mathbb R$, $\phi$ does not
-change the sign of the coefficient of $x^{k+1}$. We use
-Algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c=0$ or
-$c=1$.
+If $c = 1$, then the singularity is of complex type $A_k$ for some $k > 1$.
+Over the real numbers, this type splits up into the subtypes $A_k^+$ and
+$A_k^-$ if $k$ is odd. Furthermore $g$ is a univariate polynomial in this case,
+say $g\in\mathbb Q[x]$. The value of $k$ is given by the order of $g$ minus
+$1$ because $\pm x^{k+1}$ and $g$ are right equivalent and thus have the same
+order.
+
+Note that if $k$ is even, then $A_k^+ \requiv A_k^-$ and we have only one real
+subtype which we denote by $A_k$. Let $k$ be odd. Then the sign of the
+singularity type is determined by the sign of the coefficient of $x^{k+1}$.
+This follows since Proposition~\ref{kjet} implies
+$\jet(g, k+1) = \pm(\phi_1(x))^{k+1} = \pm(\alpha x)^{k+1}$, where
+$\phi(\pm x^{k+1}) = g$, $\alpha \in \R$, and the sign depends on the
+singularity type. Since $k+1$ is even and $\alpha \in \mathbb R$, $\phi$ does
+not change the sign of the coefficient of $x^{k+1}$. We use
+Algorithm~\ref{alg:A_k}, after applying the Splitting Lemma in case $c = 0$ or
+$c = 1$.
 
 \begin{algorithm}[ht]
-\caption{\label{alg:A_k} Algorithm for the case $A_k$}
+\caption{Algorithm for the case $A_k$}%
+\label{alg:A_k}
 \begin{algorithmic}[1]
 
-\Require{$f\in \mathbb Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$,
-the output polynomial $g$ after applying
-Algorithm \ref{AlgorithmSplittingLemma}, the corank $c$ of $f$ and the inertia
-index $\lambda$ of $f$}
+\Require{$f \in \Q[x_1,\ldots,x_n]$ of complex singularity type $A_k$, the
+output polynomial $g$ after applying Algorithm~\ref{alg:splitting_lemma}, and
+the corank $c$ of $f$}
 
-\Ensure{the real singularity type of $f$, i.e.\@ $A_k^+$ or $A_k^-$,
+\Ensure{the real singularity type of $f$, i.e.\@ $A_k$, $A_k^+$ or $A_k^-$,
 $k\in\mathbb N$}
 
 \If{$c=0$}
-\If{$\lambda<n$}
-\State type $:=A_1^+$
-\Else
-\State type $:=A_1^-$
-\EndIf
+\State type $:=A_1$
 \EndIf
 \If{$c=1$}
 \State $k:= \ord(g)-1$
 \If{$k$ is even}
-\State type $:=A_k^+$
+\State type $:=A_k$
 \Else
-\State $s:=$ coefficient of $x^{k+1}$
+\State $s:=$ coefficient of $x^{k+1}$ in $g$
 \If{$s > 0$}
 \State type $:=A_k^+$
 \Else
@@ -621,23 +715,28 @@ $k\in\mathbb N$}
 \end{algorithmic}
 \end{algorithm}
 
+
+\subsection*{}
+
 For the rest of the paper we turn our attention to singularities of corank $2$.
 In these cases $0\neq g\in\m^3$ is a polynomial in two variables, say
 $g\in\mathbb Q[x,y]$. Using the \textsc{Singular} library {\tt classify.lib},
-we determine the complex singularity type and thus the main real singularity
+we determine the complex singularity type and thus the real main singularity
 type of $g$, or equivalently $f$. The purpose of the remaining algorithms in
 the paper is to determine the correct real subtype of $g$, or equivalently $f$.
 We now consider each complex type, or equivalently every real main type,
-seperately.
+separately.
+
 
 \subsection{$\boldsymbol{D_4}$}
 
 The normal form of the complex singularity type $D_4$ is $x^2y+y^3$, which
-splits into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
+splits up into $x^2y+y^3$ ($D_4^+$) and $x^2y-y^3$ ($D_4^-$) in the real case.
 The two cases can be distinguished by factorization; the details are carried
 out in Algorithm~\ref{alg:D_4}. Since the determinacy of $D_4$ is $3$, it
-suffices to look at the $3$-jet. The number of factors of the 3-jet is an
-invariant of the real subtype which is 1 in the case $D_4^+$ and 3 for $D_4^-$.
+suffices to look at the $3$-jet. The number of factors of the 3-jet over $\R$
+is an invariant of the real subtype which is 1 in the case $D_4^+$ and 3 for
+$D_4^-$.
 
 However, using the \Singular{} command \verb+factorize+ in order to determine
 the number of factors is problematic because the factorization over $\R$
@@ -700,42 +799,49 @@ in the chosen chart because the coefficient of $x^3$ is non-zero.
 
 For the cases $D_k$ with $k > 4$, the complex normal form is $x^2y+y^{k-1}$. It
 splits up into $x^2y+y^{k-1}$ ($D_k^+$) and $x^2y-y^{k-1}$ ($D_k^-$) for each
-$k$ over the reals. We use the following two results from \citet{Siersma} to
-distinguish between the two cases:
+$k$ over the reals. We use the following two results from
+\citet[p.~35]{Siersma} to distinguish between the two cases:
 
 \begin{lemma}\label{kDeterminacyD[k]k>4}
 A singularity of type $D_k^+$ or $D_k^-$ is $(k-1)$-determined.
 \end{lemma}
 
 \begin{lemma}\label{transformationD[k]}
-Let $j\ge 4$. Then
+Let $j \geq 4$. Then there exists a polynomial
+$R \in \m^{j+1} \subset \R[[x, y]]$ such that
 \[
-x^2y+a_0x^j+a_1x^{j-1}y+\cdots+a_jy^j\requiv x^2y+a_j y^j,
-\quad a_0,\ldots,a_j\in\mathbb R,
+x^2y + a_0 x^j + a_1 x^{j-1}y + \ldots + a_j y^j \requiv x^2y + a_j y^j + R,
+\quad a_0, \ldots, a_j \in \R,
 \]
-using the $\mathbb R$-algebra automorphisms
-\begin{eqnarray*}
-x&\mapsto&x+p_1,\textnormal{ where }
-p_1=-\frac{1}{2}(a_1x^{j-2}+\cdots+a_{j-1}y^{j-2})\,,\\
-y&\mapsto&y+p_2,\textnormal{ where } p_2=-a_0x^{j-2} \,.
-\end{eqnarray*}
+using the $\R$-algebra automorphism
+\begin{align*}
+x &\mapsto x + p_1, \text{ where }
+p_1 = -\frac{1}{2} (a_1 x^{j-2} + \ldots + a_{j-1} y^{j-2}) \,, \\
+y &\mapsto y + p_2, \text{ where }
+p_2 = -a_0 x^{j-2} \,.
+\end{align*}
 \end{lemma}
 
-By Lemma \ref{kDeterminacyD[k]k>4} the determinacy of a singularity of main
+By Lemma \ref{kDeterminacyD[k]k>4}, the determinacy of a singularity of main
 type $D_k$ is $k-1$. Therefore we only need to consider the $(k-1)$-jet of $g$
-in this case. Using Proposition~\ref{kjet} and Lemma~\ref{x^3}, we can
-transform $g$ into a polynomial of the form \[x^2y+\textnormal{terms of degree
-higher than $3$}\] by factorizing the $3$-jet of $g$ as $g_1^2g_2$, $g_1$ and
-$g_2$ of degree $1$, and then applying the automorphism defined by
-$g_1\mapsto x$, $g_2\mapsto y$ to $g$. We now systematically consider the terms
-of each degree $3<j<k$. By applying the transformations in
-Lemma~\ref{transformationD[k]}, for each $j$, the only term of total degree $j$
-which possibly remains is $a_jy^j$. This term vanishes for $j<k-1$ and it does
-not vanish for $j=k-1$, otherwise $g$ is not of complex type $D_k$. Thus, after
-applying these transformations, we can write $g$ as $g=x^2y+\alpha y^{k-1}$
-with $\alpha \neq 0$. Clearly if $\alpha>0$ then
-$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if
-$\alpha<0$ then $x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
+in this case. By Proposition~\ref{kjet}, the $3$-jet of $g$ factorizes as
+$\jet(g, 3) = g_1^2g_2$ over $\R$, where $g_1$ and $g_2$ are homogeneous
+polynomials of degree $1$. Note that Lemma~\ref{x^3} ensures that this
+factorization can be carried out even over $\Q$. We can thus transform $g$ into
+a polynomial of the form
+\[
+x^2y + \text{terms of degree higher than $3$}
+\]
+by applying the automorphism defined by $g_1\mapsto x$, $g_2\mapsto y$ to $g$.
+
+We now systematically consider the terms of each degree $3<j<k$. By applying
+the transformations in Lemma~\ref{transformationD[k]}, for each $j$, the only
+term of total degree $j$ which possibly remains is $a_jy^j$. This term vanishes
+for $j<k-1$ and it does not vanish for $j=k-1$, otherwise $g$ is not of complex
+type $D_k$. Thus, after applying these transformations, we can write $g$ as
+$g=x^2y+\alpha y^{k-1}$ with $\alpha \neq 0$. Clearly if $\alpha>0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y+y^{k-1}$ and if $\alpha<0$ then
+$x^2y+\alpha y^{k-1}\requiv x^2y-y^{k-1}$.
 
 \begin{algorithm}[ht]
 \caption{\label{alg:D_k} Algorithm for the case $D_k$, $k > 4$}
@@ -769,42 +875,38 @@ $a_0x^j+a_1x^{j-1}y+\cdots +a_jy^j,\quad a_0,\ldots a_j\in\mathbb Q$
 \end{algorithmic}
 \end{algorithm}
 
+
 \subsection{$\boldsymbol{E_6}$}
 
 In this case, whose complex normal form is $x^3+y^4$, we have that either
-$g\requiv x^3+y^4$ ($E_6^+$) or $g\requiv x^3-y^4$ ($E_6^-$).
-Therefore there exists an $\mathbb
-R$-algebra automorphism $\phi$ of $\mathbb R[x,y]$ such that
-$\phi(g)=(\phi(x))^3+(\phi(y))^4$ or such that
-$\phi(g)=(\phi(x))^3-(\phi(y))^4$.
-Since the coefficients of $x^3$ and $y^3$ in $g$ cannot both be zero, we can
-ensure that the coefficient of
-$x^3$ is non-zero by swapping the variables if necessary. Now, using
-Proposition~\ref{kjet} and Lemma~\ref{x^3}, $\jet(g,3)$ factorizes as
-$c(g_1)^3$, $c\in\mathbb Q$ and $g_1=b_0x+b_1y\in\mathbb
-Q[x,y]$. Again,
-using Proposition~\ref{kjet}, it follows that by applying
-$x\mapsto\frac{x-b_1y}{b_0},\
-y\mapsto y$ to $g$, $\phi$ is transformed such that $\phi_1(x)=c'x$,
-$c'\in\mathbb
-R$. Since $\phi$ is an automorphism, $\phi_1(y)=d_0x+d_1y$,
-$d_0,d_1\in\mathbb R$,
-with $d_1\neq 0$. Hence
-\begin{equation*}
-(\phi(y))^4=d_1^4y^4+\textnormal{terms of degree 4 and higher, not of the
-form $\alpha y^4$, $\alpha\in\mathbb R$.}
-\end{equation*}
+$g \requiv x^3+y^4$ ($E_6^+$) or $g \requiv x^3-y^4$ ($E_6^-$). Therefore there
+exists an $\R$-algebra automorphism $\phi$ of $\R[[x,y]]$ such that
+$\phi(g) = (\phi(x))^3+(\phi(y))^4$ or such that
+$\phi(g) = (\phi(x))^3-(\phi(y))^4$. Since the coefficients of $x^3$ and $y^3$
+in $g$ cannot both be zero, we can ensure that the coefficient of $x^3$ is
+non-zero by swapping the variables if necessary. Now, by Proposition~\ref{kjet}
+and Lemma~\ref{x^3}, the $3$-jet of $g$ factorizes as $c(g_1)^3$ with
+$c \in \Q$ and $g_1 = b_0x+b_1y \in \Q[x,y]$, $b_0 \neq 0$. By applying
+$x \mapsto \frac{x-b_1y}{b_0}$, $y \mapsto y$ to $g$, we can thus assume
+without loss of generality that $\phi_1$ is of the form $\phi_1(x) = c'x$,
+$\phi_1(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
+automorphism, we have that $d_1 \neq 0$. Hence
+\[
+(\phi(y))^4 = d_1^4 y^4
++ (\text{terms of degree 4 and higher, not of the form $\alpha y^4$,
+$\alpha \in \R$}) \,.
+\]
 If we can show that $(\phi(x))^3$ does not contain a term of the form
-$\alpha y^4$, $\alpha\in\mathbb R$, then we can determine whether $g$
-is of type $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of
-the monomial $y^4$. Now
-\begin{eqnarray*}
-\textnormal{jet}((\phi(x))^3,4)-\textnormal{jet}((\phi(x))^3,3)
-&=&3(\phi_1(x)^2)(\phi_2(x)-\phi_1(x))\\
-&=&3(c'x)^2(\phi_2(x)-\phi_1(x)),
-\end{eqnarray*}
- which means that $(\phi(x))^3$ does not have terms of the form $\alpha y^4$,
- $\alpha\in\mathbb R$ .
+$\alpha y^4$, $\alpha \in \R$, then we can determine whether $g$ is of type
+$E_6^-$ or $E_6^+$ by considering the sign of the coefficient of the monomial
+$y^4$. A simple calculation yields
+\begin{align*}
+\jet((\phi(x))^3, 4) - \jet((\phi(x))^3, 3)
+&= 3 (\phi_1(x)^2) (\phi_2(x)-\phi_1(x)) \\
+&= 3 (c'x)^2 (\phi_2(x)-\phi_1(x)) \,,
+\end{align*}
+which means that $(\phi(x))^3$ does not have any term of the form $\alpha y^4$,
+$\alpha \in \R$.
 
 \begin{algorithm}[ht]
 \caption{\label{alg:E_6}\label{E[6]} Algorithm for the case $E_6$}
@@ -833,32 +935,28 @@ $g_1=b_0x+b_1y$
 \section{Acknowledgements}
 
 We would like to thank Gerhard Pfister and Gert-Martin Greuel for insightful
-conversations.
+conversations. We also would like to thank the two anonymous referees whose
+suggestions greatly improved this article.
 
 \newpage
 
 \begin{thebibliography}{99}
-
-\bibitem[{Arnold et al.(1985)}]{AVG1985}
-Arnold, V.I., Gusein-Zade, S.M., Varchenko, A.N., 1985.
-Singularities of Differential Maps, Vol.~I.
-Birkh\"auser, Boston.
 
 \bibitem[{Arnold(1974)}]{A1974}
 Arnold, V.I., 1974.
 Normal forms of functions in neighbourhoods of degenerate critical points.
 Russ. Math. Surv. 29(2), 10-50.
 
+\bibitem[{Arnold et al.(1985)}]{AVG1985}
+Arnold, V.I., Gusein-Zade, S.M., Varchenko, A.N., 1985.
+Singularities of Differential Maps, Vol.~I.
+Birkh\"auser, Boston.
+
 \bibitem[{Decker et al.(2012)}]{DGPS}
 Decker, W., Greuel, G.-M., Pfister, G., Sch{\"o}nemann, H., 2012.
-\newblock {\sc Singular} {3-1-6} --- {A} computer algebra system for polynomial
-computations.
-\newblock {http://www.singular.uni-kl.de}.
-
-\bibitem[{Kr\"uger(1997)}]{Kruger}
-Kr\"uger, K., 1997.
-Klassifikation von Hyperfl\"achensingularit\"aten.
-Diploma Thesis, University of Kaiserslautern.
+\newblock {\sc Singular} {3-1-6} -- {A} computer algebra system for polynomial
+computations. \\
+\url{http://www.singular.uni-kl.de}
 
 \bibitem[{Greuel et al.(2007)}]{GLS2007}
 Greuel, G.-M., Lossen, C., Shustin, E., 2007.
@@ -869,6 +967,15 @@ Springer, Berlin.
 Greuel, G.-M., Pfister, G., 2008.
 A Singular Introduction to Commutative Algebra, second ed.
 Springer, Berlin.
+
+\bibitem[{Kr\"uger(1997)}]{Kruger}
+Kr\"uger, K., 1997.
+Klassifikation von Hyperfl\"achensingularit\"aten.
+Diploma Thesis, University of Kaiserslautern.
+{\par\raggedright
+\url{ftp://www.mathematik.uni-kl.de/pub/Math/Singular/doc/Papers/%
+diplom_krueger.ps.gz}
+\par}
 
 \bibitem[{Kr\"uger(2012)}]{classify}
 Kr\"uger, K., 2012.
@@ -885,6 +992,10 @@ isolated hypersurface singularities over the reals w.r.t.\@ right equivalence.
 Siersma, D., 1974.
 Classification and Deformation of Singularities.
 Dissertation, University of Amsterdam.
+{\par\raggedright
+\url{http://www.staff.science.uu.nl/~siers101/ArticleDownloads/%
+DissertationSiersma.pdf}
+\par}
 
 \bibitem[{Tobis(2012)}]{roots}
 Tobis, E., 2012.
