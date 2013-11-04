@@ -363,17 +363,17 @@ over $\R$ and $\Q$}%
 \label{subsec:factorization}
 
 \begin{defn}
-Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$.
-For $j > 0$ we define the
-\emph{$j$-jet} of $\phi$, denoted by $\phi_j$, to be the automorphism given by
+Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$. For
+$j \geq 0$ we define the \emph{$j$-jet} of $\phi$, denoted by $\phi_j$, to be
+the automorphism given by
 \[
-\phi_j(x_i) := \jet(\phi(x_i),j) \quad \forall i = 1,\ldots,n \,.
+\phi_j(x_i) := \jet(\phi(x_i),\, j+1) \quad \forall i = 1,\ldots,n \,.
 \]
 \end{defn}
 
 The next result is in many cases a starting point for the algorithmic
 classification of the residual part, see Section~\ref{sec:residual_part}. Given
-$f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_1$ for some
+$f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_0$ for some
 automorphism $\phi$ such that $\phi(f) = g$.
 
 \begin{prop}\label{kjet}
@@ -387,7 +387,7 @@ If $\jet(f,k)$ factorizes as
 \]
 in $\R[x_1,\ldots,x_n]$, then $\jet(g,k)$ factorizes as
 \[
-\jet(g,k) = \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\jet(g,k) = \phi_0(f_1)^{s_1} \cdots \phi_0(f_t)^{s_t} \,.
 \]
 \end{prop}
 
@@ -395,18 +395,18 @@ in $\R[x_1,\ldots,x_n]$, then $\jet(g,k)$ factorizes as
 By assumption we have that $f = f_1^{s_1} \cdots f_t^{s_t} + f'$, where
 $f_1^{s_1} \cdots f_t^{s_t}$ is homogeneous of degree $k$ and the order of $f'$
 is greater than $k$. We denote the higher order parts of $\phi$ by
-$\phi^* := \phi-\phi_1$. Since $\phi$ is a homomorphism, it follows that
+$\phi^* := \phi-\phi_0$. Since $\phi$ is a homomorphism, it follows that
 \begin{align*}
 \phi(f) &= \phi(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \\
-&= \phi_1(f_1^{s_1} \cdots f_t^{s_t})
+&= \phi_0(f_1^{s_1} \cdots f_t^{s_t})
 + \phi^*(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f')
 \end{align*}
-where $\phi_1(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
+where $\phi_0(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
 both $\phi^*(f_1^{s_1} \cdots f_t^{s_t})$ and $\phi(f')$ are of order higher
 than $k$. Hence
 \[
-\jet(g, k) = \jet(\phi(f), k) = \phi_1(f_1^{s_1} \cdots f_t^{s_t})
-= \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\jet(g, k) = \jet(\phi(f), k) = \phi_0(f_1^{s_1} \cdots f_t^{s_t})
+= \phi_0(f_1)^{s_1} \cdots \phi_0(f_t)^{s_t} \,.
 \]
 \end{proof}
 
@@ -485,8 +485,8 @@ Chapter~I of \citet{GLS2007}.
 The corank of the Hessian matrix of $f$ at $0$ is $c$, so by the theory of
 quadratic forms over $\R$ there is a transformation matrix $T$ such that
 \[
-T^t \cdot H(f)(\boldzero) \cdot T = \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1)
-\,.
+T^t \cdot {\textstyle\frac{1}{2}} H(f)(\boldzero) \cdot T
+= \diag(0,\ldots,0,-1,\ldots,-1,1,\ldots,1) \,.
 \]
 Therefore the linear coordinate change
 $(x_1,\ldots,x_n) \mapsto (x_1,\ldots,x_n) \cdot T^t$ transforms the 2-jet of
@@ -502,9 +502,9 @@ f^{(3)} (x_1,\ldots,x_n)
   +\sum_{i=c+1}^n x_i\cdot h_i^{(3)}
 \end{align*}
 with $g_3 \in \m^3 \cap \R[[x_1,\ldots,x_c]]$ and $h_i^{(3)} \in \m^2$. The
-coordinate change $\varphi^{(3)}$ defined by
+coordinate change $\phi^{(3)}$ defined by
 \[
-\varphi^{(3)}(x_i) :=
+\phi^{(3)}(x_i) :=
 \begin{cases}
 x_i,                      &i = 1, \ldots, c, \\
 x_i+\frac{1}{2}h_i^{(3)}, &i = c+1, \ldots, c+\lambda, \\
@@ -514,7 +514,7 @@ x_i-\frac{1}{2}h_i^{(3)}, &i = c+\lambda+1, \ldots, n.
 yields
 \begin{align*}
 f^{(4)} (x_1,\ldots,x_n)
-  :\!&= f^{(3)}(\varphi^{(3)}(x_1,\ldots,x_n)) \\
+  :\!&= f^{(3)}(\phi^{(3)}(x_1,\ldots,x_n)) \\
   &= g_3 +g_4
   -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
   +\sum_{i=c+1}^n x_i\cdot h_i^{(4)} \,.
@@ -561,10 +561,9 @@ f^{(l)} = \sum_{j=3}^l g_j
 \]
 \hspace{\algorithmicindent}with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
 $h_i^{(l)} \in \m^{l-1}$
-\State $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
-by
+\State $f^{(l+1)} := \phi^{(l)}(f^{(l)})$ where $\phi^{(l)}$ is defined by
 \[
-\varphi^{(l)}(x_i) :=
+\phi^{(l)}(x_i) :=
 \begin{cases}
 x_i,                      &i = 1, \ldots, c, \\
 x_i+\frac{1}{2}h_i^{(l)}, &i = c+1, \ldots, c+\lambda, \\
@@ -617,7 +616,7 @@ to consider their residual parts, i.e.\@ germs in $\m^3$.
 & Complex & Normal forms & \multirow{2}{*}{Equivalences} &
 \multirow{2}{*}{Values of $k$} \\
 & normal form & of real subtypes & & \\
-\hline
+\hline\hline
 \multirow{2}{*}{$A_k$} & \multirow{2}{*}{$x^{k+1}$} & $+x^{k+1}$ $(A_k^+)$ &
 $A_k^+ \requiv A_k^-$ & \multirow{2}{*}{$k \geq 1$} \\ \cline{3-3}
 & & $-x^{k+1}$ $(A_k^-)$ & for~even $k$ & \\
@@ -675,7 +674,7 @@ Note that if $k$ is even, then $A_k^+ \requiv A_k^-$ and we have only one real
 subtype which we denote by $A_k$. Let $k$ be odd. Then the sign of the
 singularity type is determined by the sign of the coefficient of $x^{k+1}$.
 This follows since Proposition~\ref{kjet} implies
-$\jet(g, k+1) = \pm(\phi_1(x))^{k+1} = \pm(\alpha x)^{k+1}$, where
+$\jet(g, k+1) = \pm(\phi_0(x))^{k+1} = \pm(\alpha x)^{k+1}$, where
 $\phi(\pm x^{k+1}) = g$, $\alpha \in \R$, and the sign depends on the
 singularity type. Since $k+1$ is even and $\alpha \in \mathbb R$, $\phi$ does
 not change the sign of the coefficient of $x^{k+1}$. We use
@@ -888,8 +887,8 @@ non-zero by swapping the variables if necessary. Now, by Proposition~\ref{kjet}
 and Lemma~\ref{x^3}, the $3$-jet of $g$ factorizes as $c(g_1)^3$ with
 $c \in \Q$ and $g_1 = b_0x+b_1y \in \Q[x,y]$, $b_0 \neq 0$. By applying
 $x \mapsto \frac{x-b_1y}{b_0}$, $y \mapsto y$ to $g$, we can thus assume
-without loss of generality that $\phi_1$ is of the form $\phi_1(x) = c'x$,
-$\phi_1(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
+without loss of generality that $\phi_0$ is of the form $\phi_0(x) = c'x$,
+$\phi_0(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
 automorphism, we have that $d_1 \neq 0$. Hence
 \[
 (\phi(y))^4 = d_1^4 y^4
@@ -902,8 +901,8 @@ $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of the monomial
 $y^4$. A simple calculation yields
 \begin{align*}
 \jet((\phi(x))^3, 4) - \jet((\phi(x))^3, 3)
-&= 3 (\phi_1(x)^2) (\phi_2(x)-\phi_1(x)) \\
-&= 3 (c'x)^2 (\phi_2(x)-\phi_1(x)) \,,
+&= 3 (\phi_0(x)^2) (\phi_1(x)-\phi_0(x)) \\
+&= 3 (c'x)^2 (\phi_1(x)-\phi_0(x)) \,,
 \end{align*}
 which means that $(\phi(x))^3$ does not have any term of the form $\alpha y^4$,
 $\alpha \in \R$.
