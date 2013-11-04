@@ -363,17 +363,17 @@ over $\R$ and $\Q$}%
 \label{subsec:factorization}
 
 \begin{defn}
-Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$.
-For $j > 0$ we define the
-\emph{$j$-jet} of $\phi$, denoted by $\phi_j$, to be the automorphism given by
+Let $\phi$ be an $\R$-algebra automorphism of $\R[[x_1,\ldots,x_n]]$. For
+$j \geq 0$ we define the \emph{$j$-jet} of $\phi$, denoted by $\phi_j$, to be
+the automorphism given by
 \[
-\phi_j(x_i) := \jet(\phi(x_i),j) \quad \forall i = 1,\ldots,n \,.
+\phi_j(x_i) := \jet(\phi(x_i),\, j+1) \quad \forall i = 1,\ldots,n \,.
 \]
 \end{defn}
 
 The next result is in many cases a starting point for the algorithmic
 classification of the residual part, see Section~\ref{sec:residual_part}. Given
-$f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_1$ for some
+$f$ and $g$ with $f \requiv g$, it can be used to determine $\phi_0$ for some
 automorphism $\phi$ such that $\phi(f) = g$.
 
 \begin{prop}\label{kjet}
@@ -387,7 +387,7 @@ If $\jet(f,k)$ factorizes as
 \]
 in $\R[x_1,\ldots,x_n]$, then $\jet(g,k)$ factorizes as
 \[
-\jet(g,k) = \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\jet(g,k) = \phi_0(f_1)^{s_1} \cdots \phi_0(f_t)^{s_t} \,.
 \]
 \end{prop}
 
@@ -395,18 +395,18 @@ in $\R[x_1,\ldots,x_n]$, then $\jet(g,k)$ factorizes as
 By assumption we have that $f = f_1^{s_1} \cdots f_t^{s_t} + f'$, where
 $f_1^{s_1} \cdots f_t^{s_t}$ is homogeneous of degree $k$ and the order of $f'$
 is greater than $k$. We denote the higher order parts of $\phi$ by
-$\phi^* := \phi-\phi_1$. Since $\phi$ is a homomorphism, it follows that
+$\phi^* := \phi-\phi_0$. Since $\phi$ is a homomorphism, it follows that
 \begin{align*}
 \phi(f) &= \phi(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f') \\
-&= \phi_1(f_1^{s_1} \cdots f_t^{s_t})
+&= \phi_0(f_1^{s_1} \cdots f_t^{s_t})
 + \phi^*(f_1^{s_1} \cdots f_t^{s_t}) + \phi(f')
 \end{align*}
-where $\phi_1(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
+where $\phi_0(f_1^{s_1} \cdots f_t^{s_t})$ is homogeneous of degree $k$ and
 both $\phi^*(f_1^{s_1} \cdots f_t^{s_t})$ and $\phi(f')$ are of order higher
 than $k$. Hence
 \[
-\jet(g, k) = \jet(\phi(f), k) = \phi_1(f_1^{s_1} \cdots f_t^{s_t})
-= \phi_1(f_1)^{s_1} \cdots \phi_1(f_t)^{s_t} \,.
+\jet(g, k) = \jet(\phi(f), k) = \phi_0(f_1^{s_1} \cdots f_t^{s_t})
+= \phi_0(f_1)^{s_1} \cdots \phi_0(f_t)^{s_t} \,.
 \]
 \end{proof}
 
@@ -675,7 +675,7 @@ Note that if $k$ is even, then $A_k^+ \requiv A_k^-$ and we have only one real
 subtype which we denote by $A_k$. Let $k$ be odd. Then the sign of the
 singularity type is determined by the sign of the coefficient of $x^{k+1}$.
 This follows since Proposition~\ref{kjet} implies
-$\jet(g, k+1) = \pm(\phi_1(x))^{k+1} = \pm(\alpha x)^{k+1}$, where
+$\jet(g, k+1) = \pm(\phi_0(x))^{k+1} = \pm(\alpha x)^{k+1}$, where
 $\phi(\pm x^{k+1}) = g$, $\alpha \in \R$, and the sign depends on the
 singularity type. Since $k+1$ is even and $\alpha \in \mathbb R$, $\phi$ does
 not change the sign of the coefficient of $x^{k+1}$. We use
@@ -888,8 +888,8 @@ non-zero by swapping the variables if necessary. Now, by Proposition~\ref{kjet}
 and Lemma~\ref{x^3}, the $3$-jet of $g$ factorizes as $c(g_1)^3$ with
 $c \in \Q$ and $g_1 = b_0x+b_1y \in \Q[x,y]$, $b_0 \neq 0$. By applying
 $x \mapsto \frac{x-b_1y}{b_0}$, $y \mapsto y$ to $g$, we can thus assume
-without loss of generality that $\phi_1$ is of the form $\phi_1(x) = c'x$,
-$\phi_1(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
+without loss of generality that $\phi_0$ is of the form $\phi_0(x) = c'x$,
+$\phi_0(y) = d_0 x + d_1 y$ with $c', d_0, d_1 \in \R$. Since $\phi$ is an
 automorphism, we have that $d_1 \neq 0$. Hence
 \[
 (\phi(y))^4 = d_1^4 y^4
@@ -902,8 +902,8 @@ $E_6^-$ or $E_6^+$ by considering the sign of the coefficient of the monomial
 $y^4$. A simple calculation yields
 \begin{align*}
 \jet((\phi(x))^3, 4) - \jet((\phi(x))^3, 3)
-&= 3 (\phi_1(x)^2) (\phi_2(x)-\phi_1(x)) \\
-&= 3 (c'x)^2 (\phi_2(x)-\phi_1(x)) \,,
+&= 3 (\phi_0(x)^2) (\phi_1(x)-\phi_0(x)) \\
+&= 3 (c'x)^2 (\phi_1(x)-\phi_0(x)) \,,
 \end{align*}
 which means that $(\phi(x))^3$ does not have any term of the form $\alpha y^4$,
 $\alpha \in \R$.
