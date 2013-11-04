@@ -502,9 +502,9 @@ f^{(3)} (x_1,\ldots,x_n)
   +\sum_{i=c+1}^n x_i\cdot h_i^{(3)}
 \end{align*}
 with $g_3 \in \m^3 \cap \R[[x_1,\ldots,x_c]]$ and $h_i^{(3)} \in \m^2$. The
-coordinate change $\varphi^{(3)}$ defined by
+coordinate change $\phi^{(3)}$ defined by
 \[
-\varphi^{(3)}(x_i) :=
+\phi^{(3)}(x_i) :=
 \begin{cases}
 x_i,                      &i = 1, \ldots, c, \\
 x_i+\frac{1}{2}h_i^{(3)}, &i = c+1, \ldots, c+\lambda, \\
@@ -514,7 +514,7 @@ x_i-\frac{1}{2}h_i^{(3)}, &i = c+\lambda+1, \ldots, n.
 yields
 \begin{align*}
 f^{(4)} (x_1,\ldots,x_n)
-  :\!&= f^{(3)}(\varphi^{(3)}(x_1,\ldots,x_n)) \\
+  :\!&= f^{(3)}(\phi^{(3)}(x_1,\ldots,x_n)) \\
   &= g_3 +g_4
   -\sum_{i=c+1}^{c+\lambda} x_i^2 +\sum_{i=c+\lambda+1}^n x_i^2
   +\sum_{i=c+1}^n x_i\cdot h_i^{(4)} \,.
@@ -561,10 +561,9 @@ f^{(l)} = \sum_{j=3}^l g_j
 \]
 \hspace{\algorithmicindent}with $g_j \in \m^j \cap \Q[x_1,\ldots,x_c]$ and
 $h_i^{(l)} \in \m^{l-1}$
-\State $f^{(l+1)} := \varphi^{(l)}(f^{(l)})$ where $\varphi^{(l)}$ is defined
-by
+\State $f^{(l+1)} := \phi^{(l)}(f^{(l)})$ where $\phi^{(l)}$ is defined by
 \[
-\varphi^{(l)}(x_i) :=
+\phi^{(l)}(x_i) :=
 \begin{cases}
 x_i,                      &i = 1, \ldots, c, \\
 x_i+\frac{1}{2}h_i^{(l)}, &i = c+1, \ldots, c+\lambda, \\
