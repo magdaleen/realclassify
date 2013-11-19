@@ -55,9 +55,9 @@
 \hyphenation{sin-gu-lar-ities}
 
 \title[The Classification of Real Singularities Using \textsc{Singular}, %
-Part I]%
+Part III]%
 {The Classification of Real Singularities Using \textsc{Singular}\\
-Part I: Splitting Lemma and Simple Singularities}
+Part III: Unimodal Singularities of Corank $2$}
 
 \author{Magdaleen S. Marais}
 \address{Magdaleen S. Marais\\
@@ -176,12 +176,14 @@ suggestions greatly improved this article.
 \section{Real exceptional $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 \label{ExceptionalSingularities}
 In Lemma 7.3, p.27 of \citet{A1974}, it is shown that a semi-quasihomogeneous function $g\in\K[[x_1,\cdots,x_n]]$ with quasihomogeneous part $g_0$ of degree $d$ is right equivalent to a function of the form $g_0+\sum_{k=1}^s c_ke_k$, where $c_1,\ldots, c_s$ are constants and $e_1,\ldots,e_s$ is the set of all basis monomials in a fixed basis of the local algebra of the function $g_0$. This is done by systematically considering each diagonal with quasihomigeneous degree $d'>d$ on which at least one monomial of $g$ lie. Using the fact that the sum of the terms of degree $d'$ can be decomposed as
-\[h:=\sum_{i=1}^n\frac{\partial g_0}{\partial x_i}v_i(x_i)+c_1e_1+\cdots+c_re_r,\]
+\[h:=\sum_{i=1}^n\frac{\partial g_0}{\partial x_i}v_i(x_i)+c_1e_1+\cdots+c_se_s,\]
 it is shown that there is an automorphism $\phi_{d'}$, defined by $\phi_{d'}(x_i)=x_i-v_i(x_i)$, such that
 \[\phi_{d'}(g)=g_0+[g_1+(c_1e_1+\cdots +c_se_s)-h]+R,\]
-where the filtration of $R$ is greater than $d'$. By taking the finite determinacy of germs into account the goal is reached by this transformation. What happens in practice is that $\phi_{d'}$ replace all the terms of weighted degree $d'$ in $g$ by a linear combination of $e_1,\ldots e_s$. For each $d'$, $\phi_{d'}$ can, for simplicity, as is done in the given method below, be replaced in the following way by the composition of two automorphisms. First the terms of degree $d'$ in $g$ not in the local algebra is considered, which practically results in throwing these terms away. And then, secondly, the terms in the local algebra of degree $d'$ is considered, which practically results in replacement by a linear combination of the chosen basis. Determining $\phi_{d'}$ in this way turns out to be simpler in practise. Since a chosen basis is not necessarily unique, the monomials in a representation of the right equivalence class of $g$ as $g_0+\sum_{k=1}^s c_ke_k$ is also not necessarily unique. In \cite{A1974}, Arnold has chosen a specific basis for the local algebra in each of the normal forms he determined by this method. That turns out to be the monomials with parameters as coefficients in the normal forms, respectively. Since we work with Arnold's classification we need to choose the same basis. For the exceptional cases the local algebra has only one basis element. In \cite{realclassify2} it follows from Table 10 that the parameter in each of the exceptional normal forms has a unique value. 
+where the filtration of $R$ is greater than $d'$. By taking the finite determinacy of germs into account the goal is reached by this transformation. What happens in practice is that $\phi_{d'}$ replace all the terms of weighted degree $d'$ in $g$ by a linear combination of $e_1,\ldots e_s$. For each $d'$, $\phi_{d'}$ can, for simplicity, as is done in the given method below, be replaced in the following way by the composition of two automorphisms. First the terms of degree $d'$ in $g$ not in the local algebra is considered, which practically results in throwing these terms away. And then, secondly, the terms in the local algebra of degree $d'$ is considered, which practically results in replacement by a linear combination of the chosen basis. Determining $\phi_{d'}$ in this way turns out to be simpler in practise.
 
-We use the following method to determine the equivalence class of an input poynomial $g\in\mathfrak m^3\subset\R[x,y]$ of exceptional type:
+Since a chosen basis is not necessarily unique, the monomials in a representation of the right equivalence class of $g$ as $g_0+\sum_{k=1}^s c_ke_k$ is also not necessarily unique. In \cite{A1974}, Arnold has chosen a specific basis for the local algebra in each of the normal forms he determined by this method. In each case that turns out to be the monomials with parameters as coefficients in the normal forms. Since we work with Arnold's classification we need to choose the same basis. For the exceptional cases the local algebra has only one basis element. In \cite{realclassify2} it follows from Table 10 that the parameter in each of the exceptional normal forms has a unique value. 
+
+We use the following method to determine the equivalence class of an input poynomial $g\in\mathfrak m^3\subset\R[[x,y]]$ of exceptional type:
 
 \begin{enumerate}
 \item Transform $g$ such that there are no terms underneath the diagonal created by the quasihomogeneous part of the corresponding complex normal form, which we will refer to as the diagonal in the next steps.
@@ -191,16 +193,16 @@ We use the following method to determine the equivalence class of an input poyno
 \item Scale the terms on the diagonal and read the value off of the parameter.
 \end{enumerate}
 
-The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms for classifying the unimodal, corank 2, singularities. We use the notation of section 3, \cite{realclassify2}.
+The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms for classifying the unimodal, corank 2, singularities. We use the notation introduced in \cite{realclassify2}.
  
 \begin{algorithm}[ht]
 \caption{Algorithm for the case $Z_{11}$}%
 \label{alg:Z_11}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $Z_{11}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{11}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $h:=\jet(g,4)$;
 \State Factorize $h$ as $h_1h_2^3$;
@@ -236,9 +238,9 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \label{alg:Z_12}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $Z_{12}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1]  a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1]  a lower and/or [2] an upper bound of the parameter.}
 
 \State $h:=\jet(g,4)$;
 \State Factorize $h$ as $h_1h_2^3$;
@@ -265,9 +267,9 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \label{alg:Z_13}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $Z_{13}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $h :=\jet(g,4)$;
 \State Factorize $h$ as $h_1h_2^3$;
@@ -299,12 +301,12 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \begin{algorithm}[ht]
 \caption{Algorithm for the case $W_{12}$}%
-\label{alg:Z_12}
+\label{alg:W_12}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $W_{12}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $W_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^4$ term in $g$;
 \If{$s=0$}
@@ -317,7 +319,7 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \If{$c>0$}
 \State Apply $x\mapsto x$, $y\mapsto -y$ to $g$;
 \EndIf
-\State Weite $g$ as $bx^4+cy^5+dx^2y^3+exy^4+R$,\quad $b,c,d,e\in\Q$,\quad$R\in E_{23}^{(5,4)}$;
+\State Write $g$ as $bx^4+cy^5+dx^2y^3+exy^4+R$,\quad $b,c,d,e\in\Q$,\quad$R\in E_{23}^{(5,4)}$;
 \If{$b>0$}
 \State NF := $x^4+y^5+ax^2y^3$;
 \State type := $W_{12}^+$;
@@ -355,12 +357,12 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \begin{algorithm}[ht]
 \caption{Algorithm for the case $W_{13}$}%
-\label{alg:Z_13}
+\label{alg:W_13}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $W_{13}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $W_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^4$ term in $g$;
 \If{$s=0$}
@@ -415,9 +417,9 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \label{alg:E_12}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $E_{12}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
@@ -464,9 +466,9 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \label{alg:E_13}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $E_{13}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
@@ -485,7 +487,7 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State Write $g$ as $bx^3+cxy^5+R$,\quad $b\in\Q$, \quad $R\in E_{11}^{(5,2)}$;
 \State Apply $x\mapsto c^{-1}x$, $y\mapsto y$ to $g$;
 \If{$b<0$}
-\State Apply $x\mapsto -x$, $y\mapsto y$;
+\State Apply $x\mapsto -x$, $y\mapsto -y$;
 \EndIf
 \State Write $g$ as $bx^3+xy^5+R$,\quad $b\in\Q$,\quad $R\in E_{11}^{(5,2)}$;
 \State Replace $x^2y^3$ with $(-3b)^{-1}y^8$;
@@ -518,9 +520,9 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \label{alg:E_14}
 \begin{algorithmic}[1]
 
-\Require{$g \in \m^3\subset\Q[x_1,x_2]$ of complex singularity type $E_{14}$.}
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{14}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
@@ -548,6 +550,12 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State NF $:= x^3+y^8+axy^6$;
 \State type $:= E_{14}^+$;
 \EndIf
+\algstore{E_14}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{E_14}
 \State $t:= $ coefficient of the $xy^6$ term in $g$;
 \State $p:= x^{12}-b^{-4}|c|^{-9}t^{12}$;
 \If{$p$ has a factor of degree $1$ over $\Q$}
@@ -584,7 +592,225 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \Return (List 1)
 \end{algorithmic}
 \end{algorithm}
-\end{document}
+
+\section{Real hyperbolic singularities of corank 2}
+The following result can be found in \citet{PdJ2000} for $\K=\C$. The proof for
+the $\K=\R$ case is similar.
+
+\begin{theorem}\label{faces}
+Let $\K$ be either $\R$ or $\C$ and let $f\in\K[[x,y]]$ be convenient, let
+$\Delta_1,\ldots,\Delta_r$ be the faces of the Newton polygon of $f$ and $d_i$
+the slope of $\Delta_i$. Then $f=f_1\cdots f_r$, where $f_i\in\K[[x,y]]$ is
+convenient such that the Newton Polygon of $f_i$ has only one face of slope
+$d_i$, $i=1,\ldots,r$.
+\end{theorem}
+
+The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ by
+\citet{A1974}.
+
+\begin{lemma}\label{principalpart}
+Let $\K$ be either $\R$ or $\C$. For every nondegenerate power series
+$f\in\K[[x,y]]$ with principal part $f_0=x^a+\lambda x^2y^2+y^b$, where
+$0\neq\lambda\in\K$ and $a,b\in\N$, such that $f_0$ has two faces,
+$f\overset{\K}\sim f_0$.
+\end{lemma}
+\begin{proof}
+Using Theorem \ref{faces} and the form of $f_0=x^a+\lambda x^2y^2+y^b$, it
+follows that
+\begin{equation}\label{twofaces}
+f=(c_1x^2+c_3y^{b-2}+xh_1+y^ch_3)(c_2y^2+c_4x^{a-2}+yh_2+x^dh_4),
+\end{equation}
+where $h_1,\ldots,h_4\in\K[[x,y]]$, $1=c_1c_4, \lambda=c_1c_2, 1=c_3c_2$,
+$c>b-2$ and $d>a-2$. Since $f$ is finite determined, after repeatedly applying
+$x\mapsto x-\frac{1}{2c_1}h_1$, $y\mapsto y-\frac{1}{2c_2}h_2$ followed by
+$x\mapsto x-\frac{1}{c_4(a-2)}x^{a-d-2}h_4$,
+$y\mapsto y-\frac{1}{c_3(b-2)}y^{b-c-2} h_3$, writing $f$ as
+in~(\ref{twofaces}), adapting $h_1,\ldots,h_4$, $c$ and $d$ ($c_1,\ldots,c_4$
+do not change) accordingly, after each application, we have that
+\begin{equation}
+f\overset{\K}\sim (c_1x^2+c_3y^{b-2})(c_2y^2+c_4x^{a-2})
+=x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},\label{firsttrans}
+\end{equation}
+where $\lambda_1=c_3c_4$, $a\le c'\in\N$, $b\le d'\in\N$. Note that, since
+$w\dash\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application
+that $c>b-2$ and similarly that $d>a-2$, i.e. $f_0$ stays unaffected. By now
+repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$,
+$y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in
+(\ref{firsttrans}), adapting $c'$ and $d'$ accordingly, after each application,
+using the fact that $f$ is finite determined, it follows that
+\[f\overset{\K}\sim \lambda x^2y^2+x^a+y^b.\qedhere\]
+\end{proof}
+
+The following method can be used to determine the equivalence class of an input polynomial $g\in\m^3\subset\R[[x,y]]$ of hyperbolic type:
+
+\begin{enumerate}
+\item Transform $g$ such that there are no terms underneath the newton polygon created by the normal form of its corresponding complex type, which we will refer to as the newton polygon in the next steps.
+\item Determine which real case $g$ is, by considering the terms on the newton polygon.
+\item Throw all the terms not on the newton polygon away.
+\item Scale the terms on the newton polygon and reaf off the value of the parameter.
+\item Check in the tables included \cite{realclassify2} which other normal forms are in the same equivalence class as the one determined.
+\end{enumerate}
+
+To apply the above method to the $X_{9+k}$ case, using a computer and thus working over $\Q$, we need the following prelimanary result.
+
+\begin{lemma}\label{J10+kfactorization}
+If $f\in\Q[x,y]$ is homogeneous and factorizes as $g_1^2(g_2)$ over $\R$, where $g_1$ is a polynomials of degree $1$ and $g_2$ is a polynomial of degree $2$ (which can possibly factorize over $\R$), then $f=ag_1'^2g_2'$, where $g_1'$ is a polynomial of degree $1$ over $\Q$, $g_2$ is a polynomial of degree 2 over $\Q$ and $a\in\Q$.
+\end{lemma}
+
+\begin{proof}
+Let $f=(a_1x+a_2y)^2(a_3x^2+a_4xy+a_5y^2)$, $a_1,a_2,a_3,a_4,a_5\in\R$. Since the coefficient of the $x^4$ term in $f$ is a rational number it follows that 
+\[(x+\frac{a_2}{a_1}y)^2(x^2+\frac{a_4}{a_3}xy+\frac{a_5}{a_3}y^2)\in\Q[x,y].\]
+Since $\Q$ is a perfect field
+$x+\frac{a_1}{a_2}y\in\Q[x,y]$. Therefore $f=ag_1'^2g_2'$, where
+$g_1'=x+\frac{a_2}{a_1}y$, $g_2'=x^2+\frac{a_4}{a_3}xy+\frac{a_5}{a_3}y^2$ and $a=a_1^2a_3$.
+\end{proof}
+
+\begin{algorithm}[ht]
+\caption{Algorithm for the case $X_{9+k}$}%
+\label{alg:X_{9+k}}
+\begin{algorithmic}[1]
+
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $X_{9+k}$.}
+
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+
+\State Write $g$ as $t_0x^4+t_1x^3y+t_2x^2y^2+t_3xy^3+t_4y^4+R$, $t_0,\ldots,t_4\in\Q$, $R\in E_5$;
+\If{($t_4\neq 0$ and $t_0=0$)}
+\State Apply $x\mapsto y$, $y\mapsto x$ to $g$;
+\EndIf
+\If{($t_4=0$ and $t_0=0$)}
+\If{$t_1+t_2+t_3=0$}
+\If{$2t_1+4t_2+8t_3\neq 0$}
+\State Apply $x\mapsto x$, $y\mapsto 2y$ to $g$;
+\Else
+\State Apply $x\mapsto x$, $y\mapsto 3y$ to $g$;
+\EndIf
+\State Apply $x\mapsto x$, $y\mapsto x+y$ to $g$;
+\EndIf
+\EndIf
+\State Write $g$ as $a_0x^4+a_1x^3y+a_2x^2y^2+a_3xy^3+a_4y^4+R$, $a_0,\ldots,a_4\in\Q$, $R\in E_5$;
+\State $h:=\jet(g,4)$;
+\State factorize $h$ and let $g_1$ be the factor of $h$ of multiplicity $2$;
+\State Apply $g_1\mapsto x$, $y\mapsto y$ to $g$;
+\State Write $g$ as $a_0x^4+a_1x^3y+a_2x^2y^2+R$, $a_0,a_1,a_2\in\Q$, $R\in E_5$;
+\State Apply $y\mapsto y-\frac{a_1}{2a_2}x$, $x\mapsto x$ to $g$;
+\State $t_1 := $coefficient of the $x^2y^2$ term in $g$;
+\For{$i=9;\ i\le 2(\mu-5);\ i++$}
+\State $t := $ coefficient of the $xy^{\frac{i-(\mu-7)}{2}}$ term in $g$;
+\State Apply $x\mapsto x-\frac{t}{2t_1}y^{\frac{i-(\mu-7)}{2}-2}$, $y\mapsto y$ to $g$;
+\EndFor
+\State Write $g$ as $b_0x^4+b_1x^2y^2+b_2y^{\mu-5}$, $b_0,b_1,b_2\in\Q$, $R\in E_7^{(1,2)}\cap E_{2\mu-9}^{(\mu-7,2)}$;
+\If{$b_0>0$}
+\If{$b_1>0$}
+\State NF $:= x^4+x^2y^2+ay^{\mu-5}$;
+\State type $:= X_{9+k}^{++}$;
+\Else
+\State NF $:= x^4-x^2y^2+ay^{\mu-5}$;
+\State type $:= X_{9+k}^{+-}$;
+\EndIf
+\Else
+\If{$b_1>0$}
+\State NF $:= -x^4+x^2y^2+ay^{5\mu-9}$;
+\State type $:= X_{9+k}^{-+}$;
+\Else
+\State NF $:= -x^4-x^2y^2+ay^{\mu-5}$;
+\State type $:= X_{9+k}^{--}$;
+\EndIf
+\EndIf
+\algstore{X_9+k}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{X_9+k}
+\State $p:= x^4-b_2^4\left(\frac{b_0}{b_1^{2}}\right)^{\mu-5}$;
+\If{$p$ has a factor of degree $1$ over $\Q$}
+\State MP := $x-b_2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{4}}$;
+\Else
+\If{$t>0$}
+\State List 1a := 0, Emptyset;
+\Else
+\State List 1a := Emptyset, 0;
+\EndIf
+\State $p_1:=x^2-b_2^4\left(\frac{b_0}{b_1^{2}}\right)^{\mu-5}$;
+\If{$p_1$ has a factor of degree $1$ over $\Q$}
+\State MP := $x^2-b_2^2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{2}}$;
+\Else
+\State MP := $p$;
+\EndIf
+\EndIf
+\State List 1 := type, NF, MP, List 1a;
+\Return (List 1)
+\end{algorithmic}
+\end{algorithm}
+
+For the $J_{10+k}$ case we need the following additional Lemma.
+
+\begin{lemma}
+Suppose $f(x)=ax^3+bx+c\in\Q[x]$, $a,b,c\in\Q$, has a double root $q$. Then $q\in\Q$.
+\end{lemma}
+\begin{proof}
+If $p$ is a double root of $f$, then $f(q)=aq^3+bq+c=0$ and $f'(q)=3aq^2+b=0$. Hence $f(q)=q(aq^2+b)+c=q(a(\frac{-b}{3a}+b)+c=0$ which implies that $q=-\frac{3c}{2b}$.
+\end{proof}
+
+
+\begin{algorithm}[ht]
+\caption{Algorithm for the case $J_{10+k}$}%
+\label{alg:J_{10+k}}
+\begin{algorithmic}[1]
+
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $J_{10+k}$.}
+
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+ 
+\State $s := $ coefficient of $x^3$ in $g$;
+\If{$s=0$}
+\State Apply $x\mapsto y$, $y\mapsto x$ to $g$;
+\EndIf
+\State $h:=\jet(g,3)$;
+\State factorize $h$ as $bg_1^3$, $b\in\Q$, $b>0$;
+\State Write $g$ as $bx^3+cx^2y^2+dxy^4+ey^6+R$, $b,c,d\in\Q$, $R\in E_7$;
+\State Apply $x\mapsto x+(3b)^{-1}cy^2$, $y\mapsto y$ to $g$;
+\State Write $g$ as $bx^3+dxy^4+ey^6+R$, $b,d,e\in\Q$, $R\in E_7$;
+\State $q:= $ double root of $f(x)=bx^3+dx+e$;
+\State $t_1 := $coefficient of the $x^2y^2$ term in $g$; 
+\For{$i=13;\  i\le 2(\mu-4);\ i++$}
+\State $t:= $ coefficient of the $xy^{\frac{(i-(\mu-6))}{2}}$ term in $g$;
+\State Apply $x\mapsto x-\frac{t}{2t_1}y^{\frac{(i-(\mu-6))}{2}-2}$, $y\mapsto y$ to $g$;
+\EndFor
+\State Write $g$ as $bx^3+cx^2y^2+ty^{\mu-4}+R$, $b,c,t\in\Q$, $R\in E_7^{(1,2)}\cap E_{2\mu-7}^{(\mu-6,2)}$;
+\If{$c>0$}
+\State NF := $x^3+x^2y^2+ay^{\mu-4}$;
+\State type := $J_{10+k}^+$;
+\Else
+\State NF := $x^3-x^2y^2+ay^{\mu-4}$;
+\State type := $J_{10+k}^-$;
+\EndIf
+\State $p:= x^6-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
+\If{$p$ has a factor of degree $1$ over $\Q$}
+\State MP := $x-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{6}}t$;
+\Else
+\State $p_1 := x^2-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
+\If{$p_1$ has a factor of degree $1$ over $\Q$}
+\State MP := $x^3-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{2}}t^3$;
+\Else
+\If{$t>0$}
+\State List 1a := 0, Emptyset;
+\Else
+\State List 1a := Emptyset, 0;
+\EndIf
+\State $p_2 := x^3-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
+\If{$p_2$ has a factor of degree $1$ over $\Q$}
+\State MP := $x^2-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{3}}t^2$;
+\Else
+\State MP := $p$;
+\EndIf
+\EndIf
+\EndIf
+\State List 1 := type, NF, MP, List 1a;
+\Return (List 1)
+\end{algorithmic}
+\end{algorithm}
 \newpage
 
 \begin{thebibliography}{99}
@@ -604,6 +830,11 @@ Decker, W., Greuel, G.-M., Pfister, G., Sch{\"o}nemann, H., 2012.
 \newblock {\sc Singular} {3-1-6} -- {A} computer algebra system for polynomial
 computations. \\
 \url{http://www.singular.uni-kl.de}
+
+\bibitem[{de Jong and Pfister(2000)}]{PdJ2000}
+de Jong, T., Pfister, G., 2000.
+Local Analytic Geometry.
+Vieweg, Braunschweig.
 
 \bibitem[{Greuel et al.(2007)}]{GLS2007}
 Greuel, G.-M., Lossen, C., Shustin, E., 2007.
@@ -635,6 +866,12 @@ Marais, M., Steenpa\ss, A., 2012.
 {\tt realclassify.lib}. {A} {\sc Singular} {3-1-6} library for classifying
 isolated hypersurface singularities over the reals w.r.t.\@ right equivalence.
 
+\bibitem[{Marais and Steenpa\ss(2012)}]{realclassify1}
+Marais, M., Steenpa\ss, A., 2012. The classification of real singularities using \textsc{SINGULAR} Part I: Splitting Lemma and Simple Singularities.
+
+\bibitem[{Marais and Steenpa\ss(2013)}]{realclassify2}
+Marais, M., Steenpa\ss, A., 2012. The classification of real singularities using \textsc{SINGULAR} Part II: The Structure of the Equivalence Classes of the Unimodal Singularities.
+
 \bibitem[{Siersma(1974)}]{Siersma}
 Siersma, D., 1974.
 Classification and Deformation of Singularities.
@@ -651,4 +888,4 @@ of real roots of a univariate polynomial.
 
 \end{thebibliography}
 
-\end{document}
+\end{docume
