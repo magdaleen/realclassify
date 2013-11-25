@@ -30,10 +30,15 @@
 \newcommand{\realclassify}{\texttt{realclassify.lib}}
 \newcommand{\classify}{\texttt{classify.lib}}
 
+
 \newcommand{\requiv}{\ensuremath{\mathrel{\overset{r}{\sim}}}}
 \newcommand{\cequiv}{\ensuremath{\mathrel{\overset{c}{\sim}}}}
 \newcommand{\sequiv}{\ensuremath{\mathrel{\overset{s}{\sim}}}}
 
+\DeclareMathOperator{\size}{size}
+\DeclareMathOperator{\MP}{MP}
+\DeclareMathOperator{\type}{type}
+\DeclareMathOperator{\val}{value}
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\m}{\mathfrak{m}}
 \DeclareMathOperator{\jet}{jet}
@@ -632,7 +637,7 @@ f\overset{\K}\sim (c_1x^2+c_3y^{b-2})(c_2y^2+c_4x^{a-2})
 =x^a+\lambda x^2y^2+y^b+2\lambda_1x^{c'}y^{d'}+E_{c'+d'},\label{firsttrans}
 \end{equation}
 where $\lambda_1=c_3c_4$, $a\le c'\in\N$, $b\le d'\in\N$. Note that, since
-$w\dash\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application
+$w-\deg(h_1)\ge b-2$, where $w=(b-2,2)$, it follows after each application
 that $c>b-2$ and similarly that $d>a-2$, i.e. $f_0$ stays unaffected. By now
 repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$,
 $y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in
@@ -813,6 +818,232 @@ If $p$ is a double root of $f$, then $f(q)=aq^3+bq+c=0$ and $f'(q)=3aq^2+b=0$. H
 \end{algorithm}
 \newpage
 
+\section{Real parabolic singularities of corank $2$}
+
+Let $g\in\m^3$ be a polynomial of complex type $J_{10}$. Similar to the previous cases, taking Theorem 19 in \cite{realclassify2} into account, $g$ can easily be transformed to the form
+\[x^3+bx^2y^2+dxy^4+ey^6\] Applying
+\begin{equation}\label{Cancelling2ndTerm}
+x\mapsto x-\frac{b}{3}y^2,\quad y\mapsto y.
+\end{equation}
+$g$ is transformed to a polynomial of the form
+\[x^3+dxy^4+ey^6.\] Since there exists an
+invertable transformation $\phi'$ such that
+\begin{equation}\label{phi'}
+\phi'(x^3+a'x^2y^2\pm |d'|xy^4)=x^3+a''x^2y^2\pm xy^4,\quad
+a''=\frac{a'}{\sqrt{|d'|}},\ a',d'\in \R,
+\end{equation}
+it suffices to consider transformations $\phi$ such that $\phi(g)$ is of the
+form
+\begin{equation}\label{form}
+x^3+a'x^2y^2\pm |d'|xy^4,\quad a',d'\in \R.
+\end{equation}
+Again taking Theorem 19 in \cite{realclassify2}  into account, we have that
+\begin{equation}\label{eqc}
+\phi(g)=x^3+3cx^2y^2+(3c^2+t^4d)xy^4+(c^3+t^4dc+et^6)y^6,\quad t,c\in\R.
+\end{equation}
+Since $c=t^2c'$, where $c'=\frac{c}{t^2}$, we rewrite (\ref{eqc}) as
+\begin{equation}\label{eqc'}
+\phi(g)=x^3+3t^2c'x^2y^2+t^4(3c'^2+d)xy^4+t^6(c'^3+dc'+e)y^6.
+\end{equation}
+Clearly, for a fixed value of $t\neq 0$, $c'$ is any real root of
+$k(z)=z^3+dz+e$. Since $\phi'\circ\phi$ transform $f$ to the same polynomial,
+regardless the value of $t$, we may assume that $t=1$ and $c=c'$.
+
+We consider the following cases:
+\begin{itemize}
+\item[(AI)]$k(z)$ has one real root;
+\item[(AII)]$k(z)$ has three real roots.
+\end{itemize}
+
+Note that
+\begin{equation}\label{RelationOfRoots}
+c_1+c_2+c_3=0\quad\textnormal{and}\quad c_1c_2+c_1c_3+c_2c_3=d,
+\end{equation}
+where $c_1$, $c_2$ and $c_3$ are the complex roots of $k(z)$.
+
+(AI) We firstly consider the case when $k$ has one real root $c_1$ and two
+roots that are complex conjugates $c_2$ and $c_3$, i.e.~there is only one
+possible value for $c$, namely $c_1$. It follows from (\ref{RelationOfRoots})
+that $c_2c_3=d+c_1^2$. Since the product of two complex conjugates are positive
+$d+c_1^2>0$ which implies that $d+3c_1^2>0$. This means, considering
+(\ref{eqc'}), that $g$ is of type $J_{10}^+$. Since there is only one possible
+value for $c$, there is only one possible transformation that transforms $g$ to
+(\ref{form}) and thus only one possible type $J_{10}^+$ and only one possible
+value of $a''$, say $a$. The polynomial
+\[h(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2\]
+is a  polynomial with $a$ and $-a$ as roots as well as 4 complex roots. Using the fact that $c_2c_3$ is positive and that $e=c_1c_2c_3$ therefore have the same sign as $c_1$, it follows, since $a=\frac{3c_1}{\sqrt{3c_1^2+d}}$, that $a$ has the same sign as $e$. Hence a minimal polynomial with an interval which determines the right root can be easily computed for $a$. 
+
+(AII) We now consider the case where $k$ has three real roots $c_1<c_2<c_3$.
+The three roots must be different, otherwise $k(z)$ and $k'(z)$ have a similar
+root which implies that $g$ is nondegenerate. Hence $a''$ has three different values, namely
+$a_j:=\frac{3c_j}{\sqrt{|d+3c_j^2|}}$, $j=1,2,3$, putting $c=c_j$ respectively.
+
+Let $c_1<c_2<c_3$. Now, since $c_1+c_2+c_3=0$ not all three roots have the same
+sign. Let the sign of $c_1$ be different from that of $c_2$ and $c_3$. In this
+case note that $|c_1|=|c_2+c_3|=|c_2|+|c_3|$, i.e.~$|c_1|>|c_2|$ and
+$|c_1|>|c_3|$. Then $3c_1^2+d=3c_1^2+c_1c_2+c_1c_3+c_2c_3>0$, since
+$|c_1^2|>|c_1c_3|$, $|c_1^2|>|c_1c_2|$ and $c_1^2>0$, while $c_1c_2<0$,
+$c_1c_3<0$ and $c_2c_3>0$. Hence, putting $c=c_1$, $g$ is transformed to
+$J_{10}^+$.
+Furthermore
+$3c_j^2+d=3c_j^2+c_1(c_2+c_3)+c_2c_3=3c_j^2-(c_2+c_3)(c_2+c_3)+c_2c_3
+=3c_j^2-(c_2^2+c_2c_3+c_3^2)$,
+for $j=2,3$. Therefore, since $|c_2|<|c_3|$, putting $c=c_2$ result in
+$J_{10}^-$ and putting $c=c_3$ result in $J_{10}^+$. The case where $c_2$ and $c_3$ has the same sign follows similar. 
+
+In this case,  
+\[h^-(x):=(-4d^3-27e^2)x^6+(-36d^3-243e^2)x^4+(-81d^3-729e^2)x^2-729e^2\]
+is a polynomial with roots $\pm i a_1$, $\pm a_2$ and $\pm i a_3$. Now $c_1c_3$ is negative, since $c_1$ and $c_3$ has opposite signs. Therefore $\frac{3c_2}{\sqrt{|3c^2+d|}}=a_2>0$ if and only if $c_1c_2c_3=e<0$. For the parameters which correspond with $J_{10}^+$
+ \[h^+(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2\]
+is a polynomial with roots $\pm a_1$, $\pm i a_2$ and $\pm a_3$.
+Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if $|a_3|<|a_1|$. If $c_2<0$ ($e>0$), we have that $|c_1+c_2|=|c_1|+|c_2|=|c_3|$ and hence that $|a_1|<|a_3|$. Similarly we have that $|a_3|<|a_1|$ if $e<0$. Therefore $a_1$ is the biggest negative real root and $a_3$ is the biggest positive real root of $h^+(x)$, respectively, if $e>0$, and $a_1$ is the smallest negative real root and $a_3$ is the smallest positive real root of $h^+(x)$, respectively, if $e<0$.  The following algorithm unfortunately use {\tt solve.lib}, but has the advantage that the algorithm determines an approximate value for the parameter plus a minimal polynomial and an interval on which the root occurs. I have used {\tt solve.lib} for consistency throughout the algorithm, but is only necessary to use from line 77, if one only wants to give a minimal polynomial and an interval for the root. We may use similar algorithms for all the other singularity cases too.
+
+
+\begin{algorithm}[ht]
+\caption{Algorithm for the case $J_{10}$}%
+\label{alg:J_{10}}
+\begin{algorithmic}[1]
+
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $J_{10}$.}
+
+\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] if the parameter in (3) cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter and [3] a aproximation for the parameter lying in the interval determined by (1) and (2).}
+ 
+\State $g:=\jet(g,6);$
+\State $s := $ coefficient of $x^3$ in $g$;
+\If{$s=0$}
+\State Apply $x\mapsto y$, $y\mapsto x$ to $g$;
+\EndIf
+\State $h:=\jet(g,3)$;
+\State factorize $h$ as $bg_1^3$, $b\in\Q$, $b>0$;
+\State Apply $x\mapsto g_1$, $y\mapsto y$ to $g$;
+\State Write $g$ as $bx^3+ax^2y^2+dxy^4+ey^6$, $b,a,d,e\in\Q$;
+\State $g:= \frac{1}{b}g$;
+\State Write $g$ as $x^3+ax^2y^2+dxy^4+ey^6$, $a,d,e\in\Q$;
+\State Apply $x\mapsto x-\frac{a}{3}y^2$, $y\mapsto y$ to $g$;
+\State Write $g$ as $x^3+dxy^4+ey^6$, $d,e\in\Q$;
+\State $k(x):= x^3+dx+e$;
+\If{$k(x)$ has one real root}
+\State $h(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2;$
+\If{$e>0$}
+\State MP := factor of $h(x)$ over $\Q$ with a positive real root;
+\State type := $J_{10}^+$;
+\State NF := $x^3+ax^2y^2+xy^4$;
+\State $n := 8$;
+\State value := the real root of MP solved to precition of n digits;
+\State $a:=\val+\frac{1}{10}^n$;
+\State $b:=\val-\frac{1}{10}^n$;
+\While{MP has more than one real root on $(a,b)$}
+\State $n:=2n$;
+\State value := the real root of MP solved to precition of $n$ digits;
+\State $a:=\val+\frac{1}{10}^n$;
+\State $b:=\val-\frac{1}{10}^n$;
+\EndWhile
+\State List 1a := $a$,  $b$, value;
+\Else
+\State MP := factor of $h(x)$ over $\Q$ with a negative real root;
+\State type := $J_{10}^+$;
+\State NF := $x^3+ax^2y^2+xy^4$;
+\State value := the real root of MP solved to precition of $n$ digits;
+\State $a:=\val+\frac{1}{10}^n$;
+\State $b:=\val-\frac{1}{10}^n$;
+\While{MP has more than one real root on $(a,b)$}
+\State $n:=2n$;
+\State $\val := $the real root of MP solved to precition of $n$ digits;
+\State $a:=\val+\frac{1}{10}^n$;
+\State $b:=\val-\frac{1}{10}^n$;
+\EndWhile
+\State List 1a := $a$, $b$, value;
+\EndIf
+\State List 1 := type, NF, MP, List 1a;
+\Return (List 1)
+\algstore{J_10}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{J_10}
+\Else
+\State $h^+(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2;$
+\State $h^-(x):=(-4d^3-27e^2)x^6+(-36d^3-243e^2)x^4+(-81d^3-729e^2)x^2-729e^2;$
+\If{$e>0$}
+\State $\MP_1 := $ factor of $h^-(z)$ with negative real root;
+\State $\NF_1 := x^3+ax^2y^2-xy^4$;
+\State $\type_1 := J_{10}^-$;
+\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+\State $a:=\val_1+\frac{1}{10}^n$;
+\State $b:=\val_1-\frac{1}{10}^n$;
+\While{MP has more than one real root on $(a,b)$}
+\State $n:=2n$;
+\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+\State $a:=\val_1+\frac{1}{10}^n$;
+\State $b:=\val_1-\frac{1}{10}^n$;
+\EndWhile
+\State List 1a := $a,b,\val_1$;
+\State List 1 := type 1, NF, MP, List 1a;
+\Else
+\State $MP_1 := $ factor of $h^-(z)$ with positive real root;
+\State $NF_1 := x^3+ax^2y^2-xy^4$;
+\State $\type_1 := J_{10}^-$;
+\State $\val_1$ := the real root of $MP_1$ solved to precition of n digits;
+\State $a:=\val_1+\frac{1}{10}^n$;
+\State $b:=\val_1-\frac{1}{10}^n$;
+\While{MP has more than one real root on $(a,b)$}
+\State $n:=2n$;
+\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+\State $a:=\val_1+\frac{1}{10}^n$;
+\State $b:=\val_1-\frac{1}{10}^n$;
+\EndWhile
+\State List 1a := $a,b,\val_1$;
+\State List 1 := $\type_1, \NF, \MP$, List 1a;
+\EndIf
+\State $n:=8$
+\State List L := list of real roots of $h^+(x)$ in increasing order solved with precition of $n$ digits;
+\For{$i=1,\ldots,\size(L)$}
+\State $a_i := L[i]-\frac{1}{10}^n$;
+\State $b_i := L[i]+\frac{1}{10}^n$;
+\EndFor
+\While{$h^+(x)$ has more than one real root on any of the intervals $(a_i,b_i)$}
+\State $n=2n$;
+\State List L := list of real roots of $h^+(x)$ in increasing order solved with precition of $n$ digits;
+\For{$i=1,\ldots,\size(L)$}
+\State $a_i := L[1]-\frac{1}{10}^n$;
+\State $b_i := L[1]+\frac{1}{10}^n$;
+\EndFor
+\EndWhile
+\algstore{J_10}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{J_10}
+\If{$e>0$}
+\State $\MP_2:= $ factor of $h^+(x)$ over $\Q$ with a real root in the interval $(a_2,b_2)$;
+\State $\NF_2:= x^3+ax^2y^2+xy^4$;
+\State $\type_2 := J_{10}^+$;
+\State List 2a := $a_2,b_2,L[2]$;
+\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State $MP_3:= $ factor of $h^+(x)$ over $\Q$ with a real root in the interval $(a_4,b_4)$ ;
+\State $NF_3:= x^3+ax^2y^2+xy^4$;
+\State $\type_3 := J_{10}^+$;
+\State List 3a := $a_4,b_4,L[4]$;
+\State List 3 := $\type_3, \NF_3, \MP_3$, List 3a;
+\Else
+\State $\MP_2:= $ factor of $h^+(x)$ over $\Q$ with a real root on the interval $(a_1,b_1)$;
+\State $\NF_2:= x^3+ax^2y^2+xy^4$;
+\State $\type_2 := J_{10}^+$;
+\State List 2a := $a_1,b_1,L[1]$;
+\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State $\MP_3:= $ factor of $h^+(x)$ over $\Q$ with a real root in $(a_3,b_3)$;
+\State $\NF_3:= x^3+ax^2y^2+xy^4$;
+\State $\type_3 := J_{10}^+$;
+\State List 3a := $a_3,b_3,L[3]$;
+\State List 3 :=$\type_3, \NF_3, \MP_3$, List 3a;
+\EndIf
+\Return( List1, List2, List3)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
 \begin{thebibliography}{99}
 
 \bibitem[{Arnold(1974)}]{A1974}
@@ -888,4 +1119,4 @@ of real roots of a univariate polynomial.
 
 \end{thebibliography}
 
-\end{docume
+\end{document}
