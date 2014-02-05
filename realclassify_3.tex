@@ -2,7 +2,7 @@
 
 \renewcommand{\arraystretch}{1.3}
 
-\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb}
+\usepackage{amsthm,amsmath,amsfonts,mathrsfs,amssymb,todonotes}
 \usepackage{algorithm}
 \usepackage{algorithmicx, algpseudocode}
 \usepackage[T1]{fontenc}   % for bold \Singular
@@ -82,7 +82,7 @@ Germany}
 \email{steenpass@mathematik.uni-kl.de}
 
 \thanks{This research was supported by the African Institute for Mathematical
-Sciences and a grant awarded by Gert-Martin Greuel. We are thankful to both of
+Sciences and grants awarded by Gert-Martin Greuel and Wolfram Decker. We are thankful to all of
 them.}
 
 \keywords{%
@@ -92,91 +92,24 @@ hypersurface singularities, algorithmic classification, real geometry%
 \begin{document}
 
 \begin{abstract}
-We present algorithms to classify isolated hypersurface singularities over the
-real numbers according to the classification by V.I.~Arnold \citep{AVG1985}.
-This first part covers the splitting lemma and the simple singularities; a
-second and a third part will be devoted to the unimodal singularities up to
-corank~2. All algorithms are implemented in the \Singular{} library
-\realclassify{} \citep{realclassify}.
+A non-article form draft of the third paper on the realclassification of singularities using  \textsc{Singular}.
 \end{abstract}
 
 \maketitle
 
 
 \section{Introduction}
-\citet{AVG1985} present classification theorems for singularities over the
-complex numbers up to modality~2 and for singularities over the real numbers up
-to modality~1, including complete sets of normal forms. For the complex case,
-they also give an algorithm how the type of a given singularity can be
-computed, called the ``determinator of singularities''
-\citep[cf.\@][ch.~16]{AVG1985}, but this question is left open for the real
-case. The goal of this paper, together with its subsequent parts, is to present
-algorithms for the classification of isolated hypersurface singularities up to
-modality~1 and corank 2 over the real numbers with respect to right
-equivalence.
+The algoritms constructed here gives for an arbitrary input polynomial $g\in\m^3\subset\Q[x,y]$ of, respectively, complex type \[J_{10}, J_{10+k}, X_{9+k}, Y_{r,s}, E_{12}, E_{13}, E_{14}, Z_{11}, Z_{12}, Z_{13}, W_{12}, W_{13}\] the following information:
 
-We consider real functions with a critical point at the origin and critical
-value~$0$, i.e.\@ functions in $\m^2$, where $\m$ denotes the ideal of function
-germs vanishing at the origin. Two function germs $f, g \in \m^2 \subset
-\R[[x_1,\ldots,x_n]]$ are considered as right equivalent, denoted by
-$f \requiv g$, if there exists an $\R$-algebra automorphism $\phi$ of
-$\R[[x_1,\ldots,x_n]]$ such that $\phi(f) = g$.
+\begin{itemize}
+\item[1] The different real types to which $g$ is equivalent, with, respectively,
+\item [1.1] the minimal polynomials $\MP$ of all the values of parameters, corresponding to each of the different normal forms of the type under consideration to which $g$ is equivalent and
+\item[1.2] an interval for each parameter $a$ which determines which root of $\MP$ $a$ is.
+\end{itemize}
 
-We have implemented all the algorithms presented here in the computer algebra
-system \Singular{} \citep{DGPS}. The implementation is freely available as a
-\Singular{} library called \realclassify{} which relies on \Singular's
-\classify{} to determine, for a given polynomial, the type in Arnold's
-classification over the complex numbers. The methods used in \classify{} will
-not be discussed in this paper. For more information in this regard,
-\citet{Kruger} can be studied.
-
-In Section~\ref{sec:prerequisites}, we introduce basic notions and methods
-which are frequently used for the algorithmic classification in the subsequent
-sections. We first give an overview of the different notions of equivalence in
-singularity theory and how they are related in
-Subsection~\ref{subsec:equivalence}. Thereafter we recall some basic results on
-the Milnor number and the determinacy in Subsections~\ref{subsec:milnor_number}
-and~\ref{subsec:determinacy}, and we also recall how these invariants can be
-computed. As a further prerequisite, we show that the homogeneous parts of
-lowest degree of two right equivalent functions factorize in the same way over
-$\R$ (Section~\ref{subsec:factorization}, Proposition~\ref{kjet}). We also show
-that in some cases, this factorization can even be carried out over $\Q$ which
-is important for the algorithmic aspect (Lemma~\ref{x^3}).
-
-Using the Splitting Lemma (Theorem~\ref{thm:splitting_lemma}), any function
-germ $f$ over the real numbers with an isolated singularity at the origin can
-be written, after choosing a suitable coordinate system, as the sum of two
-functions of which the variables are disjoint. One of the functions, called the
-nondegenerate part of $f$, is a nondegenerate quadratic form and the other
-function, called the residual part of $f$, is an element of $\m^3$. The number
-of variables in the residual part is equal to the corank of $f$, denoted by
-$\corank(f)$. In this paper we only consider germs with corank $0$, $1$
-and~$2$. A version of the Splitting Lemma for singularities over $\R$ and a
-corresponding algorithm are discussed in Section~\ref{sec:splitting_lemma}.
-
-In \citet{AVG1985}, the real singularities of modality $0$ and $1$ are
-classified up to stable equivalence into main types which split up into more
-subtypes
-depending on the sign of certain terms. Two functions are stably equivalent if
-they are right equivalent after the direct addition of nondegenerate quadratic
-forms. Hence after applying the Splitting Lemma, we only need to consider the
-residual part in order to compute the correct subtype. It can be easily seen
-that the subtypes are complex equivalent to a complex singularity type of the
-same name as its corresponding real main singularity type (see
-Table~\ref{tab:normal_forms}). In fact there is a bijection between the complex
-types of modality $0$ and $1$ and the real main types. Thus, if we can
-determine the complex type of a function germ, we only need to determine the
-correct subtype of the corresponding real main type. The classification of the
-residual part is given in Section~\ref{sec:residual_part}, together with
-explicit algorithms for each singularity type.
-
-
-
+Hence the algorithms determines exactly to which representatives of equivalence classes, given by the normal forms of Arnold, $g$ is equivalent. The representation of the parameters as roots of minimal polynomials enables the user to easily construct an extension field of $\Q$ in Singular in which the parameter exist. 
 \section{Acknowledgements}
 
-We would like to thank Gerhard Pfister and Gert-Martin Greuel for insightful
-conversations. We also would like to thank the two anonymous referees whose
-suggestions greatly improved this article.
 
 \section{Real exceptional $\mathbf 1$-modal singularities of corank $\mathbf 2$}
 \label{ExceptionalSingularities}
@@ -184,7 +117,7 @@ In Lemma 7.3, p.27 of \citet{A1974}, it is shown that a semi-quasihomogeneous fu
 \[h:=\sum_{i=1}^n\frac{\partial g_0}{\partial x_i}v_i(x_i)+c_1e_1+\cdots+c_se_s,\]
 it is shown that there is an automorphism $\phi_{d'}$, defined by $\phi_{d'}(x_i)=x_i-v_i(x_i)$, such that
 \[\phi_{d'}(g)=g_0+[g_1+(c_1e_1+\cdots +c_se_s)-h]+R,\]
-where the filtration of $R$ is greater than $d'$. By taking the finite determinacy of germs into account the goal is reached by this transformation. What happens in practice is that $\phi_{d'}$ replace all the terms of weighted degree $d'$ in $g$ by a linear combination of $e_1,\ldots e_s$. For each $d'$, $\phi_{d'}$ can, for simplicity, as is done in the given method below, be replaced in the following way by the composition of two automorphisms. First the terms of degree $d'$ in $g$ not in the local algebra is considered, which practically results in throwing these terms away. And then, secondly, the terms in the local algebra of degree $d'$ is considered, which practically results in replacement by a linear combination of the chosen basis. Determining $\phi_{d'}$ in this way turns out to be simpler in practise.
+where the filtration of $R$ is greater than $d'$. By taking the finite determinacy of germs into account the goal is reached by this transformation. What happens in practice is that $\phi_{d'}$ replace all the terms of weighted degree $d'$ in $g$ by a linear combination of $e_1,\ldots e_s$. For each $d'$, $\phi_{d'}$ can, for simplicity, as is done in the given method below, be replaced in the following way by the composition of two automorphisms. First the terms of degree $d'$ in $g$ not in the local algebra are considered, which practically results in throwing these terms away. And then, secondly, the terms in the local algebra of degree $d'$ are considered, which practically results in replacement by a linear combination of the chosen basis. Determining $\phi_{d'}$ in this way turns out to be simpler in practise.
 
 Since a chosen basis is not necessarily unique, the monomials in a representation of the right equivalence class of $g$ as $g_0+\sum_{k=1}^s c_ke_k$ is also not necessarily unique. In \cite{A1974}, Arnold has chosen a specific basis for the local algebra in each of the normal forms he determined by this method. In each case that turns out to be the monomials with parameters as coefficients in the normal forms. Since we work with Arnold's classification we need to choose the same basis. For the exceptional cases the local algebra has only one basis element. In \cite{realclassify2} it follows from Table 10 that the parameter in each of the exceptional normal forms has a unique value. 
 
@@ -207,17 +140,33 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{11}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $h:=\jet(g,4)$;
-\State Factorize $h$ as $h_1h_2^3$;
+\State Factorize $h$ as $h_1h_2^3$, $h_1,h_2$ of degree one;
 \State Apply $h_1\mapsto x$ and $h_2\mapsto y$ to $g$;
 \State Write $g$ as $x^3y+by^5+cxy^4+R,\quad a,b,c\in\Q$,\quad $R\in E^{(4,3)}_{17}$;
 \State $p:=x^{15}-c^{15}b^{-11}$;
+\State $\MP := $ the factor of $p$ over $\Q$ with a real root;
+\State type := $Z_{11}$;
+\State NF := $x^3y+y^5+axy^4$;
+\State List 1a := $-\infty,\infty$;
+\State List 1 := type, NF, MP, List 1a;
+\Return(List 1)
+\end{algorithmic}
+\end{algorithm}
+
+Line 6 in  Algorithm \ref{alg:Z_11} can be determined in \textsc{Singular} using {\tt rootsur.lib} or using Algorithm \ref{alg:Z_112}:
+\begin{algorithm}[ht]
+\caption{Algorithm determining the minimum polynomial in $Z_{11}$}%
+\label{alg:Z_112}
+\begin{algorithmic}[1]
+\Require{ $p:=x^{15}-c^{15}b^{-11}$, $c,b\in\Q$}
+\Ensure{ minimum polynomial over $\Q$ containing the real root of $p$}
 \If{$p$ has a degree $1$ factor over $\Q$}
 \State MP := $x-cb^{-\frac{11}{15}}$;
 \Else
-\State $p_1:= x^5-c^{15}b^{-11}$;
+\State $p_1:= x^5-c^{15}b^{-11}$
 \If{$p_1$ has a degree $1$ factor over $\Q$}
 \State MP := $x^3-c^3b^{-\frac{11}{5}}$;
 \Else
@@ -229,13 +178,11 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \EndIf
 \EndIf
 \EndIf
-\State type := $Z_{11}$;
-\State NF := $x^3y+y^5+axy^4$;
-\State List 1 := type, NF, MP, Emptyset;
-\Return(List 1)
-
+\Return(MP)
 \end{algorithmic}
 \end{algorithm}
+
+Similar methods can be used to determine the minimal polynomials for the parameters in the rest of the cases.
 
 
 \begin{algorithm}[ht]
@@ -245,23 +192,20 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1]  a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1]  a lower and [2] an upper bound of the parameter.}
 
 \State $h:=\jet(g,4)$;
-\State Factorize $h$ as $h_1h_2^3$;
+\State Factorize $h$ as $h_1h_2^3$, $h_1,h_2$ of degree one;
 \State Apply $h_1\mapsto x$ and $h_2\mapsto y$ to $g$;
 \State Write $g$ as $x^3y+bxy^4+cx^2y^3+dy^6+R,\quad a,b,c,d\in\Q$,\quad $R\in E^{(3,2)}_{13}$;
 \State Replace $y^6$ with $-\frac{3}{b}x^2y^3$;
 \State Write $g$ as $x^3y+bxy^4+cx^2y^3+R,\quad a,b,c\in\Q$,\quad $R\in E^{(3,2)}_{13}$;
 \State $p:=x^{11}-c^{11}b^{-7}$;
-\If{$p$ has a degree $1$ factor over $\Q$}
-\State MP := $x-cb^{\frac{-7}{11}}$;
-\Else
-\State MP := $p$;
-\EndIf
+\State MP := factor of $p$ over $\Q$ with a real root;
 \State type := $Z_{12}$;
 \State NF := $x^3y+xy^4+ax^2y^3$;
-\State List 1 := type, NF, MP, Emptyset;
+\State List 1a: = $-\infty, \infty$;
+\State List 1 := type, NF, MP, List 1a;
 \Return(List 1)
 
 \end{algorithmic}
@@ -274,10 +218,10 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Z_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $h :=\jet(g,4)$;
-\State Factorize $h$ as $h_1h_2^3$;
+\State Factorize $h$ as $h_1h_2^3$, $h_1,h_2$ of degree one;
 \State Apply $h_1\mapsto x$ and $h_2\mapsto y$ to $g$;
 \State Write $g$ as $x^3y+by^6+cx^2y^3+dxy^5+R,\quad a,b,c,d\in\Q$,\quad $R\in E_{21}^{(5,3)}$;
 \If{$b>0$}
@@ -288,17 +232,19 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State type := $Z_{13}^-$;
 \EndIf
 \State $p := x^9-d^9|b|^{-7}$; 
-\If{$p$ has a degree $1$ factor over $\Q$}
-\State MP := $x-d|b|^\frac{-7}{9}$;
-\Else
-\State $p_1:=x^3-d^9|b|^{-7}$;
-\If{ $p_1$ has a degree $1$ factor over $\Q$}
-\State MP := $x^3-d^3|b|^{-\frac{7}{3}}$;
-\Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\State List 1 := type, NF, MP, Emptyset;
+\State $\MP: =$ factor of $p$ over $\Q$ with a real root; 
+%\If{$p$ has a degree $1$ factor over $\Q$}
+%\State MP := $x-d|b|^\frac{-7}{9}$;
+%\Else
+%\State $p_1:=x^3-d^9|b|^{-7}$;
+%\If{ $p_1$ has a degree $1$ factor over $\Q$}
+%\State MP := $x^3-d^3|b|^{-\frac{7}{3}}$;
+%\Else
+%\State MP := $p$;
+%\EndIf
+%\EndIf
+\State List 1a := $-\infty, \infty$;
+\State List 1 := type, NF, MP, List 1a;
 \Return(List 1)
 
 \end{algorithmic}
@@ -311,14 +257,14 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $W_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and  [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^4$ term in $g$;
 \If{$s=0$}
 \State Apply $x\mapsto y$, $y\mapsto x$ in $g$;
 \EndIf
 \State $h := \jet(g,4)$;
-\State Factorize $h$ as $bh_1^4$, $b\in\Q$;
+\State Factorize $h$ as $bh_1^4$,$h_1$ of degree one and $b\in\Q$;
 \State Apply $h_1\mapsto x$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^4+cy^5+dx^2y^3+exy^4+R$,\quad $b,c,d,e\in\Q$,\quad$R\in E_{23}^{(5,4)}$;
 \If{$c>0$}
@@ -333,28 +279,30 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State type := $W_{12}^-$;
 \EndIf
 \State $p := x^{10}-d^{10}|b|^{-5}c^{-6}$;
-\If{ $p$ has a degree $1$ factor over $\Q$}
-\State MP := $x-d|b|^\frac{-1}{2}c^\frac{-3}{5}$;
-\State List 1a := Emptyset;
-\Else
-\State $p_1:= x^2-d^{10}|b|^{-5}c^{-6}$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^5-d^5|b|^{-\frac{5}{2}}c^{-3}$;
-\State List 1a := Emptyset;
-\Else
+%\If{ $p$ has a degree $1$ factor over $\Q$}
+%\State MP := $x-d|b|^\frac{-1}{2}c^\frac{-3}{5}$;
+%\State List 1a := Emptyset;
+%\Else
+%\State $p_1:= x^2-d^{10}|b|^{-5}c^{-6}$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^5-d^5|b|^{-\frac{5}{2}}c^{-3}$;
+%\State List 1a := Emptyset;
+%\Else
 \If{$d>0$}
-\State List 1a : = $0$, Emptyset; 
+\State $\MP :=$ factor of $p$ over $\Q$ with a positive real root;
+\State List 1a : = $0,\infty$; 
 \Else 
-\State List 1a := Emptyset, $0$;
+\State $\MP :=$ factor of $p$ over $\Q$ with a negative real root;
+\State List 1a := $-\infty,0$;
 \EndIf
-\State $p_2:= x^5-d^{10}|b|^{-5}c^{-6}$;
-\If{$p_2$ has a degree $1$ factor over $\Q$}
-\State MP := $x^2-d^2|b|^{-1}c^{-\frac{6}{5}}$;
-\Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\EndIf
+%\State $p_2:= x^5-d^{10}|b|^{-5}c^{-6}$;
+%\If{$p_2$ has a degree $1$ factor over $\Q$}
+%\State MP := $x^2-d^2|b|^{-1}c^{-\frac{6}{5}}$;
+%\Else
+%\State MP := $p$;
+%\EndIf
+%\EndIf
+%\EndIf
 \State List 1 := type, NF, MP, List 1a;
 \Return(List 1)
 \end{algorithmic}
@@ -367,14 +315,14 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $W_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^4$ term in $g$;
 \If{$s=0$}
 \State Apply $x\mapsto y$, $y\mapsto x$ in $g$;
 \EndIf
 \State $h := \jet(g,4)$;
-\State Factorize $h$ as $bh_1^4$, $b\in\Q$;
+\State Factorize $h$ as $bh_1^4$, $h_1$ of degree one and $b\in\Q$;
 \State Apply $h_1\mapsto x$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^4+cx^3y^2+dx^2y^3+exy^4+ky^6+R$,\quad $b,c,d,e,k\in\Q$,\quad $R\in E_{19}^{(4,3)}$;
 \State Replace $x^3y^2$ with $-{4b}^{-1}y^6$;
@@ -389,27 +337,29 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State type $:= W_{13}^-$;
 \EndIf
 \State $p := x^8-d^8|b|^3$;
-\If{ $p$ factorize over $\Q$}
-\State MP := $x-d|b|^\frac{3}{8}$;
-\State List 1a := Emptyset;
-\Else
+%\If{ $p$ factorize over $\Q$}
+%\State MP := $x-d|b|^\frac{3}{8}$;
+%\State List 1a := Emptyset;
+%\Else
 \If{d>0}
-\State List 1a : = $0$, Emptyset; 
+\State $\MP := $ factor of $p$ over $\Q$ with positive real root;
+\State List 1a : = $0, \infty$; 
 \Else 
-\State List 1a := Emptyset, $0$;
+\State $\MP := $ factor of $p$ over $\Q$ with negative real root;
+\State List 1a := $-\infty, 0$;
 \EndIf
-\State $p_1:= x^2-d^8|b|^3$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^4-d^4|b|^{\frac{3}{2}}$;
-\Else
-\State $p_2:= x^4-d^8|b|^3$;
-\If{$p_2$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^2-d^2|b|^{\frac{3}{4}}$;
-\Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\EndIf
+%\State $p_1:= x^2-d^8|b|^3$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^4-d^4|b|^{\frac{3}{2}}$;
+%\Else
+%\State $p_2:= x^4-d^8|b|^3$;
+%\If{$p_2$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^2-d^2|b|^{\frac{3}{4}}$;
+%\Else
+%\State MP := $p$;
+%\EndIf
+%\EndIf
+%\EndIf
 \State List 1 := type, NF, MP, List 1a;
 \Return(List 1)
 \end{algorithmic}
@@ -424,14 +374,14 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{12}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
 \State Apply $x\mapsto y$, $y\mapsto x$ in $g$;
 \EndIf
 \State $h := \jet(g,3)$;
-\State Factorize $h$ as $bh_1^3$, $b\in\Q$;
+\State Factorize $h$ as $bh_1^3$, $h_1$ of degree one and $b\in\Q$;
 \State Apply $h_1\mapsto x$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^3+R$,\quad $b\in\Q$,\quad $R\in E_4$;
 \State $h_1:= b^{-1}g$;
@@ -445,22 +395,24 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State NF $:= x^3+y^7+axy^5$;
 \State type $:= E_{12}$;
 \State $p:= x^{21}-b^{-7}c^{-15}t^{21}$;
-\If{$p$ has a factor of degree $1$ over $\Q$}
-\State MP $:= x-b^{-\frac{1}{3}}c^{-\frac{5}{7}}t$;
-\Else
-\State $p_1:= x^7-b^{-7}c^{-15}t^{21}$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^3-b^{-1}c^{-\frac{15}{7}}t^{3}$;
-\Else
-\State $p_2:= x^3-b^{-7}c^{-15}t^{21}$;
-\If{$p_2$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^7-b^{-\frac{7}{3}}c^{-5}t^7$;
-\Else
-\State MP $:=p$;
-\EndIf
-\EndIf
-\EndIf
-\State List 1 := type, NF, MP, Emptyset;
+%\If{$p$ has a factor of degree $1$ over $\Q$}
+%\State MP $:= x-b^{-\frac{1}{3}}c^{-\frac{5}{7}}t$;
+%\Else
+%\State $p_1:= x^7-b^{-7}c^{-15}t^{21}$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^3-b^{-1}c^{-\frac{15}{7}}t^{3}$;
+%\Else
+%\State $p_2:= x^3-b^{-7}c^{-15}t^{21}$;
+%\If{$p_2$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^7-b^{-\frac{7}{3}}c^{-5}t^7$;
+%\Else
+%\State MP $:=p$;
+%\EndIf
+%\EndIf
+%\EndIf
+\State $\MP := $ factor of $p$ over $\Q$ with a real root;
+\State List 1a := $-\infty, \infty$
+\State List 1 := type, NF, MP, List 1a;
 \Return (List 1)
 \end{algorithmic}
 \end{algorithm}
@@ -473,14 +425,14 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{13}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
 \State Apply $x\mapsto y$, $y\mapsto x$ in $g$;
 \EndIf
 \State $h := \jet(g,3)$;
-\State Factorize $h$ as $bh_1^3$, $b\in\Q$;
+\State Factorize $h$ as $bh_1^3$, $h_1$ of degree one and $b\in\Q$;
 \State Apply $h_1\mapsto x$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^3+R$,\quad $b\in\Q$,\quad $R\in E_4$;
 \State $h_1:= b^{-1}g$;
@@ -500,22 +452,24 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State NF $:= x^3+xy^5+ay^8$;
 \State type $:= E_{13}$;
 \State $p:= x^{15}-b^{8}t^{15}$;
-\If{$p$ factorize over $\Q$}
-\State MP $:= x-b^{\frac{8}{15}}t$;
-\Else
-\State $p_1:= x^3-b^8t^{15}$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^5-b^{\frac{8}{3}}t^5$;
-\Else
-\State $p_2:= x^5-b^8t^{15}$;
-\If{$p_2$ has a factor of degree $1$}
-\State MP := $x^3-b^{\frac{8}{5}}t^3$;
-\Else
-\State MP $:=p$;
-\EndIf
-\EndIf
-\EndIf
-\State List 1 := type, NF, MP, Emptyset;
+%\If{$p$ factorize over $\Q$}
+%\State MP $:= x-b^{\frac{8}{15}}t$;
+%\Else
+%\State $p_1:= x^3-b^8t^{15}$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^5-b^{\frac{8}{3}}t^5$;
+%\Else
+%\State $p_2:= x^5-b^8t^{15}$;
+%\If{$p_2$ has a factor of degree $1$}
+%\State MP := $x^3-b^{\frac{8}{5}}t^3$;
+%\Else
+%\State MP $:=p$;
+%\EndIf
+%\EndIf
+%\EndIf
+\State $\MP := $ factor of $p$ over $\Q$ with a real root;
+\State List 1a := $-\infty, \infty$;
+\State List 1 := type, NF, MP, List 1a;
 \Return (List 1)
 \end{algorithmic}
 \end{algorithm}
@@ -527,14 +481,14 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $E_{14}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimal polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State $s := $ coefficient of the $x^3$ term in $g$;
 \If{$s=0$}
 \State Apply $x\mapsto y$, $y\mapsto x$ in $g$;
 \EndIf
 \State $h := \jet(g,3)$;
-\State Factorize $h$ as $bh_1^3$, $b\in\Q$;
+\State Factorize $h$ as $bh_1^3$, $h_1$ of degree one and $b\in\Q$;
 \State Apply $h_1\mapsto x$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^3+R$,\quad $b\in\Q$,\quad $R\in E_4$;
 \State $h_1:= b^{-1}g$;
@@ -555,48 +509,56 @@ The results in section 2.4 of \cite{realclassify1} is used in all the Algorithms
 \State NF $:= x^3+y^8+axy^6$;
 \State type $:= E_{14}^+$;
 \EndIf
-\algstore{E_14}
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[ht]
-\begin{algorithmic}[1]
-\algrestore{E_14}
+
 \State $t:= $ coefficient of the $xy^6$ term in $g$;
 \State $p:= x^{12}-b^{-4}|c|^{-9}t^{12}$;
-\If{$p$ has a factor of degree $1$ over $\Q$}
-\State MP := $x-b^{-\frac{1}{3}}|c|^{-\frac{3}{4}}t$;
-\Else
-\State $p_1:=x^4-b^{-4}|c|^{-9}t^{12}$
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^3-b^{-1}|c|^{-\frac{9}{4}}t^3$;
-\Else
+%\If{$p$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x-b^{-\frac{1}{3}}|c|^{-\frac{3}{4}}t$;
+%\State List 1a := Emptyset;
+%\Else
+%\State $p_1:=x^4-b^{-4}|c|^{-9}t^{12}$
+\%If{$p_1$ has a factor of degree $1$ over $\Q$}
+\%State MP := $x^3-b^{-1}|c|^{-\frac{9}{4}}t^3$;
+%\State List 1a := Emptyset;
+%\Else
 \If{$t>0$}
-\State List 1a := 0, Emptyset;
+\State $\MP :=$ factor of $p$ over $\Q$ with positive real root;
+\State List 1a := $0,\infty$;
 \Else
-\State List 1a := Emptyset, 0;
+\State $\MP := $ factor of $p$ over $\Q$ with negative real root;
+\State List 1a := $-\infty, 0$;
 \EndIf
-\State $p_3:= x^6-b^{-4}|c|^{-9}t^{12}$;
-\If{$p_3$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^2-b^{-\frac{4}{6}}|c|^{-\frac{3}{2}}t^2$;
-\Else
-\State $p_4:=x^3-b^{-4}|c|^{-9}t^{12}$;
-\If{$p_4$ has a factor of degree $1$ over $\Q$}
-\State MP $:= x^4-b^{-\frac{4}{3}}|c|^{-\frac{9}{3}}t^4$;
-\Else
-\State $p_5:= x^2-b^{-4}|c|^{-9}t^{12}$;
-\If{$p_5$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^6-b^{-2}|c|^{-\frac{9}{2}}t^6$;
-\Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\EndIf
-\EndIf
-\EndIf
+%\State $p_3:= x^6-b^{-4}|c|^{-9}t^{12}$;
+%\If{$p_3$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^2-b^{-\frac{4}{6}}|c|^{-\frac{3}{2}}t^2$;
+%\algstore{E_14}
+%\end{algorithmic}
+%\end{algorithm}
+%\begin{algorithm}[ht]
+%\begin{algorithmic}[1]
+%\algrestore{E_14}
+%\Else
+%\State $p_4:=x^3-b^{-4}|c|^{-9}t^{12}$;
+%\If{$p_4$ has a factor of degree $1$ over $\Q$}
+%\State MP $:= x^4-b^{-\frac{4}{3}}|c|^{-\frac{9}{3}}t^4$;
+%\Else
+%\State $p_5:= x^2-b^{-4}|c|^{-9}t^{12}$;
+%\If{$p_5$ has a factor of degree $1$ over $\Q$}
+%\State MP := $x^6-b^{-2}|c|^{-\frac{9}{2}}t^6$;
+%\Else
+%\State MP := $p$;
+%\EndIf
+%\EndIf
+%\EndIf
+%\EndIf
+%\EndIf
 \State List 1 := type, NF, MP, List 1a;
 \Return (List 1)
 \end{algorithmic}
 \end{algorithm}
+
+\clearpage
+
 
 \section{Real hyperbolic singularities of corank 2}
 The following result can be found in \citet{PdJ2000} for $\K=\C$. The proof for
@@ -617,7 +579,7 @@ The following result is proved for $a\ge 4$, $b\ge 5$ and $\K=\C$ by
 Let $\K$ be either $\R$ or $\C$. For every nondegenerate power series
 $f\in\K[[x,y]]$ with principal part $f_0=x^a+\lambda x^2y^2+y^b$, where
 $0\neq\lambda\in\K$ and $a,b\in\N$, such that $f_0$ has two faces,
-$f\overset{\K}\sim f_0$.
+$f\sim f_0$.
 \end{lemma}
 \begin{proof}
 Using Theorem \ref{faces} and the form of $f_0=x^a+\lambda x^2y^2+y^b$, it
@@ -643,7 +605,7 @@ repeatedly applying $x\mapsto x+\frac{1}{2\lambda_1}y^{d'-1}$,
 $y\mapsto y-\frac{1}{2\lambda_1}x^{c'-1}$, writing $f$ as in
 (\ref{firsttrans}), adapting $c'$ and $d'$ accordingly, after each application,
 using the fact that $f$ is finite determined, it follows that
-\[f\overset{\K}\sim \lambda x^2y^2+x^a+y^b.\qedhere\]
+\[f\sim \lambda x^2y^2+x^a+y^b.\qedhere\]
 \end{proof}
 
 The following method can be used to determine the equivalence class of an input polynomial $g\in\m^3\subset\R[[x,y]]$ of hyperbolic type:
@@ -652,8 +614,8 @@ The following method can be used to determine the equivalence class of an input 
 \item Transform $g$ such that there are no terms underneath the newton polygon created by the normal form of its corresponding complex type, which we will refer to as the newton polygon in the next steps.
 \item Determine which real case $g$ is, by considering the terms on the newton polygon.
 \item Throw all the terms not on the newton polygon away.
-\item Scale the terms on the newton polygon and reaf off the value of the parameter.
-\item Check in the tables included \cite{realclassify2} which other normal forms are in the same equivalence class as the one determined.
+\item Scale the terms on the newton polygon and read off the value of the parameter.
+\item Check in the tables included in \cite{realclassify2} which other normal forms are in the same equivalence class as the one determined.
 \end{enumerate}
 
 To apply the above method to the $X_{9+k}$ case, using a computer and thus working over $\Q$, we need the following prelimanary result.
@@ -677,7 +639,7 @@ $g_1'=x+\frac{a_2}{a_1}y$, $g_2'=x^2+\frac{a_4}{a_3}xy+\frac{a_5}{a_3}y^2$ and $
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $X_{9+k}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial over $\Q$ for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.}
 
 \State Write $g$ as $t_0x^4+t_1x^3y+t_2x^2y^2+t_3xy^3+t_4y^4+R$, $t_0,\ldots,t_4\in\Q$, $R\in E_5$;
 \If{($t_4\neq 0$ and $t_0=0$)}
@@ -704,11 +666,18 @@ $g_1'=x+\frac{a_2}{a_1}y$, $g_2'=x^2+\frac{a_4}{a_3}xy+\frac{a_5}{a_3}y^2$ and $
 \State $t := $ coefficient of the $xy^{\frac{i-(\mu-7)}{2}}$ term in $g$;
 \State Apply $x\mapsto x-\frac{t}{2t_1}y^{\frac{i-(\mu-7)}{2}-2}$, $y\mapsto y$ to $g$;
 \EndFor
-\State Write $g$ as $b_0x^4+b_1x^2y^2+b_2y^{\mu-5}$, $b_0,b_1,b_2\in\Q$, $R\in E_7^{(1,2)}\cap E_{2\mu-9}^{(\mu-7,2)}$;
+\State Write $g$ as $b_0x^4+b_1x^2y^2+b_2y^{\mu-5}$, $b_0,b_1,b_2\in\Q$, $R\in E_5\cap E_{2\mu-9}^{(\mu-7,2)}$;
+
 \If{$b_0>0$}
 \If{$b_1>0$}
 \State NF $:= x^4+x^2y^2+ay^{\mu-5}$;
 \State type $:= X_{9+k}^{++}$;
+\algstore{X_9+k}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{X_9+k}
 \Else
 \State NF $:= x^4-x^2y^2+ay^{\mu-5}$;
 \State type $:= X_{9+k}^{+-}$;
@@ -722,32 +691,49 @@ $g_1'=x+\frac{a_2}{a_1}y$, $g_2'=x^2+\frac{a_4}{a_3}xy+\frac{a_5}{a_3}y^2$ and $
 \State type $:= X_{9+k}^{--}$;
 \EndIf
 \EndIf
-\algstore{X_9+k}
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[ht]
-\begin{algorithmic}[1]
-\algrestore{X_9+k}
+
 \State $p:= x^4-b_2^4\left(\frac{b_0}{b_1^{2}}\right)^{\mu-5}$;
-\If{$p$ has a factor of degree $1$ over $\Q$}
-\State MP := $x-b_2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{4}}$;
+%\If{$p$ has a factor of degree $1$ over $\Q$}
+%\State $MP_1 := x-b_2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{4}}$;
+%\State List 1a := Emptyset;
+%\If{$p$ has a factor of degree $1$ over $\Q$ and $\mu-5$ is uneven}
+%\State $MP_2 := x+b_2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{4}}$;
+%\State List 2a := Emptyset;
+%\EndIf
+%\Else
+\If{$b_2>0$}
+\State $\MP_1 := $ factor of $p$ over $\Q$ with positive real root;
+\State List 1a := $0, \infty$;
 \Else
-\If{$t>0$}
-\State List 1a := 0, Emptyset;
+\State $\MP_1 := $ factor of $p$ over $\Q$ with negative real root;
+\State List 1a := $-\infty, 0$;
+\EndIf
+\If{$b_2>0$ and $\mu-5$ is uneven}
+\State $\MP_2 :=$ factor of $p$ over $\Q$ with negative real root;
+\State List 2a := $-\infty, 0$;
 \Else
-\State List 1a := Emptyset, 0;
+\If{$b_2<0$ and $\mu-5$ is uneven}
+\State $\MP_2 := $ factor of $p$ over $\Q$ with positive real root;
+\State List 2a := $0, \infty$;
 \EndIf
-\State $p_1:=x^2-b_2^4\left(\frac{b_0}{b_1^{2}}\right)^{\mu-5}$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^2-b_2^2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{2}}$;
+\EndIf
+%\State $p_1:=x^2-b_2^4\left(\frac{b_0}{b_1^{2}}\right)^{\mu-5}$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State $\MP_1, \MP_2 := x^2-b_2^2\left(\frac{b_0}{b_1^{2}}\right)^{\frac{\mu-5}{2}}$;
+%\Else
+%\State $\MP_1, \MP_2 := p$;
+%\EndIf
+%\EndIf
+\State List 1 := type, NF, $MP_1$, List 1a;
+\State List 2 := type, NF, $MP_2$, List 2a;
+\If{$\mu-5$ is uneven}
+\Return(List 1, List 2)
 \Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\State List 1 := type, NF, MP, List 1a;
 \Return (List 1)
+\EndIf
 \end{algorithmic}
 \end{algorithm}
+\clearpage
 
 For the $J_{10+k}$ case we need the following additional Lemma.
 
@@ -766,7 +752,8 @@ If $p$ is a double root of $f$, then $f(q)=aq^3+bq+c=0$ and $f'(q)=3aq^2+b=0$. H
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $J_{10+k}$.}
 
-\Ensure{A list with the following entries: [1] the real singularity type of $g$; [2] the normal form of $g$; [3] a minimal polynomial for the parameter in the normal form; [4] if the parameter cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter.}
+\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.} 
+%and [3] a aproximation for the parameter lying in the interval determined by (1) and (2).}
  
 \State $s := $ coefficient of $x^3$ in $g$;
 \If{$s=0$}
@@ -778,12 +765,13 @@ If $p$ is a double root of $f$, then $f(q)=aq^3+bq+c=0$ and $f'(q)=3aq^2+b=0$. H
 \State Apply $x\mapsto x+(3b)^{-1}cy^2$, $y\mapsto y$ to $g$;
 \State Write $g$ as $bx^3+dxy^4+ey^6+R$, $b,d,e\in\Q$, $R\in E_7$;
 \State $q:= $ double root of $f(x)=bx^3+dx+e$;
+\State Apply $x\mapsto x+qy$, $y\mapsto y$;
 \State $t_1 := $coefficient of the $x^2y^2$ term in $g$; 
 \For{$i=13;\  i\le 2(\mu-4);\ i++$}
 \State $t:= $ coefficient of the $xy^{\frac{(i-(\mu-6))}{2}}$ term in $g$;
 \State Apply $x\mapsto x-\frac{t}{2t_1}y^{\frac{(i-(\mu-6))}{2}-2}$, $y\mapsto y$ to $g$;
 \EndFor
-\State Write $g$ as $bx^3+cx^2y^2+ty^{\mu-4}+R$, $b,c,t\in\Q$, $R\in E_7^{(1,2)}\cap E_{2\mu-7}^{(\mu-6,2)}$;
+\State Write $g$ as $bx^3+cx^2y^2+ty^{\mu-4}+R$, $b,c,t\in\Q$, $R\in E_7^{(2,1)}\cap E_{2\mu-7}^{(\mu-6,2)}$;
 \If{$c>0$}
 \State NF := $x^3+x^2y^2+ay^{\mu-4}$;
 \State type := $J_{10+k}^+$;
@@ -792,31 +780,484 @@ If $p$ is a double root of $f$, then $f(q)=aq^3+bq+c=0$ and $f'(q)=3aq^2+b=0$. H
 \State type := $J_{10+k}^-$;
 \EndIf
 \State $p:= x^6-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
-\If{$p$ has a factor of degree $1$ over $\Q$}
-\State MP := $x-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{6}}t$;
-\Else
-\State $p_1 := x^2-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
-\If{$p_1$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^3-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{2}}t^3$;
-\Else
+%\If{$p$ has a factor of degree $1$ over $\Q$}
+%\State $\MP_1 := x-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{6}}t$;
+%\State List 1a := Emptyset;
+
+%\If{$p$ has a factor of degree $1$ over $\Q$ and $\mu-4$ is uneven}
+%\State $MP_2 := x+\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{6}}t$;
+%\State List 2a := Emptyset;
+%\EndIf
+%\Else
+%\State $p_1 := x^2-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$}
+%\State $\MP_1 := x^3-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{2}}t^3$;
+%\State List 1a := Emptyset;
+%\If{$p_1$ has a factor of degree $1$ over $\Q$ and $\mu-4$ is uneven}
+%\State $\MP_2 := x^3+\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{2}}t^3$;
+%\State List 2a := Emptyset;
+%\EndIf
+%\Else
 \If{$t>0$}
-\State List 1a := 0, Emptyset;
+\State $\MP_1 :=$ factor of $p$ over $\Q$ with a positive real root;
+\State List 1a := $0, \infty$;
 \Else
-\State List 1a := Emptyset, 0;
+\State $\MP_1 := $ factor of $p$ over $\Q$ with a negative real root;
+\State List 1a := $-\infty, 0$;
 \EndIf
-\State $p_2 := x^3-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
-\If{$p_2$ has a factor of degree $1$ over $\Q$}
-\State MP := $x^2-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{3}}t^2$;
-\Else
-\State MP := $p$;
-\EndIf
-\EndIf
-\EndIf
-\State List 1 := type, NF, MP, List 1a;
-\Return (List 1)
+\algstore{J_{10+k}}
 \end{algorithmic}
 \end{algorithm}
-\newpage
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{J_{10+k}}
+\If{$\mu-4$ is uneven}
+\If{$t>0$}
+\State $\MP_2 := $ factor of $p$ over $\Q$ with a negative real root;
+\State List 2a := $-\infty, 0$;
+\Else
+\State $\MP_2 := $ factor of $p$ over $\Q$ with a postive real root;
+\State List 2a := $0, \infty$;
+\EndIf
+\EndIf
+%\State $p_2 := x^3-\frac{b^2}{|c|^{3}}^{\mu-4}t^6$;
+%\If{$p_2$ has a factor of degree $1$ over $\Q$}
+%\State $\MP_1, \MP_2 := x^2-\frac{b^2}{|c|^{3}}^{\frac{\mu-4}{3}}t^2$;
+%\Else
+%\State $\MP_1, \MP_2 := p$;
+%\EndIf
+%\EndIf
+%\EndIf
+
+\State List 1 := type, NF, $\MP_1$, List 1a;
+\State List 2 := type, NF, $\MP_2$, List 2a;
+\If{$\mu-4$ is even}
+\Return (List 1)
+\Else
+\Return (List1, List2)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+\clearpage
+
+Next we consider the case when $g\in\m^3$ is of one of the following complex cases:
+$Y_{r,s}$ and $\widetilde Y_r$, $r,s>4$. Note that in the complex case, normal
+forms of type $\widetilde Y_r$ are right-equivalent to normal forms of type
+$Y_{r,r}$. This is unfortunately not true in the real case and we hence have to
+treat these cases separately.  Similar to the $D_4$ case, we distinguish
+between the two cases, using Proposition 8 in \cite{realclassify1} and the library {\tt rootsur.lib},
+noticing that the $4$-jet of polynomials of type $Y_{r,s}$ factorize into four
+linear factors, while the $4$-jet of polynomials of type $\widetilde Y_r$ do
+not have any linear factors.
+
+We first consider the case when $g$ is of real type $Y_{r,s}$, i.e.~the $4$-jet of $g(1,y)$ has real roots. Following the above method described for singularities of hyperbolic type, we run into trouble implementing the method. The reason is that in this case it is not easy to remove all the terms underneath the newton polygon created by the normal form of its corresponding complex type. The problem is caused by the fact that a polynomial in $\Q[x,y]$ that factorizes as $g_1^2g_2^2$ over $\R$, where $g_1$ and $g_2$ are polynomials of degree one, does not necessarily factorize into factors of degree zero and one over $\Q$. 
+
+The next Lemma is needed for the case when the $4$-jet of $g$ does not factorize over $\Q$.
+
+\begin{lemma}\label{IrrationalPoints}
+Le $g$ be of real main singularity type $Y_{r,s}$. Then the $4$-jet of $g$ does not factorize into factors of degree zero and one over $\Q$, only if $g$ is of real main type $Y_{r,r}$.
+\end{lemma}
+
+\begin{proof}
+Let $g$ be of type $Y_{r,s}$, for some $r$ and $s$,
+$r,s>4$. For the determining of $r$ and $s$ we use the method of blowing up the origin.
+By blowing up the origin once, polynomials right-equivalent to one of the
+normal forms $\pm x^2y^2\pm x^r+ay^s$ transform to two different germs of which
+one is right-equivalent to one of the germs $\pm x^2\pm x^{r-4}+ax^{s-4}y^s$
+and one is right-equivalent to one of the germs  $\pm x^2\pm
+x^{s-4}+ax^{r-4}y^r$, for some $0\neq a\in \mathbb R$, if $r$ and $s$ are
+different, and to one germ which is right-equivalent to one of the germs $\pm
+x^2\pm x^{r-4}+ax^{r-4}y^r$, for some $0\neq a\in\mathbb R$, if  $r=s$. Since
+the milnor number of $f_1=\pm x^2\pm x^{s-4}+ax^{r-4}y^r$ is $s-5$ and the
+milnor number of $f_2=\pm x^2\pm x^{r-4}+ax^{s-4}y^s$  is $r-5$, if $r,s\neq
+4$, we determine $r$ and $s$ by calculating the milnor numbers of the resulting
+germs. 
+
+
+If there occur a singularity of the strict transform $p$ at an irrational point in some chart on the
+exceptional divisor $P$ both charts contain two singularities of the strict
+transform at irrational points on the exceptional divisor. This can be seen as follows. Since $g$ is of
+type $Y_{r,s}$, $g$ is of the form
+\[g=(a_0x+a_1y)^2(b_0x+b_1y)^2+\textnormal{ higher terms in $x$ and
+$y$, $a_0,a_1,b_0,b_1\in\mathbb R$.}\] Without loss of generality we consider
+the chart where $x$ is the local equation for the exceptional divisor. Then
+\[p=(a_0+a_1y)^2(b_0+b_1y)^2+\textnormal{ terms that are divisible by
+$x$.}\] Taking $p$ and $x$ in $P$ into account the only possible zero
+points of $P$ are the roots of the rational polynomial $p_1 =
+(a_0+a_1y)^2(b_0+b_1y)^2$. If $a_1=0$ or $b_1=0$ it follows from the fact
+that $\mathbb Q$ is a perfect field that $p_1$ only has a rational root. Hence
+$a_1\neq 0$ and $b_1\neq 0$. Therefore   $(0,-\frac{a_0}{a_1})$ and
+$(0,-\frac{b_0}{b_1})$ are the only possible zero points of $P$. Because one of
+these points are irrational $a_0$ and $b_0$ are nonzero. Since $\mathbb Q$ is a
+perfect field and $(a_0+a_1y)^2(b_0+b_1y)^2$ is  a rational polynomial it
+follows that $(a_0+a_1y)(b_0+b_1y)$ is also a rational polynomial.
+Therefore both roots $-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ are irrational
+if any one of the roots is irrational. Furthermore,
+$(a_0+a_1t)(b_0+b_1t)\in\mathbb Q(t)$ is a minimal polynomial for
+$-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ over $\mathbb Q$. Hence $P$ has zero
+points at $-\frac{a_0}{a_1}$ and $-\frac{b_0}{b_1}$ or no zero points at all. Similarly, the
+singularities of $p$ on the exceptional divisor in the chart with exceptional
+divisor $x_2$, will occur at the irrational points $(-\frac{a_1}{a_0},0)$ and
+$(-\frac{b_1}{b_0},0)$.
+
+Since the $4$-jet of $g$, namely $p_1^h=(a_0x+a_1y)^2(b_0x+b_1y)^2$ factorize into factors of degree zero and one over $\Q$ if and only if $p_1=(a_0+a_1y)^2(b_0+b_1y)^2$ has rational roots, it is clear that the strict transform has singularities at irrational points if and only if $p_1^h$, does not factorize into factors of degree zero and one over $\Q$. 
+
+In such a case, the singularities of $p$ can be moved such that they occur at
+irrational points $(0,e)$ and $(0,-e)$, for some $e\in\mathbb R$, on the
+exceptional divisor. This is done by applying the rational transformation
+$x\mapsto x$, $y\mapsto y-(\frac{a_0b_1+b_0a_1}{2a_1b_1})x$ to $g$.
+Now $g$ will be of the form
+\[g=c(x+ey)^2(x-ey)^2+\textnormal{ higher terms in $x$ and $y$,
+$c,e\in\mathbb R$}.\]
+Determining $p$, again, we have
+\[p=c(1+ey)^2(1-ey)^2+\textnormal{ terms that are divisible by $x$.}\]
+ Working over the ring $\mathbb Q(t)\cong \mathbb Q(e)\cong \mathbb Q (-e)$,
+ with minimum polynomial $(1-te)(1+te)$, we shift the singularities of $p$ to $0$
+ by the transformations defined by $x\mapsto x$, $y\mapsto y-t$. Since
+ $t$ can represent either $e$ or $-e$, the resulting polynomial represent both
+ singularities working over $\mathbb Q(t)$. The milnor numbers for the
+ resulting singularities can be detemined working over
+ the ring $\mathbb Q(t)$. Because both resulting singularities are represented by
+ one polynomial over $\mathbb Q(t)$, the milnor number will be the same in both
+ cases.
+\end{proof}
+
+Algorithm \ref{alg:Y_{r,s}2} can be divided into two cases, where $g$ is the input polynomial:
+
+\begin{itemize}
+\item[1] lines 2 - 4 and 15 - 24:  The number of degree one factors of the $4$-jet of $g(1,y)$  over $\Q$ is $>0$.
+\item[2] lines 6 - 24: The number of degree one factors of the $4$-jet of $g(1,y)$ over $\Q$ is zero.
+\end{itemize}
+
+\paragraph{Case 1:} The solution of this case is trivial.
+
+\paragraph{Case 2:} lines 6 - 14:  In this case we first move the zero points of the $4$-jet of $g(1,y)$ to irrational points $t$, $-t$.  Since the $4$-jet of $g$ factorizes as $g_1^2g_2^2$ over the real numbers and $\Q$ is a perfect field $g_1g_2\in\Q[x,y]$. Since neither $g_1$ or $g_2$ is in $\Q[x,y]$, we can take $g_1g_2(1,y)$ as a minimal polynomial for $t$. Note that if $g$ can factorize into $4$ linear factors over $\R$ then $t\in\R$, and if not, $t=\pm ci$, $c\in\R$. 
+
+\paragraph{ lines 15 - 24:} We are now able, similar to Case 1, using transformations in $\Q(t)[x,y]$ to transform $g$ to a polynomial of the form $bx^2y^2+dx^r+ey^s+R$, $b\in\Q$, $d,e\in\Q(t)$, $R\in E_{n_1+1}^{(n_1-2,2)}\cap E_{n_1+1}^{(2,n_1-2)}$.
+
+Algorithm \ref{alg:Y_{r,s}} can be devided into the following parts, where $g$ is the input polynomial of complex type $Y_{r,s}$:
+
+\begin{itemize}
+\item[1]lines 2 - 53: The number of real roots of the $4$-jet of $g(1,y)$ is $>0$ and factorize in factors of degree one and zero over $\Q$. Hence $g$ is one of the types $Y_{r,s}^{\pm\pm}$, $r,s>4$.
+
+\item[2]lines 56 - 101: The number of real roots of the $4$-jet of $g(1,y)$ is $>0$ and does not factorize into factors of degree one and zero over $\Q$. Hence, by Lemma \ref{IrrationalPoints}, $g$ is of one of the types $Y_{r,r}^{\pm\pm}$, $r>4$.
+
+\item[3]lines 103 - 138: The number of real roots of the $4$- jet of $g(1,y)$ is zero. Hence $g$ is of one of the types $\widetilde Y_r^{\pm}$, $r>4$.
+\end{itemize} 
+
+\paragraph{Case 1:} This case is solved using the given method described for singularities of hyperbolic type.
+
+\paragraph{Case 2:} line 56: Using Algoritm \ref{alg:Y_{r,s}2} we transform $g$, using transformations in $\Q(t)[x,y]$ to a polynomial of the form \[bx^2y^2+dx^r+ey^s+R, \quad b\in\Q,\quad d,e\in\Q(t),\quad R\in E_{n_1+1}^{(n_1-2,2)}\cap E_{n_1+1}^{(2,n_1-2)},\]such that $g(1,y)$ has zero points at $t, -t$..
+
+lines 57 - 72: If $r$ is uneven then $g$ is either of both the types $Y_{r,r}^{+\pm}$ or of both the types $Y_{r,s}^{-\pm}$, depending on the sign of the $4$-jet of $g$, i.e.~the sign of $b$. And $a$ has two possible values of which the absolute value is the same. Since the values of $a$ differ only by sign, and $t$ represents two values which differ only by sign in $\R$, $a=\pm ct$ or $a=\pm c$, where $c\in \Q$. Hence $a^2\in\Q$. Therefore $x^2-b^r(de)^2$ is a polynomial with roots the two values of $a$.
+
+lines 74 - 80: If $r$ is even and the sign of $d$ and $e$ differs, then $de<0$ and if the sign of $d$ and $e$ are the same $de>0$. Since $de$ has only one value when $r$ is even and $t$ represents two values, $de\in\Q$. In this case $g$ is either of the types $Y_{r,r}^{+\pm}$ or of types $Y_{r,r}^{-\pm}$, depending on the sign of the degree $4$-term of $g$. Since $de\in\Q$ a minimal polynomial for the value of $a$ for each corresponding normal form can be easily constructed.
+
+line 81 - 89: If $r$ is even and $de>0$, then, similar as above $de\in\Q$. In this case the sign of the $x^r$ term in the normal form of $g$ and the parameter $a$ has the same sign. This sign, following the behavior of the normal form of $g$, is the opposite of the sign of the $4$-jet of $g$ if $g(1,y)$ has a real root and is the same as the sign of the $4$-jet of $g$ if $g(1,y)$ has no real roots. 
+
+\paragraph{Case 3:} line 104: Let $g':=g$. We use Algorithm \ref{alg:Y_{r,s}2} to move the zero points of the $4$-jet of $g'$ to complex points $t$, $-t$, transforming $g'$ to a polynomial of the form $bx^2y^2+dx^r+ey^s+R$, $b\in\Q$, $d,e\in\Q(t)$, $R\in E_{n_1+1}^{(n_1-2,2)}\cap E_{n_1+1}^{(2,n_1-2)}$. Again $g_1g_2(1,y)$, where $g'$ factors as $g=g_1^2g_2^2$ over $\R$, is a minimal polynomial for $t$ and $-t$ over $\Q$. Note that in this case $t=ci$, $c\in\R$. 
+
+line 106 - 137 : The type of $g$ can be easily determined by considering the sign of the $x^4$ term in $g$.  The only thing that is left is thus to determine the values for the parameter $a$. The sign of the values of the parameter $a$ can be determined, similar the the case when $de>0$ in Case~2, by considering whether $r=n_1$ is even and the number of real roots of $g(1,y)$. Also similar to case 2 $de=ct$, $c\in\Q$. Therefore $(de)^2\in\Q$. Following the discussion after Lemma 27 in \cite{realclassify2} we have that $b^{-\frac{1}{2}}de=\zeta ca^2$, where $\zeta = 1$ if $r=n_1$ is even and $\zeta^2=1$ if $r=n_1$ is uneven and $c=\left(\frac{1}{4}\right)^{r}$. Using this information a minimal polynomial for the values of $a$ can be easily constructed. 
+
+\begin{algorithm}[ht]
+\caption{Algorithm for the case $Y_{r,s}$ and $\widetilde Y_r$}%
+\label{alg:Y_{r,s}}
+\begin{algorithmic}[1]
+
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Y_{r,s}$ and $\widetilde Y_r$.}
+
+\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.} 
+%and [3] a aproximation for the parameter lying in the interval determined by (1) and (2).}
+ 
+\State $h:=\jet(g,4)$;
+\If{ the number of real roots of $h(1,y)>0$}
+\If{ the number of degree one factors of $h$ over $\Q$ is bigger than zero}
+\State Apply Algorithm \ref{alg:Y_{r,s}2} to $g$;
+\State Write $g$ as $bx^2y^2+dx^{n_1}+ey^{n_2}+R$, $R\in E^{(n_2-2,2)}_{n_2+1}\cap E^{(2,n_1-2)}_{n_1+1}$ ;
+\State $\sigma_1 := \sign(b)$;
+\If{$n_1$ is uneven}
+\State $\NF_1 := \sigma_1x^2y^2+x^{n_1}+ay^{n_2}$;
+\State $\type_1  := Y_{n_1,n_2}^{\sigma_1+}$;
+\State $\NF_3 := \sigma_1x^2y^2-x^{n_1}+ay^{n_2}$;
+\State $\type_3  := Y_{n_1,n_2}^{\sigma_1-}$;
+\State $s_2, s_4 := 0$;
+\Else
+\State $\sigma_2 := \sign(d)$;
+\State $\NF_1 := \sigma_1x^2y^2+\sigma_2x^{n_1}+ay^{n_2}$;
+\State $\type_1  := Y_{n_1,n_2}^{\sigma_1\sigma_2}$;
+\State $s_1, s_4 := \sigma_2$;
+\EndIf
+\If{$n_2$ is uneven}
+\State $\NF_2 := \sigma_1x^2y^2+x^{n_2}+ay^{n_1}$;
+\State $\type_2  := Y_{n_2,n_1}^{\sigma_1+}$;
+\State $\NF_4 := \sigma_1x^2y^2-x^{n_2}+ay^{n_1}$;
+\State $\type_4  := Y_{n_2,n_1}^{\sigma_1-}$;
+\State $s_1, s_3 := 0$;
+\Else
+\State $\sigma_2 := \sign(e)$;
+\State $\NF_2 := \sigma_1x^2y^2+\sigma_2x^{n_2}+ay^{n_1}$;
+\State $\type_2  := Y_{n_2,n_1}^{\sigma_1\sigma_2}$;
+\State $s_1, s_3 := \sigma_2$;
+\EndIf
+\State $P_1, P_3 := x^{2n_1}-|e^{2n_1}b^{-n_1}d^{2n_2}|$;
+\State $P_2,P_4:= x^{2n_2}-|d^{2n_2}b^{-n_1}e^{2n_1}|$;
+\For{$i=1,\ldots,4$}
+\If{$s_i=-1$}
+\State List $i$a := $-\infty, 0$;
+\State $\MP_i := $ factor of $P_i$ over $\Q$ with a negative real root;
+\EndIf
+\If{$s_i=0$}
+\State $\NF_{i+4} := \NF_i$;
+\State $\type_{i+4} := \type_i$;
+\State List ($i+4$)a := $0, \infty$;
+\State List $i$a := $-\infty, 0$;
+\State $\MP_{i+4} := $ factor of $P_i$ over $\Q$ with a positive real root;
+\State $\MP_i := $ factor of $P_i$ over $\Q$ with a negative real root;
+\EndIf
+\If{$s_i = 1$}
+\State List $i$a := $0, \infty$;
+\State $\MP_i := $ factor of $P_i$ over $\Q$  with a positive real root;
+\EndIf
+\EndFor
+\algstore{Y_{r,s}}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{Y_{r,s}}
+\State List 1 := $\type_1,\NF_1, \MP_1$, List 1a; 
+\State List 2 := $\type_2,\NF_2, \MP_2$, List 2a; 
+\State List := List 1, List 2;
+\If{$n_1$ is uneven}
+\State List 3 := $\type_3,\NF_3, \MP_3$, List 3a; 
+\State List := List, List 3;
+\EndIf
+\If{$n_2$ is uneven}
+\State List 4 := $\type_4,\NF_4, \MP_4$, List 4a; 
+\State List := List, List 4;
+\EndIf
+\Return (List)
+\Else
+%\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$; 
+%\State $t_1:=$ coefficient of $xy$ in $h_1$;
+%\State $t_2:=$ coefficient of $y^2$ in $h_1$;
+%\State Apply $x\mapsto x$, $y\mapsto y-\frac{t_1}{t_2}x$ to $g$;
+%\State $h:=\jet(g,4)$;
+%\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$;
+%\State Let $R:= \Q(t)$, where $h_1$ is the minimal polynomial of $t$;
+%\State factorize $h$ as $bg_1^2g_2^2$, $b\in\Q$, over $\Q(t)$;
+%\State Apply $g_1\mapsto x$, $g_2\mapsto y$ to $g$;
+
+%\State $n_1:=4$;
+%\While{ the coefficient of the term $x^{n_1}$ in $g$ is zero}
+%\State $n_1:= n_1+1$; 
+%\State $c_1:=$ the coefficient of $x^{n_1}y$;
+%\State Apply $x\mapsto x$ , $y\mapsto y-c_1x^{n_1-2}$;
+%\State $c_2:=$ the coefficient of $y^{n_1}x$;
+%\State Apply $y\mapsto y$ , $x\mapsto x-c_1y^{n_1-2}$;
+%\EndWhile
+\State Apply Algorithm \ref{alg:Y_{r,s}2} to $g$;
+\State setring $R$;
+\State Write $g$ as $bx^2y^2+dx^{n_1}+ey^{n_1}+R$, $R\in E^{(n_1-2,2)}_{n_1+1}\cap E^{(2,n_1-2)}_{n_1+1}$ ;
+\If{$n_1$ is uneven}
+\State $\sigma := \sign(b)$;
+\State $\NF_1,\NF_3 := \sigma x^2y^2+x^{n_1}+ay^{n_1}$;
+\State $\NF_2,\NF_4 := \sigma x^2y^2-x^{n_1}+ay^{n_1}$;
+\State $s_1, s_2 := 1$; 
+\State $s_3, s_4 := -1$;
+\State $P_1, P_2, P_3, P_4 := x^2-|b^{\frac{n_1}{2}}de|^2$;
+%\Else
+%\State $\NF_1, \NF_3 := -x^2y^2+x^{n_1}+ay^{n_1}$;
+%\State $\NF_2, \NF_4 := -x^2y^2-x^{n_1}+ay^{n_1}$;
+%\State $s_1, s-2 := 1$;
+%\State $s_3, s_4 := -1$;
+%\State $P _1,P_2,P_3,P_4 := x^2-|b^{\frac{n_1}{2}}de|^2$;
+%\EndIf
+\For{$i=1,\ldots,4$}
+\If{$s_i = -1$}
+\State List $i$a := $-\infty, 0$;
+\State $\MP_i := $ factor of $P_i$ over $\Q$ with negative real root;
+\Else
+\State List $i$a := $0, \infty$;
+\State $\MP_i := $ factor of $P_i$ over $\Q$ with positive real root;
+\EndIf
+\EndFor
+\Else
+\If{$de<0$}
+\State $\sigma := \sign(b)$;
+\State $\NF_1 := \sigma x^2y^2+x^{n_1}+ay^{n_1}$;
+\State $\NF_2 := \sigma x^2y^2-x^{n_1}+ay^{n_1}$;
+\State $\MP_1 := x+|b^{\frac{n_1}{2}}de|$;
+\State $\MP_2 := x-|b^{\frac{n_1}{2}}de|$;
+\State List 1a, List 2a := $-\infty, \infty$;
+%\Else
+%\State $\NF_1 := -x^2y^2+x^{n_1}+ay^{n_1}$;
+%\State $\NF_2 := -x^2y^2-x^{n_1}+ay^{n_1}$;
+%\State $\MP_1 := x+|b^{\frac{n_1}{2}}de|$;
+%\State $\MP_2 := x-|b^{\frac{n_1}{2}}de|$;
+%\State List 1a, List 2a := Emptyset;
+%\EndIf
+\Else
+\State List 1a := $-\infty, \infty$;
+\State $\sigma := \sign(b)$;
+\If{number of real roots of $g(1,y)>0$}
+\State $\NF_1 := \sigma x^2y^2-\sigma x^{n_1}+ay^{n_1}$;
+\State $\MP_1 := x+\sigma |b^{\frac{n_1}{2}}de|$;
+\Else
+\State $\NF_1 := \sigma x^2y^2+\sigma x^{n_1}+ay^{n_1}$;
+\State $\MP_1 := x-\sigma |b^{\frac{n_1}{2}}de|$;
+\EndIf
+%\If{$b<0$}
+%\If{number of real roots of $g(1,y)>0$}
+%\State $\NF_1 := -x^2y^2+x^{n_1}+ay^{n_1}$;
+%\State $\MP_1 := x+|b^{\frac{n_1}{2}}de|$;
+%\State List 1a := Emptyset;
+%\Else
+%\State $\NF_1 := -x^2y^2-x^{n_1}+ay^{n_1}$;
+%\State $\MP_1 := x-|b^{\frac{n_1}{2}}de|$;
+%\State List 1a := Emptyset;
+%\EndIf
+\EndIf
+\EndIf
+\EndIf
+\State List 1 := $\type_1, \NF_1, \MP_1$, List 1a;
+\algstore{Y_{r,s}}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{Y_{r,s}}
+\If{$n_1$ is uneven}
+\State List 1 := $\type_1, \NF_1, \MP_1$, List 1a;
+\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State List 3 := $\type_3, \NF_3, \MP_3$, List 3a;
+\State List 4 := $\type_4, \NF_4, \MP_4$, List 4a;
+\Return(List 1, List 2, List 3, List 4)
+\Else
+\If{$de<0$}
+\Return (List 1, List 2)
+\Else
+\Return (List 1)
+\EndIf
+\EndIf
+\Else
+%\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$; 
+%\State $t_1:=$ coefficient of $xy$ in $h_1$;
+%\State $t_2:=$ coefficient of $y^2$ in $h_1$;
+%\State Apply $x\mapsto x$, $y\mapsto y-\frac{t_1}{t_2}x$ to $g$;
+%\State $h:=\jet(g,4)$;
+%\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$;
+%\State Let $R:= \Q(t)$, where $h_1$ is the minimal polynomial of $t$;
+%\State factorize $h$ as $bg_1^2g_2^2$, $b\in\Q$, over $\Q(t)$;
+\State $g':= g$;
+%\State Apply $g_1\mapsto x$, $g_2\mapsto y$ to $g'$;
+%\State $n_1:=4$;
+%\While{ the coefficient of the term $x^{n_1}$ in $g'$ is zero}
+%\State $n_1:= n_1+1$; 
+%\State $c_1:=$ the coefficient of $x^{n_1}y$;
+%\State Apply $x\mapsto x$ , $y\mapsto y-c_1x^{n_1-2}$;
+%\State $c_2:=$ the coefficient of $y^{n_1}x$;
+%\State Apply $y\mapsto y$ , $x\mapsto x-c_1y^{n_1-2}$;
+%\EndWhile
+\State Apply Algorithm \ref{alg:Y_{r,s}2} to $g'$;
+\State setring $R$;
+\State Write $g'$ as $bx^2y^2+dx^{n_1}+ey^{n_1}+R$, $R\in E^{(n_1-2,2)}_{n_1+1}\cap E^{(2,n_1-2)}_{n_1+1}$ ;
+\State $\sigma := $ sign of the $x^4$ term of $g$;
+\State $\NF_1:= \sigma(x^2+y^2)^2+ax^{n_1}$;
+\State $\type_1 := \widetilde Y_{n_1}^\sigma$;
+\If{$n-1$ is uneven}
+%\If{coefficient of $x^4$ in $g$ is $>0$}
+%\Else
+%\State $\NF_1:=-(x^2+y^2)^2+ax^{n_1}$;
+%\State $\type_1 := \widetilde Y_{n_1}^-$;
+%\EndIf
+\State $P_1:= x^8-((4de)^2d^{-1})^{2n_1}$;
+\State $s:=0$;
+\Else
+\State $P_1 := x^4-((4de)^2d^{-1})^{n_1}$;
+\If{the number of real roots of $g(1,y)$ $>0$}
+\State $s := -\sigma$; 
+\Else
+\State $s := \sigma$; 
+\EndIf
+%\Else
+%\If{the number of real roots of $g(1,y)$ $>0$}
+%\State $\NF_1 := -(x^2+y^2)^2+ax^{n_1}$
+%\State $\type_1 := \widetilde Y_{n_1}^-$;
+%\State $P_1 := x^4-((4de)^2d^{-1})^{n_1}$;
+%\State $s := 1$; 
+%\Else
+%\State $\NF_1 := (x^2+y^2)^2+ax^{n_1}$
+%\State $\type_1 := \widetilde Y_{n_1}^+$;
+%\State $P_1 := x^4-((4de)^2d^{-1})^{n_1}$;
+%\State $s := -1$; 
+%\EndIf
+%\EndIf
+\EndIf
+\If{$s=-1$}
+\State List 1a := $-\infty, 0$;
+\State $\MP_1 := $ factor of $P_1$ over $\Q$ with a negative real root;
+\EndIf
+\If{$s:=1$}
+\State List 1a := $0,\infty$;
+\State $\MP_1 := $ factor of $P_1$ over $\Q$ with a positive real root;
+\EndIf
+\If{$s=0$}
+\State $\NF_2 := \NF_1$;
+\State $\type_2 := \type_1$;
+\State $\MP_1 := $ factor of $P_1$ over $\Q$ with a positive real root;
+\State $\MP_2 := $ factor of $P_1$ over $\Q$ with a negative real root;
+\State List 1a := $0,\infty$;
+\State List 2a := $-\infty, 0$;
+\EndIf
+\State List 1 := $\type_1, \NF_1, \MP_1,$ List 1a;
+\If{$s\neq 0$}
+\Return (List 1)
+\Else
+\State List 2 := $\type_2, \NF_2, \MP_2,$ List 2a;
+\Return( List 1, List 2)
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+\caption{Algorithm for removing terms underneath the newton polygon in the case $Y_{r,s}$ and $\widetilde Y_r$}%
+\label{alg:Y_{r,s}2}
+\begin{algorithmic}[1]
+\Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $Y_{r,s}$ and $\widetilde Y_r$.}
+\Ensure{[1] $g'\in \m^3\subset\Q[x,y]$ such that $g\sim g'$ and there are no terms underneath the newton polygon of the normal form of $g$ appearing in $g'$; [2] a new basering. }
+
+\State $h:=\jet(g,4)$;
+\If{ the number of degree one factors of $h$ over $\Q$ is bigger than zero}
+\State $R := \Q$
+\State factorize $h$ as $bg_1^2g_2^2$, $b\in\Q$ over $\Q$;
+\State Apply $g_1\mapsto x$, $g_2\mapsto y$ to $g$;
+\Else
+\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$; 
+\State $t_1:=$ coefficient of $xy$ in $h_1$;
+\State $t_2:=$ coefficient of $y^2$ in $h_1$;
+\State Apply $x\mapsto x$, $y\mapsto y-\frac{t_1}{2t_2}x$ to $g$;
+\State $h:=\jet(g,4)$;
+\State factorize $h$ as $bh_1h_2$, $h_1,h_2$ of degree $2$ and $b\in\Q$, over $\Q$;
+\State Let $R:= \Q(t)$, where $h_1(1,y)$ is the minimal polynomial of $t$;
+\State factorize $h$ as $bg_1^2g_2^2$, $b\in\Q$, over $\Q(t)$;
+\State Apply $g_1\mapsto x$, $g_2\mapsto y$ to $g$;
+\EndIf
+\State $n_1:=4$, $n_2:=4$;
+\While{ the coefficient of the terms $x^{n_1}$ or $y^{n_2}$ in $g$ is zero}
+\State $n_1:= n_1+1$; 
+\State $c_1:=$ the coefficient of $x^{n_1}y$ in $g$;
+\State Apply $x\mapsto x$ , $y\mapsto y-c_1x^{n_1-2}$ in $g$;
+\State  $n_2:=n_2+1$;
+\State $c_2:=$ the coefficient of $y^{n_2}$;
+\State Apply $x\mapsto x-c_2y^{n_2-2}$, $y\mapsto y$ to $g$;
+\EndWhile 
+\Return($g$, $R$)
+\end{algorithmic}
+\end{algorithm}
+ 
+\clearpage
 
 \section{Real parabolic singularities of corank $2$}
 
@@ -869,9 +1310,14 @@ $d+c_1^2>0$ which implies that $d+3c_1^2>0$. This means, considering
 (\ref{eqc'}), that $g$ is of type $J_{10}^+$. Since there is only one possible
 value for $c$, there is only one possible transformation that transforms $g$ to
 (\ref{form}) and thus only one possible type $J_{10}^+$ and only one possible
-value of $a''$, say $a$. The polynomial
+value of $a''$, say $a$.  
+
+Let $a=\frac{3c_1}{\sqrt{3c_1^2+d}}$, $a_2:=\frac{3c_2}{\sqrt{3c_2^2+d}}$ and $a_3=\frac{3c_1}{\sqrt{3c_1^2+d}}$. Note, since $a=\frac{3c_1}{\sqrt{3c_1^2+d}}$, $a$ is a solution of $p(x):=\frac{dx^2}{9-3x^2}-c_1^2$. Similarly, $a_2$ and $a_3$ are solutions of $p_1(x):=\frac{dx^2}{9-3x^2}-c_2^2$ and $p(x):=\frac{dx^2}{9-3x^2}-c_3^2$, respectively.  Using the fact that $c_1$, $c_2$ and $c_3$ are  the roots of $k(z)$, 
+the polynomial
 \[h(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2\]
-is a  polynomial with $a$ and $-a$ as roots as well as 4 complex roots. Using the fact that $c_2c_3$ is positive and that $e=c_1c_2c_3$ therefore have the same sign as $c_1$, it follows, since $a=\frac{3c_1}{\sqrt{3c_1^2+d}}$, that $a$ has the same sign as $e$. Hence a minimal polynomial with an interval which determines the right root can be easily computed for $a$. 
+with $a$ and $-a$, as well as, $\pm a_2$ and $\pm a_3$ as roots, can be easily constructed. Now $a_2$ and $a_3$ is real if and only if $c_2=ci$ and $c_3=-ci$, $c\in\R$. In this case $c_1$ and thus $a$ and $e$ is $0$. 
+
+Using the fact that $c_2c_3$ is positive and that $e=c_1c_2c_3$ therefore have the same sign as $c_1$, it follows, since $a=\frac{3c_1}{\sqrt{3c_1^2+d}}$, that $a$ has the same sign as $e$. Hence a minimal polynomial with an interval which determines the right root can be easily computed for $a$. 
 
 (AII) We now consider the case where $k$ has three real roots $c_1<c_2<c_3$.
 The three roots must be different, otherwise $k(z)$ and $k'(z)$ have a similar
@@ -889,15 +1335,14 @@ Furthermore
 $3c_j^2+d=3c_j^2+c_1(c_2+c_3)+c_2c_3=3c_j^2-(c_2+c_3)(c_2+c_3)+c_2c_3
 =3c_j^2-(c_2^2+c_2c_3+c_3^2)$,
 for $j=2,3$. Therefore, since $|c_2|<|c_3|$, putting $c=c_2$ result in
-$J_{10}^-$ and putting $c=c_3$ result in $J_{10}^+$. The case where $c_2$ and $c_3$ has the same sign follows similar. 
+$J_{10}^-$ and putting $c=c_3$ result in $J_{10}^+$. The case where $c_2$ and $c_3$ have the same sign follows similar. 
 
 In this case,  
 \[h^-(x):=(-4d^3-27e^2)x^6+(-36d^3-243e^2)x^4+(-81d^3-729e^2)x^2-729e^2\]
-is a polynomial with roots $\pm i a_1$, $\pm a_2$ and $\pm i a_3$. Now $c_1c_3$ is negative, since $c_1$ and $c_3$ has opposite signs. Therefore $\frac{3c_2}{\sqrt{|3c^2+d|}}=a_2>0$ if and only if $c_1c_2c_3=e<0$. For the parameters which correspond with $J_{10}^+$
+is a polynomial with roots $\pm i a_1$, $\pm a_2$ and $\pm i a_3$. Here $h^{-}(x)$ is similarly constructed as in (AI), taking into account that $3c_2^2-d<0$ and $3c_j^2-d>0$, for $j=1,3$. Now $c_1c_3$ is negative, since $c_1$ and $c_3$ have opposite signs. Therefore $\frac{3c_2}{\sqrt{|3c^2+d|}}=a_2>0$ if and only if $c_1c_2c_3=e<0$. For the parameters which correspond with $J_{10}^+$
  \[h^+(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2\]
-is a polynomial with roots $\pm a_1$, $\pm i a_2$ and $\pm a_3$.
-Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if $|a_3|<|a_1|$. If $c_2<0$ ($e>0$), we have that $|c_1+c_2|=|c_1|+|c_2|=|c_3|$ and hence that $|a_1|<|a_3|$. Similarly we have that $|a_3|<|a_1|$ if $e<0$. Therefore $a_1$ is the biggest negative real root and $a_3$ is the biggest positive real root of $h^+(x)$, respectively, if $e>0$, and $a_1$ is the smallest negative real root and $a_3$ is the smallest positive real root of $h^+(x)$, respectively, if $e<0$.  The following algorithm unfortunately use {\tt solve.lib}, but has the advantage that the algorithm determines an approximate value for the parameter plus a minimal polynomial and an interval on which the root occurs. I have used {\tt solve.lib} for consistency throughout the algorithm, but is only necessary to use from line 77, if one only wants to give a minimal polynomial and an interval for the root. We may use similar algorithms for all the other singularity cases too.
-
+is a polynomial with roots $\pm a_1$, $\pm i a_2$ and $\pm a_3$. Again, $h^+(x)$ is similarly constructed as $h^-(x)$.
+Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if $|a_3|<|a_1|$. If $c_2<0$ ($e>0$), we have that $|c_1+c_2|=|c_1|+|c_2|=|c_3|$ and hence that $|a_1|<|a_3|$. Similarly we have that $|a_3|<|a_1|$ if $e<0$. Therefore $a_1$ is the biggest negative real root and $a_3$ is the biggest positive real root of $h^+(x)$, respectively, if $e>0$, and $a_1$ is the smallest negative real root and $a_3$ is the smallest positive real root of $h^+(x)$, respectively, if $e<0$.  Note that, although the algorithm use {\tt solve.lib}, it determines an exact interval on which the root occurs. This is done with the help of {\tt rootsur.lib}.
 
 \begin{algorithm}[ht]
 \caption{Algorithm for the case $J_{10}$}%
@@ -906,7 +1351,8 @@ Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if 
 
 \Require{$g \in \m^3\subset\Q[x,y]$ of complex singularity type $J_{10}$.}
 
-\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] if the parameter in (3) cannot be determined by its minimum polynomial alone, a list with entries: [1] a lower and/or [2] an upper bound of the parameter and [3] a aproximation for the parameter lying in the interval determined by (1) and (2).}
+\Ensure{A list with different lists as entries each containing the following entries: [1] a real singularity type of $g$; [2] a corresponding normal form of $g$; [3] a minimal polynomial for the parameter in the normal form in (2); [4] a list with entries: [1] a lower and [2] an upper bound of the parameter.} 
+%and [3] a aproximation for the parameter lying in the interval determined by (1) and (2).}
  
 \State $g:=\jet(g,6);$
 \State $s := $ coefficient of $x^3$ in $g$;
@@ -928,40 +1374,42 @@ Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if 
 \State MP := factor of $h(x)$ over $\Q$ with a positive real root;
 \State type := $J_{10}^+$;
 \State NF := $x^3+ax^2y^2+xy^4$;
-\State $n := 8$;
-\State value := the real root of MP solved to precition of n digits;
-\State $a:=\val+\frac{1}{10}^n$;
-\State $b:=\val-\frac{1}{10}^n$;
-\While{MP has more than one real root on $(a,b)$}
-\State $n:=2n$;
-\State value := the real root of MP solved to precition of $n$ digits;
-\State $a:=\val+\frac{1}{10}^n$;
-\State $b:=\val-\frac{1}{10}^n$;
-\EndWhile
-\State List 1a := $a$,  $b$, value;
+%\State $n := 8$;
+%\State value := the real root of MP solved to precition of n digits;
+%\State $a:=\val+\frac{1}{10}^n$;
+%\State $b:=\val-\frac{1}{10}^n$;
+%\While{MP has more than one real root on $(a,b)$}
+%\State $n:=2n$;
+%\State value := the real root of MP solved to precition of $n$ digits;
+%\State $a:=\val+\frac{1}{10}^n$;
+%\State $b:=\val-\frac{1}{10}^n$;
+%\EndWhile
+%\State List 1a := $a$,  $b$;
+\State List 1a := $0,\infty$;
 \Else
+\If{$e>0$}
 \State MP := factor of $h(x)$ over $\Q$ with a negative real root;
 \State type := $J_{10}^+$;
 \State NF := $x^3+ax^2y^2+xy^4$;
-\State value := the real root of MP solved to precition of $n$ digits;
-\State $a:=\val+\frac{1}{10}^n$;
-\State $b:=\val-\frac{1}{10}^n$;
-\While{MP has more than one real root on $(a,b)$}
-\State $n:=2n$;
-\State $\val := $the real root of MP solved to precition of $n$ digits;
-\State $a:=\val+\frac{1}{10}^n$;
-\State $b:=\val-\frac{1}{10}^n$;
-\EndWhile
-\State List 1a := $a$, $b$, value;
+%\State $a:=\val+\frac{1}{10}^n$;
+%\State $b:=\val-\frac{1}{10}^n$;
+%\While{MP has more than one real root on $(a,b)$}
+%\State $n:=2n$;
+%\State $\val := $the real root of MP solved to precition of $n$ digits;
+%\State $a:=\val+\frac{1}{10}^n$;
+%\State $b:=\val-\frac{1}{10}^n$;
+%\EndWhile
+%\State List 1a := $a$, $b$, value;
+\State List 1a := $-\infty, 0$;
+\Else
+\State $\MP := x$;
+\State type := $J_{10}^+$;
+\State NF := $x^3+ax^2y^2+xy^4$;
+\State List 1a := $-\infty, \infty$;
+\EndIf
 \EndIf
 \State List 1 := type, NF, MP, List 1a;
 \Return (List 1)
-\algstore{J_10}
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[ht]
-\begin{algorithmic}[1]
-\algrestore{J_10}
 \Else
 \State $h^+(x):=(4d^3+27e^2)x^6+(-36d^3-243e^2)x^4+(81d^3+729e^2)x^2-729e^2;$
 \State $h^-(x):=(-4d^3-27e^2)x^6+(-36d^3-243e^2)x^4+(-81d^3-729e^2)x^2-729e^2;$
@@ -969,31 +1417,39 @@ Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if 
 \State $\MP_1 := $ factor of $h^-(z)$ with negative real root;
 \State $\NF_1 := x^3+ax^2y^2-xy^4$;
 \State $\type_1 := J_{10}^-$;
-\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
-\State $a:=\val_1+\frac{1}{10}^n$;
-\State $b:=\val_1-\frac{1}{10}^n$;
-\While{MP has more than one real root on $(a,b)$}
-\State $n:=2n$;
-\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
-\State $a:=\val_1+\frac{1}{10}^n$;
-\State $b:=\val_1-\frac{1}{10}^n$;
-\EndWhile
-\State List 1a := $a,b,\val_1$;
+%\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+%\State $a:=\val_1+\frac{1}{10}^n$;
+%\State $b:=\val_1-\frac{1}{10}^n$;
+%\While{MP has more than one real root on $(a,b)$}
+%\State $n:=2n$;
+%\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+%\State $a:=\val_1+\frac{1}{10}^n$;
+%\State $b:=\val_1-\frac{1}{10}^n$;
+%\EndWhile
+%\State List 1a := $a,b,\val_1$;
+\State List 1a := $-\infty, 0$;
 \State List 1 := type 1, NF, MP, List 1a;
 \Else
 \State $MP_1 := $ factor of $h^-(z)$ with positive real root;
 \State $NF_1 := x^3+ax^2y^2-xy^4$;
 \State $\type_1 := J_{10}^-$;
-\State $\val_1$ := the real root of $MP_1$ solved to precition of n digits;
-\State $a:=\val_1+\frac{1}{10}^n$;
-\State $b:=\val_1-\frac{1}{10}^n$;
-\While{MP has more than one real root on $(a,b)$}
-\State $n:=2n$;
-\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
-\State $a:=\val_1+\frac{1}{10}^n$;
-\State $b:=\val_1-\frac{1}{10}^n$;
-\EndWhile
-\State List 1a := $a,b,\val_1$;
+\algstore{J_10}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[ht]
+\begin{algorithmic}[1]
+\algrestore{J_10}
+%\State $\val_1$ := the real root of $MP_1$ solved to precition of n digits;
+%\State $a:=\val_1+\frac{1}{10}^n$;
+%\State $b:=\val_1-\frac{1}{10}^n$;
+%\While{MP has more than one real root on $(a,b)$}
+%\State $n:=2n$;
+%\State $\val_1$ := the real root of $MP_1$ solved to precition of $n$ digits;
+%\State $a:=\val_1+\frac{1}{10}^n$;
+%\State $b:=\val_1-\frac{1}{10}^n$;
+%\EndWhile
+%\State List 1a := $a,b,\val_1$;
+\State List 1a := $0, \infty$;
 \State List 1 := $\type_1, \NF, \MP$, List 1a;
 \EndIf
 \State $n:=8$
@@ -1006,43 +1462,37 @@ Since $d$ is negative in this case it follows that $|c_1|<|c_3|$ if and only if 
 \State $n=2n$;
 \State List L := list of real roots of $h^+(x)$ in increasing order solved with precition of $n$ digits;
 \For{$i=1,\ldots,\size(L)$}
-\State $a_i := L[1]-\frac{1}{10}^n$;
-\State $b_i := L[1]+\frac{1}{10}^n$;
+\State $a_i := L[i]-\frac{1}{10}^n$;
+\State $b_i := L[i]+\frac{1}{10}^n$;
 \EndFor
 \EndWhile
-\algstore{J_10}
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[ht]
-\begin{algorithmic}[1]
-\algrestore{J_10}
 \If{$e>0$}
 \State $\MP_2:= $ factor of $h^+(x)$ over $\Q$ with a real root in the interval $(a_2,b_2)$;
 \State $\NF_2:= x^3+ax^2y^2+xy^4$;
 \State $\type_2 := J_{10}^+$;
-\State List 2a := $a_2,b_2,L[2]$;
-\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State List 2a := $a_2,b_2$;
 \State $MP_3:= $ factor of $h^+(x)$ over $\Q$ with a real root in the interval $(a_4,b_4)$ ;
 \State $NF_3:= x^3+ax^2y^2+xy^4$;
 \State $\type_3 := J_{10}^+$;
-\State List 3a := $a_4,b_4,L[4]$;
-\State List 3 := $\type_3, \NF_3, \MP_3$, List 3a;
+\State List 3a := $a_4,b_4$;
 \Else
 \State $\MP_2:= $ factor of $h^+(x)$ over $\Q$ with a real root on the interval $(a_1,b_1)$;
 \State $\NF_2:= x^3+ax^2y^2+xy^4$;
 \State $\type_2 := J_{10}^+$;
-\State List 2a := $a_1,b_1,L[1]$;
-\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State List 2a := $a_1,b_1$;
 \State $\MP_3:= $ factor of $h^+(x)$ over $\Q$ with a real root in $(a_3,b_3)$;
 \State $\NF_3:= x^3+ax^2y^2+xy^4$;
 \State $\type_3 := J_{10}^+$;
-\State List 3a := $a_3,b_3,L[3]$;
-\State List 3 :=$\type_3, \NF_3, \MP_3$, List 3a;
+\State List 3a := $a_3,b_3$;
 \EndIf
+\State List 2 := $\type_2, \NF_2, \MP_2$, List 2a;
+\State List 3 := $\type_3, \NF_3, \MP_3$, List 3a;
 \Return( List1, List2, List3)
 \EndIf
 \end{algorithmic}
 \end{algorithm}
+%\clearpage
+
 
 \begin{thebibliography}{99}
 
